@@ -1,14 +1,17 @@
-# Research
+# Исследования
 
-CAI is built on a strong foundation of peer-reviewed research establishing the field of **Cybersecurity AI** as a distinct research domain. Our work spans theoretical frameworks, practical implementations, educational initiatives, and rigorous empirical evaluations.
+CAI построен на прочном фундаменте рецензируемых исследований, формирующих область **AI кибербезопасности (Cybersecurity AI)** как отдельный исследовательский домен. Наша работа охватывает теоретические рамки, практические реализации, образовательные инициативы и строгие эмпирические оценки.
+
 
 ---
 
-## 📊 Research Impact & Achievements
+## 📊 Влияние исследований и достижения
 
-### 🏆 Competitions and Challenges
 
-CAI has demonstrated exceptional performance in real-world security competitions:
+### 🏆 Соревнования и челленджи
+
+CAI демонстрирует выдающиеся результаты в реальных соревнованиях по безопасности:
+
 
 [![HTB top 90 Spain (5 days)](https://img.shields.io/badge/HTB_ranking-top_90_Spain_(5_days)-red.svg)](https://app.hackthebox.com/users/2268644)
 [![HTB top 50 Spain (6 days)](https://img.shields.io/badge/HTB_ranking-top_50_Spain_(6_days)-red.svg)](https://app.hackthebox.com/users/2268644)
@@ -20,31 +23,41 @@ CAI has demonstrated exceptional performance in real-world security competitions
 [![HTB "Human vs AI" CTF $750](https://img.shields.io/badge/HTB_\"Human_vs_AI\"_CTF-750_$-yellow.svg)](https://ctf.hackthebox.com/event/2000/scoreboard)
 [![Mistral AI Robotics Hackathon $2500](https://img.shields.io/badge/Mistral_AI_Robotics_Hackathon-2500_$-yellow.svg)](https://lu.ma/roboticshack?tk=RuryKF)
 
-### 📈 Key Research Findings
+### 📈 Ключевые результаты исследований
 
-- **Pioneered LLM-powered AI Security** with PentestGPT, establishing the foundation for the Cybersecurity AI research domain [![arXiv](https://img.shields.io/badge/arXiv-2308.06782-4a9b8e.svg)](https://arxiv.org/pdf/2308.06782)
 
-- **3,600× performance improvement** over human penetration testers in standardized CTF benchmark evaluations [![arXiv](https://img.shields.io/badge/arXiv-2504.06017-63bfab.svg)](https://arxiv.org/pdf/2504.06017)
+- **Заложили основы AI-безопасности на базе LLM** вместе с PentestGPT, формируя фундамент исследовательского домена **AI кибербезопасности (Cybersecurity AI)** [![arXiv](https://img.shields.io/badge/arXiv-2308.06782-4a9b8e.svg)](https://arxiv.org/pdf/2308.06782)
 
-- **CVSS 4.3-7.5 severity vulnerabilities** identified in production systems through automated security assessment [![arXiv](https://img.shields.io/badge/arXiv-2504.06017-63bfab.svg)](https://arxiv.org/pdf/2504.06017)
 
-- **Democratization of AI-empowered vulnerability research**: CAI enables both non-security domain experts and experienced researchers to conduct more efficient vulnerability discovery, expanding the security research community while empowering small and medium enterprises to conduct autonomous security assessments [![arXiv](https://img.shields.io/badge/arXiv-2504.06017-63bfab.svg)](https://arxiv.org/pdf/2504.06017)
+- **Показали рост производительности в 3 600×** по сравнению с командами ручного пентестинга в стандартизированных CTF-бенчмарках [![arXiv](https://img.shields.io/badge/arXiv-2504.06017-63bfab.svg)](https://arxiv.org/pdf/2504.06017)
 
-- **Systematic evaluation of large language models** across both proprietary and open-weight architectures, revealing substantial gaps between vendor-reported capabilities and empirical cybersecurity performance metrics [![arXiv](https://img.shields.io/badge/arXiv-2504.06017-63bfab.svg)](https://arxiv.org/pdf/2504.06017)
 
-- **Established autonomy levels in cybersecurity** and argued about autonomy vs automation in the field [![arXiv](https://img.shields.io/badge/arXiv-2506.23592-7dd3c0.svg)](https://arxiv.org/abs/2506.23592)
+- **Уязвимости с уровнем критичности CVSS 4.3–7.5** выявленные в производственных системах через автоматизированные проверки безопасности [![arXiv](https://img.shields.io/badge/arXiv-2504.06017-63bfab.svg)](https://arxiv.org/pdf/2504.06017)
 
-- **Collaborative research initiatives** with international academic institutions focused on developing cybersecurity education curricula and training methodologies [![arXiv](https://img.shields.io/badge/arXiv-2508.13588-52a896.svg)](https://arxiv.org/abs/2508.13588)
 
-- **Comprehensive defense framework against prompt injection** in AI security agents: developed and empirically validated a multi-layered defense system [![arXiv](https://img.shields.io/badge/arXiv-2508.21669-85e0d1.svg)](https://arxiv.org/abs/2508.21669)
+- **Демократизация исследований уязвимостей на базе ИИ**: CAI позволяет как специалистам из смежных (не сугубо security) областей, так и опытным исследователям выполнять более эффективное обнаружение уязвимостей, расширяя сообщество исследований безопасности и предоставляя малым и средним предприятиям возможность проводить автономные оценки безопасности [![arXiv](https://img.shields.io/badge/arXiv-2504.06017-63bfab.svg)](https://arxiv.org/pdf/2504.06017)
+
+
+- **Систематическая оценка больших языковых моделей** как в закрытых, так и в открыто-весовых архитектурах — выявляет существенные разрывы между заявленными возможностями вендоров и эмпирическими метриками производительности в кибербезопасности [![arXiv](https://img.shields.io/badge/arXiv-2504.06017-63bfab.svg)](https://arxiv.org/pdf/2504.06017)
+
+
+- **Определили уровни автономности в кибербезопасности** и обсудили различие между автономией и автоматизацией в этой области [![arXiv](https://img.shields.io/badge/arXiv-2506.23592-7dd3c0.svg)](https://arxiv.org/abs/2506.23592)
+
+
+- **Запустили совместные исследовательские инициативы** с международными академическими учреждениями, ориентированные на разработку учебных программ по кибербезопасности и методологий обучения [![arXiv](https://img.shields.io/badge/arXiv-2508.13588-52a896.svg)](https://arxiv.org/abs/2508.13588)
+
+
+- **Разработали комплексную систему защиты от prompt injection** для агентов в области AI-безопасности: создали и эмпирически подтвердили многоуровневую систему защиты [![arXiv](https://img.shields.io/badge/arXiv-2508.21669-85e0d1.svg)](https://arxiv.org/abs/2508.21669)
+
 
 - **Explored the Cybersecurity of Humanoid Robots** with CAI, identifying new attack vectors showing how humanoids (a) operate simultaneously as covert surveillance nodes and (b) can be purposed as active cyber operations platforms [![arXiv](https://img.shields.io/badge/arXiv-2509.14096-3e8b7a.svg)](https://arxiv.org/abs/2509.14096) [![arXiv](https://img.shields.io/badge/arXiv-2509.14139-6bc7b5.svg)](https://arxiv.org/abs/2509.14139)
 
 ---
 
-## 📚 Research Publications
+## 📚 Публикации исследований
 
-The **Cybersecurity AI** research line has produced **8+ papers and technical reports** with active research collaborations:
+Научное направление **AI кибербезопасности (Cybersecurity AI)** выпустило **8+ статей и технических отчётов** при активном участии исследовательских партнёров:
+
 
 ### Core Framework & Foundations
 
@@ -52,43 +65,54 @@ The **Cybersecurity AI** research line has produced **8+ papers and technical re
 |---|---|---|---|
 | [<img src="https://aliasrobotics.com/img/paper-cai.png" width="350">](https://arxiv.org/pdf/2504.06017) | [<img src="https://aliasrobotics.com/img/cai_automation_vs_autonomy.png" width="350">](https://www.arxiv.org/pdf/2506.23592) | [<img src="https://aliasrobotics.com/img/cai_fluency_cover.png" width="350">](https://arxiv.org/pdf/2508.13588) | [<img src="https://aliasrobotics.com/img/aihackers.jpeg" width="350">](https://arxiv.org/pdf/2508.21669) |
 
-#### 1. CAI: An Open, Bug Bounty-Ready Cybersecurity AI (April 2025)
+#### 1. CAI: Открытая кибербезопасностная ИИ-система, готовая к охоте на баги (апрель 2025)
+
 **Authors:** V. Mayoral-Vilches et al.
 **arXiv:** [2504.06017](https://arxiv.org/pdf/2504.06017)
 
-Core framework paper establishing CAI as a lightweight, open-source platform for building AI-powered security tools. Demonstrates **3,600× performance improvement** over manual testing and presents systematic evaluation across multiple LLMs.
+Основополагающая работа, утверждающая CAI как лёгкую платформу с открытым исходным кодом для создания ИИ-инструментов по безопасности. Показали **рост производительности в 3 600×** по сравнению с ручным тестированием и представили систематическую оценку на нескольких LLM.
 
-#### 2. Cybersecurity AI: The Dangerous Gap Between Automation and Autonomy (June 2025)
+
+#### 2. Кибербезопасностная ИИ: опасный разрыв между автоматизацией и автономностью (июнь 2025)
 **Authors:** V. Mayoral-Vilches
 **arXiv:** [2506.23592](https://arxiv.org/abs/2506.23592)
 
-Establishes **6-level taxonomy** distinguishing automation from autonomy in Cybersecurity AI systems. Critical for understanding current capabilities and limitations of AI security tools.
+Определяет **6-уровневую таксономию**, различающую автоматизацию и автономность в системах AI кибербезопасности. Это критически важно для понимания текущих возможностей и ограничений инструментов AI-безопасности.
 
-#### 3. CAI Fluency: A Framework for Cybersecurity AI Fluency (August 2025)
+
+#### 3. CAI Fluency: фреймворк для грамотности (fluency) в AI кибербезопасности (август 2025)
+
 **Authors:** V. Mayoral-Vilches, J. Wachter, C. Chavez, C. Schachner, L.J. Navarrete-Lozano, M. Sanz-Gómez
 **arXiv:** [2508.13588](https://arxiv.org/abs/2508.13588)
 
-Comprehensive educational platform for democratizing cybersecurity AI knowledge. Provides structured learning paths for practitioners and researchers.
+Всесторонняя образовательная платформа, предназначенная для демократизации знаний в области AI кибербезопасности. Предоставляет структурированные учебные траектории как для практиков, так и для исследователей.
 
-#### 4. Cybersecurity AI: Hacking the AI Hackers via Prompt Injection (August 2025)
+
+#### 4. AI кибербезопасности: взламываем AI-взломщиков через prompt injection (август 2025)
+
 **Authors:** V. Mayoral-Vilches, P.M. Rynning
 **arXiv:** [2508.21669](https://arxiv.org/abs/2508.21669)
 
-Demonstrates prompt injection attacks against AI security tools and presents **four-layer guardrail defense system** validated through empirical testing.
+Демонстрирует атаки через prompt injection против инструментов AI-безопасности и описывает **четырёхуровневую систему guardrails-защиты**, подтверждённую эмпирическими испытаниями.
 
-### Application Domains
 
- | Humanoid Robots as Attack Vectors [![arXiv](https://img.shields.io/badge/arXiv-2509.14139-6bc7b5.svg)](https://arxiv.org/abs/2509.14139) | The Cybersecurity of a Humanoid Robot [![arXiv](https://img.shields.io/badge/arXiv-2509.14096-3e8b7a.svg)](https://arxiv.org/abs/2509.14096) |   Evaluating Agentic Cybersecurity in Attack/Defense CTFs [![arXiv](https://img.shields.io/badge/arXiv-2510.17521-b31b1b.svg)](https://arxiv.org/abs/2510.17521) | CAIBench: Meta-Benchmark for Cybersecurity AI [![arXiv](https://img.shields.io/badge/arXiv-2510.24317-b31b1b.svg)](https://arxiv.org/abs/2510.24317) |
+### Области применения
+
+ | Роботы-гуманоиды как векторы атак [![arXiv](https://img.shields.io/badge/arXiv-2509.14139-6bc7b5.svg)](https://arxiv.org/abs/2509.14139) | Кибербезопасность гуманоидного робота [![arXiv](https://img.shields.io/badge/arXiv-2509.14096-3e8b7a.svg)](https://arxiv.org/abs/2509.14096) | Оценка кибербезопасности в CTF Attack/Defense с агентным подходом [![arXiv](https://img.shields.io/badge/arXiv-2510.17521-b31b1b.svg)](https://arxiv.org/abs/2510.17521) | CAIBench: мета-бенчмарк для AI кибербезопасности [![arXiv](https://img.shields.io/badge/arXiv-2510.24317-b31b1b.svg)](https://arxiv.org/abs/2510.24317) |
+
 |---|---|---|---|
 |  [<img src="https://aliasrobotics.com/img/humanoids-cover.png" width="350">](https://arxiv.org/pdf/2509.14139) | [<img src="https://aliasrobotics.com/img/humanoid.png" width="350">](https://arxiv.org/pdf/2509.14096) | [<img src="https://aliasrobotics.com/img/cai_ad.png" width="350">](https://arxiv.org/pdf/2510.17521) | [<img src="https://aliasrobotics.com/img/caibench_banner2.png" width="350">](https://arxiv.org/pdf/2510.24317) |
 
-#### 5. Cybersecurity AI: Humanoid Robots as Attack Vectors (September 2025)
+#### 5. AI кибербезопасности: гуманоидные роботы как векторы атак (сентябрь 2025)
+
 **Authors:** V. Mayoral-Vilches
 **arXiv:** [2509.14139](https://arxiv.org/abs/2509.14139)
 
-Systematic security assessment of humanoid robots showing they operate simultaneously as covert surveillance nodes and can be purposed as active cyber operations platforms.
+Систематическая оценка безопасности гуманоидных роботов: показано, что они одновременно могут выступать скрытыми узлами наблюдения и быть переосмыслены как платформы активных киберопераций.
 
-#### 6. Cybersecurity AI: Evaluating Agentic Cybersecurity in Attack/Defense CTFs (October 2025)
+
+#### 6. AI кибербезопасности: оценка агентной кибербезопасности в CTF Attack/Defense (октябрь 2025)
+
 **Authors:** F. Balassone, V. Mayoral-Vilches, S. Rass, M. Pinzger, G. Perrone, S.P. Romano, P. Schartner
 **arXiv:** [2510.17521](https://arxiv.org/abs/2510.17521)
 
