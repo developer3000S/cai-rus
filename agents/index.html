@@ -1,0 +1,4837 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../cai_architecture/">
+      
+      
+        <link rel="next" href="../tools/">
+      
+      
+      <link rel="icon" href="../assets/imago.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+    
+    
+      
+        <title>Agents - CAI</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="CAI" class="md-header__button md-logo" aria-label="CAI" data-md-component="logo">
+      
+  <img src="../assets/imago.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CAI
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Agents
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aliasrobotics/cai" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aliasrobotics/cai
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="CAI" class="md-nav__button md-logo" aria-label="CAI" data-md-component="logo">
+      
+  <img src="../assets/imago.png" alt="logo">
+
+    </a>
+    CAI
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aliasrobotics/cai" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aliasrobotics/cai
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Welcome
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai_quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quickstart
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai_list_of_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Available Models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_5" id="__nav_1_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Model Providers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            Model Providers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../providers/openrouter.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OpenRouter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../providers/ollama/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ollama
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../providers/azure.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure OpenAI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai_pro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚀 CAI PRO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Core Concepts
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Core Concepts
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Agents
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agents
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Доступные агенты
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Доступные агенты">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Быстрый старт с агентами
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Выбор подходящего агента
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Матрица возможностей агентов
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Общие рабочие сценарии агентов
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Общие рабочие сценарии агентов">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Сценарий 1: полный пентест веб-приложения
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-iot-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Сценарий 2: оценка безопасности IoT-устройства
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Сценарий 3: реагирование на сетевой инцидент
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Базовая конфигурация
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#one_tool_agentpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример: one_tool_agent.py
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Контекст
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Типы выходных данных
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../handoffs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Handoffs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Multi-Agent Systems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Models & Providers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Models & Providers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai_list_of_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Available Models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Model Providers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Model Providers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../providers/openrouter.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OpenRouter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../providers/ollama/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ollama
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../providers/azure.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure OpenAI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../running_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Agents
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../continue_mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Continue Mode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../session_resume/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Session Resume
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Working with Results
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Streaming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tracing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tracing & Debugging
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../context/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Context Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guardrails/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Guardrails & Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Environment Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Models & Providers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Models & Providers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai_list_of_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Available Models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Model Providers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Model Providers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../providers/openrouter.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OpenRouter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../providers/ollama/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ollama
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../providers/azure.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure OpenAI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../running_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Agents
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../continue_mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Continue Mode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../session_resume/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Session Resume
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Working with Results
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Streaming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tracing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tracing & Debugging
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../context/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Context Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guardrails/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Guardrails & Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../council.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LLM Council
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Environment Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Benchmarking
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Benchmarking
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarking/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarking/running_benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Benchmarks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarking/attack_defense/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Attack & Defense CTFs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarking/jeopardy_ctfs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jeopardy CTFs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarking/cyber_ranges/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cyber Ranges
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarking/knowledge_benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Knowledge Benchmarks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarking/privacy_benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Privacy Benchmarks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../running_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Agents
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../continue_mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Continue Mode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Working with Results
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Streaming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tracing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tracing & Debugging
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../context/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Context Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guardrails/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Guardrails & Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Environment Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai/getting-started/packet_capture_wsl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Packet Capture on WSL2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Troubleshooting
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai/troubleshooting/operator_feedback_reproduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Operator Feedback Reproduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai/troubleshooting/platform_limitations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Platform Limitations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Case Studies
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Case Studies
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai/case-studies/operator-artifact-evidence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Operator Artifact Evidence
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Mobile UI (iOS)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Mobile UI (iOS)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mui/mui_index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mui/getting_started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mui/user_interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    User Interface
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mui/gestures_shortcuts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gestures & Shortcuts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mui/chat_features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chat Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Terminal UI (TUI) - Deprecated
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            Terminal UI (TUI) - Deprecated
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tui/tui_index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tui/getting_started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tui/user_interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    User Interface
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tui/terminals_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Terminals Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tui/teams_and_parallel_execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Teams & Parallel Execution
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tui/sidebar_features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sidebar Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tui/keyboard_shortcuts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Keyboard Shortcuts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tui/commands_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Commands Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tui/advanced_features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tui/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_14_1" id="__nav_14_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Agents
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_14_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14_1">
+            <span class="md-nav__icon md-icon"></span>
+            Agents
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agent
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/run/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Runner
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tool
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/result/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Result
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/stream_events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stream Events
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/handoffs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Handoffs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/lifecycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lifecycle
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/items/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Items
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/run_context/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Run Context
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/exceptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exceptions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/guardrail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Guardrail
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/model_settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Model Settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/agent_output/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agent Output
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/function_schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Function Schema
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_14_2" id="__nav_14_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Models
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_14_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14_2">
+            <span class="md-nav__icon md-icon"></span>
+            Models
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/models/interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Interface
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/models/openai_chatcompletions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OpenAI Chat Completions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/models/openai_responses/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OpenAI Responses
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_14_3" id="__nav_14_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Extensions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_14_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14_3">
+            <span class="md-nav__icon md-icon"></span>
+            Extensions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/extensions/handoff_filters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Handoff Filters
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ref/extensions/handoff_prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Handoff Prompt
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Advanced
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            Advanced
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai_development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Research
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            Research
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Resources
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            Resources
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai_faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FAQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai_find_us/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Find Us
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cai_citation_and_acknowledgments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Citation & Acknowledgments
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Доступные агенты
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Доступные агенты">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Быстрый старт с агентами
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Выбор подходящего агента
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Матрица возможностей агентов
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Общие рабочие сценарии агентов
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Общие рабочие сценарии агентов">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Сценарий 1: полный пентест веб-приложения
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-iot-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Сценарий 2: оценка безопасности IoT-устройства
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Сценарий 3: реагирование на сетевой инцидент
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Базовая конфигурация
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#one_tool_agentpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример: one_tool_agent.py
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Контекст
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Типы выходных данных
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="_1">Агенты</h1>
+<p>Агенты — основа CAI. Агент использует большие языковые модели (LLM), настроенные инструкциями и инструментами для выполнения специализированных задач кибербезопасности. Каждый агент определён в отдельном файле <code>.py</code> в <code>src/cai/agents</code> и оптимизирован под конкретные домены безопасности.</p>
+<h2 id="_2">Доступные агенты</h2>
+<p>CAI предоставляет набор специализированных агентов для разных сценариев кибербезопасности:</p>
+<table>
+<thead>
+<tr>
+<th>Агент</th>
+<th>Описание</th>
+<th>Основной сценарий использования</th>
+<th>Ключевые инструменты</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>redteam_agent</strong></td>
+<td>Специалист по атакующей безопасности для пентестинга</td>
+<td>Активная эксплуатация, поиск уязвимостей</td>
+<td>nmap, metasploit, burp</td>
+</tr>
+<tr>
+<td><strong>blueteam_agent</strong></td>
+<td>Эксперт по защитной безопасности для снижения угроз</td>
+<td>Укрепление защиты, реагирование на инциденты</td>
+<td>wireshark, suricata, osquery</td>
+</tr>
+<tr>
+<td><strong>bug_bounter_agent</strong></td>
+<td>Охотник за багами, оптимизированный под исследование уязвимостей</td>
+<td>Безопасность веб-приложений, тестирование API</td>
+<td>ffuf, sqlmap, nuclei</td>
+</tr>
+<tr>
+<td><strong>one_tool_agent</strong></td>
+<td>Минималистичный агент, ориентированный на выполнение одной команды/инструмента</td>
+<td>Быстрые проверки, операции конкретных инструментов</td>
+<td>Команды Generic Linux</td>
+</tr>
+<tr>
+<td><strong>dfir_agent</strong></td>
+<td>Эксперт по цифровой криминалистике и реагированию на инциденты</td>
+<td>Анализ логов, форензика</td>
+<td>volatility, autopsy, log2timeline</td>
+</tr>
+<tr>
+<td><strong>reverse_engineering_agent</strong></td>
+<td>Анализ бинарников и обратная разработка</td>
+<td>Анализ вредоносного ПО, реверс прошивок</td>
+<td>ghidra, radare2, ida</td>
+</tr>
+<tr>
+<td><strong>memory_analysis_agent</strong></td>
+<td>Специалист по анализу дампов памяти</td>
+<td>Форензика RAM, анализ процессов</td>
+<td>volatility, rekall</td>
+</tr>
+<tr>
+<td><strong>network_traffic_analyzer</strong></td>
+<td>Эксперт по анализу сетевых пакетов</td>
+<td>Разбор PCAP, инспекция трафика</td>
+<td>wireshark, tcpdump, tshark</td>
+</tr>
+<tr>
+<td><strong>android_sast_agent</strong></td>
+<td>Статический анализ безопасности Android (SAST)</td>
+<td>Разбор APK, сканирование уязвимостей Android</td>
+<td>jadx, apktool, mobsf</td>
+</tr>
+<tr>
+<td><strong>wifi_security_tester</strong></td>
+<td>Оценка безопасности беспроводных сетей</td>
+<td>Пентест Wi-Fi, подбор WPA</td>
+<td>aircrack-ng, reaver, wifite</td>
+</tr>
+<tr>
+<td><strong>replay_attack_agent</strong></td>
+<td>Специалист по выполнению replay-атак</td>
+<td>Replay протоколов, обход аутентификации</td>
+<td>пользовательские скрипты, burp</td>
+</tr>
+<tr>
+<td><strong>subghz_sdr_agent</strong></td>
+<td>Эксперт по анализу сигналов SDR в диапазоне Sub‑GHz</td>
+<td>Анализ RF, тестирование IoT‑протоколов</td>
+<td>hackrf, gqrx, urh</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">Быстрый старт с агентами</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><span class="c1"># Запустить CAI с указанным агентом</span>
+</span><span id="__span-0-2"><span class="nv">CAI_AGENT_TYPE</span><span class="o">=</span>redteam_agent<span class="w"> </span>cai
+</span><span id="__span-0-3">
+</span><span id="__span-0-4"><span class="c1"># Запустить с собственной моделью</span>
+</span><span id="__span-0-5"><span class="nv">CAI_AGENT_TYPE</span><span class="o">=</span>bug_bounter_agent<span class="w"> </span><span class="nv">CAI_MODEL</span><span class="o">=</span>alias0<span class="w"> </span>cai
+</span><span id="__span-0-6">
+</span><span id="__span-0-7"><span class="c1"># Или переключиться между агентами во время сессии</span>
+</span><span id="__span-0-8">CAI&gt;/agent<span class="w"> </span>redteam_agent
+</span><span id="__span-0-9">
+</span><span id="__span-0-10"><span class="c1"># Показать список доступных агентов с описаниями</span>
+</span><span id="__span-0-11">CAI&gt;/agent<span class="w"> </span>list
+</span><span id="__span-0-12">
+</span><span id="__span-0-13"><span class="c1"># Получить подробную информацию об агенте</span>
+</span><span id="__span-0-14">CAI&gt;/agent<span class="w"> </span>info<span class="w"> </span>redteam_agent
+</span></code></pre></div>
+<h3 id="_4">Выбор подходящего агента</h3>
+<ul>
+<li><strong>Для общего пентестинга</strong>: начинайте с <code>redteam_agent</code></li>
+<li><strong>Для веб-приложений</strong>: используйте <code>bug_bounter_agent</code></li>
+<li><strong>Для форензики</strong>: используйте <code>dfir_agent</code> или <code>memory_analysis_agent</code></li>
+<li><strong>Для IoT/встроенных устройств</strong>: попробуйте <code>subghz_sdr_agent</code> или <code>reverse_engineering_agent</code></li>
+<li><strong>Для сетевой безопасности</strong>: используйте <code>network_traffic_analyzer</code> или <code>blueteam_agent</code></li>
+<li><strong>Для мобильных приложений</strong>: используйте <code>android_sast_agent</code></li>
+<li><strong>Для беспроводных сетей</strong>: используйте <code>wifi_security_tester</code></li>
+</ul>
+<hr />
+<h2 id="_5">Матрица возможностей агентов</h2>
+<table>
+<thead>
+<tr>
+<th>Возможность</th>
+<th>redteam</th>
+<th>blueteam</th>
+<th>bug_bounty</th>
+<th>dfir</th>
+<th>reverse_eng</th>
+<th>network</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Тестирование веб-приложений</strong></td>
+<td>⭐⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐</td>
+</tr>
+<tr>
+<td><strong>Анализ сети</strong></td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>Анализ бинарников</strong></td>
+<td>⭐⭐</td>
+<td>⭐</td>
+<td>⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐</td>
+</tr>
+<tr>
+<td><strong>Форензика</strong></td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐</td>
+</tr>
+<tr>
+<td><strong>IoT/встроенные устройства</strong></td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>Тестирование API</strong></td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐</td>
+</tr>
+<tr>
+<td><strong>Разработка эксплойтов</strong></td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Легенда</strong>: ⭐ Ограничено | ⭐⭐⭐ Средне | ⭐⭐⭐⭐⭐ Отлично</p>
+<hr />
+<h2 id="_6">Общие рабочие сценарии агентов</h2>
+<h3 id="1-">Сценарий 1: полный пентест веб-приложения</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><span class="c1"># 1. Начать с разведки</span>
+</span><span id="__span-1-2">CAI&gt;/agent<span class="w"> </span>bug_bounter_agent
+</span><span id="__span-1-3">CAI&gt;<span class="w"> </span>Scan<span class="w"> </span>https://target.com<span class="w"> </span><span class="k">for</span><span class="w"> </span>vulnerabilities
+</span><span id="__span-1-4">
+</span><span id="__span-1-5"><span class="c1"># 2. Переключиться на эксплуатацию</span>
+</span><span id="__span-1-6">CAI&gt;/agent<span class="w"> </span>redteam_agent<span class="w">  </span>
+</span><span id="__span-1-7">CAI&gt;<span class="w"> </span>Exploit<span class="w"> </span>the<span class="w"> </span>SQL<span class="w"> </span>injection<span class="w"> </span>found<span class="w"> </span>at<span class="w"> </span>/login
+</span><span id="__span-1-8">
+</span><span id="__span-1-9"><span class="c1"># 3. Анализ пост-эксплуатации</span>
+</span><span id="__span-1-10">CAI&gt;/agent<span class="w"> </span>dfir_agent
+</span><span id="__span-1-11">CAI&gt;<span class="w"> </span>Analyze<span class="w"> </span>the<span class="w"> </span>logs<span class="w"> </span>to<span class="w"> </span>understand<span class="w"> </span>the<span class="w"> </span>attack<span class="w"> </span>surface
+</span></code></pre></div>
+<h3 id="2-iot-">Сценарий 2: оценка безопасности IoT-устройства</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><span class="c1"># 1. Анализ радиосигналов</span>
+</span><span id="__span-2-2">CAI&gt;/agent<span class="w"> </span>subghz_sdr_agent
+</span><span id="__span-2-3">CAI&gt;<span class="w"> </span>Analyze<span class="w"> </span>the<span class="w"> </span>433MHz<span class="w"> </span>signals<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>device
+</span><span id="__span-2-4">
+</span><span id="__span-2-5"><span class="c1"># 2. Анализ прошивки</span>
+</span><span id="__span-2-6">CAI&gt;/agent<span class="w"> </span>reverse_engineering_agent
+</span><span id="__span-2-7">CAI&gt;<span class="w"> </span>Extract<span class="w"> </span>and<span class="w"> </span>analyze<span class="w"> </span>the<span class="w"> </span>firmware<span class="w"> </span>from<span class="w"> </span>dump.bin
+</span><span id="__span-2-8">
+</span><span id="__span-2-9"><span class="c1"># 3. Анализ памяти, если устройство было захвачено</span>
+</span><span id="__span-2-10">CAI&gt;/agent<span class="w"> </span>memory_analysis_agent
+</span><span id="__span-2-11">CAI&gt;<span class="w"> </span>Analyze<span class="w"> </span>the<span class="w"> </span>memory<span class="w"> </span>dump<span class="w"> </span><span class="k">for</span><span class="w"> </span>secrets
+</span></code></pre></div>
+<h3 id="3">Сценарий 3: реагирование на сетевой инцидент</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><span class="c1"># 1. Анализ сетевого трафика</span>
+</span><span id="__span-3-2">CAI&gt;/agent<span class="w"> </span>network_traffic_analyzer
+</span><span id="__span-3-3">CAI&gt;<span class="w"> </span>Analyze<span class="w"> </span>capture.pcap<span class="w"> </span><span class="k">for</span><span class="w"> </span>suspicious<span class="w"> </span>activity
+</span><span id="__span-3-4">
+</span><span id="__span-3-5"><span class="c1"># 2. Форензика</span>
+</span><span id="__span-3-6">CAI&gt;/agent<span class="w"> </span>dfir_agent
+</span><span id="__span-3-7">CAI&gt;<span class="w"> </span>Investigate<span class="w"> </span>the<span class="w"> </span>compromised<span class="w"> </span>host<span class="w"> </span>logs
+</span><span id="__span-3-8">
+</span><span id="__span-3-9"><span class="c1"># 3. Защитные рекомендации</span>
+</span><span id="__span-3-10">CAI&gt;/agent<span class="w"> </span>blueteam_agent
+</span><span id="__span-3-11">CAI&gt;<span class="w"> </span>Provide<span class="w"> </span>mitigation<span class="w"> </span>strategies<span class="w"> </span>based<span class="w"> </span>on<span class="w"> </span>findings
+</span></code></pre></div>
+<hr />
+<h2 id="_7">Базовая конфигурация</h2>
+<p>Ключевые свойства агента включают:</p>
+<ul>
+<li><code>name</code>: имя агента (например, имя <code>one_tool_agent</code> — «CTF Agent»)</li>
+<li><code>instructions</code>: системный prompt, задающий поведение агента</li>
+<li><code>model</code>: какая LLM используется, с опциональными <code>model_settings</code> для настройки параметров, таких как temperature, top_p и т.д.</li>
+<li><code>tools</code>: инструменты, которыми агент может пользоваться для выполнения задач</li>
+<li><code>handoffs</code>: позволяет агенту делегировать задачи другому агенту</li>
+</ul>
+<h2 id="one_tool_agentpy">Пример: <code>one_tool_agent.py</code></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><span class="kn">from</span><span class="w"> </span><span class="nn">cai.sdk.agents</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">OpenAIChatCompletionsModel</span>
+</span><span id="__span-4-2"><span class="kn">from</span><span class="w"> </span><span class="nn">cai.tools.reconnaissance.generic_linux_command</span><span class="w"> </span><span class="kn">import</span> <span class="n">generic_linux_command</span> 
+</span><span id="__span-4-3"><span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncOpenAI</span>
+</span><span id="__span-4-4">
+</span><span id="__span-4-5"><span class="n">one_tool_agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span>
+</span><span id="__span-4-6">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;CTF agent&quot;</span><span class="p">,</span>
+</span><span id="__span-4-7">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Агент, сосредоточенный на решении задач по безопасности с помощью generic linux команд&quot;</span><span class="p">,</span>
+</span><span id="__span-4-8">    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Вы эксперт по кибербезопасности, решающий задачу CTF.&quot;</span><span class="p">,</span>
+</span><span id="__span-4-9">    <span class="n">tools</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-4-10">        <span class="n">generic_linux_command</span><span class="p">,</span>
+</span><span id="__span-4-11">    <span class="p">],</span>
+</span><span id="__span-4-12">    <span class="n">model</span><span class="o">=</span><span class="n">OpenAIChatCompletionsModel</span><span class="p">(</span>
+</span><span id="__span-4-13">        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;qwen2.5:14b&quot;</span><span class="p">,</span>
+</span><span id="__span-4-14">        <span class="n">openai_client</span><span class="o">=</span><span class="n">AsyncOpenAI</span><span class="p">(),</span>
+</span><span id="__span-4-15">    <span class="p">)</span>
+</span><span id="__span-4-16"><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="_8">Контекст</h2>
+<p>Существует два основных типа контекста. Подробнее см. <a href="../context/">context</a>.</p>
+<p>Агенты параметризуются типом <code>context</code>. Контекст — это инструмент внедрения зависимостей: это объект, который вы создаёте и передаёте в <code>Runner.run()</code>. Он передаётся каждому агенту, инструменту, handoff и служит контейнером зависимостей и состояния для запуска агента. Вы можете передать любой Python-объект в качестве контекста.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><span class="nd">@dataclass</span>
+</span><span id="__span-5-2"><span class="k">class</span><span class="w"> </span><span class="nc">SecurityContext</span><span class="p">:</span>
+</span><span id="__span-5-3">  <span class="n">target_system</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-5-4">  <span class="n">is_compromised</span><span class="p">:</span> <span class="nb">bool</span>
+</span><span id="__span-5-5">
+</span><span id="__span-5-6">  <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_exploits</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Exploits</span><span class="p">]:</span>
+</span><span id="__span-5-7">     <span class="k">return</span> <span class="o">...</span>
+</span><span id="__span-5-8">
+</span><span id="__span-5-9"><span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">[</span><span class="n">SecurityContext</span><span class="p">](</span>
+</span><span id="__span-5-10">    <span class="o">...</span><span class="p">,</span>
+</span><span id="__span-5-11"><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="_9">Типы выходных данных</h2>
+<p>По умолчанию агенты возвращают обычный текст (т.е. <code>str</code>). Если вы хотите, чтобы агент выдавал определённый тип данных, вы можете использовать параметр <code>output_type</code>. Частый выбор — использовать объекты <a href="https://docs.pydantic.dev/">Pydantic</a>, но мы поддерживаем любой тип, который можно обернуть в Pydantic <a href="https://docs.pydantic.dev/latest/api/type_adapter/">TypeAdapter</a> — dataclass, список, TypedDict и т.д.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+</span><span id="__span-6-2"><span class="kn">from</span><span class="w"> </span><span class="nn">cai.sdk.agents</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span>
+</span><span id="__span-6-3">
+</span><span id="__span-6-4"><span class="k">class</span><span class="w"> </span><span class="nc">SecurityVulnerability</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-6-5">    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-6-6">    <span class="n">severity</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-6-7">    <span class="n">affected_files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+</span><span id="__span-6-8">    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-6-9">
+</span><span id="__span-6-10"><span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span>
+</span><span id="__span-6-11">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Vulnerability scanner&quot;</span><span class="p">,</span>
+</span><span id="__span-6-12">    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Проанализируйте вывод системы и определите уязвимости безопасности&quot;</span><span class="p">,</span>
+</span><span id="__span-6-13">    <span class="n">output_type</span><span class="o">=</span><span class="n">SecurityVulnerability</span><span class="p">,</span>
+</span><span id="__span-6-14"><span class="p">)</span>
+</span></code></pre></div>
+<p>cd /Users/system/Documents/mybuild/cairus &amp;&amp; cat &gt; docs/agents.md &lt;&lt;'EOF'</p>
+<h1 id="_10">Агенты</h1>
+<p>Агенты — основа CAI. Агент использует большие языковые модели (LLM), настроенные инструкциями и инструментами для выполнения специализированных задач кибербезопасности. Каждый агент определён в отдельном файле <code>.py</code> в <code>src/cai/agents</code> и оптимизирован под конкретные домены безопасности.</p>
+<h2 id="_11">Доступные агенты</h2>
+<p>CAI предоставляет набор специализированных агентов для разных сценариев кибербезопасности:</p>
+<table>
+<thead>
+<tr>
+<th>Агент</th>
+<th>Описание</th>
+<th>Основной сценарий использования</th>
+<th>Ключевые инструменты</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>redteam_agent</strong></td>
+<td>Специалист по атакующей безопасности для пентестинга</td>
+<td>Активная эксплуатация, поиск уязвимостей</td>
+<td>nmap, metasploit, burp</td>
+</tr>
+<tr>
+<td><strong>blueteam_agent</strong></td>
+<td>Эксперт по защитной безопасности для снижения угроз</td>
+<td>Укрепление защиты, реагирование на инциденты</td>
+<td>wireshark, suricata, osquery</td>
+</tr>
+<tr>
+<td><strong>bug_bounter_agent</strong></td>
+<td>Охотник за багами, оптимизированный под исследование уязвимостей</td>
+<td>Безопасность веб-приложений, тестирование API</td>
+<td>ffuf, sqlmap, nuclei</td>
+</tr>
+<tr>
+<td><strong>one_tool_agent</strong></td>
+<td>Минималистичный агент, ориентированный на выполнение одной команды/инструмента</td>
+<td>Быстрые проверки, операции конкретных инструментов</td>
+<td>Команды Generic Linux</td>
+</tr>
+<tr>
+<td><strong>dfir_agent</strong></td>
+<td>Эксперт по цифровой криминалистике и реагированию на инциденты</td>
+<td>Анализ логов, форензика</td>
+<td>volatility, autopsy, log2timeline</td>
+</tr>
+<tr>
+<td><strong>reverse_engineering_agent</strong></td>
+<td>Анализ бинарников и обратная разработка</td>
+<td>Анализ вредоносного ПО, реверс прошивок</td>
+<td>ghidra, radare2, ida</td>
+</tr>
+<tr>
+<td><strong>memory_analysis_agent</strong></td>
+<td>Специалист по анализу дампов памяти</td>
+<td>Форензика RAM, анализ процессов</td>
+<td>volatility, rekall</td>
+</tr>
+<tr>
+<td><strong>network_traffic_analyzer</strong></td>
+<td>Эксперт по анализу сетевых пакетов</td>
+<td>Разбор PCAP, инспекция трафика</td>
+<td>wireshark, tcpdump, tshark</td>
+</tr>
+<tr>
+<td><strong>android_sast_agent</strong></td>
+<td>Статический анализ безопасности Android (SAST)</td>
+<td>Разбор APK, сканирование уязвимостей Android</td>
+<td>jadx, apktool, mobsf</td>
+</tr>
+<tr>
+<td><strong>wifi_security_tester</strong></td>
+<td>Оценка безопасности беспроводных сетей</td>
+<td>Пентест Wi-Fi, подбор WPA</td>
+<td>aircrack-ng, reaver, wifite</td>
+</tr>
+<tr>
+<td><strong>replay_attack_agent</strong></td>
+<td>Специалист по выполнению replay-атак</td>
+<td>Replay протоколов, обход аутентификации</td>
+<td>пользовательские скрипты, burp</td>
+</tr>
+<tr>
+<td><strong>subghz_sdr_agent</strong></td>
+<td>Эксперт по анализу сигналов SDR в диапазоне Sub‑GHz</td>
+<td>Анализ RF, тестирование IoT‑прототоколов</td>
+<td>hackrf, gqrx, urh</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_12">Быстрый старт с агентами</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><span class="c1"># Запустить CAI с указанным агентом</span>
+</span><span id="__span-7-2"><span class="nv">CAI_AGENT_TYPE</span><span class="o">=</span>redteam_agent<span class="w"> </span>cai
+</span><span id="__span-7-3">
+</span><span id="__span-7-4"><span class="c1"># Запустить с собственной моделью</span>
+</span><span id="__span-7-5"><span class="nv">CAI_AGENT_TYPE</span><span class="o">=</span>bug_bounter_agent<span class="w"> </span><span class="nv">CAI_MODEL</span><span class="o">=</span>alias0<span class="w"> </span>cai
+</span><span id="__span-7-6">
+</span><span id="__span-7-7"><span class="c1"># Или переключиться между агентами во время сессии</span>
+</span><span id="__span-7-8">CAI&gt;/agent<span class="w"> </span>redteam_agent
+</span><span id="__span-7-9">
+</span><span id="__span-7-10"><span class="c1"># Показать список доступных агентов с описаниями</span>
+</span><span id="__span-7-11">CAI&gt;/agent<span class="w"> </span>list
+</span><span id="__span-7-12">
+</span><span id="__span-7-13"><span class="c1"># Получить подробную информацию об агенте</span>
+</span><span id="__span-7-14">CAI&gt;/agent<span class="w"> </span>info<span class="w"> </span>redteam_agent
+</span></code></pre></div>
+<h3 id="_13">Выбор подходящего агента</h3>
+<ul>
+<li><strong>Для общего пентестинга</strong>: начинайте с <code>redteam_agent</code></li>
+<li><strong>Для веб-приложений</strong>: используйте <code>bug_bounter_agent</code></li>
+<li><strong>Для форензики</strong>: используйте <code>dfir_agent</code> или <code>memory_analysis_agent</code></li>
+<li><strong>Для IoT/встроенных устройств</strong>: попробуйте <code>subghz_sdr_agent</code> или <code>reverse_engineering_agent</code></li>
+<li><strong>Для сетевой безопасности</strong>: используйте <code>network_traffic_analyzer</code> или <code>blueteam_agent</code></li>
+<li><strong>Для мобильных приложений</strong>: используйте <code>android_sast_agent</code></li>
+<li><strong>Для беспроводных сетей</strong>: используйте <code>wifi_security_tester</code></li>
+</ul>
+<hr />
+<h2 id="_14">Матрица возможностей агентов</h2>
+<table>
+<thead>
+<tr>
+<th>Возможность</th>
+<th>redteam</th>
+<th>blueteam</th>
+<th>bug_bounty</th>
+<th>dfir</th>
+<th>reverse_eng</th>
+<th>network</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Тестирование веб-приложений</strong></td>
+<td>⭐⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐</td>
+</tr>
+<tr>
+<td><strong>Анализ сети</strong></td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>Анализ бинарников</strong></td>
+<td>⭐⭐</td>
+<td>⭐</td>
+<td>⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐</td>
+</tr>
+<tr>
+<td><strong>Форензика</strong></td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐</td>
+</tr>
+<tr>
+<td><strong>IoT/встроенные устройства</strong></td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td><strong>Тестирование API</strong></td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐</td>
+</tr>
+<tr>
+<td><strong>Разработка эксплойтов</strong></td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Легенда</strong>: ⭐ Ограничено | ⭐⭐⭐ Средне | ⭐⭐⭐⭐⭐ Отлично</p>
+<hr />
+<h2 id="_15">Общие рабочие сценарии агентов</h2>
+<h3 id="1-_1">Сценарий 1: полный пентест веб-приложения</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><span class="c1"># 1. Начать с разведки</span>
+</span><span id="__span-8-2">CAI&gt;/agent<span class="w"> </span>bug_bounter_agent
+</span><span id="__span-8-3">CAI&gt;<span class="w"> </span>Scan<span class="w"> </span>https://target.com<span class="w"> </span><span class="k">for</span><span class="w"> </span>vulnerabilities
+</span><span id="__span-8-4">
+</span><span id="__span-8-5"><span class="c1"># 2. Переключиться на эксплуатацию</span>
+</span><span id="__span-8-6">CAI&gt;/agent<span class="w"> </span>redteam_agent<span class="w">  </span>
+</span><span id="__span-8-7">CAI&gt;<span class="w"> </span>Exploit<span class="w"> </span>the<span class="w"> </span>SQL<span class="w"> </span>injection<span class="w"> </span>found<span class="w"> </span>at<span class="w"> </span>/login
+</span><span id="__span-8-8">
+</span><span id="__span-8-9"><span class="c1"># 3. Анализ пост-эксплуатации</span>
+</span><span id="__span-8-10">CAI&gt;/agent<span class="w"> </span>dfir_agent
+</span><span id="__span-8-11">CAI&gt;<span class="w"> </span>Analyze<span class="w"> </span>the<span class="w"> </span>logs<span class="w"> </span>to<span class="w"> </span>understand<span class="w"> </span>the<span class="w"> </span>attack<span class="w"> </span>surface
+</span></code></pre></div>
+<h3 id="2-iot-_1">Сценарий 2: оценка безопасности IoT-устройства</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><span class="c1"># 1. Анализ радиосигналов</span>
+</span><span id="__span-9-2">CAI&gt;/agent<span class="w"> </span>subghz_sdr_agent
+</span><span id="__span-9-3">CAI&gt;<span class="w"> </span>Analyze<span class="w"> </span>the<span class="w"> </span>433MHz<span class="w"> </span>signals<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>device
+</span><span id="__span-9-4">
+</span><span id="__span-9-5"><span class="c1"># 2. Анализ прошивки</span>
+</span><span id="__span-9-6">CAI&gt;/agent<span class="w"> </span>reverse_engineering_agent
+</span><span id="__span-9-7">CAI&gt;<span class="w"> </span>Extract<span class="w"> </span>and<span class="w"> </span>analyze<span class="w"> </span>the<span class="w"> </span>firmware<span class="w"> </span>from<span class="w"> </span>dump.bin
+</span><span id="__span-9-8">
+</span><span id="__span-9-9"><span class="c1"># 3. Анализ памяти, если устройство было захвачено</span>
+</span><span id="__span-9-10">CAI&gt;/agent<span class="w"> </span>memory_analysis_agent
+</span><span id="__span-9-11">CAI&gt;<span class="w"> </span>Analyze<span class="w"> </span>the<span class="w"> </span>memory<span class="w"> </span>dump<span class="w"> </span><span class="k">for</span><span class="w"> </span>secrets
+</span></code></pre></div>
+<h3 id="3_1">Сценарий 3: реагирование на сетевой инцидент</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><span class="c1"># 1. Анализ сетевого трафика</span>
+</span><span id="__span-10-2">CAI&gt;/agent<span class="w"> </span>network_traffic_analyzer
+</span><span id="__span-10-3">CAI&gt;<span class="w"> </span>Analyze<span class="w"> </span>capture.pcap<span class="w"> </span><span class="k">for</span><span class="w"> </span>suspicious<span class="w"> </span>activity
+</span><span id="__span-10-4">
+</span><span id="__span-10-5"><span class="c1"># 2. Форензика</span>
+</span><span id="__span-10-6">CAI&gt;/agent<span class="w"> </span>dfir_agent
+</span><span id="__span-10-7">CAI&gt;<span class="w"> </span>Investigate<span class="w"> </span>the<span class="w"> </span>compromised<span class="w"> </span>host<span class="w"> </span>logs
+</span><span id="__span-10-8">
+</span><span id="__span-10-9"><span class="c1"># 3. Защитные рекомендации</span>
+</span><span id="__span-10-10">CAI&gt;/agent<span class="w"> </span>blueteam_agent
+</span><span id="__span-10-11">CAI&gt;<span class="w"> </span>Provide<span class="w"> </span>mitigation<span class="w"> </span>strategies<span class="w"> </span>based<span class="w"> </span>on<span class="w"> </span>findings
+</span></code></pre></div>
+<hr />
+<h2 id="_16">Базовая конфигурация</h2>
+<p>Ключевые свойства агента включают:</p>
+<ul>
+<li><code>name</code>: имя агента (например, имя <code>one_tool_agent</code> — «CTF Agent»)</li>
+<li><code>instructions</code>: системный prompt, задающий поведение агента</li>
+<li><code>model</code>: какая LLM используется, с опциональными <code>model_settings</code> для настройки параметров, таких как temperature, top_p и т.д.</li>
+<li><code>tools</code>: инструменты, которыми агент может пользоваться для выполнения задач</li>
+<li><code>handoffs</code>: позволяет агенту делегировать задачи другому агенту</li>
+</ul>
+<h2 id="one_tool_agentpy_1">Пример: <code>one_tool_agent.py</code></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><span class="kn">from</span><span class="w"> </span><span class="nn">cai.sdk.agents</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">OpenAIChatCompletionsModel</span>
+</span><span id="__span-11-2"><span class="kn">from</span><span class="w"> </span><span class="nn">cai.tools.reconnaissance.generic_linux_command</span><span class="w"> </span><span class="kn">import</span> <span class="n">generic_linux_command</span> 
+</span><span id="__span-11-3"><span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncOpenAI</span>
+</span><span id="__span-11-4">
+</span><span id="__span-11-5"><span class="n">one_tool_agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span>
+</span><span id="__span-11-6">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;CTF agent&quot;</span><span class="p">,</span>
+</span><span id="__span-11-7">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Агент, сосредоточенный на решении задач по безопасности с помощью generic linux команд&quot;</span><span class="p">,</span>
+</span><span id="__span-11-8">    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Вы эксперт по кибербезопасности, решающий задачу CTF.&quot;</span><span class="p">,</span>
+</span><span id="__span-11-9">    <span class="n">tools</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-11-10">        <span class="n">generic_linux_command</span><span class="p">,</span>
+</span><span id="__span-11-11">    <span class="p">],</span>
+</span><span id="__span-11-12">    <span class="n">model</span><span class="o">=</span><span class="n">OpenAIChatCompletionsModel</span><span class="p">(</span>
+</span><span id="__span-11-13">        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;qwen2.5:14b&quot;</span><span class="p">,</span>
+</span><span id="__span-11-14">        <span class="n">openai_client</span><span class="o">=</span><span class="n">AsyncOpenAI</span><span class="p">(),</span>
+</span><span id="__span-11-15">    <span class="p">)</span>
+</span><span id="__span-11-16"><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="_17">Контекст</h2>
+<p>Существует два основных типа контекста. Подробнее см. <a href="../context/">context</a>.</p>
+<p>Агенты параметризуются типом <code>context</code>. Контекст — это инструмент внедрения зависимостей: это объект, который вы создаёте и передаёте в <code>Runner.run()</code>. Он передаётся каждому агенту, инструменту, handoff и служит контейнером зависимостей и состояния для запуска агента. Вы можете передать любой Python-объект в качестве контекста.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><span class="nd">@dataclass</span>
+</span><span id="__span-12-2"><span class="k">class</span><span class="w"> </span><span class="nc">SecurityContext</span><span class="p">:</span>
+</span><span id="__span-12-3">  <span class="n">target_system</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-12-4">  <span class="n">is_compromised</span><span class="p">:</span> <span class="nb">bool</span>
+</span><span id="__span-12-5">
+</span><span id="__span-12-6">  <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_exploits</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Exploits</span><span class="p">]:</span>
+</span><span id="__span-12-7">     <span class="k">return</span> <span class="o">...</span>
+</span><span id="__span-12-8">
+</span><span id="__span-12-9"><span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">[</span><span class="n">SecurityContext</span><span class="p">](</span>
+</span><span id="__span-12-10">    <span class="o">...</span><span class="p">,</span>
+</span><span id="__span-12-11"><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="_18">Типы выходных данных</h2>
+<p>По умолчанию агенты возвращают обычный текст (т.е. <code>str</code>). Если вы хотите, чтобы агент выдавал определённый тип данных, вы можете использовать параметр <code>output_type</code>. Частый выбор — использовать объекты <a href="https://docs.pydantic.dev/">Pydantic</a>, но мы поддерживаем любой тип, который можно обернуть в Pydantic <a href="https://docs.pydantic.dev/latest/api/type_adapter/">TypeAdapter</a> — dataclass, список, TypedDict и т.д.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+</span><span id="__span-13-2"><span class="kn">from</span><span class="w"> </span><span class="nn">cai.sdk.agents</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span>
+</span><span id="__span-13-3">
+</span><span id="__span-13-4"><span class="k">class</span><span class="w"> </span><span class="nc">SecurityVulnerability</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-13-5">    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-13-6">    <span class="n">severity</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-13-7">    <span class="n">affected_files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+</span><span id="__span-13-8">    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-13-9">
+</span><span id="__span-13-10"><span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span>
+</span><span id="__span-13-11">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Vulnerability scanner&quot;</span><span class="p">,</span>
+</span><span id="__span-13-12">    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Проанализируйте вывод системы и определите уязвимости безопасности&quot;</span><span class="p">,</span>
+</span><span id="__span-13-13">    <span class="n">output_type</span><span class="o">=</span><span class="n">SecurityVulnerability</span><span class="p">,</span>
+</span><span id="__span-13-14"><span class="p">)</span>
+</span></code></pre></div>
+<p>cd /Users/system/Documents/mybuild/cairus &amp;&amp; python3 - &lt;&lt;'PY'
+import pathlib, re
+root = pathlib.Path('.').resolve()
+eng = re.compile(r"(This|Use|Example|Guide|API|Documentation|Learn|Run|warning|success|Important|Note|Notes|Requirements|Install|Configure|Setup)", re.I)
+files=[]
+for p in sorted(root.rglob('*.md')):
+    text=p.read_text(encoding='utf-8', errors='ignore')
+    if eng.search(text):
+        files.append(str(p.relative_to(root)))
+with open(root / 'md_english_files.txt','w',encoding='utf-8') as f:
+    f.write('
+'.join(files))
+print(len(files))
+PY! note
+   Если вы задаёте <code>output_type</code>, это сообщает модели, что нужно использовать структурированный вывод вместо обычного текстового ответа.</p>
+<h2 id="handoffs">Handoffs</h2>
+<p>Handoffs — это суб-агенты, которым основной агент может делегировать задачи. Вы указываете список <code>handoffs</code>, и агент может выбрать делегирование им, если это уместно. Это мощный паттерн, позволяющий оркестрировать модульные, специализированные агенты, каждый из которых отлично справляется со своей задачей. Подробнее см. документацию по <a href="../handoffs/">handoffs</a>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><span class="kn">from</span><span class="w"> </span><span class="nn">cai.sdk.agents</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span>
+</span><span id="__span-14-2">
+</span><span id="__span-14-3"><span class="n">crypto_agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span>
+</span><span id="__span-14-4">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cryptography agent&quot;</span><span class="p">,</span>
+</span><span id="__span-14-5">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Агент, специализирующийся на решении криптографических задач и расшифровке зашифрованных сообщений&quot;</span><span class="p">,</span>
+</span><span id="__span-14-6">    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Анализируйте зашифрованные данные и применяйте криптографические методы для их расшифровки.&quot;</span><span class="p">,</span>
+</span><span id="__span-14-7">    <span class="n">tools</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-14-8">        <span class="n">execute_cli_command</span><span class="p">,</span>
+</span><span id="__span-14-9">    <span class="p">],</span>
+</span><span id="__span-14-10">    <span class="n">handoff_description</span><span class="o">=</span><span class="s2">&quot;Специализированный агент по криптографии и взлому шифров&quot;</span><span class="p">,</span>
+</span><span id="__span-14-11">    <span class="n">model</span><span class="o">=</span><span class="n">OpenAIChatCompletionsModel</span><span class="p">(</span>
+</span><span id="__span-14-12">        <span class="n">model</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;CAI_MODEL&#39;</span><span class="p">,</span> <span class="s2">&quot;qwen2.5:14b&quot;</span><span class="p">),</span>
+</span><span id="__span-14-13">        <span class="n">openai_client</span><span class="o">=</span><span class="n">AsyncOpenAI</span><span class="p">(),</span>
+</span><span id="__span-14-14">    <span class="p">)</span>
+</span><span id="__span-14-15"><span class="p">)</span>
+</span><span id="__span-14-16"><span class="n">network_agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span>
+</span><span id="__span-14-17">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Network Agent&quot;</span><span class="p">,</span>
+</span><span id="__span-14-18">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Агент, специализирующийся на сетевом анализе, инспекции пакетов и оценке сетевой безопасности&quot;</span><span class="p">,</span>
+</span><span id="__span-14-19">    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Анализируйте сетевой трафик, выявляйте подозрительные паттерны и помогайте с задачами CTF, связанными с сетью&quot;</span><span class="p">,</span>
+</span><span id="__span-14-20">    <span class="n">handoff_description</span><span class="o">=</span><span class="s2">&quot;Специализированный агент по сетевой безопасности, анализу трафика и пониманию протоколов&quot;</span><span class="p">,</span>
+</span><span id="__span-14-21">    <span class="n">model</span><span class="o">=</span><span class="n">OpenAIChatCompletionsModel</span><span class="p">(</span>
+</span><span id="__span-14-22">        <span class="n">model</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;CAI_MODEL&#39;</span><span class="p">,</span> <span class="s2">&quot;qwen2.5:72b&quot;</span><span class="p">),</span>
+</span><span id="__span-14-23">        <span class="n">openai_client</span><span class="o">=</span><span class="n">AsyncOpenAI</span><span class="p">(),</span>
+</span><span id="__span-14-24">    <span class="p">)</span>
+</span><span id="__span-14-25"><span class="p">)</span>
+</span><span id="__span-14-26"><span class="n">lead_agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span>
+</span><span id="__span-14-27">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cybersecurity Lead Agent&quot;</span><span class="p">,</span>
+</span><span id="__span-14-28">    <span class="n">instructions</span><span class="o">=</span><span class="p">(</span>
+</span><span id="__span-14-29">        <span class="s2">&quot;Вы ведущий эксперт по кибербезопасности, координирующий операции по безопасности. &quot;</span>
+</span><span id="__span-14-30">        <span class="s2">&quot;Если пользователю нужен сетевой анализ или инспекция трафика, передавайте задачу сети. &quot;</span>
+</span><span id="__span-14-31">        <span class="s2">&quot;Если пользователю нужны криптографические решения или взлом шифров, передавайте задачу криптоагенту.&quot;</span>
+</span><span id="__span-14-32">    <span class="p">),</span>
+</span><span id="__span-14-33">    <span class="n">handoffs</span><span class="o">=</span><span class="p">[</span><span class="n">network_agent</span><span class="p">,</span> <span class="n">crypto_agent</span><span class="p">],</span>
+</span><span id="__span-14-34">    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;qwen2.5:72b&quot;</span>
+</span><span id="__span-14-35"><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="_19">Динамические инструкции</h2>
+<p>В большинстве случаев инструкции задаются при создании агента. Однако вы также можете передавать динамические инструкции через функцию. Функция получает агента и контекст и должна вернуть prompt. Принимаются как обычные, так и <code>async</code> функции.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><span class="k">def</span><span class="w"> </span><span class="nf">dynamic_instructions</span><span class="p">(</span>
+</span><span id="__span-15-2">    <span class="n">context</span><span class="p">:</span> <span class="n">RunContextWrapper</span><span class="p">[</span><span class="n">UserContext</span><span class="p">],</span> <span class="n">agent</span><span class="p">:</span> <span class="n">Agent</span><span class="p">[</span><span class="n">UserContext</span><span class="p">]</span>
+</span><span id="__span-15-3"><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-15-4">    <span class="n">security_level</span> <span class="o">=</span> <span class="s2">&quot;high&quot;</span> <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">is_admin</span> <span class="k">else</span> <span class="s2">&quot;standard&quot;</span>
+</span><span id="__span-15-5">    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Вы помогаете </span><span class="si">{</span><span class="n">context</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> с операциями по кибербезопасности. Уровень допуска: </span><span class="si">{</span><span class="n">security_level</span><span class="si">}</span><span class="s2">. Постройте рекомендации в соответствии с уровнем и сосредоточьтесь на текущих проблемах безопасности.&quot;</span>
+</span><span id="__span-15-6">
+</span><span id="__span-15-7"><span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">[</span><span class="n">UserContext</span><span class="p">](</span>
+</span><span id="__span-15-8">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cybersecurity Triage Agent&quot;</span><span class="p">,</span>
+</span><span id="__span-15-9">    <span class="n">instructions</span><span class="o">=</span><span class="n">dynamic_instructions</span><span class="p">,</span>
+</span><span id="__span-15-10"><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="_20">Запуск</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1">cai
+</span></code></pre></div>
+<h3 id="_21">Оптимизация производительности</h3>
+<p><strong>1. Используйте стриминг для более быстрой реакции:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><span class="nv">CAI_STREAM</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span>cai
+</span></code></pre></div>
+<strong>2. Включите трассировку для отладки:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><span class="nv">CAI_TRACING</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span>cai
+</span></code></pre></div></p>
+<hr />
+<h2 id="_22">Лучшие практики работы с агентами</h2>
+<h3 id="1">1. Начинайте с правильного агента</h3>
+<p>Не используйте специализированного агента для общих задач. Соответствуйте агент задаче:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><span class="c1"># ✅ Хорошо: агент bug bounty для веб-тестирования</span>
+</span><span id="__span-19-2"><span class="nv">CAI_AGENT_TYPE</span><span class="o">=</span>bug_bounter_agent<span class="w"> </span>cai
+</span><span id="__span-19-3">CAI&gt;<span class="w"> </span>Test<span class="w"> </span>https://target.com<span class="w"> </span><span class="k">for</span><span class="w"> </span>vulnerabilities
+</span><span id="__span-19-4">
+</span><span id="__span-19-5"><span class="c1"># ❌ Плохо: агент reverse engineering для веб-тестирования</span>
+</span><span id="__span-19-6"><span class="nv">CAI_AGENT_TYPE</span><span class="o">=</span>reverse_engineering_agent<span class="w"> </span>cai
+</span><span id="__span-19-7">CAI&gt;<span class="w"> </span>Test<span class="w"> </span>https://target.com<span class="w"> </span><span class="k">for</span><span class="w"> </span>vulnerabilities
+</span></code></pre></div>
+<h3 id="2">2. Переключайтесь между агентами по мере необходимости</h3>
+<p>Не бойтесь менять агента в середине сессии:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1">CAI&gt;/agent<span class="w"> </span>bug_bounter_agent
+</span><span id="__span-20-2">CAI&gt;<span class="w"> </span>Find<span class="w"> </span>vulnerabilities<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>web<span class="w"> </span>app
+</span><span id="__span-20-3"><span class="c1"># ... агент находит SQL-инъекцию ...</span>
+</span><span id="__span-20-4">
+</span><span id="__span-20-5">CAI&gt;/agent<span class="w"> </span>redteam_agent
+</span><span id="__span-20-6">CAI&gt;<span class="w"> </span>Exploit<span class="w"> </span>the<span class="w"> </span>SQL<span class="w"> </span>injection<span class="w"> </span>to<span class="w"> </span>gain<span class="w"> </span>access
+</span><span id="__span-20-7"><span class="c1"># ... успешная эксплуатация ...</span>
+</span><span id="__span-20-8">
+</span><span id="__span-20-9">CAI&gt;/agent<span class="w"> </span>dfir_agent
+</span><span id="__span-20-10">CAI&gt;<span class="w"> </span>Analyze<span class="w"> </span>what<span class="w"> </span>data<span class="w"> </span>was<span class="w"> </span>exposed<span class="w"> </span>during<span class="w"> </span>the<span class="w"> </span><span class="nb">test</span>
+</span></code></pre></div>
+<h3 id="3_2">3. Отслеживайте использование ресурсов</h3>
+<p>Следите за затратами и производительностью:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><span class="c1"># Во время сессии проверьте затраты</span>
+</span><span id="__span-21-2">CAI&gt;/cost
+</span><span id="__span-21-3">
+</span><span id="__span-21-4"><span class="c1"># Установите лимиты перед запуском</span>
+</span><span id="__span-21-5"><span class="nv">CAI_PRICE_LIMIT</span><span class="o">=</span><span class="s2">&quot;5.00&quot;</span><span class="w"> </span><span class="nv">CAI_MAX_TURNS</span><span class="o">=</span><span class="m">50</span><span class="w"> </span>cai
+</span></code></pre></div>
+<h3 id="4">4. Сохраняйте успешные сессии</h3>
+<p>Используйте <code>/load</code>, чтобы повторно применить удачные подходы:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><span class="c1"># В следующей сессии</span>
+</span><span id="__span-22-2">CAI&gt;/load<span class="w"> </span>logs/logname.jsonl
+</span></code></pre></div>
+<hr />
+<h2 id="_23">Следующие шаги</h2>
+<ul>
+<li><strong>Запуск агентов</strong>: см. документацию <a href="../running_agents/">running_agents</a> для деталей запуска</li>
+<li><strong>Понимание результатов</strong>: см. <a href="../results/">results</a> для интерпретации выводов</li>
+<li><strong>Инструменты агента</strong>: см. документацию <a href="../tools/">tools</a> для доступных инструментов</li>
+<li><strong>Handoffs</strong>: см. документацию <a href="../handoffs/">handoffs</a> для координации агентов</li>
+<li><strong>Интеграция MCP</strong>: см. документацию <a href="../mcp/">mcp</a> для подключения внешних инструментов</li>
+<li><strong>Мультиагентные паттерны</strong>: см. документацию <a href="../multi_agent/">multi_agent</a> для паттернов оркестрации
+EOF! note
+   Если вы задаёте <code>output_type</code>, это сообщает модели, что нужно использовать структурированный вывод вместо обычного текстового ответа.</li>
+</ul>
+<h2 id="handoffs_1">Handoffs</h2>
+<p>Handoffs — это суб-агенты, которым основной агент может делегировать задачи. Вы указываете список <code>handoffs</code>, и агент может выбрать делегирование им, если это уместно. Это мощный паттерн, позволяющий оркестрировать модульные, специализированные агенты, каждый из которых отлично справляется со своей задачей. Подробнее см. документацию по <a href="../handoffs/">handoffs</a>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><span class="kn">from</span><span class="w"> </span><span class="nn">cai.sdk.agents</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span>
+</span><span id="__span-23-2">
+</span><span id="__span-23-3"><span class="n">crypto_agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span>
+</span><span id="__span-23-4">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cryptography agent&quot;</span><span class="p">,</span>
+</span><span id="__span-23-5">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Агент, специализирующийся на решении криптографических задач и расшифровке зашифрованных сообщений&quot;</span><span class="p">,</span>
+</span><span id="__span-23-6">    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Анализируйте зашифрованные данные и применяйте криптографические методы для их расшифровки.&quot;</span><span class="p">,</span>
+</span><span id="__span-23-7">    <span class="n">tools</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-23-8">        <span class="n">execute_cli_command</span><span class="p">,</span>
+</span><span id="__span-23-9">    <span class="p">],</span>
+</span><span id="__span-23-10">    <span class="n">handoff_description</span><span class="o">=</span><span class="s2">&quot;Специализированный агент по криптографии и взлому шифров&quot;</span><span class="p">,</span>
+</span><span id="__span-23-11">    <span class="n">model</span><span class="o">=</span><span class="n">OpenAIChatCompletionsModel</span><span class="p">(</span>
+</span><span id="__span-23-12">        <span class="n">model</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;CAI_MODEL&#39;</span><span class="p">,</span> <span class="s2">&quot;qwen2.5:14b&quot;</span><span class="p">),</span>
+</span><span id="__span-23-13">        <span class="n">openai_client</span><span class="o">=</span><span class="n">AsyncOpenAI</span><span class="p">(),</span>
+</span><span id="__span-23-14">    <span class="p">)</span>
+</span><span id="__span-23-15"><span class="p">)</span>
+</span><span id="__span-23-16"><span class="n">network_agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span>
+</span><span id="__span-23-17">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Network Agent&quot;</span><span class="p">,</span>
+</span><span id="__span-23-18">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Агент, специализирующийся на сетевом анализе, инспекции пакетов и оценке сетевой безопасности&quot;</span><span class="p">,</span>
+</span><span id="__span-23-19">    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Анализируйте сетевой трафик, выявляйте подозрительные паттерны и помогайте с задачами CTF, связанными с сетью&quot;</span><span class="p">,</span>
+</span><span id="__span-23-20">    <span class="n">handoff_description</span><span class="o">=</span><span class="s2">&quot;Специализированный агент по сетевой безопасности, анализу трафика и пониманию протоколов&quot;</span><span class="p">,</span>
+</span><span id="__span-23-21">    <span class="n">model</span><span class="o">=</span><span class="n">OpenAIChatCompletionsModel</span><span class="p">(</span>
+</span><span id="__span-23-22">        <span class="n">model</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;CAI_MODEL&#39;</span><span class="p">,</span> <span class="s2">&quot;qwen2.5:72b&quot;</span><span class="p">),</span>
+</span><span id="__span-23-23">        <span class="n">openai_client</span><span class="o">=</span><span class="n">AsyncOpenAI</span><span class="p">(),</span>
+</span><span id="__span-23-24">    <span class="p">)</span>
+</span><span id="__span-23-25"><span class="p">)</span>
+</span><span id="__span-23-26"><span class="n">lead_agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span>
+</span><span id="__span-23-27">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cybersecurity Lead Agent&quot;</span><span class="p">,</span>
+</span><span id="__span-23-28">    <span class="n">instructions</span><span class="o">=</span><span class="p">(</span>
+</span><span id="__span-23-29">        <span class="s2">&quot;Вы ведущий эксперт по кибербезопасности, координирующий операции по безопасности. &quot;</span>
+</span><span id="__span-23-30">        <span class="s2">&quot;Если пользователю нужен сетевой анализ или инспекция трафика, передавайте задачу сети. &quot;</span>
+</span><span id="__span-23-31">        <span class="s2">&quot;Если пользователю нужны криптографические решения или взлом шифров, передавайте задачу криптоагенту.&quot;</span>
+</span><span id="__span-23-32">    <span class="p">),</span>
+</span><span id="__span-23-33">    <span class="n">handoffs</span><span class="o">=</span><span class="p">[</span><span class="n">network_agent</span><span class="p">,</span> <span class="n">crypto_agent</span><span class="p">],</span>
+</span><span id="__span-23-34">    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;qwen2.5:72b&quot;</span>
+</span><span id="__span-23-35"><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="_24">Динамические инструкции</h2>
+<p>В большинстве случаев инструкции задаются при создании агента. Однако вы также можете передавать динамические инструкции через функцию. Функция получает агента и контекст и должна вернуть prompt. Принимаются как обычные, так и <code>async</code> функции.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-24-1"><span class="k">def</span><span class="w"> </span><span class="nf">dynamic_instructions</span><span class="p">(</span>
+</span><span id="__span-24-2">    <span class="n">context</span><span class="p">:</span> <span class="n">RunContextWrapper</span><span class="p">[</span><span class="n">UserContext</span><span class="p">],</span> <span class="n">agent</span><span class="p">:</span> <span class="n">Agent</span><span class="p">[</span><span class="n">UserContext</span><span class="p">]</span>
+</span><span id="__span-24-3"><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-24-4">    <span class="n">security_level</span> <span class="o">=</span> <span class="s2">&quot;high&quot;</span> <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">is_admin</span> <span class="k">else</span> <span class="s2">&quot;standard&quot;</span>
+</span><span id="__span-24-5">    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Вы помогаете </span><span class="si">{</span><span class="n">context</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> с операциями по кибербезопасности. Уровень допуска: </span><span class="si">{</span><span class="n">security_level</span><span class="si">}</span><span class="s2">. Постройте рекомендации в соответствии с уровнем и сосредоточьтесь на текущих проблемах безопасности.&quot;</span>
+</span><span id="__span-24-6">
+</span><span id="__span-24-7"><span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">[</span><span class="n">UserContext</span><span class="p">](</span>
+</span><span id="__span-24-8">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cybersecurity Triage Agent&quot;</span><span class="p">,</span>
+</span><span id="__span-24-9">    <span class="n">instructions</span><span class="o">=</span><span class="n">dynamic_instructions</span><span class="p">,</span>
+</span><span id="__span-24-10"><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="_25">Запуск</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1">cai
+</span></code></pre></div>
+<h3 id="_26">Оптимизация производительности</h3>
+<p><strong>1. Используйте стриминг для более быстрой реакции:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><span class="nv">CAI_STREAM</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span>cai
+</span></code></pre></div>
+<strong>2. Включите трассировку для отладки:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><span class="nv">CAI_TRACING</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span>cai
+</span></code></pre></div></p>
+<hr />
+<h2 id="_27">Лучшие практики работы с агентами</h2>
+<h3 id="1_1">1. Начинайте с правильного агента</h3>
+<p>Не используйте специализированного агента для общих задач. Соответствуйте агент задаче:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><span class="c1"># ✅ Хорошо: агент bug bounty для веб-тестирования</span>
+</span><span id="__span-28-2"><span class="nv">CAI_AGENT_TYPE</span><span class="o">=</span>bug_bounter_agent<span class="w"> </span>cai
+</span><span id="__span-28-3">CAI&gt;<span class="w"> </span>Test<span class="w"> </span>https://target.com<span class="w"> </span><span class="k">for</span><span class="w"> </span>vulnerabilities
+</span><span id="__span-28-4">
+</span><span id="__span-28-5"><span class="c1"># ❌ Плохо: агент reverse engineering для веб-тестирования</span>
+</span><span id="__span-28-6"><span class="nv">CAI_AGENT_TYPE</span><span class="o">=</span>reverse_engineering_agent<span class="w"> </span>cai
+</span><span id="__span-28-7">CAI&gt;<span class="w"> </span>Test<span class="w"> </span>https://target.com<span class="w"> </span><span class="k">for</span><span class="w"> </span>vulnerabilities
+</span></code></pre></div>
+<h3 id="2_1">2. Переключайтесь между агентами по мере необходимости</h3>
+<p>Не бойтесь менять агента в середине сессии:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1">CAI&gt;/agent<span class="w"> </span>bug_bounter_agent
+</span><span id="__span-29-2">CAI&gt;<span class="w"> </span>Find<span class="w"> </span>vulnerabilities<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>web<span class="w"> </span>app
+</span><span id="__span-29-3"><span class="c1"># ... агент находит SQL-инъекцию ...</span>
+</span><span id="__span-29-4">
+</span><span id="__span-29-5">CAI&gt;/agent<span class="w"> </span>redteam_agent
+</span><span id="__span-29-6">CAI&gt;<span class="w"> </span>Exploit<span class="w"> </span>the<span class="w"> </span>SQL<span class="w"> </span>injection<span class="w"> </span>to<span class="w"> </span>gain<span class="w"> </span>access
+</span><span id="__span-29-7"><span class="c1"># ... успешная эксплуатация ...</span>
+</span><span id="__span-29-8">
+</span><span id="__span-29-9">CAI&gt;/agent<span class="w"> </span>dfir_agent
+</span><span id="__span-29-10">CAI&gt;<span class="w"> </span>Analyze<span class="w"> </span>what<span class="w"> </span>data<span class="w"> </span>was<span class="w"> </span>exposed<span class="w"> </span>during<span class="w"> </span>the<span class="w"> </span><span class="nb">test</span>
+</span></code></pre></div>
+<h3 id="3_3">3. Отслеживайте использование ресурсов</h3>
+<p>Следите за затратами и производительностью:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><span class="c1"># Во время сессии проверьте затраты</span>
+</span><span id="__span-30-2">CAI&gt;/cost
+</span><span id="__span-30-3">
+</span><span id="__span-30-4"><span class="c1"># Установите лимиты перед запуском</span>
+</span><span id="__span-30-5"><span class="nv">CAI_PRICE_LIMIT</span><span class="o">=</span><span class="s2">&quot;5.00&quot;</span><span class="w"> </span><span class="nv">CAI_MAX_TURNS</span><span class="o">=</span><span class="m">50</span><span class="w"> </span>cai
+</span></code></pre></div>
+<h3 id="4_1">4. Сохраняйте успешные сессии</h3>
+<p>Используйте <code>/load</code>, чтобы повторно применить удачные подходы:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><span class="c1"># В следующей сессии</span>
+</span><span id="__span-31-2">CAI&gt;/load<span class="w"> </span>logs/logname.jsonl
+</span></code></pre></div>
+<hr />
+<h2 id="_28">Следующие шаги</h2>
+<ul>
+<li><strong>Запуск агентов</strong>: см. документацию <a href="../running_agents/">running_agents</a> для деталей запуска</li>
+<li><strong>Понимание результатов</strong>: см. <a href="../results/">results</a> для интерпретации выводов</li>
+<li><strong>Инструменты агента</strong>: см. документацию <a href="../tools/">tools</a> для доступных инструментов</li>
+<li><strong>Handoffs</strong>: см. документацию <a href="../handoffs/">handoffs</a> для координации агентов</li>
+<li><strong>Интеграция MCP</strong>: см. документацию <a href="../mcp/">mcp</a> для подключения внешних инструментов</li>
+<li><strong>Мультиагентные паттерны</strong>: см. документацию <a href="../multi_agent/">multi_agent</a> для паттернов оркестрации</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.select", "navigation.path", "navigation.sections", "navigation.expand", "content.code.annotate"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>
