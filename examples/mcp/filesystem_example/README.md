@@ -1,26 +1,26 @@
-# MCP Filesystem Example
+# Пример MCP Filesystem
 
-This example uses the [filesystem MCP server](https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem), running locally via `npx`.
+Этот пример использует [MCP сервер файловой системы](https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem), запущенный локально через `npx`.
 
-Run it via:
+Запуск:
 
 ```
 uv run python examples/mcp/filesystem_example/main.py
 ```
 
-## Details
+## Детали
 
-The example uses the `MCPServerStdio` class from `agents.mcp`, with the command:
+Пример использует класс `MCPServerStdio` из `agents.mcp` с командой:
 
 ```bash
 npx -y "@modelcontextprotocol/server-filesystem" <samples_directory>
 ```
 
-It's only given access to the `sample_files` directory adjacent to the example, which contains some sample data.
+Ему предоставляется доступ только к директории `sample_files`, находящейся рядом с примером, которая содержит некоторые примеры данных.
 
-Under the hood:
+Внутри:
 
-1. The server is spun up in a subprocess, and exposes a bunch of tools like `list_directory()`, `read_file()`, etc.
-2. We add the server instance to the Agent via `mcp_servers=[...]`.
-3. Each time the agent runs, we call out to the MCP server to fetch the list of tools via `server.list_tools()`. The result can be cached when configured.
-4. If the LLM chooses to use an MCP tool, the runtime calls the server via `server.call_tool()`.
+1. Сервер запускается в дочернем процессе и предоставляет набор инструментов, таких как `list_directory()`, `read_file()` и т.д.
+2. Мы добавляем экземпляр сервера в Агент через `mcp_servers=[...]`.
+3. Каждый раз при запуске агента мы обращаемся к MCP серверу для получения списка инструментов через `server.list_tools()`. Результат можно кэшировать при настройке.
+4. Если LLM выбирает использование MCP инструмента, среда выполнения вызывает сервер через `server.call_tool()`.

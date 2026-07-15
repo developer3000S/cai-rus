@@ -1,4 +1,4 @@
-"""REPL input shortcuts — bare ``?`` (CLI headless)."""
+"""Ярлыки ввода REPL — голый ``?`` (CLI без интерфейса)."""
 
 from cai.repl.commands.base import Command, console, register_command
 from cai.repl.ui.repl_input_shortcuts import print_repl_input_shortcuts
@@ -10,12 +10,12 @@ class ShortcutsCommand(Command):
     def __init__(self) -> None:
         super().__init__(
             name="?",
-            description="Show REPL input shortcuts (CLI headless)",
+            description="Показать ярлыки ввода REPL (CLI без интерфейса)",
         )
 
     def handle(self, args=None):
         if args:
-            console.print("[yellow]Usage: ?[/yellow] — no arguments.")
+            console.print("[yellow]Использование: ?[/yellow] — без аргументов.")
             return False
         return self.handle_no_args()
 

@@ -1,5 +1,5 @@
 """
-Here are the curl tools.
+Инструменты curl.
 """
 
 from cai.tools.common import run_command  # pylint: disable=import-error
@@ -9,14 +9,14 @@ from cai.sdk.agents import function_tool
 @function_tool
 def curl(args: str = "", target: str = "", ctf=None) -> str:
     """
-    A simple curl tool to make HTTP requests to a specified target.
+    Простой инструмент curl для выполнения HTTP-запросов к указанной цели.
 
     Args:
-        args: Additional arguments to pass to the curl command
-        target: The target URL to request
+        args: Дополнительные аргументы для команды curl
+        target: Целевой URL для запроса
 
     Returns:
-        str: The output of running the curl command
+        str: Вывод выполнения команды curl
     """
     command = f"curl {args} {target}"
     return run_command(command, ctf=ctf)

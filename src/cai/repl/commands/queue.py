@@ -1,5 +1,5 @@
 """
-Queue command for managing prompt queue
+Команда queue для управления очередью запросов
 """
 
 from typing import List, Optional
@@ -37,17 +37,17 @@ class QueueCommand(Command):
         super().__init__(
             name="/queue",
             aliases=["/que"],
-            description="Manage prompt queue - show, add, remove, or clear prompts",
+            description="Управление очередью запросов - просмотр, добавление, удаление или очистка",
         )
-        self.add_subcommand("show", "Show the current queue", self._show_queue)
-        self.add_subcommand("list", "Show the current queue", self._show_queue)
-        self.add_subcommand("add", "Add a prompt to the queue", self._handle_add)
-        self.add_subcommand("run", "Execute all queued prompts", self._handle_run)
-        self.add_subcommand("remove", "Remove a prompt by index", self._handle_remove_cmd)
-        self.add_subcommand("clear", "Clear all queued prompts", self._handle_clear_cmd)
-        self.add_subcommand("next", "Show the next prompt in queue", self._handle_next_cmd)
-        self.add_subcommand("move", "Move a prompt to a new position", self._handle_move_cmd)
-        self.add_subcommand("load", "Load prompts from a file", self._handle_load_cmd)
+        self.add_subcommand("show", "Показать текущую очередь", self._show_queue)
+        self.add_subcommand("list", "Показать текущую очередь", self._show_queue)
+        self.add_subcommand("add", "Добавить запрос в очередь", self._handle_add)
+        self.add_subcommand("run", "Выполнить все запросы из очереди", self._handle_run)
+        self.add_subcommand("remove", "Удалить запрос по индексу", self._handle_remove_cmd)
+        self.add_subcommand("clear", "Очистить все запросы из очереди", self._handle_clear_cmd)
+        self.add_subcommand("next", "Показать следующий запрос в очереди", self._handle_next_cmd)
+        self.add_subcommand("move", "Переместить запрос на новую позицию", self._handle_move_cmd)
+        self.add_subcommand("load", "Загрузить запросы из файла", self._handle_load_cmd)
 
     def handle(self, args: Optional[list[str]] = None) -> bool:
         """Dispatch subcommands, with TUI terminal-queue interception."""
@@ -62,7 +62,7 @@ class QueueCommand(Command):
     def handle_unknown_subcommand(self, subcommand: str) -> bool:
         """Show help when an unknown subcommand is used."""
         console.print(
-            f"[red]Unknown /queue subcommand: {subcommand}[/red]"
+            f"[red]Неизвестная подкоманда /queue: {subcommand}[/red]"
         )
         self._show_help()
         return False
@@ -70,13 +70,13 @@ class QueueCommand(Command):
     def _handle_remove_cmd(self, args: Optional[list[str]] = None) -> bool:
         """Wrapper for remove that parses the index argument."""
         if not args:
-            console.print("[red]Error: Index required. Usage: /queue remove <index>[/red]")
+            console.print("[red]Ошибка: Требуется индекс. Использование: /queue remove <index>[/red]")
             return False
         try:
             index = int(args[0]) - 1
             return self._remove_from_queue(index)
         except ValueError:
-            console.print(f"[red]Error: Invalid index '{args[0]}'[/red]")
+            console.print(f"[red]Ошибка: Неверный индекс '{args[0]}'[/red]")
             return False
 
     def _handle_clear_cmd(self, args: Optional[list[str]] = None) -> bool:
@@ -95,8 +95,8 @@ class QueueCommand(Command):
                 load_queue_from_file(os.path.expanduser(queue_file))
                 return True
             console.print(
-                "[red]Error: File path required. "
-                "Usage: /queue load <file_path>[/red]"
+                "[red]Ошибка: Требуется путь к файлу. "
+                "Использование: /queue load <file_path>[/red]"
             )
             return False
         file_path = " ".join(args)
@@ -107,8 +107,8 @@ class QueueCommand(Command):
         """Wrapper for move that parses two index arguments (1-based)."""
         if not args or len(args) < 2:
             console.print(
-                "[red]Error: Two indices required. "
-                "Usage: /queue move <from> <to>[/red]"
+                "[red]Ошибка: Требуются два индекса. "
+                "Использование: /queue move <from> <to>[/red]"
             )
             return False
         try:
@@ -116,8 +116,8 @@ class QueueCommand(Command):
             to_idx = int(args[1]) - 1
         except ValueError:
             console.print(
-                f"[red]Error: Invalid indices '{args[0]}', '{args[1]}'. "
-                "Both must be numbers.[/red]"
+                f"[red]Ошибка: Неверные индексы '{args[0]}', '{args[1]}'. "
+                "Оба должны быть числами.[/red]"
             )
             return False
         return self._move_in_queue(from_idx, to_idx)
@@ -127,7 +127,7 @@ class QueueCommand(Command):
         queue_size = len(FALLBACK_QUEUE)
 
         if queue_size == 0:
-            console.print("[yellow]Queue is empty, nothing to move.[/yellow]")
+            console.print("[yellow]Очередь пуста, перемещать нечего.[/yellow]")
             return False
 
         if (
@@ -137,15 +137,15 @@ class QueueCommand(Command):
             or to_idx >= queue_size
         ):
             error_panel = Panel(
-                "[bold red]Error: Index out of range[/bold red]\n\n"
-                f"[dim]Valid range: 1 to {queue_size}[/dim]",
+                "[bold red]Ошибка: Индекс вне диапазона[/bold red]\n\n"
+                f"[dim]Допустимый диапазон: 1 до {queue_size}[/dim]",
                 border_style="red",
             )
             console.print(error_panel)
             return False
 
         if from_idx == to_idx:
-            console.print("[yellow]Source and destination are the same, no change.[/yellow]")
+            console.print("[yellow]Источник и назначение совпадают, изменений нет.[/yellow]")
             return True
 
         item = FALLBACK_QUEUE.pop(from_idx)
@@ -156,7 +156,7 @@ class QueueCommand(Command):
             f"[bold #00ff9d]Item moved successfully[/bold #00ff9d]\n\n"
             f"[white]#{from_idx + 1} -> #{to_idx + 1}[/white]\n"
             f"[dim]{prompt_short}[/dim]",
-            title=_quick_guide_subpanel_title("Queue Reordered"),
+            title=_quick_guide_subpanel_title("Очередь переупорядочена"),
             title_align="left",
             border_style=_CAI_GREEN,
             padding=(1, 2),
@@ -174,8 +174,8 @@ class QueueCommand(Command):
         """
         if not args:
             error_panel = Panel(
-                "[bold red]Error: No prompt provided[/bold red]\n\n"
-                "[dim]Usage: /queue add <prompt>[/dim]\n"
+                "[bold red]Ошибка: Запрос не предоставлен[/bold red]\n\n"
+                "[dim]Использование: /queue add <prompt>[/dim]\n"
                 "[dim]       /queue add --agent <agent_name> <prompt>[/dim]",
                 border_style="red"
             )
@@ -197,7 +197,7 @@ class QueueCommand(Command):
                 remaining = args[2:]
             else:
                 console.print(
-                    f"[red]Unknown agent '[bold]{candidate}[/bold]'. "
+                    f"[red]Неизвестный агент '[bold]{candidate}[/bold]'. "
                     "Available agents:[/red]"
                 )
                 for key in sorted(available):

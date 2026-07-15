@@ -1,25 +1,25 @@
-# Research bot
+# Исследовательский бот (Research bot)
 
-This is a simple example of a multi-agent research bot. To run it:
+Это простой пример многоагентного исследовательского бота. Чтобы запустить его:
 
 ```bash
 python -m examples.research_bot.main
 ```
 
-## Architecture
+## Архитектура
 
-The flow is:
+Поток работы следующий:
 
-1. User enters their research topic
-2. `planner_agent` comes up with a plan to search the web for information. The plan is a list of search queries, with a search term and a reason for each query.
-3. For each search item, we run a `search_agent`, which uses the Web Search tool to search for that term and summarize the results. These all run in parallel.
-4. Finally, the `writer_agent` receives the search summaries, and creates a written report.
+1. Пользователь вводит тему исследования.
+2. `planner_agent` составляет план поиска информации в сети. План представляет собой список поисковых запросов, где для каждого запроса указан поисковый термин и причина.
+3. Для каждого пункта поиска запускается `search_agent`, который использует инструмент веб-поиска для поиска по данному термину и обобщения результатов. Все такие агенты работают параллельно.
+4. Наконец, `writer_agent` получает обобщенные результаты поиска и создает письменный отчет.
 
-## Suggested improvements
+## Рекомендуемые улучшения
 
-If you're building your own research bot, some ideas to add to this are:
+Если вы создаете собственного исследовательского бота, вот несколько идей, что можно добавить:
 
-1. Retrieval: Add support for fetching relevant information from a vector store. You could use the File Search tool for this.
-2. Image and file upload: Allow users to attach PDFs or other files, as baseline context for the research.
-3. More planning and thinking: Models often produce better results given more time to think. Improve the planning process to come up with a better plan, and add an evaluation step so that the model can choose to improve its results, search for more stuff, etc.
-4. Code execution: Allow running code, which is useful for data analysis.
+1. Извлечение данных (Retrieval): Добавьте поддержку получения релевантной информации из векторного хранилища. Для этого можно использовать инструмент поиска по файлам (File Search).
+2. Загрузка изображений и файлов: Позвольте пользователям прикреплять PDF или другие файлы в качестве базового контекста для исследования.
+3. Больше планирования и размышлений: Модели часто выдают лучшие результаты, если у них есть больше времени на «раздумья». Улучшите процесс планирования, чтобы составить более качественный план, и добавьте этап оценки, чтобы модель могла самостоятельно решить улучшить результаты, поискать что-то еще и т. д.
+4. Выполнение кода: Добавьте возможность запуска кода, что будет полезно для анализа данных.

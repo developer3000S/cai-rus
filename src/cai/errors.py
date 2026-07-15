@@ -1,43 +1,43 @@
-"""CAI Error Hierarchy.
+"""Иерархия ошибок CAI.
 
-Typed errors replacing bare except: blocks and string-based error returns.
-Inspired by Codex's CodexErr enum with 150+ variants.
+Типизированные ошибки, заменяющие голые блоки except: и строковые возвраты ошибок.
+Вдохновлено перечислением CodexErr из Codex с 150+ вариантами.
 
-Created in Day 0 as shared contract between 3 refactoring streams.
-- Stream 1 (Core Engine): populates LLM and Tool errors
-- Stream 2 (Foundation): populates Config errors
-- Stream 3 (Interface): consumes all error types for display
+Создано в Day 0 как общий контракт между 3 потоками рефакторинга.
+- Поток 1 (Core Engine): заполняет ошибки LLM и инструментов
+- Поток 2 (Foundation): заполняет ошибки конфигурации
+- Поток 3 (Interface): потребляет все типы ошибок для отображения
 """
 
 
 class CAIError(Exception):
-    """Base for all CAI errors."""
+    """Базовый класс для всех ошибок CAI."""
 
     def __init__(self, message: str = "", details: dict | None = None):
         super().__init__(message)
         self.details = details or {}
 
 
-# --- LLM Errors (Stream 1 owns) ---
+# --- Ошибки LLM (Поток 1) ---
 
 
 class LLMError(CAIError):
-    """Errors communicating with LLM providers."""
+    """Ошибки при общении с провайдерами LLM."""
     pass
 
 
 class LLMTimeout(LLMError):
-    """LLM call exceeded timeout."""
+    """Вызов LLM превысил время ожидания."""
     pass
 
 
 class LLMAuthError(LLMError):
-    """Authentication/authorization failure."""
+    """Ошибка аутентификации/авторизации."""
     pass
 
 
 class LLMRateLimited(LLMError):
-    """Rate limit hit, includes retry-after if available."""
+    """Достигнут лимит частоты запросов, включает время повтора, если доступно."""
 
     def __init__(self, message: str = "", retry_after: float | None = None):
         super().__init__(message)
@@ -45,31 +45,31 @@ class LLMRateLimited(LLMError):
 
 
 class LLMContextOverflow(LLMError):
-    """Context window exceeded."""
+    """Окно контекста превышено."""
     pass
 
 
 class LLMProviderUnavailable(LLMError):
-    """Provider endpoint unreachable."""
+    """Конечная точка провайдера недоступна."""
     pass
 
 
 class LLMEmptyAssistantError(LLMProviderUnavailable):
-    """Gateway returned consecutive empty assistant completions (no text, no tools)."""
+    """Шлюз вернул последовательные пустые ответы ассистента (без текста, без инструментов)."""
 
     pass
 
 
-# --- Tool Errors (Stream 1 owns) ---
+# --- Ошибки инструментов (Поток 1) ---
 
 
 class ToolError(CAIError):
-    """Errors during tool execution."""
+    """Ошибки во время выполнения инструмента."""
     pass
 
 
 class ToolTimeout(ToolError):
-    """Tool execution exceeded timeout."""
+    """Выполнение инструмента превысило время ожидания."""
 
     def __init__(self, message: str = "", timeout_seconds: int = 0):
         super().__init__(message)
@@ -77,44 +77,44 @@ class ToolTimeout(ToolError):
 
 
 class ToolNotFound(ToolError):
-    """Requested tool not in registry."""
+    """Запрошенный инструмент не найден в реестре."""
     pass
 
 
 class ToolExecutionFailed(ToolError):
-    """Tool process exited with error."""
+    """Процесс инструмента завершился с ошибкой."""
 
     def __init__(self, message: str = "", exit_code: int = -1):
         super().__init__(message)
         self.exit_code = exit_code
 
 
-# --- Config Errors (Stream 2 owns) ---
+# --- Ошибки конфигурации (Поток 2) ---
 
 
 class ConfigError(CAIError):
-    """Configuration loading/validation errors."""
+    """Ошибки загрузки/валидации конфигурации."""
     pass
 
 
 class ConfigValidationError(ConfigError):
-    """Config values out of expected range."""
+    """Значения конфигурации выходят за ожидаемый диапазон."""
     pass
 
 
 class ConfigMissingError(ConfigError):
-    """Required configuration not provided."""
+    """Не предоставлена обязательная конфигурация."""
     pass
 
 
-# --- Session Errors (Stream 3 owns) ---
+# --- Ошибки сессии (Поток 3) ---
 
 
 class SessionError(CAIError):
-    """Session persistence errors."""
+    """Ошибки сохранения сессии."""
     pass
 
 
 class SessionCorrupted(SessionError):
-    """Session file unreadable or corrupted."""
+    """Файл сессии нечитаем или поврежден."""
     pass

@@ -1,305 +1,305 @@
-# CAI TUI Keyboard Shortcuts
+# Горячие клавиши CAI TUI
 
-> **⚡ CAI-Pro Exclusive Feature**  
-> The Terminal User Interface (TUI) is available exclusively in **CAI-Pro**. To access this feature and unlock advanced multi-agent workflows, visit [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) for more information.
-
----
-
-Master the CAI TUI with these keyboard shortcuts for maximum productivity. All shortcuts work across different terminal operating systems.
-
-
-## Navigation Shortcuts
-
-### Sidebar
-
-| Shortcut | Action | Details |
-|----------|--------|---------|
-| `Ctrl+S` | Toggle sidebar | Opens/closes the sidebar panel |
-
-**Usage**:
-- Quick access to Teams, Queue, Stats, and Keys
-- Sidebar state persists during session
-- Width: 32 characters when open
-
-**Alternative**: Click the `☰` button in the top-left corner
+> **⚡ Эксклюзивная функция CAI-Pro**  
+> Терминальный пользовательский интерфейс (TUI) доступен исключительно в **CAI-Pro**. Для получения доступа к этой функции и расблокировки продвинутых рабочих процессов с несколькими агентами посетите [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) для получения дополнительной информации.
 
 ---
 
-### Terminal Navigation
+Освойте CAI TUI с помощью этих горячих клавиш для максимальной продуктивности. Все сочетания клавиш работают в различных операционных системах терминалов.
 
-| Shortcut | Action | Details |
+
+## Навигационные сочетания клавиш
+
+### Боковая панель
+
+| Сочетание клавиш | Действие | Подробности |
 |----------|--------|---------|
-| `Ctrl+N` | Next terminal | Cycles forward through terminals (1→2→3→4→1) |
-| `Ctrl+B` | Previous terminal | Cycles backward through terminals (1→4→3→2→1) |
+| `Ctrl+S` | Переключить боковую панель | Открывает/закрывает панель боковой панели |
 
-**Usage**:
-- Focus moves to the next/previous terminal
-- Visual indicator shows active terminal
-- Works even when sidebar is open
+**Использование**:
+- Быстрый доступ к Командам, Очереди, Статистике и Ключам
+- Состояние боковой панели сохраняется в течение сессии
+- Ширина: 32 символа при открытии
 
-**Alternative**: Click directly on any terminal to focus it
+**Альтернатива**: Нажмите кнопку `☰` в левом верхнем углу
 
 ---
 
-## Terminal Management
+### Навигация по терминалам
 
-### Opening Terminals
-
-| Shortcut | Action | Details |
+| Сочетание клавиш | Действие | Подробности |
 |----------|--------|---------|
-| Click `Add +` button | Add terminal | Creates new terminal with default settings |
+| `Ctrl+N` | Следующий терминал | Циклически переключает вперед по терминалам (1→2→3→4→1) |
+| `Ctrl+B` | Предыдущий терминал | Циклически переключает назад по терминалам (1→4→3→2→1) |
 
+**Использование**:
+- Фокус перемещается на следующий/предыдущий терминал
+- Визуальный индикатор показывает активный терминал
+- Работает даже когда боковая панель открыта
 
-**Default Settings**:
-- Agent: `redteam_agent`
-- Model: `alias1`
-- Container: `local`
+**Альтернатива**: Нажмите напрямую на любой терминал для фокусировки
 
 ---
 
-### Closing Terminals
+## Управление терминалами
 
-| Shortcut | Action | Details |
+### Открытие терминалов
+
+| Сочетание клавиш | Действие | Подробности |
 |----------|--------|---------|
-| `Ctrl+E` | Close current terminal | Closes the focused terminal |
+| Нажмите кнопку `Add +` | Добавить терминал | Создает новый терминал с настройками по умолчанию |
 
-**Alternative**: Click directly on specific close terminal button.
 
-**Notes**:
-- Terminal 1 cannot be closed (main terminal)
-- Closing removes conversation history (save with `/save` first)
-- Remaining terminals re-layout automatically
+**Настройки по умолчанию**:
+- Агент: `redteam_agent`
+- Модель: `alias1`
+- Контейнер: `local`
 
 ---
 
-### Clearing Terminals
+### Закрытие терминалов
 
-| Shortcut | Action | Details |
+| Сочетание клавиш | Действие | Подробности |
 |----------|--------|---------|
-| `Ctrl+L` | Clear all terminals | Removes output from all terminal screens |
-| `/clear` | Clear current terminal | Command to clear focused terminal only |
+| `Ctrl+E` | Закрыть текущий терминал | Закрывает активный терминал |
 
-**Notes**:
-- Only clears visual output, not conversation history
-- Use `/flush` to clear conversation history
+**Альтернатива**: Нажмите напрямую на кнопку закрытия конкретного терминала.
 
-## Execution Control
-
-### Canceling Agents
-
-| Shortcut | Action | Details |
-|----------|--------|---------|
-| `Ctrl+C` | Cancel current agent | Stops the agent in the focused terminal |
-| `ESC` | Cancel all agents | Stops all running agents across all terminals |
-
-**When to Use**:
-- Agent is taking too long
-- Wrong prompt was sent
-- Need to interrupt for corrections
-- Agent is stuck in a loop
-
-**Effect**:
-- Agent stops immediately
-- Partial output remains visible
-- Can send new prompt right away
+**Примечания**:
+- Терминал 1 не может быть закрыт (основной терминал)
+- Закрытие удаляет историю беседы (сначала сохраните с помощью `/save`)
+- Оставшиеся терминалы автоматически перекомпоновываются
 
 ---
 
-## Utility Shortcuts
+### Очистка терминалов
 
-### Command Palette
-
-| Shortcut | Action | Details |
+| Сочетание клавиш | Действие | Подробности |
 |----------|--------|---------|
-| `Ctrl+P` | Open command palette | Textual's command palette for searching actions |
+| `Ctrl+L` | Очистить все терминалы | Удаляет вывод со всех экранов терминалов |
+| `/clear` | Очистить текущий терминал | Команда для очистки только активного терминала |
 
-**Features**:
-- Search available commands
-- Quick access to any action
-- Fuzzy search support
+**Примечания**:
+- Очищает только визуальный вывод, не историю беседы
+- Используйте `/flush` для очистки истории беседы
+
+## Управление выполнением
+
+### Отмена агентов
+
+| Сочетание клавиш | Действие | Подробности |
+|----------|--------|---------|
+| `Ctrl+C` | Отменить текущего агента | Останавливает агента в активном терминале |
+| `ESC` | Отменить всех агентов | Останавливает всех запущенных агентов на всех терминалах |
+
+**Когда использовать**:
+- Агент работает слишком долго
+- Отправлен неправильный промпт
+- Необходимо прерваться для исправлений
+- Агент застрял в цикле
+
+**Эффект**:
+- Агент немедленно останавливается
+- Частичный вывод остается видимым
+- Можно сразу отправить новый промпт
 
 ---
 
-### Clearing Input
+## Утилитарные сочетания клавиш
 
-| Shortcut | Action | Details |
+### Палитра команд
+
+| Сочетание клавиш | Действие | Подробности |
 |----------|--------|---------|
-| `Ctrl+U` | Clear input | Removes all text from the input field |
+| `Ctrl+P` | Открыть палитру команд | Палитра команд Textual для поиска действий |
 
-**Usage**:
-- Quick way to start fresh
-- Clear accidental text
-- Standard Unix/Linux behavior
+**Функции**:
+- Поиск доступных команд
+- Быстрый доступ к любому действию
+- Поддержка нечеткого поиска
 
 ---
 
-### Exit Application
+### Очистка ввода
 
-| Shortcut | Action | Details |
+| Сочетание клавиш | Действие | Подробности |
 |----------|--------|---------|
-| `Ctrl+Q` | Exit CAI TUI | Closes the application completely |
+| `Ctrl+U` | Очистить ввод | Удаляет весь текст из поля ввода |
 
-**Alternative**: Click the `×` button in top-right corner
-
-**On Exit**:
-- Session summary displayed (costs, tokens, duration)
-- Unsaved conversations are lost (use `/save` first)
-- API keys and configuration persist
-
-## Input Editing
-
-### Command Autocompletion
-
-| Shortcut | Action | Details |
-|----------|--------|---------|
-| `Tab` | Autocomplete | Completes the current command or shows suggestions |
-
-**Examples**:
-- Type `/ag` + `Tab` → `/agent`
-- Type `/mod` + `Tab` → `/model`
-
-**Behavior**:
-- Single match: Completes automatically
-- Multiple matches: Shows list of suggestions
-- No match: No action
+**Использование**:
+- Быстрый способ начать заново
+- Очистить случайный текст
+- Стандартное поведение Unix/Linux
 
 ---
 
-### Command History
+### Выход из приложения
 
-| Shortcut | Action | Details |
+| Сочетание клавиш | Действие | Подродности |
 |----------|--------|---------|
-| `↑` (Up Arrow) | Previous command | Navigate backward through command history |
-| `↓` (Down Arrow) | Next command | Navigate forward through command history |
+| `Ctrl+Q` | Выйти из CAI TUI | Полностью закрывает приложение |
 
-**Features**:
-- History persists across sessions
-- Stored in `~/.cai/history`
-- Includes both commands and prompts
-- Maximum history size: 1000 entries
+**Альтернатива**: Нажмите кнопку `×` в правом верхнем углу
 
-**Usage Flow**:
-1. Press `↑` to recall previous command
-2. Continue pressing `↑` to go further back
-3. Press `↓` to move forward in history
-4. Edit recalled command if needed
-5. Press `Enter` to execute
+**При выходе**:
+- Отображается резюме сессии (стоимость, токены, длительность)
+- Несохраненные беседы теряются (сначала используйте `/save`)
+- API ключи и конфигурация сохраняются
+
+## Редактирование ввода
+
+### Автозавершение команд
+
+| Сочетание клавиш | Действие | Подробности |
+|----------|--------|---------|
+| `Tab` | Автозавершение | Завершает текущую команду или показывает предложения |
+
+**Примеры**:
+- Введите `/ag` + `Tab` → `/agent`
+- Введите `/mod` + `Tab` → `/model`
+
+**Поведение**:
+- Одно совпадение: Автоматически завершает
+- Несколько совпадений: Показывает список предложений
+- Нет совпадений: Нет действия
 
 ---
 
-### Send Prompt
+### История команд
 
-| Shortcut | Action | Details |
+| Сочетание клавиш | Действие | Подробности |
 |----------|--------|---------|
-| `Enter` | Send prompt/command | Executes the current input |
+| `↑` (Стрелка вверх) | Предыдущая команда | Навигация назад по истории команд |
+| `↓` (Стрелка вниз) | Следующая команда | Навигация вперед по истории команд |
 
-**Behavior**:
-- Commands (starting with `/`): Execute immediately
-- Prompts: Send to current agent
-- If agent is busy: Automatically queued
+**Функции**:
+- История сохраняется между сессиями
+- Хранится в `~/.cai/history`
+- Включает как команды, так и промпты
+- Максимальный размер истории: 1000 записей
 
-## Terminal Content Copying
-
-### Copy Visible Content
-
-| Shortcut | Action | Details |
-|----------|--------|---------|
-| `Ctrl+Shift+X` | Copy visible | Copies currently visible terminal content to clipboard |
-
-**Use Cases**:
-- Share specific output with team
-- Save important findings
-- Document tool results
+**Порядок использования**:
+1. Нажмите `↑` для вызова предыдущей команды
+2. Продолжайте нажимать `↑` для перехода дальше назад
+3. Нажмите `↓` для перехода вперед по истории
+4. Отредактируйте вызванную команду при необходимости
+5. Нажмите `Enter` для выполнения
 
 ---
 
-## Platform-Specific Notes
+### Отправка промпта
+
+| Сочетание клавиш | Действие | Подробности |
+|----------|--------|---------|
+| `Enter` | Отправить промпт/команду | Выполняет текущий ввод |
+
+**Поведение**:
+- Команды (начинающиеся с `/`): Выполняются немедленно
+- Промпты: Отправляются текущему агенту
+- Если агент занят: Автоматически ставится в очередь
+
+## Копирование содержимого терминала
+
+### Копирование видимого содержимого
+
+| Сочетание клавиш | Действие | Подробности |
+|----------|--------|---------|
+| `Ctrl+Shift+X` | Копировать видимое | Копирует текущее видимое содержимое терминала в буфер обмена |
+
+**Случаи использования**:
+- Поделиться конкретным выводом с командой
+- Сохранить важные находки
+- Задокументировать результаты инструментов
+
+---
+
+## Примечания для конкретных платформ
 
 ### macOS
 
-All shortcuts work as documented. Some terminals (e.g., Terminal.app) may require:
-- Enabling "Use Option as Meta key" in preferences
-- Allowing keyboard shortcuts in Security & Privacy settings
+Все сочетания клавиш работают как описано. Некоторые терминалы (например, Terminal.app) могут требовать:
+- Включения "Use Option as Meta key" в настройках
+- Разрешения горячих клавиш в настройках Безопасности и конфиденциальности
 
 ### Linux
 
-All shortcuts work as documented. If using tmux/screen:
-- `Ctrl+B` conflicts with tmux prefix → Consider remapping tmux
-- `Ctrl+S` may freeze terminal → Disable XON/XOFF with `stty -ixon`
+Все сочетания клавиш работают как описано. При использовании tmux/screen:
+- `Ctrl+B` конфликтует с префиксом tmux → Рассмотрите переназначение tmux
+- `Ctrl+S` может заморозить терминал → Отключите XON/XOFF с помощью `stty -ixon`
 
 ### Windows
 
-All shortcuts work in Windows Terminal and modern terminals. In older terminals:
-- Some `Ctrl+Shift+` combinations may not work
+Все сочетания клавиш работают в Windows Terminal и современных терминалах. В старых терминалах:
+- Некоторые комбинации `Ctrl+Shift+` могут не работать
 
 
-## Custom Shortcuts
+## Пользовательские сочетания клавиш
 
-CAI TUI currently does not support custom keyboard shortcuts. This feature may be added in future versions.
+CAI TUI в настоящее время не поддерживает пользовательские сочетания клавиш. Эта функция может быть добавлена в будущих версиях.
 
-**Workaround**: Use command aliases or shell scripts for custom workflows.
+**Решение**: Используйте псевдонимы команд или shell-скрипты для пользовательских рабочих процессов.
 
-## Tips for Efficiency
+## Советы по эффективности
 
-### Power User Workflow
+### Рабочий процесс продвинутого пользователя
 
-1. **Keep sidebar closed** (`Ctrl+S`) for max screen space
-2. **Use `Ctrl+N`/`Ctrl+B`** to switch terminals instead of mouse
-3. **Master `Tab` completion** for faster command input
-4. **Use `↑`** to repeat similar prompts with modifications
+1. **Держите боковую панель закрытой** (`Ctrl+S`) для максимального пространства экрана
+2. **Используйте `Ctrl+N`/`Ctrl+B`** для переключения терминалов вместо мыши
+3. **Освойте `Tab` завершение** для более быстрого ввода команд
+4. **Используйте `↑`** для повтора похожих промптов с изменениями
 
-### Recommended Shortcuts to Memorize First
+### Рекомендуемые сочетания клавиш для изучения в первую очередь
 
-Priority 1 (Essential):
-- `Ctrl+S` - Toggle sidebar
-- `Ctrl+Q` - Exit
-- `Ctrl+C` - Cancel agent
-- `Enter` - Send prompt
-- `Tab` - Autocomplete
+Приоритет 1 (Необходимые):
+- `Ctrl+S` - Переключить боковую панель
+- `Ctrl+Q` - Выйти
+- `Ctrl+C` - Отменить агента
+- `Enter` - Отправить промпт
+- `Tab` - Автозавершение
 
-Priority 2 (Common):
-- `Ctrl+N` / `Ctrl+B` - Navigate terminals
-- `Ctrl+L` - Clear screen
-- `↑` / `↓` - Command history
-- `ESC` - Cancel all
+Приоритет 2 (Распространенные):
+- `Ctrl+N` / `Ctrl+B` - Навигация по терминалам
+- `Ctrl+L` - Очистить экран
+- `↑` / `↓` - История команд
+- `ESC` - Отменить все
 
-Priority 3 (Advanced):
-- `Ctrl+E` - Close terminal
-- `Ctrl+P` - Command palette
+Приоритет 3 (Продвинутые):
+- `Ctrl+E` - Закрыть терминал
+- `Ctrl+P` - Палитра команд
 
-## Troubleshooting Shortcuts
+## Решение проблем с сочетаниями клавиш
 
-### Shortcut Not Working?
+### Сочетание клавиш не работает?
 
-**Check 1: Terminal Compatibility**
-- Some shortcuts may be intercepted by your terminal emulator
-- Check terminal preferences for keyboard settings
-- Try a different terminal (e.g., Alacritty, iTerm2)
+**Проверка 1: Совместимость терминала**
+- Некоторые сочетания клавиш могут перехватываться эмулятором терминала
+- Проверьте настройки клавиатуры в параметрах терминала
+- Попробуйте другой терминал (например, Alacritty, iTerm2)
 
-**Check 2: tmux/screen Conflicts**
-- tmux uses `Ctrl+B` as prefix (conflicts with "Previous Terminal")
-- screen uses `Ctrl+A` as prefix (no conflicts with CAI TUI)
-- Consider remapping tmux prefix: `set -g prefix C-a`
+**Проверка 2: Конфликты tmux/screen**
+- tmux использует `Ctrl+B` как префикс (конфликтует с "Предыдущий терминал")
+- screen использует `Ctrl+A` как префикс (нет конфликтов с CAI TUI)
+- Рассмотрите переназначение префикса tmux: `set -g prefix C-a`
 
-**Check 3: OS-Level Shortcuts**
-- Some OS keyboard shortcuts override terminal shortcuts
-- Example: macOS `Ctrl+Shift+Space` opens Spotlight
-- Disable conflicting OS shortcuts or use command alternatives
+**Проверка 3: Сочетания клавиш уровня ОС**
+- Некоторые сочетания клавиш ОС перезаписывают сочетания клавиш терминала
+- Пример: macOS `Ctrl+Shift+Space` открывает Spotlight
+- Отключите конфликтующие сочетания клавиш ОС или используйте альтернативные команды
 
-### Accidental Exit (`Ctrl+Q`)
+### Случайный выход (`Ctrl+Q`)
 
-If you frequently press `Ctrl+Q` by accident:
+Если вы часто случайно нажимаете `Ctrl+Q`:
 
-**Workaround**: Use the close session button instead
-
-
-## See Also
-
-- 🎯 [Commands Reference](commands_reference.md) - All available commands
-- 🖥️ [User Interface](user_interface.md) - Visual guide to the interface
-- 📖 [Getting Started](getting_started.md) - Basic usage tutorial
+**Решение**: Используйте кнопку закрытия сессии вместо этого
 
 ---
 
-*Last updated: October 2025 | CAI TUI v0.6+*
+## Смотрите также
 
+- 🎯 [Справочник команд](commands_reference.md) - Все доступные команды
+- 🖥️ [Пользовательский интерфейс](user_interface.md) - Визуальное руководство по интерфейсу
+- 📖 [Начало работы](getting_started.md) - Учебник по базовому использованию
+
+---
+
+*Последнее обновление: Октябрь 2025 | CAI TUI v0.6+*

@@ -155,9 +155,9 @@ class PanelFormatter:
         title_parts.append(f"[bold green]{agent_name}[/bold green] >>")
 
         if streaming:
-            title_parts.append("[yellow]Streaming...[/yellow]")
+            title_parts.append("[yellow]Стриминг...[/yellow]")
         else:
-            title_parts.append("[green]Response[/green]")
+            title_parts.append("[green]Ответ[/green]")
 
         # Timestamp and model
         if metadata:
@@ -302,7 +302,7 @@ class PanelFormatter:
             stats_text.append("📊 ", style="cyan")
 
             # Interaction stats with individual costs
-            stats_text.append("Interaction: ", style="dim cyan")
+            stats_text.append("Взаимодействие: ", style="dim cyan")
             stats_text.append(f"In: {input_tokens}", style="green")
             if interaction_input_cost > 0:
                 stats_text.append(f" → (${interaction_input_cost:.6f})", style="yellow")
@@ -329,7 +329,7 @@ class PanelFormatter:
             # Global total
             stats_text.append("\n", style="")
             stats_text.append("💰 ", style="red")
-            stats_text.append("Session Total: ", style="dim cyan")
+            stats_text.append("Итого сессия: ", style="dim cyan")
             stats_text.append(f"${global_total_cost:.6f}", style="bold red")
 
             # Context usage
@@ -340,7 +340,7 @@ class PanelFormatter:
                     indicator = "🟡"
                 else:
                     indicator = "🔴"
-                stats_text.append(f" | Context: {indicator} {context_usage_pct:.1f}%", style="dim")
+                stats_text.append(f" | Контекст: {indicator} {context_usage_pct:.1f}%", style="dim")
 
             content_group.append(stats_text)
 
@@ -352,7 +352,7 @@ class PanelFormatter:
             # Create animated streaming bar
             streaming_bar = Text()
             streaming_bar.append("⚡ ", style="yellow")
-            streaming_bar.append("Streaming in progress", style="italic yellow")
+            streaming_bar.append("Стриминг в процессе", style="italic yellow")
             streaming_bar.append(" ", style="")
 
             # Add rotating animation
@@ -384,7 +384,7 @@ class PanelFormatter:
     ) -> Panel:
         """Create a panel for tool call display"""
         # Create title
-        title = f"[bold cyan][{interaction}][/bold cyan] [bold green]{agent_name}[/bold green] >> [yellow]Tool Call[/yellow]"
+        title = f"[bold cyan][{interaction}][/bold cyan] [bold green]{agent_name}[/bold green] >> [yellow]Вызов инструмента[/yellow]"
 
         # Add call ID if available
         if call_id:
@@ -398,7 +398,7 @@ class PanelFormatter:
 
         # Format arguments
         if args and any(args.values()):
-            content.append("\nArguments:\n", style="dim")
+            content.append("Аргументы:\n", style="dim")
             for key, value in args.items():
                 if value:  # Only show non-empty values
                     content.append(f"  • {key}: ", style="bold")
@@ -408,7 +408,7 @@ class PanelFormatter:
                         str_value = str_value[:97] + "..."
                     content.append(f"{str_value}\n", style="white")
         else:
-            content.append("\n[dim]Executing...[/dim]\n", style="dim")
+            content.append("\n[dim]Выполнение...[/dim]\n", style="dim")
 
         return Panel(
             content,
@@ -437,10 +437,10 @@ class PanelFormatter:
         header = Text()
         if finished:
             header.append("🧠 ", style="bold green")
-            header.append(f"{model_display} Reasoning Complete", style="bold green")
+            header.append(f"{model_display} Рассуждение завершено", style="bold green")
         else:
             header.append("🧠 ", style="bold yellow")
-            header.append(f"{model_display} Reasoning", style="bold yellow")
+            header.append(f"{model_display} Рассуждение", style="bold yellow")
 
         header.append(f" | {agent_name}", style="bold cyan")
         header.append(f" | {datetime.now().strftime('%H:%M:%S')}", style="dim")
@@ -474,15 +474,15 @@ class PanelFormatter:
             else:
                 content = Text(thinking_content, style="white")
         else:
-            content = Text("Thinking...", style="italic dim")
+            content = Text("Рассуждение...", style="italic dim")
 
         # Determine style
         if finished:
             border_style = "green"
-            title = f"[bold green]🧠 {model_display} Thinking Complete[/bold green]"
+            title = f"[bold green]🧠 {model_display} Рассуждение завершено[/bold green]"
         else:
             border_style = "yellow"
-            title = f"[bold yellow]🧠 {model_display} Thinking Process[/bold yellow]"
+            title = f"[bold yellow]🧠 {model_display} Процесс рассуждения[/bold yellow]"
 
         return Panel(
             Group(header, Text("\n"), content),
@@ -530,13 +530,13 @@ class PanelFormatter:
         if execution_info and not streaming:
             status = execution_info.get("status", "completed")
             if status == "completed":
-                header.append(" [Completed]", style="green")
+                header.append(" [Завершено]", style="green")
             elif status == "running":
-                header.append(" [Running]", style="yellow")
+                header.append(" [Выполняется]", style="yellow")
             elif status == "error":
-                header.append(" [Error]", style="red")
+                header.append(" [Ошибка]", style="red")
             elif status == "timeout":
-                header.append(" [Timeout]", style="red")
+                header.append(" [Тайм-аут]", style="red")
 
         return header
 
@@ -622,7 +622,7 @@ class PanelFormatter:
                 indent_guides=True,
                 word_wrap=True,
             )
-            code_title = f"Code ({language})"
+            code_title = f"Код ({language})"
             try:
                 if filename:
                     code_title = f"{filename} – {code_title}"
@@ -648,7 +648,7 @@ class PanelFormatter:
             )
             output_panel = Panel(
                 output_syntax,
-                title="Output",
+                title="Вывод",
                 border_style="green",
                 title_align="left",
                 box=ROUNDED,
@@ -724,7 +724,7 @@ class PanelFormatter:
         )
         output_panel = Panel(
             output_syntax,
-            title="Command Output",
+            title="Вывод команды",
             border_style="green",
             title_align="left",
             box=ROUNDED,
@@ -769,7 +769,7 @@ class PanelFormatter:
         )
         output_panel = Panel(
             output_syntax,
-            title="Tool Output",
+            title="Вывод инструмента",
             border_style="green",
             title_align="left",
             box=ROUNDED,
@@ -866,19 +866,19 @@ class PanelFormatter:
                 status = execution_info.get("status", "running")
                 if status == "completed":
                     border_style = "green"
-                    title = f"{agent_prefix}[bold green]Completed[/bold green]"
+                    title = f"{agent_prefix}[bold green]Завершено[/bold green]"
                 elif status == "error":
                     border_style = "red"
-                    title = f"{agent_prefix}[bold red]Error[/bold red]"
+                    title = f"{agent_prefix}[bold red]Ошибка[/bold red]"
                 elif status == "timeout":
                     border_style = "red"
-                    title = f"{agent_prefix}[bold red]Timeout[/bold red]"
+                    title = f"{agent_prefix}[bold red]Тайм-аут[/bold red]"
                 else:
                     border_style = "yellow"
-                    title = f"{agent_prefix}[bold yellow]Running[/bold yellow]"
+                    title = f"{agent_prefix}[bold yellow]Выполняется[/bold yellow]"
             else:
                 border_style = "yellow"
-                title = f"{agent_prefix}[bold yellow]Running[/bold yellow]"
+                    title = f"{agent_prefix}[bold yellow]Выполняется[/bold yellow]"
         else:
             # Non-streaming
             if execution_info:
@@ -888,19 +888,19 @@ class PanelFormatter:
                 if tool_name.startswith("transfer_to_"):
                     # Handoff
                     agent_name = cls._extract_agent_name_from_handoff(tool_name)
-                    base_title = f"Handoff: {agent_name}"
+                    base_title = f"Передача: {agent_name}"
                 else:
                     base_title = f"{tool_name}({args_str})"
 
                 if status == "completed":
                     border_style = "green"
-                    title = f"{counter_prefix}{agent_prefix}[bold green]{base_title} [Completed][/bold green]"
+                    title = f"{counter_prefix}{agent_prefix}[bold green]{base_title} [Завершено][/bold green]"
                 elif status == "error":
                     border_style = "red"
-                    title = f"{counter_prefix}{agent_prefix}[bold red]{base_title} [Error][/bold red]"
+                    title = f"{counter_prefix}{agent_prefix}[bold red]{base_title} [Ошибка][/bold red]"
                 elif status == "timeout":
                     border_style = "red"
-                    title = f"{counter_prefix}{agent_prefix}[bold red]{base_title} [Timeout][/bold red]"
+                    title = f"{counter_prefix}{agent_prefix}[bold red]{base_title} [Тайм-аут][/bold red]"
                 else:
                     border_style = "blue"
                     title = f"{counter_prefix}{agent_prefix}[bold blue]{base_title}[/bold blue]"
@@ -910,7 +910,7 @@ class PanelFormatter:
 
                 if tool_name.startswith("transfer_to_"):
                     agent_name = cls._extract_agent_name_from_handoff(tool_name)
-                    title = f"{counter_prefix}{agent_prefix}[bold blue]Handoff: {agent_name}[/bold blue]"
+                    title = f"{counter_prefix}{agent_prefix}[bold blue]Передача: {agent_name}[/bold blue]"
                 else:
                     title = f"{counter_prefix}{agent_prefix}[bold blue]{tool_name}({args_str})[/bold blue]"
 

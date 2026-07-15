@@ -1,0 +1,487 @@
+# Translation log (2026-07-14 07:48:12)
+
+- OK `/root/soft/cairus/README.md` (attempt 1, cyr 34534, ratio 42.15%)
+- ATTEMPT 1 FAIL `/root/soft/cairus/benchmarks/README.md`: timed out
+- ATTEMPT 2 FAIL `/root/soft/cairus/benchmarks/README.md`: timed out
+- ATTEMPT 3 FAIL `/root/soft/cairus/benchmarks/README.md`: timed out
+- FAIL `/root/soft/cairus/benchmarks/README.md`
+- SKIP `/root/soft/cairus/docs/agents.md` (cyr ratio 42.53%, chars 11032)
+- OK `/root/soft/cairus/docs/api.md` (attempt 1, cyr 5185, ratio 21.63%)
+- OK `/root/soft/cairus/docs/benchmarking/attack_defense.md` (attempt 1, cyr 4633, ratio 58.59%)
+- SKIP `/root/soft/cairus/docs/benchmarking/cyber_ranges.md` (cyr ratio 58.00%, chars 4774)
+- OK `/root/soft/cairus/docs/benchmarking/jeopardy_ctfs.md` (attempt 1, cyr 3842, ratio 54.11%)
+- OK `/root/soft/cairus/docs/benchmarking/knowledge_benchmarks.md` (attempt 1, cyr 3801, ratio 47.60%)
+- OK `/root/soft/cairus/docs/benchmarking/overview.md` (attempt 1, cyr 3757, ratio 44.53%)
+- OK `/root/soft/cairus/docs/benchmarking/privacy_benchmarks.md` (attempt 1, cyr 4219, ratio 45.89%)
+- OK `/root/soft/cairus/docs/benchmarking/running_benchmarks.md` (attempt 1, cyr 3299, ratio 34.96%)
+- OK `/root/soft/cairus/docs/cai/api-reference/core.md` (attempt 1, cyr 648, ratio 27.34%)
+- OK `/root/soft/cairus/docs/cai/case-studies/operator-artifact-evidence.md` (attempt 1, cyr 1440, ratio 40.64%)
+- OK `/root/soft/cairus/docs/cai/development/contributing.md` (attempt 1, cyr 741, ratio 54.49%)
+- OK `/root/soft/cairus/docs/cai/getting-started/MCP.md` (attempt 1, cyr 733, ratio 36.60%)
+- OK `/root/soft/cairus/docs/cai/getting-started/commands.md` (attempt 1, cyr 10717, ratio 51.40%)
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/cai/getting-started/configuration.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/cai/getting-started/configuration.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/cai/getting-started/configuration.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/cai/getting-started/configuration.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/cai/getting-started/installation.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/cai/getting-started/installation.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/cai/getting-started/installation.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/cai/getting-started/installation.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/cai/getting-started/packet_capture_wsl.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/cai/getting-started/packet_capture_wsl.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/cai/getting-started/packet_capture_wsl.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/cai/getting-started/packet_capture_wsl.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/cai/index.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/cai/index.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/cai/index.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/cai/index.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/cai/troubleshooting/operator_feedback_reproduction.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/cai/troubleshooting/operator_feedback_reproduction.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/cai/troubleshooting/operator_feedback_reproduction.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/cai/troubleshooting/operator_feedback_reproduction.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/cai/troubleshooting/platform_limitations.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/cai/troubleshooting/platform_limitations.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/cai/troubleshooting/platform_limitations.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/cai/troubleshooting/platform_limitations.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/cai_architecture.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/cai_architecture.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/cai_architecture.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/cai_architecture.md`
+- SKIP `/root/soft/cairus/docs/cai_benchmark.md` (cyr ratio 37.10%, chars 11877)
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/cai_citation_and_acknowledgments.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/cai_citation_and_acknowledgments.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/cai_citation_and_acknowledgments.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/cai_citation_and_acknowledgments.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/cai_development.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/cai_development.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/cai_development.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/cai_development.md`
+- SKIP `/root/soft/cairus/docs/cai_faq.md` (cyr ratio 36.82%, chars 3636)
+- SKIP `/root/soft/cairus/docs/cai_installation.md` (cyr ratio 35.10%, chars 1876)
+- SKIP `/root/soft/cairus/docs/cai_list_of_models.md` (cyr ratio 53.53%, chars 5052)
+- SKIP `/root/soft/cairus/docs/cai_pro.md` (cyr ratio 64.26%, chars 12411)
+- SKIP `/root/soft/cairus/docs/cai_prompt_injection.md` (cyr ratio 63.20%, chars 3880)
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/cai_quickstart.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/cai_quickstart.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/cai_quickstart.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/cai_quickstart.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/cli/advanced_usage.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/cli/advanced_usage.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/cli/advanced_usage.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/cli/advanced_usage.md`
+- SKIP `/root/soft/cairus/docs/config.md` (cyr ratio 43.67%, chars 1359)
+- SKIP `/root/soft/cairus/docs/context.md` (cyr ratio 49.97%, chars 2217)
+- SKIP `/root/soft/cairus/docs/continue_mode.md` (cyr ratio 36.47%, chars 4219)
+- SKIP `/root/soft/cairus/docs/environment_variables.md` (cyr ratio 44.50%, chars 4623)
+- SKIP `/root/soft/cairus/docs/guardrails.md` (cyr ratio 30.60%, chars 2121)
+- SKIP `/root/soft/cairus/docs/handoffs.md` (cyr ratio 34.34%, chars 3300)
+- SKIP `/root/soft/cairus/docs/index.md` (cyr ratio 40.95%, chars 7326)
+- SKIP `/root/soft/cairus/docs/index2.md` (cyr ratio 62.29%, chars 1746)
+- SKIP `/root/soft/cairus/docs/mcp.md` (cyr ratio 46.32%, chars 1348)
+- SKIP `/root/soft/cairus/docs/models.md` (cyr ratio 38.43%, chars 2517)
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/mui/chat_features.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/mui/chat_features.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/mui/chat_features.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/mui/chat_features.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/mui/gestures_shortcuts.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/mui/gestures_shortcuts.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/mui/gestures_shortcuts.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/mui/gestures_shortcuts.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/mui/getting_started.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/mui/getting_started.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/mui/getting_started.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/mui/getting_started.md`
+- SKIP `/root/soft/cairus/docs/mui/mui_index.md` (cyr ratio 59.80%, chars 6066)
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/mui/user_interface.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/mui/user_interface.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/mui/user_interface.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/mui/user_interface.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/other_cli/claude_code.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/other_cli/claude_code.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/other_cli/claude_code.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/other_cli/claude_code.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/other_cli/codex.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/other_cli/codex.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/other_cli/codex.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/other_cli/codex.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/other_cli/opencode.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/other_cli/opencode.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/other_cli/opencode.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/other_cli/opencode.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/providers/ollama.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/providers/ollama.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/providers/ollama.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/providers/ollama.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/providers/ollama_cloud.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/providers/ollama_cloud.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/providers/ollama_cloud.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/providers/ollama_cloud.md`
+- SKIP `/root/soft/cairus/docs/queue_file_feature.md` (cyr ratio 65.86%, chars 1871)
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/quickstart.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/quickstart.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/quickstart.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/quickstart.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/ref/run.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/ref/run.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/ref/run.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/ref/run.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/ref/run_context.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/ref/run_context.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/ref/run_context.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/ref/run_context.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/ref/tracing/setup.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/ref/tracing/setup.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/ref/tracing/setup.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/ref/tracing/setup.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/research.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/research.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/research.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/research.md`
+- SKIP `/root/soft/cairus/docs/results.md` (cyr ratio 53.96%, chars 2283)
+- SKIP `/root/soft/cairus/docs/running_agents.md` (cyr ratio 43.87%, chars 3031)
+- SKIP `/root/soft/cairus/docs/session_resume.md` (cyr ratio 55.65%, chars 5078)
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/streaming.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/streaming.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/streaming.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/streaming.md`
+- SKIP `/root/soft/cairus/docs/tools.md` (cyr ratio 32.93%, chars 4247)
+- SKIP `/root/soft/cairus/docs/tracing.md` (cyr ratio 43.55%, chars 3730)
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/tui/advanced_features.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/tui/advanced_features.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/tui/advanced_features.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/tui/advanced_features.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/tui/commands_reference.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/tui/commands_reference.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/tui/commands_reference.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/tui/commands_reference.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/tui/getting_started.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/tui/getting_started.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/tui/getting_started.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/tui/getting_started.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/tui/keyboard_shortcuts.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/tui/keyboard_shortcuts.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/tui/keyboard_shortcuts.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/tui/keyboard_shortcuts.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/tui/sidebar_features.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/tui/sidebar_features.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/tui/sidebar_features.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/tui/sidebar_features.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/tui/teams_and_parallel_execution.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/tui/teams_and_parallel_execution.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/tui/teams_and_parallel_execution.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/tui/teams_and_parallel_execution.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/tui/terminals_management.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/tui/terminals_management.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/tui/terminals_management.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/tui/terminals_management.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/tui/troubleshooting.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/tui/troubleshooting.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/tui/troubleshooting.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/tui/troubleshooting.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/tui/tui_index.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/tui/tui_index.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/tui/tui_index.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/tui/tui_index.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/tui/user_interface.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/tui/user_interface.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/tui/user_interface.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/tui/user_interface.md`
+- SKIP `/root/soft/cairus/docs/visualization.md` (cyr ratio 47.39%, chars 1155)
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/voice/pipeline.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/voice/pipeline.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/voice/pipeline.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/voice/pipeline.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/voice/quickstart.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/voice/quickstart.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/voice/quickstart.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/voice/quickstart.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/docs/voice/tracing.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/docs/voice/tracing.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/docs/voice/tracing.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/docs/voice/tracing.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/examples/agent_patterns/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/examples/agent_patterns/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/examples/agent_patterns/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/examples/agent_patterns/README.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/examples/financial_research_agent/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/examples/financial_research_agent/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/examples/financial_research_agent/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/examples/financial_research_agent/README.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/examples/mcp/filesystem_example/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/examples/mcp/filesystem_example/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/examples/mcp/filesystem_example/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/examples/mcp/filesystem_example/README.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/examples/mcp/git_example/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/examples/mcp/git_example/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/examples/mcp/git_example/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/examples/mcp/git_example/README.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/examples/mcp/sse_example/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/examples/mcp/sse_example/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/examples/mcp/sse_example/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/examples/mcp/sse_example/README.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/examples/model_providers/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/examples/model_providers/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/examples/model_providers/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/examples/model_providers/README.md`
+- SKIP `/root/soft/cairus/examples/research_bot/README.md` (cyr ratio 75.05%, chars 1170)
+- ATTEMPT 1 FAIL `/root/soft/cairus/examples/research_bot/sample_outputs/product_recs.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/examples/research_bot/sample_outputs/product_recs.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/examples/research_bot/sample_outputs/product_recs.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/examples/research_bot/sample_outputs/product_recs.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/examples/research_bot/sample_outputs/vacation.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/examples/research_bot/sample_outputs/vacation.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/examples/research_bot/sample_outputs/vacation.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/examples/research_bot/sample_outputs/vacation.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/examples/voice/static/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/examples/voice/static/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/examples/voice/static/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/examples/voice/static/README.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/examples/voice/streamed/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/examples/voice/streamed/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/examples/voice/streamed/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/examples/voice/streamed/README.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/caibench/artifacts/chals/forensics/Br3akTh3Vau1t/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/caibench/artifacts/chals/forensics/Br3akTh3Vau1t/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/caibench/artifacts/chals/forensics/Br3akTh3Vau1t/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/caibench/artifacts/chals/forensics/Br3akTh3Vau1t/README.md`
+- SKIP `/root/soft/cairus/src/cai/caibench/atkdef/README.md` (cyr ratio 45.33%, chars 18706)
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/CobaltGroupRansomware/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/CobaltGroupRansomware/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/CobaltGroupRansomware/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/CobaltGroupRansomware/README.md`
+- SKIP `/root/soft/cairus/src/cai/caibench/cyber_ranges/README.md` (cyr ratio 50.65%, chars 1552)
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/easy_techcorp2/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/easy_techcorp2/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/easy_techcorp2/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/easy_techcorp2/README.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/poo-range/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/poo-range/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/poo-range/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/poo-range/README.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/poo-range/attacker/tools/attack_guide.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/poo-range/attacker/tools/attack_guide.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/poo-range/attacker/tools/attack_guide.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/poo-range/attacker/tools/attack_guide.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/promptfoo/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/promptfoo/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/promptfoo/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/caibench/cyber_ranges/promptfoo/README.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/ctr/system_prompts/qwen.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/ctr/system_prompts/qwen.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/ctr/system_prompts/qwen.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/ctr/system_prompts/qwen.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/core/system_codeact_template.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/core/system_codeact_template.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/core/system_codeact_template.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/core/system_codeact_template.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/core/system_master_template.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/core/system_master_template.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/core/system_master_template.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/core/system_master_template.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/core/user_master_template.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/core/user_master_template.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/core/user_master_template.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/core/user_master_template.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/memory_analysis_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/memory_analysis_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/memory_analysis_agent.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/memory_analysis_agent.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/activedirectory.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/activedirectory.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/activedirectory.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/activedirectory.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/android.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/android.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/android.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/android.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/apt.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/apt.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/apt.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/apt.md`
+- SKIP `/root/soft/cairus/src/cai/prompts/micro/blueteam.md` (cyr ratio 79.14%, chars 1514)
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/bugbounty.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/bugbounty.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/bugbounty.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/bugbounty.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/codeagent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/codeagent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/codeagent.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/codeagent.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/compliance.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/compliance.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/compliance.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/compliance.md`
+- SKIP `/root/soft/cairus/src/cai/prompts/micro/continuous_ops.md` (cyr ratio 77.00%, chars 1105)
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/ctf.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/ctf.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/ctf.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/ctf.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/dfir.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/dfir.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/dfir.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/dfir.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/flag.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/flag.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/flag.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/flag.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/guardrail.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/guardrail.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/guardrail.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/guardrail.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/mail.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/mail.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/mail.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/mail.md`
+- SKIP `/root/soft/cairus/src/cai/prompts/micro/memory_forensics.md` (cyr ratio 80.66%, chars 1101)
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/network.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/network.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/network.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/network.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/reasoner.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/reasoner.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/reasoner.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/reasoner.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/redteam.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/redteam.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/redteam.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/redteam.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/replay.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/replay.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/replay.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/replay.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/reporting.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/reporting.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/reporting.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/reporting.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/reverse.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/reverse.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/reverse.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/reverse.md`
+- SKIP `/root/soft/cairus/src/cai/prompts/micro/sdr.md` (cyr ratio 78.86%, chars 1201)
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/selection.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/selection.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/selection.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/selection.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/thought_router.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/thought_router.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/thought_router.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/thought_router.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/triage.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/triage.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/triage.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/triage.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/usecase.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/usecase.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/usecase.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/usecase.md`
+- SKIP `/root/soft/cairus/src/cai/prompts/micro/web.md` (cyr ratio 79.79%, chars 1488)
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/micro/wifi.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/micro/wifi.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/micro/wifi.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/micro/wifi.md`
+- SKIP `/root/soft/cairus/src/cai/prompts/reverse_engineering_agent.md` (cyr ratio 64.15%, chars 4151)
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/subghz_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/subghz_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/subghz_agent.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/subghz_agent.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_android_app_logic_mapper.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_android_app_logic_mapper.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_android_app_logic_mapper.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_android_app_logic_mapper.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_android_sast.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_android_sast.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_android_sast.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_android_sast.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_apt_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_apt_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_apt_agent.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_apt_agent.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_blue_team_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_blue_team_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_blue_team_agent.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_blue_team_agent.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_bug_bounter.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_bug_bounter.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_bug_bounter.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_bug_bounter.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_compliance_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_compliance_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_compliance_agent.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_compliance_agent.md`
+- SKIP `/root/soft/cairus/src/cai/prompts/system_continuous_ops_agent.md` (cyr ratio 71.75%, chars 1384)
+- SKIP `/root/soft/cairus/src/cai/prompts/system_ctf_agent.md` (cyr ratio 63.68%, chars 1687)
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_dfir_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_dfir_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_dfir_agent.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_dfir_agent.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_dns_smtp_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_dns_smtp_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_dns_smtp_agent.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_dns_smtp_agent.md`
+- SKIP `/root/soft/cairus/src/cai/prompts/system_exploit_expert.md` (cyr ratio 65.74%, chars 1353)
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_flag_discriminator.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_flag_discriminator.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_flag_discriminator.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_flag_discriminator.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_network_analyzer.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_network_analyzer.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_network_analyzer.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_network_analyzer.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_orchestration_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_orchestration_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_orchestration_agent.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_orchestration_agent.md`
+- SKIP `/root/soft/cairus/src/cai/prompts/system_reasoner_supporter.md` (cyr ratio 78.15%, chars 3079)
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_red_team_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_red_team_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_red_team_agent.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_red_team_agent.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_replay_attack_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_replay_attack_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_replay_attack_agent.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_replay_attack_agent.md`
+- SKIP `/root/soft/cairus/src/cai/prompts/system_reporting_agent.md` (cyr ratio 77.69%, chars 2950)
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_selection_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_selection_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_selection_agent.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_selection_agent.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_thought_router.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_thought_router.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_thought_router.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_thought_router.md`
+- SKIP `/root/soft/cairus/src/cai/prompts/system_triage_agent.md` (cyr ratio 79.64%, chars 3840)
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_use_cases.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_use_cases.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_use_cases.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_use_cases.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_web_bounty_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_web_bounty_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_web_bounty_agent.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_web_bounty_agent.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/system_web_pentester.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/system_web_pentester.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/system_web_pentester.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/system_web_pentester.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/prompts/wifi_security_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/prompts/wifi_security_agent.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/prompts/wifi_security_agent.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/prompts/wifi_security_agent.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/src/cai/tui/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/src/cai/tui/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/src/cai/tui/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/src/cai/tui/README.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/tests/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/tests/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/tests/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/tests/README.md`
+- SKIP `/root/soft/cairus/tests/integration/README_STREAMING_TESTS.md` (cyr ratio 61.07%, chars 4664)
+- ATTEMPT 1 FAIL `/root/soft/cairus/tests/refusals/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/tests/refusals/README.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/tests/refusals/README.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/tests/refusals/README.md`
+- ATTEMPT 1 FAIL `/root/soft/cairus/tests/refusals/REFUSAL_ANALYSIS_REPORT.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 2 FAIL `/root/soft/cairus/tests/refusals/REFUSAL_ANALYSIS_REPORT.md`: HTTP Error 429: Too Many Requests
+- ATTEMPT 3 FAIL `/root/soft/cairus/tests/refusals/REFUSAL_ANALYSIS_REPORT.md`: HTTP Error 429: Too Many Requests
+- FAIL `/root/soft/cairus/tests/refusals/REFUSAL_ANALYSIS_REPORT.md`
+
+Summary: {'translated': 13, 'skipped': 42, 'failed': 107, 'missing': 0}

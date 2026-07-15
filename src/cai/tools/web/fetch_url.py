@@ -86,7 +86,7 @@ _MAX_REDIRECTS = 5
 
 
 class _SSRFBlocked(Exception):
-    """Raised when an outbound request is blocked by the SSRF guard."""
+    """Генерируется, когда исходящий запрос блокируется SSRF-защитой."""
 
 
 def _bool_env(name: str, default: bool = False) -> bool:
@@ -118,39 +118,39 @@ def _is_unsafe_ip(ip: ipaddress.IPv4Address | ipaddress.IPv6Address) -> bool:
 
 
 def _check_ssrf(url: str, *, allow_internal: bool) -> str:
-    """Validate *url* and return the IP literal that must be dialed.
+    """Проверяет *url* и возвращает литерал IP для подключения.
 
-    Resolving DNS here (and only here) is what makes the tool resistant to
-    DNS rebinding: the caller must connect to the returned IP rather than
-    re-resolving the FQDN.
+    Разрешение DNS здесь (и только здесь) делает инструмент устойчивым к
+    DNS rebinding: вызывающий код должен подключиться к возвращённому IP, а не
+    повторно разрешать FQDN.
 
     Returns:
-        The IP literal (IPv4 or IPv6 string) to dial.
+        Литерал IP (строка IPv4 или IPv6) для подключения.
 
     Raises:
-        _SSRFBlocked: if scheme, host or any resolved IP is forbidden.
+        _SSRFBlocked: если схема, хост или любой разрешённый IP запрещены.
     """
     parts = urlsplit(url)
     scheme = parts.scheme.lower()
 
     if scheme not in _ALLOWED_SCHEMES:
         raise _SSRFBlocked(
-            f"scheme '{scheme}' is not allowed (only http/https)"
+            f"схема '{scheme}' не разрешена (только http/https)"
         )
 
     host = (parts.hostname or "").lower()
     if not host:
-        raise _SSRFBlocked("URL has no host component")
+        raise _SSRFBlocked("URL не содержит компонент хоста")
 
     # Cloud metadata is ALWAYS blocked, regardless of CAI_FETCH_ALLOW_INTERNAL.
     if host in _METADATA_HOSTS or host in _METADATA_IPS:
-        raise _SSRFBlocked(f"host '{host}' is a cloud-metadata endpoint")
+        raise _SSRFBlocked(f"хост '{host}' является эндпоинтом облачных метаданных")
 
     # Literal IP path.
     try:
         ip_obj = ipaddress.ip_address(host)
         if not allow_internal and _is_unsafe_ip(ip_obj):
-            raise _SSRFBlocked(f"host '{host}' is a private/reserved address")
+            raise _SSRFBlocked(f"хост '{host}' является приватным/зарезервированным адресом")
         return host
 
     except ValueError:
@@ -160,7 +160,7 @@ def _check_ssrf(url: str, *, allow_internal: bool) -> str:
     try:
         infos = socket.getaddrinfo(host, None)
     except socket.gaierror as exc:
-        raise _SSRFBlocked(f"cannot resolve host '{host}': {exc}") from exc
+        raise _SSRFBlocked(f"не удалось разрешить хост '{host}': {exc}") from exc
 
     safe_ips: list[str] = []
     for info in infos:
@@ -172,16 +172,16 @@ def _check_ssrf(url: str, *, allow_internal: bool) -> str:
             continue
         if ip_str in _METADATA_IPS:
             raise _SSRFBlocked(
-                f"host '{host}' resolves to cloud-metadata IP '{ip_str}'"
+                f"хост '{host}' разрешается в облачный метаданный IP '{ip_str}'"
             )
         if not allow_internal and _is_unsafe_ip(ip):
             raise _SSRFBlocked(
-                f"host '{host}' resolves to private/loopback/link-local '{ip_str}'"
+                f"хост '{host}' разрешается в приватный/loopback/link-local '{ip_str}'"
             )
         safe_ips.append(ip_str)
 
     if not safe_ips:
-        raise _SSRFBlocked(f"no usable IPs for host '{host}'")
+        raise _SSRFBlocked(f"нет пригодных IP для хоста '{host}'")
     # Only the first safe A/AAAA record is returned; happy-eyeballs over the
     # remaining records is not implemented (the connection just fails if the
     # first IP is down). Adequate for read-the-web fetches; revisit if we
@@ -190,12 +190,13 @@ def _check_ssrf(url: str, *, allow_internal: bool) -> str:
 
 
 def _build_pinned_url(url: str, resolved_ip: str) -> tuple[str, str]:
-    """Return ``(pinned_url, original_host_header)``.
+    """Возвращает ``(pinned_url, original_host_header)``.
 
-    The pinned URL replaces the FQDN with the validated IP so httpx dials
-    that exact address. The Host header still carries the original FQDN so
-    virtual hosting works and the TLS cert is verified against the right name.
-    If the URL already used an IP literal, the URL is returned unchanged.
+    Закреплённый URL заменяет FQDN на проверенный IP, чтобы httpx
+    подключался к этому точному адресу. Заголовок Host по-прежнему содержит
+    исходный FQDN, чтобы виртуальный хостинг работал и сертификат TLS
+    проверялся по правильному имени. Если URL уже использовал литерал IP,
+    URL возвращается без изменений.
     """
     parts = urlsplit(url)
     host = (parts.hostname or "").lower()
@@ -242,10 +243,10 @@ async def _fetch_httpx_pinned(
     max_bytes: int,
     user_agent: str | None,
 ) -> tuple[bytes, str, int, str | None]:
-    """Fetch *url* by dialing *resolved_ip* (DNS-rebinding-safe).
+    """Получает *url* по подключению к *resolved_ip* (безопасно от DNS rebinding).
 
-    Returns ``(body, content_type, status, location)``. ``location`` is the
-    raw ``Location`` header when the response is 3xx; ``None`` otherwise.
+    Возвращает ``(body, content_type, status, location)``. ``location`` — это
+    заголовок ``Location`` при ответе 3xx; ``None`` в остальных случаях.
     """
     pinned_url, host_header = _build_pinned_url(url, resolved_ip)
     parts = urlsplit(url)
@@ -294,13 +295,13 @@ def _fetch_curl_cffi_sync(
     max_bytes: int,
     user_agent: str | None,
 ) -> tuple[bytes, str, int]:
-    """Synchronous curl-cffi fallback (Chrome TLS fingerprint).
+    """Синхронный fallback с curl-cffi (TLS-отпечаток Chrome).
 
-    Known limitation: curl-cffi's high-level API does not expose ``--resolve``,
-    so this fallback path lets curl re-resolve the FQDN. We accept the
-    narrower DNS-rebinding window because this code path only runs when
-    httpx hit an anti-bot challenge AND its own SSRF check (with IP pinning)
-    already passed for the same URL milliseconds earlier.
+    Известное ограничение: высокоуровневый API curl-cffi не предоставляет ``--resolve``,
+    поэтому этот путь fallback позволяет curl повторно разрешить FQDN. Мы принимаем
+    более узкое окно DNS rebinding, потому что этот код выполняется только когда
+    httpx столкнулся с антибот-проверкой И его собственная проверка SSRF (с закреплением IP)
+    уже прошла для того же URL миллисекунды ранее.
     """
     from curl_cffi import requests as curl_requests  # local import (heavy)
 
@@ -317,7 +318,7 @@ def _fetch_curl_cffi_sync(
 
 
 def _detect_kind(body: bytes, content_type: str) -> str:
-    """Return one of: 'pdf', 'html', 'json', 'text', 'unknown'."""
+    """Возвращает одно из: 'pdf', 'html', 'json', 'text', 'unknown'."""
     if body[:5] == b"%PDF-" or content_type == "application/pdf":
         return "pdf"
     if content_type.startswith("application/json"):
@@ -390,7 +391,7 @@ _JS_FALLBACK_HINTS: tuple[tuple[str, str], ...] = (
 
 
 def _detect_js_required(html_lower: str) -> str | None:
-    """Return the matched indicator if the page is JS-dependent, else None."""
+    """Возвращает обнаруженный индикатор, если страница зависит от JS, иначе None."""
     for needle in _JS_REQUIRED_PATTERNS:
         if needle in html_lower:
             return needle
@@ -401,21 +402,21 @@ def _build_js_required_message(url: str, indicator: str, body_size: int) -> str:
     suggestion = ""
     for key, hint in _JS_FALLBACK_HINTS:
         if key in url.lower():
-            suggestion = f"\nSuggestion for this host: {hint}\n"
+            suggestion = f"\nРекомендация для этого хоста: {hint}\n"
             break
     if not suggestion:
         suggestion = (
-            "\nSuggestion: look for a JSON/REST API endpoint, an RSS/Atom "
-            "feed, or a static documentation mirror of this resource.\n"
+            "\nРекомендация: найдите JSON/REST API эндпоинт, RSS/Atom "
+            "ленту или статическую зеркальную копию документации этого ресурса.\n"
         )
     return (
         f"[fetch_url] {url}\n"
-        f"# Status: 200 but page requires JavaScript to render useful content\n"
-        f'# Detected pattern: "{indicator}"\n'
-        f"# Bytes received: {body_size}\n\n"
-        "This URL serves a JavaScript-only Single-Page-Application or a "
-        "frame-busting redirect page. fetch_url does not execute JavaScript, "
-        "so no usable content can be extracted from this URL."
+        f"# Статус: 200, но страница требует JavaScript для отображения полезного содержимого\n"
+        f'# Обнаруженный паттерн: "{indicator}"\n'
+        f"# Получено байт: {body_size}\n\n"
+        "Этот URL предоставляет одностраничное приложение JavaScript или "
+        "страницу с frame-busting перенаправлением. fetch_url не выполняет JavaScript, "
+        "поэтому из этого URL не может быть извлечено полезное содержимое."
         f"{suggestion}"
     )
 
@@ -438,7 +439,7 @@ def _extract_html(body: bytes, content_type: str) -> str:
     text = re.sub(r"<style[\s\S]*?</style>", " ", text, flags=re.IGNORECASE)
     text = re.sub(r"<[^>]+>", " ", text)
     text = re.sub(r"\s+", " ", text).strip()
-    return text or "[empty document]"
+    return text or "[пустой документ]"
 
 
 def _extract_pdf(body: bytes) -> str:
@@ -452,7 +453,7 @@ def _extract_pdf(body: bytes) -> str:
         except Exception:  # pylint: disable=broad-except
             txt = ""
         pages.append(f"## Page {idx}\n\n{txt.strip()}")
-    return "\n\n".join(pages) if pages else "[empty PDF]"
+    return "\n\n".join(pages) if pages else "[пустой PDF]"
 
 
 def _extract_json(body: bytes, content_type: str) -> str:
@@ -473,18 +474,18 @@ def _extract(body: bytes, content_type: str) -> str:
         return _extract_json(body, content_type)
     if kind == "text":
         return _decode_body(body, content_type)
-    return f"[Unsupported content type: {content_type or 'unknown'}]"
+    return f"[Неподдерживаемый тип содержимого: {content_type or 'неизвестный'}]"
 
 
 def _truncate(text: str, max_chars: int) -> str:
     if len(text) <= max_chars:
         return text
     dropped = len(text) - max_chars
-    return text[:max_chars] + f"\n\n[...truncated {dropped} chars]"
+    return text[:max_chars] + f"\n\n[...обрезано {dropped} символов]"
 
 
 def _clamp_max_chars(value: int) -> int:
-    """Clamp ``max_chars`` into the safe operating range."""
+    """Ограничивает ``max_chars`` безопасным диапазоном."""
     if value <= 0:
         return _MAX_CHARS_DEFAULT
     return max(_MAX_CHARS_MIN, min(value, _MAX_CHARS_MAX))
@@ -498,9 +499,9 @@ async def _fetch_with_redirects(
     max_bytes: int,
     user_agent: str | None,
 ) -> tuple[bytes, str, int, str]:
-    """Fetch *url* following up to ``_MAX_REDIRECTS`` hops manually.
+    """Получает *url*, отслеживая до ``_MAX_REDIRECTS`` переходов вручную.
 
-    Every hop is re-validated by the SSRF guard before connecting. Returns
+    Каждый переход повторно проверяется SSRF-защитой перед подключением. Возвращает
     ``(body, content_type, status, final_url)``.
     """
     current = url
@@ -517,7 +518,7 @@ async def _fetch_with_redirects(
             current = str(httpx.URL(current).join(location))
             continue
         return body, ctype, status, current
-    raise _SSRFBlocked(f"too many redirects from {url}")
+    raise _SSRFBlocked(f"слишком много перенаправлений с {url}")
 
 
 @function_tool
@@ -526,39 +527,40 @@ async def fetch_url(
     max_chars: int = _MAX_CHARS_DEFAULT,
     timeout: int = 0,
 ) -> str:
-    """Fetch a single URL and return its main content, ready for an LLM.
+    """Получает один URL и возвращает его основное содержимое, готовое для LLM.
 
-    Use this AFTER a web search (``make_google_search``,
-    ``query_perplexity``) to read the actual content of a result.
+    Используйте ПОСЛЕ веб-поиска (``make_google_search``,
+    ``query_perplexity``) для чтения фактического содержимого результата.
 
-    Behaviour:
+    Поведение:
 
-    * HTML pages are converted to Markdown with navigation/ads stripped.
-    * PDFs are extracted as text, one section per page.
-    * JSON endpoints are returned pretty-printed.
-    * Plain text is passed through.
-    * If a page is protected by a basic anti-bot challenge, the call is
-      transparently retried using a Chrome TLS-fingerprint client.
-    * Requests to private / loopback / link-local / cloud-metadata hosts are
-      blocked by default. Set ``CAI_FETCH_ALLOW_INTERNAL=true`` to allow
-      internal targets during an authorised internal pentest.
-    * Hostnames are DNS-resolved exactly once and the resulting IP is
-      pinned for the request, defeating DNS rebinding. Redirects are
-      followed manually so each hop is re-validated.
-    * JavaScript is NOT executed; single-page apps that require client-side
-      rendering will return an empty shell.
+    * HTML-страницы преобразуются в Markdown с удалением навигации/рекламы.
+    * PDF извлекаются как текст, по одной секции на страницу.
+    * JSON-эндпоинты возвращаются форматированными.
+    * Обычный текст передаётся как есть.
+    * Если страница защищена базовой антибот-проверкой, вызов
+      повторяется с использованием клиента с TLS-отпечатком Chrome.
+    * Запросы к приватным / loopback / link-local / облачным метаданным хостам
+      блокируются по умолчанию. Установите ``CAI_FETCH_ALLOW_INTERNAL=true`` для
+      разрешения внутренних целей при авторизованном внутреннем тестировании.
+    * Имена хостов разрешаются DNS ровно один раз, и полученный IP
+      закрепляется для запроса, предотвращая DNS rebinding. Перенаправления
+      отслеживаются вручную, чтобы каждый переход повторно проверялся.
+    * JavaScript НЕ выполняется; одностраничные приложения, требующие
+      клиентского рендеринга, вернут пустую оболочку.
 
     Args:
-        url: HTTP or HTTPS URL to fetch.
-        max_chars: Hard cap on returned characters (clamped to
-            [1024, 1_000_000]; default 80_000).
-        timeout: Per-request timeout in seconds. ``0`` uses ``CAI_FETCH_TIMEOUT``
-            (default 20s).
+        url: HTTP или HTTPS URL для получения.
+        max_chars: Жёсткий лимит возвращаемых символов (ограничено
+            [1024, 1_000_000]; по умолчанию 80_000).
+        timeout: Тайм-аут запроса в секундах. ``0`` использует ``CAI_FETCH_TIMEOUT``
+            (по умолчанию 20с).
 
     Returns:
-        The extracted content, wrapped in CAI's external-content delimiters
-        to defang any embedded prompt-injection payload. Errors are returned
-        as sanitized strings; this function never raises.
+        Извлечённое содержимое, обёрнутое в разделители внешнего содержимого CAI
+        для нейтрализации встроенных полезных нагрузок инъекции подсказок.
+        Ошибки возвращаются как очищенные строки; эта функция никогда не
+        генерирует исключения.
     """
     allow_internal = _bool_env("CAI_FETCH_ALLOW_INTERNAL", False)
     max_bytes = _int_env("CAI_FETCH_MAX_BYTES", 5_242_880)
@@ -576,12 +578,12 @@ async def fetch_url(
         )
     except _SSRFBlocked as exc:
         return sanitize_external_content(
-            f"[fetch_url blocked] {exc}. "
-            "Set CAI_FETCH_ALLOW_INTERNAL=true to permit internal targets."
+            f"[fetch_url заблокирован] {exc}. "
+            "Установите CAI_FETCH_ALLOW_INTERNAL=true для разрешения внутренних целей."
         )
     except Exception as exc:  # pylint: disable=broad-except
         return sanitize_external_content(
-            f"[fetch_url error] httpx failed: {type(exc).__name__}: {exc}"
+            f"[fetch_url ошибка] httpx не удался: {type(exc).__name__}: {exc}"
         )
 
     # Anti-bot fallback. We re-validate SSRF on the final URL just in case
@@ -604,8 +606,8 @@ async def fetch_url(
 
     if status >= 400:
         return sanitize_external_content(
-            f"[fetch_url] HTTP {status} for {url}. "
-            f"Body preview:\n\n{_extract(body, ctype)[:2000]}"
+            f"[fetch_url] HTTP {status} для {url}. "
+            f"Предварительный просмотр тела:\n\n{_extract(body, ctype)[:2000]}"
         )
 
     # Detect JS-required pages / frame-busting redirects on text/html responses.
@@ -622,10 +624,10 @@ async def fetch_url(
     extracted = _truncate(_extract(body, ctype), clamped_chars)
 
     header = (
-        f"# Fetched: {final_url}\n"
-        f"# Status: {status}\n"
-        f"# Content-Type: {ctype or 'unknown'}\n"
-        f"# Bytes: {len(body)}\n\n"
+        f"# Получено: {final_url}\n"
+        f"# Статус: {status}\n"
+        f"# Content-Type: {ctype or 'неизвестный'}\n"
+        f"# Байты: {len(body)}\n\n"
     )
     return sanitize_external_content(header + extracted)
 

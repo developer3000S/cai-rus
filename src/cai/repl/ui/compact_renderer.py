@@ -188,13 +188,13 @@ def _row_for_record(
         suffix.append(_DOT_FRAMES[tick % 3], style=icon_style)
         if record.depth == 0:
             suffix.append(" ", style=icon_style)
-            suffix.append("THINKING" if is_thinking else "RUNNING", style=text_style)
+            suffix.append("ОБРАБОТКА" if is_thinking else "ВЫПОЛНЯЕТСЯ", style=text_style)
     elif is_error:
         suffix.append("✗ ", style=ERROR_PILL)
-        suffix.append("ERROR", style=ERROR_PILL)
+        suffix.append("ОШИБКА", style=ERROR_PILL)
     else:
         suffix.append("✓ ", style=COMPLETED_PILL)
-        suffix.append("COMPLETED", style=COMPLETED_PILL)
+        suffix.append("ЗАВЕРШЕНО", style=COMPLETED_PILL)
 
     line = Text()
     line.append_text(prefix)
@@ -271,7 +271,7 @@ def _visible_task_records(
 
 def _overflow_row(hidden: int) -> Text:
     line = Text()
-    line.append(f"  … +{hidden} more tasks in this turn", style=f"dim {GREY_HINT}")
+    line.append(f"  … +{hidden} дополнительных задач в этом ходе", style=f"dim {GREY_HINT}")
     return line
 
 

@@ -1,4 +1,4 @@
-# `Runner`
+# `Исполнитель`
 
 ::: cai.sdk.agents.run
 

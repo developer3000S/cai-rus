@@ -128,23 +128,23 @@ class CAITerminal(App):
     captured_widget = None
 
     BINDINGS = [
-        Binding("ctrl+c", "cancel_selected", "Cancel Selected"),
-        Binding("ctrl+q", "quit", "Exit"),
-        Binding("ctrl+l", "clear", "Clear"),
-        Binding("ctrl+p", "command_palette", "Command Palette"),
-        Binding("ctrl+shift+a", "parallel_prompt", "Prompt All"),
-        Binding("ctrl+s", "toggle_sidebar", "Toggle Sidebar"),
-        Binding("ctrl+n", "next_terminal", "Next Terminal"),
-        Binding("ctrl+b", "prev_terminal", "Previous Terminal"),
-        Binding("escape", "cancel_all", "Cancel All"),
-        Binding("ctrl+shift+q", "show_queue", "Show Queue"),
-        Binding("ctrl+e", "close_terminal", "Close Terminal"),
-        Binding("ctrl+t", "toggle_terminal_view", "Toggle View"),
-        Binding("ctrl+shift+t", "cycle_theme", "Cycle Theme"),
-        Binding("ctrl+u", "clear_input", "Clear Input"),
-        Binding("ctrl+1", "show_terminal", "Terminal Tab"),
-        Binding("ctrl+2", "show_ctr", "CTR Tab"),
-        Binding("ctrl+tab", "cycle_tabs", "Next Tab"),
+        Binding("ctrl+c", "cancel_selected", "Отменить выбранное"),
+        Binding("ctrl+q", "quit", "Выход"),
+        Binding("ctrl+l", "clear", "Очистить"),
+        Binding("ctrl+p", "command_palette", "Палитра команд"),
+        Binding("ctrl+shift+a", "parallel_prompt", "Запрос всем"),
+        Binding("ctrl+s", "toggle_sidebar", "Переключить боковую панель"),
+        Binding("ctrl+n", "next_terminal", "Следующий терминал"),
+        Binding("ctrl+b", "prev_terminal", "Предыдущий терминал"),
+        Binding("escape", "cancel_all", "Отменить всё"),
+        Binding("ctrl+shift+q", "show_queue", "Показать очередь"),
+        Binding("ctrl+e", "close_terminal", "Закрыть терминал"),
+        Binding("ctrl+t", "toggle_terminal_view", "Переключить вид"),
+        Binding("ctrl+shift+t", "cycle_theme", "Сменить тему"),
+        Binding("ctrl+u", "clear_input", "Очистить ввод"),
+        Binding("ctrl+1", "show_terminal", "Вкладка терминала"),
+        Binding("ctrl+2", "show_ctr", "Вкладка графа"),
+        Binding("ctrl+tab", "cycle_tabs", "Следующая вкладка"),
     ]
 
     def __init__(self):
@@ -380,7 +380,7 @@ class CAITerminal(App):
 
         queue_file = _get_cai_config().queue_file
         if queue_file:
-            main_terminal.write(f"[dim]Queue file detected: {queue_file}[/dim]")
+            main_terminal.write(f"[dim]Обнаружен файл очереди: {queue_file}[/dim]")
             asyncio.create_task(self._load_and_process_queue_file(queue_file))
         else:
             if _recursion_guard.attempts.get("initialize_after_mount", 0) < 2:
@@ -419,18 +419,18 @@ class CAITerminal(App):
             data, resolved_path = load_agents_config(yaml_path)
         except AgentsConfigError as exc:
             if main_terminal:
-                main_terminal.write(f"[red]Failed to load agents YAML: {exc}[/red]")
+                main_terminal.write(f"[red]Ошибка загрузки YAML агентов: {exc}[/red]")
             return
 
         if not resolved_path:
             if main_terminal:
-                main_terminal.write(f"[yellow]Startup YAML not found: {yaml_path}[/yellow]")
+                main_terminal.write(f"[yellow]Стартовый YAML не найден: {yaml_path}[/yellow]")
             return
 
         agents, metadata, origin = extract_agent_definitions(data)
         if not agents:
             if main_terminal:
-                main_terminal.write(f"[yellow]No agent definitions found in {resolved_path}[/yellow]")
+                main_terminal.write(f"[yellow]Определения агентов не найдены в {resolved_path}[/yellow]")
             return
 
         runtime_prompt_override = _get_cai_config().tui_shared_prompt
@@ -498,7 +498,7 @@ class CAITerminal(App):
 
         if not agent_slots:
             if main_terminal:
-                main_terminal.write(f"[yellow]No valid agents found in {resolved_path}[/yellow]")
+                main_terminal.write(f"[yellow]Не найдено допустимых агентов в {resolved_path}[/yellow]")
             return
 
         grid.remove_agent_terminals()
@@ -523,7 +523,7 @@ class CAITerminal(App):
             terminal = grid.get_terminal_by_number(idx)
             if not terminal:
                 if main_terminal:
-                    main_terminal.write(f"[red]Failed to provision terminal {idx} for {slot['agent_name']}[/red]")
+                    main_terminal.write(f"[red]Не удалось provision-ить терминал {idx} для {slot['agent_name']}[/red]")
                 continue
             if hasattr(terminal, "state"):
                 terminal.state.agent_name = slot["agent_name"]
@@ -558,7 +558,7 @@ class CAITerminal(App):
         if main_terminal:
             main_terminal.write("")
             origin_label = origin or "parallel_agents"
-            header = f"[bold green]Startup agents loaded from {resolved_path}[/bold green]"
+            header = f"[bold green]Стартовые агенты загружены из {resolved_path}[/bold green]"
             if origin_label != "parallel_agents":
                 header += f" ({origin_label})"
             main_terminal.write(header)
@@ -568,9 +568,9 @@ class CAITerminal(App):
             for line in summary_lines:
                 main_terminal.write(f"[green]- {line}[/green]")
             if runtime_prompt:
-                main_terminal.write(f"[cyan]Runtime prompt override applied:[/cyan] {runtime_prompt}")
+                main_terminal.write(f"[cyan]Применён рантайм-промпт:[/cyan] {runtime_prompt}")
             elif shared_prompt:
-                main_terminal.write(f"[cyan]Shared prompt:[/cyan] {shared_prompt}")
+                main_terminal.write(f"[cyan]Общий промпт:[/cyan] {shared_prompt}")
             main_terminal.write("")
 
         try:
@@ -600,7 +600,7 @@ class CAITerminal(App):
                 for i, result in enumerate(results):
                     if isinstance(result, Exception):
                         si, sl = auto_run_slots[i]
-                        mt.write(f"[red]Auto-run error for T{si}: {result}[/red]")
+                        mt.write(f"[red]Ошибка автозапуска для T{si}: {result}[/red]")
 
     async def _run_auto_prompt(self, sm, terminal_number, prompt, *, agent_name="", delay=0.0):
         """Execute an auto-run prompt."""
@@ -638,7 +638,7 @@ class CAITerminal(App):
         except Exception as exc:
             mt = self.terminal_grid.get_main_terminal()
             if mt:
-                mt.write(f"[red]Auto-run failed for T{terminal_number}: {exc}[/red]")
+                mt.write(f"[red]Ошибка автозапуска для T{terminal_number}: {exc}[/red]")
 
     async def _load_and_process_queue_file(self, queue_file: str) -> None:
         await asyncio.sleep(1.0)
@@ -649,21 +649,21 @@ class CAITerminal(App):
             from cai.repl.commands.queue import load_queue_from_file
             queue_file = os.path.expanduser(queue_file)
             if not os.path.exists(queue_file):
-                mt.write(f"[yellow]Queue file not found: {queue_file}[/yellow]")
+                mt.write(f"[yellow]Файл очереди не найден: {queue_file}[/yellow]")
                 return
-            mt.write(f"[dim]Loading queue from {queue_file}...[/dim]")
+            mt.write(f"[dim]Загрузка очереди из {queue_file}...[/dim]")
             loaded = load_queue_from_file(queue_file)
             if loaded > 0:
-                mt.write(f"[cyan]Auto-loaded {loaded} prompts from CAI_QUEUE_FILE[/cyan]")
+                mt.write(f"[cyan]Авто-загружено {loaded} промптов из CAI_QUEUE_FILE[/cyan]")
                 self.sidebar.refresh_queue()
                 await asyncio.sleep(0.5)
                 if PROMPT_QUEUE.get_queue_size() > 0 and not PROMPT_QUEUE.is_processing():
                     asyncio.create_task(PROMPT_QUEUE._process_queue())
             else:
-                mt.write(f"[yellow]No prompts loaded from {queue_file}[/yellow]")
+                mt.write(f"[yellow]Промпты не загружены из {queue_file}[/yellow]")
         except Exception as e:
             import traceback
-            mt.write(f"[red]Failed to load queue file: {e}[/red]")
+            mt.write(f"[red]Ошибка загрузки файла очереди: {e}[/red]")
             mt.write(f"[dim]{traceback.format_exc()}[/dim]")
 
     # =========================================================================
@@ -683,7 +683,7 @@ class CAITerminal(App):
         if mode == "parallel":
             if mt:
                 mt.write(f"\n[bold cyan]{'='*70}[/bold cyan]")
-                mt.write(f"[bold cyan]PARALLEL MODE ACTIVATED - {len(PARALLEL_CONFIGS)} agents[/bold cyan]")
+                mt.write(f"[bold cyan]ПАРАЛЛЕЛЬНЫЙ РЕЖИМ АКТИВИРОВАН - {len(PARALLEL_CONFIGS)} агентов[/bold cyan]")
                 mt.write(f"[bold cyan]{'='*70}[/bold cyan]\n")
             self.terminal_grid.remove_agent_terminals()
             for i in range(1, len(PARALLEL_CONFIGS)):
@@ -713,7 +713,7 @@ class CAITerminal(App):
             self.terminal_grid.clear_agents()
             if mt:
                 mt.write(f"\n[bold cyan]{'='*70}[/bold cyan]")
-                mt.write("[bold cyan]SINGLE MODE ACTIVATED[/bold cyan]")
+                mt.write("[bold cyan]ОДИНОЧНЫЙ РЕЖИМ АКТИВИРОВАН[/bold cyan]")
                 mt.write(f"[bold cyan]{'='*70}[/bold cyan]\n")
             if self.session_manager:
                 self.session_manager.set_parallel_mode(False)
@@ -814,7 +814,7 @@ class CAITerminal(App):
                     await self.session_manager.execute_command(d.command, terminal_number=tn)
                     return
             else:
-                target.write("[yellow]No agent loaded. Use /agent select <name>[/yellow]")
+                target.write("[yellow]Агент не загружен. Используйте /agent select <имя>[/yellow]")
                 return
         # Fallback: single active agent
         active = d.active_agents
@@ -842,7 +842,7 @@ class CAITerminal(App):
             mt = self.terminal_grid.get_main_terminal()
             for i, r in enumerate(results):
                 if isinstance(r, Exception) and mt:
-                    mt.write(f"[red]Error in T{info[i][0]} ({info[i][1]}): {r}[/red]")
+                    mt.write(f"[red]Ошибка в T{info[i][0]} ({info[i][1]}): {r}[/red]")
 
     async def _broadcast_cli_command(self, command, active_agents) -> None:
         import concurrent.futures
@@ -868,7 +868,7 @@ class CAITerminal(App):
                 except Exception as e:
                     mt = self.terminal_grid.get_main_terminal()
                     if mt:
-                        mt.write(f"[red]Error in T{infos[i][0]} ({infos[i][1]}): {e}[/red]")
+                        mt.write(f"[red]Ошибка в T{infos[i][0]} ({infos[i][1]}): {e}[/red]")
 
     def _resolve_terminal(self, num, *, cli=False):
         """Resolve a target terminal by number, falling back to focused or main."""
@@ -943,7 +943,7 @@ class CAITerminal(App):
             self.session_manager.add_terminal_runner(nt.terminal_number, nt)
             asyncio.create_task(self.session_manager.update_terminal_agent(nt.terminal_number, name))
             self.terminal_grid.focus_terminal(nt.terminal_id)
-            nt.write(f"[bold green]Agent '{name}' spawned in Terminal {nt.terminal_number}[/bold green]\n")
+            nt.write(f"[bold green]Агент '{name}' создан в Терминале {nt.terminal_number}[/bold green]\n")
 
     @on(TeamSelected)
     def on_team_selected(self, event: TeamSelected) -> None:
@@ -958,7 +958,7 @@ class CAITerminal(App):
         except Exception as e:
             mt = self.terminal_grid.get_main_terminal()
             if mt:
-                mt.write(f"[red]Error applying team: {type(e).__name__}: {e}[/red]")
+                mt.write(f"[red]Ошибка применения команды: {type(e).__name__}: {e}[/red]")
 
     @on(AgentSelectionConfirmed)
     def on_agent_selection_confirmed(self, event: AgentSelectionConfirmed) -> None:
@@ -980,9 +980,9 @@ class CAITerminal(App):
         if mt:
             try:
                 fp = AgentBuilder.save_agent_file(event.agent_config)
-                mt.write(f"\n[green]Agent created successfully![/green]\n[green]File: {fp}[/green]")
+                mt.write(f"\n[green]Агент успешно создан![/green]\n[green]Файл: {fp}[/green]")
             except Exception as e:
-                mt.write(f"\n[red]Error creating agent: {e}[/red]")
+                mt.write(f"\n[red]Ошибка создания агента: {e}[/red]")
 
     @on(AgentCreationCancelled)
     def on_agent_creation_cancelled(self, event: AgentCreationCancelled) -> None:
@@ -1081,7 +1081,7 @@ class CAITerminal(App):
         if not available:
             mt = self.terminal_grid.get_main_terminal()
             if mt:
-                mt.write("[yellow]No terminals have agents loaded.[/yellow]")
+                mt.write("[yellow]Нет терминалов с загруженными агентами.[/yellow]")
             return
         self._terminal_agent_map = tam
         try:
@@ -1089,7 +1089,7 @@ class CAITerminal(App):
         except Exception as e:
             mt = self.terminal_grid.get_main_terminal()
             if mt:
-                mt.write(f"[red]ERROR showing agent selector: {e}[/red]")
+                mt.write(f"[red]ОШИБКА показа селектора агентов: {e}[/red]")
 
     # =========================================================================
     # Keyboard actions
@@ -1102,7 +1102,7 @@ class CAITerminal(App):
         if self.current_mode != "parallel":
             mt = self.terminal_grid.get_main_terminal()
             if mt:
-                mt.write("[yellow]Not in parallel mode[/yellow]")
+                mt.write("[yellow]Не в параллельном режиме[/yellow]")
             return
         asyncio.create_task(self.terminal_grid.broadcast_command("Tell me about your capabilities", "agent"))
 
@@ -1153,14 +1153,14 @@ class CAITerminal(App):
         status = PROMPT_QUEUE.get_queue_status()
         mt = self.terminal_grid.get_main_terminal()
         if mt:
-            mt.write("[bold cyan]Prompt Queue Status[/bold cyan]")
-            mt.write(f"[cyan]Queue Length:[/cyan] {status['queue_length']}")
-            mt.write(f"[cyan]Processing:[/cyan] {'Yes' if status['processing'] else 'No'}")
+            mt.write("[bold cyan]Состояние очереди промптов[/bold cyan]")
+            mt.write(f"[cyan]Длина очереди:[/cyan] {status['queue_length']}")
+            mt.write(f"[cyan]Обработка:[/cyan] {'Да' if status['processing'] else 'Нет'}")
             if status["prompts"]:
                 for i, p in enumerate(status["prompts"], 1):
                     mt.write(f"  {i}. {p['prompt']} (priority: {p['priority']})")
             else:
-                mt.write("[dim]No prompts queued[/dim]")
+                mt.write("[dim]Очередь пуста[/dim]")
             mt.write("")
 
     def action_quit(self) -> None:
@@ -1184,7 +1184,7 @@ class CAITerminal(App):
     def update_layout_indicator(self) -> None:
         tc = self.terminal_grid.terminal_count
         lm = self.terminal_grid.layout_mode.upper()
-        self.title = f"CAI Terminal - {lm} Layout | Terminals: {tc}"
+        self.title = f"Терминал CAI - {lm} макет | Терминалы: {tc}"
 
     def on_unmount(self, event: Unmount) -> None:
         if self.session_manager:
@@ -1194,14 +1194,14 @@ class CAITerminal(App):
         mt = self.terminal_grid.get_main_terminal()
         if not mt:
             return
-        mt.write("[bold cyan]=== TERMINAL STATE DEBUG ===[/bold cyan]")
-        mt.write(f"Total terminals: {len(self.terminal_grid.terminals)}")
+        mt.write("[bold cyan]=== ОТЛАДКА СОСТОЯНИЯ ТЕРМИНАЛА ===[/bold cyan]")
+        mt.write(f"Всего терминалов: {len(self.terminal_grid.terminals)}")
         for tid, terminal in self.terminal_grid.terminals.items():
-            mt.write(f"\nTerminal {terminal.terminal_number}:")
+            mt.write(f"\nТерминал {terminal.terminal_number}:")
             mt.write(f"  - ID: {tid}")
-            mt.write(f"  - Agent: {terminal.state.agent_name or 'None'}")
+            mt.write(f"  - Агент: {terminal.state.agent_name or 'Нет'}")
             if self.session_manager:
-                mt.write(f"  - In session mgr: {terminal.terminal_number in self.session_manager.terminal_runners}")
+                mt.write(f"  - В менеджере сессий: {terminal.terminal_number in self.session_manager.terminal_runners}")
         mt.write("[bold cyan]==========================[/bold cyan]\n")
 
     # -- Session summary helpers (used from run_cai_tui) -----------------------
@@ -1235,8 +1235,8 @@ def run_cai_tui():
             from rich.console import Console
             from rich.panel import Panel
             Console(stderr=True).print(
-                Panel("[bold red]ALIAS_API_KEY is invalid or not set[/bold red]",
-                      title="[red]Authentication Error[/red]", border_style="red")
+                Panel("[bold red]ALIAS_API_KEY недействителен или не задан[/bold red]",
+                      title="[red]Ошибка аутентификации[/red]", border_style="red")
             )
             return
     except Exception:
@@ -1316,18 +1316,18 @@ def run_cai_tui():
 
         _body = "dim white"
         pct = round(active_s / session_time * 100, 1) if session_time else 0
-        parts = [
-            Text(f"Session Time: {fmt(session_time)}", style=_body),
-            Text(f"Active Time: {fmt(active_s)} ({pct}%)", style=_body),
-            Text(f"Idle Time: {fmt(idle_s)}", style=_body),
+            parts = [
+            Text(f"Время сессии: {fmt(session_time)}", style=_body),
+            Text(f"Активное время: {fmt(active_s)} ({pct}%)", style=_body),
+            Text(f"Время простоя: {fmt(idle_s)}", style=_body),
         ]
         cost_line = Text()
-        cost_line.append("Total Session Cost:", style=_body)
+        cost_line.append("Общая стоимость сессии:", style=_body)
         cost_line.append(" ", style=_body)
         cost_line.append(f"${cost:.6f}", style=f"bold {CAI_GREEN}")
         parts.append(cost_line)
         if log_path:
-            parts.append(Text("Log available at:", style=_body))
+            parts.append(Text("Лог доступен по адресу:", style=_body))
             parts.append(Text(log_path, style=_body))
         Console().print(
             Panel(
@@ -1340,4 +1340,4 @@ def run_cai_tui():
             )
         )
     except Exception as e:
-        print(f"\nError displaying session summary: {e}")
+        print(f"\nОшибка отображения сводки сессии: {e}")

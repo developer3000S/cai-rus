@@ -1,6 +1,6 @@
 """
-Cost command for CAI REPL.
-This module provides commands for viewing usage costs and statistics.
+Команда стоимости для CAI REPL.
+Этот модуль предоставляет команды для просмотра стоимости использования и статистики.
 """
 
 import shutil
@@ -42,16 +42,16 @@ class CostCommand(Command):
         """Initialize the cost command."""
         super().__init__(
             name="/cost",
-            description="View usage costs and statistics",
+            description="Просмотр стоимости использования и статистики",
             aliases=["/costs", "/usage"],
         )
 
         # Add subcommands
-        self.add_subcommand("summary", "Show cost summary", self.handle_summary)
-        self.add_subcommand("models", "Show costs by model", self.handle_models)
-        self.add_subcommand("daily", "Show daily usage", self.handle_daily)
-        self.add_subcommand("sessions", "Show recent sessions", self.handle_sessions)
-        self.add_subcommand("reset", "Reset usage statistics", self.handle_reset)
+        self.add_subcommand("summary", "Показать сводку стоимости", self.handle_summary)
+        self.add_subcommand("models", "Показать стоимость по моделям", self.handle_models)
+        self.add_subcommand("daily", "Показать дневное использование", self.handle_daily)
+        self.add_subcommand("sessions", "Показать недавние сессии", self.handle_sessions)
+        self.add_subcommand("reset", "Сбросить статистику использования", self.handle_reset)
 
     def handle(self, args: Optional[List[str]] = None) -> bool:
         """
@@ -77,14 +77,14 @@ class CostCommand(Command):
 
     def handle_summary(self, args: Optional[List[str]] = None) -> bool:
         """Display cost summary including current session and global totals."""
-        console.print(f"\n[bold {_Z}]CAI Usage Cost Summary[/bold {_Z}]")
+        console.print(f"\n[bold {_Z}]Сводка стоимости использования CAI[/bold {_Z}]")
         console.print(f"[{_M}]" + "=" * 40 + "[/]")
 
         # Current Session Panel
         session_content = self._get_session_summary()
         session_panel = Panel(
             session_content,
-            title=f"[bold {_Z}]Current Session[/bold {_Z}]",
+            title=f"[bold {_Z}]Текущая сессия[/bold {_Z}]",
             border_style=_Z,
             box=box.ROUNDED,
             padding=(1, 2),
@@ -94,7 +94,7 @@ class CostCommand(Command):
         global_content = self._get_global_summary()
         global_panel = Panel(
             global_content,
-            title=f"[bold {_Z}]Global Usage (All Time)[/bold {_Z}]",
+            title=f"[bold {_Z}]Глобальное использование (за всё время)[/bold {_Z}]",
             border_style=_Z,
             box=box.ROUNDED,
             padding=(1, 2),
@@ -112,10 +112,10 @@ class CostCommand(Command):
         self._show_top_models_mini()
 
         # Show helpful commands
-        console.print(f"\n[dim {_M}]Use '/cost models' for detailed model breakdown[/dim {_M}]")
-        console.print(f"[dim {_M}]Use '/cost daily' for daily usage history[/dim {_M}]")
-        console.print(f"[dim {_M}]Use '/cost sessions' for recent session details[/dim {_M}]")
-        console.print(f"[dim {_M}]Use '/context' to see where context tokens go[/dim {_M}]")
+        console.print(f"\n[dim {_M}]Используйте '/cost models' для детальной разбивки по моделям[/dim {_M}]")
+        console.print(f"[dim {_M}]Используйте '/cost daily' для истории дневного использования[/dim {_M}]")
+        console.print(f"[dim {_M}]Используйте '/cost sessions' для деталей недавних сессий[/dim {_M}]")
+        console.print(f"[dim {_M}]Используйте '/context' для просмотра расхода токенов контекста[/dim {_M}]")
 
         return True
 
@@ -125,13 +125,13 @@ class CostCommand(Command):
 
         # Session cost
         session_cost = COST_TRACKER.session_total_cost
-        lines.append(f"[{_M}]Total Cost:[/] [bold white]${session_cost:.6f}[/bold white]")
+        lines.append(f"[{_M}]Общая стоимость:[/] [bold white]${session_cost:.6f}[/bold white]")
 
         # Current agent costs
         if hasattr(COST_TRACKER, "current_agent_total_cost"):
             agent_cost = COST_TRACKER.current_agent_total_cost
             if agent_cost > 0:
-                lines.append(f"[{_M}]Current Agent:[/] [bold white]${agent_cost:.6f}[/bold white]")
+                lines.append(f"[{_M}]Текущий агент:[/] [bold white]${agent_cost:.6f}[/bold white]")
 
         # Token usage
         if hasattr(COST_TRACKER, "current_agent_input_tokens"):
@@ -140,21 +140,21 @@ class CostCommand(Command):
             total_tokens = input_tokens + output_tokens
 
             lines.append("")
-            lines.append(f"[{_M}]Tokens Used:[/]")
-            lines.append(f"  [{_M}]Input:[/]  [white]{input_tokens:,}[/white]")
-            lines.append(f"  [{_M}]Output:[/] [white]{output_tokens:,}[/white]")
-            lines.append(f"  [{_M}]Total:[/]  [white]{total_tokens:,}[/white]")
+            lines.append(f"[{_M}]Использовано токенов:[/]")
+            lines.append(f"  [{_M}]Вход:[/]  [white]{input_tokens:,}[/white]")
+            lines.append(f"  [{_M}]Выход:[/] [white]{output_tokens:,}[/white]")
+            lines.append(f"  [{_M}]Итого:[/]  [white]{total_tokens:,}[/white]")
 
             # Cache tokens (when provided by the backend)
             cache_read = getattr(COST_TRACKER, "cache_read_tokens", 0) or 0
             cache_create = getattr(COST_TRACKER, "cache_creation_tokens", 0) or 0
             if cache_read or cache_create:
                 lines.append("")
-                lines.append(f"[{_M}]Cache Tokens (if supported):[/]")
+                lines.append(f"[{_M}]Токены кэша (если поддерживается):[/]")
                 if cache_read:
-                    lines.append(f"  [{_M}]Read:[/]   [white]{int(cache_read):,}[/white]")
+                    lines.append(f"  [{_M}]Чтение:[/]   [white]{int(cache_read):,}[/white]")
                 if cache_create:
-                    lines.append(f"  [{_M}]Write:[/]  [white]{int(cache_create):,}[/white]")
+                    lines.append(f"  [{_M}]Запись:[/]  [white]{int(cache_create):,}[/white]")
 
         return "\n".join(lines)
 
@@ -163,8 +163,8 @@ class CostCommand(Command):
         lines = []
 
         if not GLOBAL_USAGE_TRACKER.enabled:
-            lines.append("[yellow]Usage tracking is disabled[/yellow]")
-            lines.append("[dim]Set CAI_DISABLE_USAGE_TRACKING=false to enable[/dim]")
+            lines.append("[yellow]Отслеживание использования отключено[/yellow]")
+            lines.append("[dim]Установите CAI_DISABLE_USAGE_TRACKING=false для включения[/dim]")
             return "\n".join(lines)
 
         summary = GLOBAL_USAGE_TRACKER.get_summary()
@@ -172,15 +172,15 @@ class CostCommand(Command):
 
         # Global cost
         total_cost = totals.get("total_cost", 0.0)
-        lines.append(f"[{_M}]Total Cost:[/] [bold white]${total_cost:.6f}[/bold white]")
+        lines.append(f"[{_M}]Общая стоимость:[/] [bold white]${total_cost:.6f}[/bold white]")
 
         # Sessions
         total_sessions = totals.get("total_sessions", 0)
-        lines.append(f"[{_M}]Total Sessions:[/] [white]{total_sessions}[/white]")
+        lines.append(f"[{_M}]Всего сессий:[/] [white]{total_sessions}[/white]")
 
         # Requests
         total_requests = totals.get("total_requests", 0)
-        lines.append(f"[{_M}]Total Requests:[/] [white]{total_requests:,}[/white]")
+        lines.append(f"[{_M}]Всего запросов:[/] [white]{total_requests:,}[/white]")
 
         # Tokens
         input_tokens = totals.get("total_input_tokens", 0)
@@ -188,16 +188,16 @@ class CostCommand(Command):
         total_tokens = input_tokens + output_tokens
 
         lines.append("")
-        lines.append(f"[{_M}]Total Tokens:[/]")
-        lines.append(f"  [{_M}]Input:[/]  [white]{input_tokens:,}[/white]")
-        lines.append(f"  [{_M}]Output:[/] [white]{output_tokens:,}[/white]")
-        lines.append(f"  [{_M}]Total:[/]  [white]{total_tokens:,}[/white]")
+        lines.append(f"[{_M}]Всего токенов:[/]")
+            lines.append(f"  [{_M}]Вход:[/]  [white]{input_tokens:,}[/white]")
+            lines.append(f"  [{_M}]Выход:[/] [white]{output_tokens:,}[/white]")
+            lines.append(f"  [{_M}]Итого:[/]  [white]{total_tokens:,}[/white]")
 
         # Average cost per session
         if total_sessions > 0:
             avg_cost = total_cost / total_sessions
             lines.append("")
-            lines.append(f"[{_M}]Avg per Session:[/] [bold white]${avg_cost:.6f}[/bold white]")
+            lines.append(f"[{_M}]Среднее за сессию:[/] [bold white]${avg_cost:.6f}[/bold white]")
 
         return "\n".join(lines)
 
@@ -212,7 +212,7 @@ class CostCommand(Command):
         if not top_models:
             return
 
-        console.print(f"\n[bold {_M}]Top Models by Cost:[/bold {_M}]")
+        console.print(f"\n[bold {_M}]Топ моделей по стоимости:[/bold {_M}]")
 
         # Create a simple bar chart
         max_cost = top_models[0][1] if top_models else 0
@@ -231,30 +231,30 @@ class CostCommand(Command):
     def handle_models(self, args: Optional[List[str]] = None) -> bool:
         """Show detailed costs by model."""
         if not GLOBAL_USAGE_TRACKER.enabled:
-            console.print("[yellow]Usage tracking is disabled[/yellow]")
+            console.print("[yellow]Отслеживание использования отключено[/yellow]")
             return True
 
         usage_data = GLOBAL_USAGE_TRACKER.usage_data
         model_usage = usage_data.get("model_usage", {})
 
         if not model_usage:
-            console.print("[yellow]No model usage data available[/yellow]")
+            console.print("[yellow]Данные об использовании моделей недоступны[/yellow]")
             return True
 
         # Create detailed model table
         table = Table(
-            title=f"[bold {_Z}]Model Usage Statistics[/bold {_Z}]",
+            title=f"[bold {_Z}]Статистика использования моделей[/bold {_Z}]",
             show_header=True,
             header_style=f"bold {_M}",
             box=box.ROUNDED,
         )
 
-        table.add_column("Model", style=f"bold {_Z}", no_wrap=True)
-        table.add_column("Total Cost", style="white", justify="right")
-        table.add_column("Requests", style="white", justify="right")
-        table.add_column("Input Tokens", style="white", justify="right")
-        table.add_column("Output Tokens", style="white", justify="right")
-        table.add_column("Avg Cost/Request", style="white", justify="right")
+        table.add_column("Модель", style=f"bold {_Z}", no_wrap=True)
+        table.add_column("Общая стоимость", style="white", justify="right")
+        table.add_column("Запросы", style="white", justify="right")
+        table.add_column("Входные токены", style="white", justify="right")
+        table.add_column("Выходные токены", style="white", justify="right")
+        table.add_column("Ср. стоимость/запрос", style="white", justify="right")
 
         # Sort by cost descending
         sorted_models = sorted(
@@ -291,7 +291,7 @@ class CostCommand(Command):
         # Add totals row
         table.add_section()
         table.add_row(
-            "[bold]TOTAL[/bold]",
+            "[bold]ИТОГО[/bold]",
             f"[bold]${total_cost:.6f}[/bold]",
             f"[bold]{total_requests:,}[/bold]",
             f"[bold]{total_input:,}[/bold]",
@@ -303,7 +303,7 @@ class CostCommand(Command):
 
         # Show cost breakdown pie chart (text-based)
         if len(sorted_models) > 0:
-            console.print(f"\n[bold {_M}]Cost Distribution:[/bold {_M}]")
+            console.print(f"\n[bold {_M}]Распределение стоимости:[/bold {_M}]")
             for model, stats in sorted_models[:5]:  # Top 5
                 cost = stats.get("total_cost", 0)
                 percentage = (cost / total_cost * 100) if total_cost > 0 else 0
@@ -318,29 +318,29 @@ class CostCommand(Command):
     def handle_daily(self, args: Optional[List[str]] = None) -> bool:
         """Show daily usage breakdown."""
         if not GLOBAL_USAGE_TRACKER.enabled:
-            console.print("[yellow]Usage tracking is disabled[/yellow]")
+            console.print("[yellow]Отслеживание использования отключено[/yellow]")
             return True
 
         usage_data = GLOBAL_USAGE_TRACKER.usage_data
         daily_usage = usage_data.get("daily_usage", {})
 
         if not daily_usage:
-            console.print("[yellow]No daily usage data available[/yellow]")
+            console.print("[yellow]Данные дневного использования недоступны[/yellow]")
             return True
 
         # Create daily usage table
         table = Table(
-            title=f"[bold {_Z}]Daily Usage Statistics[/bold {_Z}]",
+            title=f"[bold {_Z}]Статистика дневного использования[/bold {_Z}]",
             show_header=True,
             header_style=f"bold {_M}",
             box=box.ROUNDED,
         )
 
-        table.add_column("Date", style=f"bold {_Z}")
-        table.add_column("Cost", style="white", justify="right")
-        table.add_column("Requests", style="white", justify="right")
-        table.add_column("Tokens", style="white", justify="right")
-        table.add_column("Trend", style="white", justify="center")
+        table.add_column("Дата", style=f"bold {_Z}")
+        table.add_column("Стоимость", style="white", justify="right")
+        table.add_column("Запросы", style="white", justify="right")
+        table.add_column("Токены", style="white", justify="right")
+        table.add_column("Тренд", style="white", justify="center")
 
         # Sort by date descending
         sorted_days = sorted(daily_usage.items(), reverse=True)
@@ -376,7 +376,7 @@ class CostCommand(Command):
 
                 # Highlight today
                 if date_obj.date() == datetime.now().date():
-                    date_str = f"[bold]{date_str} (Today)[/bold]"
+                    date_str = f"[bold]{date_str} (Сегодня)[/bold]"
             except:
                 date_str = date
 
@@ -394,7 +394,7 @@ class CostCommand(Command):
         if not sorted_days:
             return
 
-        console.print(f"\n[bold {_M}]Weekly Summary:[/bold {_M}]")
+        console.print(f"\n[bold {_M}]Недельная сводка:[/bold {_M}]")
 
         # Group by week
         weekly_costs = {}
@@ -416,7 +416,7 @@ class CostCommand(Command):
         for week_start, cost in sorted_weeks:
             try:
                 week_date = datetime.strptime(week_start, "%Y-%m-%d")
-                week_label = f"Week of {week_date.strftime('%b %d')}"
+                week_label = f"Неделя {week_date.strftime('%b %d')}"
                 console.print(f"  [{_M}]{week_label:<20}[/] [white]${cost:.4f}[/white]")
             except:
                 console.print(f"  [{_M}]{week_start:<20}[/] [white]${cost:.4f}[/white]")
@@ -424,14 +424,14 @@ class CostCommand(Command):
     def handle_sessions(self, args: Optional[List[str]] = None) -> bool:
         """Show recent session details."""
         if not GLOBAL_USAGE_TRACKER.enabled:
-            console.print("[yellow]Usage tracking is disabled[/yellow]")
+            console.print("[yellow]Отслеживание использования отключено[/yellow]")
             return True
 
         usage_data = GLOBAL_USAGE_TRACKER.usage_data
         sessions = usage_data.get("sessions", [])
 
         if not sessions:
-            console.print("[yellow]No session data available[/yellow]")
+            console.print("[yellow]Данные сессий недоступны[/yellow]")
             return True
 
         # Show last N sessions (default 10)
@@ -443,18 +443,18 @@ class CostCommand(Command):
 
         # Create sessions table
         table = Table(
-            title=f"[bold {_Z}]Recent {len(recent_sessions)} Sessions[/bold {_Z}]",
+            title=f"[bold {_Z}]Последние {len(recent_sessions)} сессий[/bold {_Z}]",
             show_header=True,
             header_style=f"bold {_M}",
             box=box.ROUNDED,
         )
 
-        table.add_column("Session ID", style=f"bold {_Z}", no_wrap=True)
-        table.add_column("Start Time", style="white")
-        table.add_column("Duration", style="white", justify="right")
-        table.add_column("Cost", style="white", justify="right")
-        table.add_column("Requests", style="white", justify="right")
-        table.add_column("Models Used", style="white")
+        table.add_column("ID сессии", style=f"bold {_Z}", no_wrap=True)
+        table.add_column("Время начала", style="white")
+        table.add_column("Длительность", style="white", justify="right")
+        table.add_column("Стоимость", style="white", justify="right")
+        table.add_column("Запросы", style="white", justify="right")
+        table.add_column("Использованные модели", style="white")
 
         for session in reversed(recent_sessions):  # Show newest first
             session_id = session.get("session_id", "Unknown")[:8] + "..."
@@ -493,7 +493,7 @@ class CostCommand(Command):
                 except:
                     duration_str = "Unknown"
             else:
-                duration_str = "[yellow]Active[/yellow]"
+                duration_str = "[yellow]Активна[/yellow]"
 
             # Format models
             if models:
@@ -514,18 +514,18 @@ class CostCommand(Command):
         completed_sessions = len(sessions) - active_sessions
         total_session_cost = sum(s.get("total_cost", 0) for s in sessions)
 
-        console.print(f"\n[bold {_M}]Session Statistics:[/bold {_M}]")
-        console.print(f"  [{_M}]Total Sessions:[/] [white]{len(sessions)}[/white]")
-        console.print(f"  [{_M}]Active Sessions:[/] [white]{active_sessions}[/white]")
-        console.print(f"  [{_M}]Completed Sessions:[/] [white]{completed_sessions}[/white]")
+        console.print(f"\n[bold {_M}]Статистика сессий:[/bold {_M}]")
+        console.print(f"  [{_M}]Всего сессий:[/] [white]{len(sessions)}[/white]")
+        console.print(f"  [{_M}]Активных сессий:[/] [white]{active_sessions}[/white]")
+        console.print(f"  [{_M}]Завершённых сессий:[/] [white]{completed_sessions}[/white]")
         console.print(
-            f"  [{_M}]Total Cost Across All Sessions:[/] [bold white]${total_session_cost:.6f}[/bold white]"
+            f"  [{_M}]Общая стоимость по всем сессиям:[/] [bold white]${total_session_cost:.6f}[/bold white]"
         )
 
         if completed_sessions > 0:
             avg_session_cost = total_session_cost / len(sessions)
             console.print(
-                f"  [{_M}]Average Cost per Session:[/] [bold white]${avg_session_cost:.6f}[/bold white]"
+                f"  [{_M}]Средняя стоимость за сессию:[/] [bold white]${avg_session_cost:.6f}[/bold white]"
             )
 
         return True
@@ -533,13 +533,13 @@ class CostCommand(Command):
     def handle_reset(self, args: Optional[List[str]] = None) -> bool:
         """Reset usage statistics (with confirmation)."""
         if not GLOBAL_USAGE_TRACKER.enabled:
-            console.print("[yellow]Usage tracking is disabled[/yellow]")
+            console.print("[yellow]Отслеживание использования отключено[/yellow]")
             return True
 
         usage_file = Path.home() / ".cai" / "usage.json"
 
         if not usage_file.exists():
-            console.print("[yellow]No usage data to reset[/yellow]")
+            console.print("[yellow]Нет данных использования для сброса[/yellow]")
             return True
 
         # Show current totals before reset
@@ -548,11 +548,11 @@ class CostCommand(Command):
         total_cost = totals.get("total_cost", 0)
         total_sessions = totals.get("total_sessions", 0)
 
-        console.print(f"\n[bold red]Warning:[/bold red] This will reset all usage statistics!")
-        console.print(f"Current totals: ${total_cost:.6f} across {total_sessions} sessions")
+        console.print(f"\n[bold red]Внимание:[/bold red] Это сбросит всю статистику использования!")
+        console.print(f"Текущие итоги: ${total_cost:.6f} за {total_sessions} сессий")
 
         # Require explicit confirmation
-        console.print("\nType 'RESET' to confirm (or anything else to cancel):")
+        console.print("\nВведите 'RESET' для подтверждения (или любое другое действие для отмены):")
         confirmation = console.input("> ")
 
         if confirmation == "RESET":
@@ -560,17 +560,17 @@ class CostCommand(Command):
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             backup_file = usage_file.with_name(f"usage_backup_{timestamp}.json")
             shutil.copy2(usage_file, backup_file)
-            console.print(f"[green]Backup created:[/green] {backup_file}")
+            console.print(f"[green]Резервная копия создана:[/green] {backup_file}")
 
             # Reset the file
             usage_file.unlink()
-            console.print("[green]Usage statistics have been reset[/green]")
+            console.print("[green]Статистика использования сброшена[/green]")
 
             # Reinitialize the tracker
             GLOBAL_USAGE_TRACKER._initialized = False
             GLOBAL_USAGE_TRACKER.__init__()
         else:
-            console.print("[yellow]Reset cancelled[/yellow]")
+            console.print("[yellow]Сброс отменён[/yellow]")
 
         return True
 

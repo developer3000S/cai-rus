@@ -1,7 +1,8 @@
-"""Docker container execution and workspace path utilities.
+"""Утилиты выполнения Docker-контейнеров и управления путями рабочих пространств.
 
-Extracted from tools/common.py (3,343 LOC) as part of the core-engine refactor.
-Contains workspace resolution helpers and the async Docker exec backend.
+Вынесены из tools/common.py (3 343 строки) в рамках рефакторинга движка.
+Содержат вспомогательные функции разрешения рабочих пространств и асинхронный
+механизм выполнения Docker-команд.
 """
 
 import os
@@ -31,17 +32,17 @@ from cai.tools.streaming import (
 # ---------------------------------------------------------------------------
 
 def _default_workspace_base() -> str:
-    """Return the default workspace base: ~/.cai/workspace"""
+    """Возвращает базовый путь рабочего пространства по умолчанию: ~/.cai/workspace"""
     return os.path.join(os.path.expanduser("~"), ".cai", "workspace")
 
 
 def _get_workspace_dir() -> str:
-    """Determines the target workspace directory based on env vars for host.
+    """Определяет целевую директорию рабочего пространства на основе переменных окружения хоста.
 
-    Resolution order:
-      1. CAI_WORKSPACE_DIR env var          (explicit override)
-      2. ~/.cai/workspace/{CAI_WORKSPACE}   (named workspace)
-      3. ~/.cai/workspace/                  (default)
+    Порядок разрешения:
+      1. Переменная окружения CAI_WORKSPACE_DIR   (явное переопределение)
+      2. ~/.cai/workspace/{CAI_WORKSPACE}          (именованное рабочее пространство)
+      3. ~/.cai/workspace/                         (по умолчанию)
     """
     base_dir_env = os.getenv("CAI_WORKSPACE_DIR")
     workspace_name = os.getenv("CAI_WORKSPACE")
@@ -54,8 +55,8 @@ def _get_workspace_dir() -> str:
     if workspace_name:
         if not all(c.isalnum() or c in ["_", "-"] for c in workspace_name):
             print(color(
-                f"Invalid CAI_WORKSPACE name '{workspace_name}'. "
-                f"Using directory '{base_dir}' instead.", fg="yellow",
+                f"Недопустимое имя CAI_WORKSPACE '{workspace_name}'. "
+                f"Используется директория '{base_dir}'.", fg="yellow",
             ))
             target_dir = base_dir
         else:
@@ -69,23 +70,23 @@ def _get_workspace_dir() -> str:
         return abs_target_dir
     except OSError as e:
         print(color(
-            f"Error creating/accessing host workspace directory '{abs_target_dir}': {e}",
+            f"Ошибка создания/доступа к директории рабочего пространства на хосте '{abs_target_dir}': {e}",
             fg="red",
         ))
         fallback = _default_workspace_base()
         os.makedirs(fallback, exist_ok=True)
-        print(color(f"Falling back to: {fallback}", fg="yellow"))
+        print(color(f"Используется резервный вариант: {fallback}", fg="yellow"))
         return fallback
 
 
 def _get_container_workspace_path() -> str:
-    """Determines the target workspace path inside the container."""
+    """Определяет целевой путь рабочего пространства внутри контейнера."""
     workspace_name = os.getenv("CAI_WORKSPACE")
     if workspace_name:
         if not all(c.isalnum() or c in ["_", "-"] for c in workspace_name):
             print(color(
-                f"Invalid CAI_WORKSPACE name '{workspace_name}' for container. "
-                f"Using '/workspace'.", fg="yellow",
+                f"Недопустимое имя CAI_WORKSPACE '{workspace_name}' для контейнера. "
+                f"Используется '/workspace'.", fg="yellow",
             ))
             return "/workspace"
         return f"/workspace/workspaces/{workspace_name}"
@@ -104,7 +105,7 @@ async def _run_docker_async(
     tool_name=None,
     args=None,
 ):
-    """Async version of Docker command execution using asyncio subprocess."""
+    """Асинхронная версия выполнения Docker-команд через asyncio subprocess."""
     import asyncio
 
     # Make sure we're in active time mode for tool execution
@@ -214,7 +215,7 @@ async def _run_docker_async(
                                     except asyncio.TimeoutError:
                                         process.kill()
                                         await process.wait()
-                                    output_buffer.append(f"\n[Terminated: idle {idle_timeout}s]")
+                                    output_buffer.append(f"\n[Остановлено: простоя {idle_timeout}с]")
                                     break
 
                         # Wait for process to complete
@@ -238,7 +239,7 @@ async def _run_docker_async(
                         process.terminate()
 
                     partial_output = "".join(output_buffer) if 'output_buffer' in locals() else ""
-                    timeout_msg = f"\n[Command timed out after {timeout} seconds in container]"
+                    timeout_msg = f"\n[Команда превысила время выполнения в контейнере ({timeout} сек)]"
 
                     execution_info = {
                         "status": "timeout",
@@ -258,11 +259,11 @@ async def _run_docker_async(
                 stderr_data = await process.stderr.read()
                 if stderr_data:
                     stderr_str = stderr_data.decode("utf-8", errors="replace")
-                    output_buffer.append("\nERROR OUTPUT:\n" + stderr_str)
+                    output_buffer.append("\nВЫВОД ОШИБКИ:\n" + stderr_str)
 
                 final_output = "".join(output_buffer)
                 if return_code != 0:
-                    final_output += f"\nCommand exited with code {return_code}"
+                    final_output += f"\nКоманда завершилась с кодом {return_code}"
 
                 execution_info = {
                     "status": "completed" if return_code == 0 else "error",
@@ -295,7 +296,7 @@ async def _run_docker_async(
                 }
 
                 cancelled_output = "".join(output_buffer) if 'output_buffer' in locals() else ""
-                cancelled_output += "\n[Execution cancelled]"
+                cancelled_output += "\n[Выполнение отменено]"
 
                 finish_tool_streaming(
                     tool_name, tool_args, cancelled_output, call_id, execution_info, token_info
@@ -390,7 +391,7 @@ async def _run_docker_async(
             return output.strip()
 
     except Exception as e:
-        error_msg = f"Error executing command in container: {str(e)}"
+        error_msg = f"Ошибка выполнения команды в контейнере: {str(e)}"
         print(color(error_msg, fg="red"))
         return error_msg
     finally:

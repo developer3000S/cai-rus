@@ -1,83 +1,83 @@
 #!/bin/bash
 
-# Script to create a user with root permissions and switch to that user
-# Usage: ./create_root_user.sh [username] [password]
+# Скрипт для создания пользователя с правами root и переключения на этого пользователя
+# Использование: ./create_root_user.sh [имя_пользователя] [пароль]
 
 set -e
 
-# Default values
+# Значения по умолчанию
 USERNAME="${1:-rootuser}"
 PASSWORD="${2:-rootpass}"
 
-echo "Creating user: $USERNAME"
+echo "Создание пользователя: $USERNAME"
 
-# Create the user with home directory and bash shell
+# Создание пользователя с домашним каталогом и оболочкой bash
 if id "$USERNAME" &>/dev/null; then
-    echo "User $USERNAME already exists"
+    echo "Пользователь $USERNAME уже существует"
 else
     sudo useradd -m -s /bin/bash "$USERNAME"
-    echo "User $USERNAME created"
+    echo "Пользователь $USERNAME создан"
 fi
 
-# Set password for the user
+# Установка пароля для пользователя
 echo "$USERNAME:$PASSWORD" | sudo chpasswd
-echo "Password set for $USERNAME"
+echo "Пароль установлен для $USERNAME"
 
-# Add user to sudo group for root permissions
+# Добавление пользователя в группу sudo для получения прав root
 sudo usermod -aG sudo "$USERNAME"
-echo "User $USERNAME added to sudo group"
+echo "Пользователь $USERNAME добавлен в группу sudo"
 
-# Grant passwordless sudo access (full root capabilities)
+# Предоставление доступа к sudo без пароля (полные права root)
 echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$USERNAME > /dev/null
 sudo chmod 0440 /etc/sudoers.d/$USERNAME
-echo "Passwordless sudo access granted to $USERNAME"
+echo "Доступ к sudo без пароля предоставлен пользователю $USERNAME"
 
 echo ""
 echo "========================================="
-echo "User $USERNAME created with root permissions"
-echo "Password: $PASSWORD"
+echo "Пользователь $USERNAME создан с правами root"
+echo "Пароль: $PASSWORD"
 echo "========================================="
 echo ""
 
-# Create a startup script for the new user
+# Создание скрипта запуска для нового пользователя
 STARTUP_SCRIPT="/tmp/${USERNAME}_startup.sh"
 cat > "$STARTUP_SCRIPT" << 'SCRIPT_EOF'
 #!/bin/bash
 
 echo "========================================="
-echo "Navigating to /workspace..."
+echo "Переход в /workspace..."
 echo "========================================="
-cd /workspace || { echo "Failed to navigate to /workspace"; exit 1; }
+cd /workspace || { echo "Не удалось перейти в /workspace"; exit 1; }
 
 echo ""
 echo "========================================="
-echo "Installing CLI tools from ./tools/cli.bash..."
+echo "Установка CLI-инструментов из ./tools/cli.bash..."
 echo "========================================="
 if [ -f "./tools/cli.bash" ]; then
     bash ./tools/cli.bash
     echo ""
     echo "========================================="
-    echo "CLI installation complete!"
+    echo "Установка CLI завершена!"
     echo "========================================="
 else
-    echo "Warning: ./tools/cli.bash not found"
+    echo "Предупреждение: ./tools/cli.bash не найден"
 fi
 
 echo ""
 echo "========================================="
-echo "Setup complete! You are now logged in as $(whoami)"
-echo "Current directory: $(pwd)"
+echo "Настройка завершена! Вы вошли как $(whoami)"
+echo "Текущий каталог: $(pwd)"
 echo "========================================="
 echo ""
 
-# Start an interactive shell
+# Запуск интерактивной оболочки
 exec bash -i
 SCRIPT_EOF
 
 chmod +x "$STARTUP_SCRIPT"
 
-echo "Switching to user $USERNAME and running setup..."
+echo "Переключение на пользователя $USERNAME и запуск настройки..."
 echo ""
 
-# Switch to the new user and run the startup script
+# Переключение на нового пользователя и запуск скрипта запуска
 exec sudo -i -u "$USERNAME" bash -c "bash $STARTUP_SCRIPT"

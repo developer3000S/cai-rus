@@ -1,8 +1,8 @@
 """
-Merge command for CAI CLI - alias for /parallel merge.
+Команда merge для CAI CLI — псевдоним /parallel merge.
 
-Provides a shortcut to merge agent message histories without
-typing the full /parallel merge command.
+Предоставляет ярлык для объединения histories сообщений агентов без
+необходимости набирать полную команду /parallel merge.
 """
 
 from typing import List, Optional
@@ -23,7 +23,7 @@ class MergeCommand(Command):
         """Initialize the merge command."""
         super().__init__(
             name="/merge",
-            description="Merge all agents' message histories by default (alias for /parallel merge all)",
+            description="Объединить истории сообщений всех агентов по умолчанию (псевдоним /parallel merge all)",
             aliases=["/mrg"],
         )
         # Create a ParallelCommand instance to delegate to
@@ -47,7 +47,7 @@ class MergeCommand(Command):
 
     def handle_no_args(self) -> bool:
         """Handle command with no arguments - merge all agents (clean output)."""
-        console.print(build_cai_markup_line("[#9aa0a6]Merging all agents by default...[/]"))
+        console.print(build_cai_markup_line("[#9aa0a6]Объединение всех агентов по умолчанию...[/]"))
         console.print()
         return self._parallel_cmd.handle_merge(["all"])
 

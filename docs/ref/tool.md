@@ -1,4 +1,4 @@
-# `Tools`
+# `Инструменты`
 
 ::: cai.sdk.agents.tool
 

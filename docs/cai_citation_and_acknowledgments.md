@@ -1,7 +1,7 @@
 
 
-## Citation
-If you want to cite our work, please use the following format
+## Цитирование
+Если вы хотите сослаться на нашу работу, пожалуйста, используйте следующий формат
 ```bibtex
 @misc{mayoralvilches2025caiopenbugbountyready,
       title={CAI: An Open, Bug Bounty-Ready Cybersecurity AI},
@@ -14,6 +14,6 @@ If you want to cite our work, please use the following format
 }
 ```
 
-## Acknowledgements
+## Благодарности
 
-CAI was initially developed by [Alias Robotics](https://aliasrobotics.com) and co-funded by the European EIC accelerator project RIS (GA 101161136) - HORIZON-EIC-2023-ACCELERATOR-01 call. The original agentic principles are inspired from OpenAI's [`swarm`](https://github.com/openai/swarm) library. This project also makes use of other relevant open source building blocks including [`LiteLLM`](https://github.com/BerriAI/litellm), and [`phoenix`](https://github.com/Arize-ai/phoenix)
+CAI изначально был разработан компанией [Alias Robotics](https://aliasrobotics.com) и софинансируется из проекта ускорителя European EIC RIS (GA 101161136) — HORIZON-EIC-2023-ACCELERATOR-01. Оригинальные агентные принципы вдохновлены библиотекой OpenAI [`swarm`](https://github.com/openai/swarm). Этот проект также использует другие релевантные блоки с открытым исходным кодом, включая [`LiteLLM`](https://github.com/BerriAI/litellm) и [`phoenix`](https://github.com/Arize-ai/phoenix)

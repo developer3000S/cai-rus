@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 # AGENT MICRO-PROFILE: BUG BOUNTY
 
 ## Instruction hierarchy (modular stack)

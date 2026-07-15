@@ -1,6 +1,6 @@
-# Find Us
+# Найдите нас
 
-We're excited to connect with you! Join our community through any of the following channels:
+Мы рады пообщаться с вами! Присоединяйтесь к нашему сообществу через любой из следующих каналов:
 
 * [GitHub](https://github.com/aliasrobotics/cai)
 

@@ -20,20 +20,20 @@ def orchestration_beta_badge_markup() -> str:
 def orchestration_beta_text() -> Text:
     """Multi-line Rich text for session banner when orchestration is active."""
     return Text.from_markup(
-        "[bold yellow]Orchestration Agent[/bold yellow] "
+        "[bold yellow]Агент оркестрации[/bold yellow] "
         f"{orchestration_beta_badge_markup()} "
-        "[dim]— experimental breadth-first delegation "
+        "[dim]— экспериментальный breadth-first делегирование "
         "(run_specialist, contest, parallel scouts). "
-        "Prefer selection_agent for stable handoff routing.[/dim]"
+        "Для стабильной маршрутизации передач используйте selection_agent.[/dim]"
     )
 
 
 def orchestration_beta_panel_line() -> str:
     """Single plain line for /agent current panel content."""
     return (
-        "Orchestration Agent [BETA] — experimental breadth-first delegation "
+        "Агент оркестрации [BETA] — экспериментальный breadth-first делегирование "
         "(run_specialist, contest, parallel scouts). "
-        "Prefer selection_agent for stable handoff routing."
+        "Для стабильной маршрутизации передач используйте selection_agent."
     )
 
 

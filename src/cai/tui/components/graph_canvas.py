@@ -245,13 +245,13 @@ class CTRCanvas(Container):
 
     def compose(self) -> ComposeResult:
         with Horizontal(id="ctr-toolbar"):
-            yield Label("Run:")
-            yield Select([], id="run-select", prompt="Select run…")
-            yield Button("Reload", id="reload-run")
-            yield Button("Layout", id="relayout")
-            yield Button("Zoom +", id="zoom_in")
-            yield Button("Zoom -", id="zoom_out")
-            yield Button("Fit", id="fit")
+            yield Label("Запуск:")
+            yield Select([], id="run-select", prompt="Выберите запуск…")
+            yield Button("Перезагрузить", id="reload-run")
+            yield Button("Макет", id="relayout")
+            yield Button("Увеличить +", id="zoom_in")
+            yield Button("Уменьшить -", id="zoom_out")
+            yield Button("Вписать", id="fit")
             yield Button("Clear", id="clear")
 
         with Horizontal(id="workspace"):

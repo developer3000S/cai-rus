@@ -1,26 +1,26 @@
-name: Deploy docs
+name: Деплой документации
 
 on:
   workflow_run:
-    workflows: ["Tests"]
+    workflows: ["Тесты"]
     types:
       - completed
 
 permissions:
-  contents: write # This allows pushing to gh-pages
+  contents: write # Разрешает пуш в gh-pages
 
 jobs:
   deploy_docs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Клонирование репозитория
         uses: actions/checkout@v4
-      - name: Setup uv
+      - name: Настройка uv
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-      - name: Install dependencies
+      - name: Установка зависимостей
         run: make sync
-      - name: Deploy docs
+      - name: Деплой документации
         run: make deploy-docs

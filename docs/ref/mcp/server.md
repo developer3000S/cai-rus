@@ -1,3 +1,3 @@
-# `MCP Servers`
+# `Серверы MCP`
 
 ::: cai.sdk.agents.mcp.server

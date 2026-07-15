@@ -1,8 +1,8 @@
 """
-Load command for CAI REPL.
+Команда load для CAI REPL.
 
-This module provides commands for loading a jsonl into
-the context of the current session.
+Этот модуль предоставляет команды для загрузки jsonl в
+контекст текущей сессии.
 """
 
 import os
@@ -36,19 +36,19 @@ class LoadCommand(Command):
         """Initialize the load command."""
         super().__init__(
             name="/load",
-            description="Merge a jsonl file into agent histories with duplicate control (uses logs/last if no file specified)",
+            description="Объединить jsonl-файл с историей агентов с контролем дубликатов (использует logs/last, если файл не указан)",
             aliases=["/l"],
         )
 
         # Add subcommands
-        self.add_subcommand("agent", "Load history into a specific agent", self.handle_agent)
-        self.add_subcommand("all", "Show all available agents", self.handle_all)
+        self.add_subcommand("agent", "Загрузить историю в конкретного агента", self.handle_agent)
+        self.add_subcommand("all", "Показать всех доступных агентов", self.handle_all)
         self.add_subcommand(
-            "parallel", "Load JSONL matching configured parallel agents", self.handle_parallel
+            "parallel", "Загрузить JSONL для настроенных параллельных агентов", self.handle_parallel
         )
         self.add_subcommand(
             "load-all",
-            "Load JSONL into all parallel agents with same messages",
+            "Загрузить JSONL во всех параллельных агентов с одинаковыми сообщениями",
             self.handle_load_all,
         )
 
@@ -79,7 +79,7 @@ class LoadCommand(Command):
                         parts = terminal_id.split("-", 2)  # Split into at most 3 parts
                         if len(parts) >= 3 and parts[2].isdigit():
                             terminal_num = parts[2]
-                            console.print(f"[cyan]Loading to Terminal {terminal_num}[/cyan]")
+            console.print(f"[cyan]Загрузка в Терминал {terminal_num}[/cyan]")
                             args = [f"P{terminal_num}"]
                             return self.handle(args)
 
@@ -134,8 +134,8 @@ class LoadCommand(Command):
                 agent_names = [config.agent_name for config in PARALLEL_CONFIGS]
                 os.environ["CAI_PARALLEL_AGENTS"] = ",".join(agent_names)
 
-            console.print(f"[green]Loaded parallel pattern: {pattern.description}[/green]")
-            console.print(f"[cyan]{len(PARALLEL_CONFIGS)} agents configured[/cyan]")
+            console.print(f"[green]Загружен параллельный шаблон: {pattern.description}[/green]")
+            console.print(f"[cyan]Настроено {len(PARALLEL_CONFIGS)} агентов[/cyan]")
 
             # Show configured agents with IDs
             for idx, config in enumerate(PARALLEL_CONFIGS, 1):
@@ -148,7 +148,7 @@ class LoadCommand(Command):
             # Try to load and match agent histories
             loaded = self.handle_load_pattern_from_jsonl(jsonl_file)
             if not loaded:
-                console.print(f"[yellow]No history loaded from {jsonl_file}[/yellow]")
+                console.print(f"[yellow]История не загружена из {jsonl_file}[/yellow]")
 
             return True
 
@@ -164,7 +164,7 @@ class LoadCommand(Command):
                 from cai.tui.core import terminal_tracking
                 if hasattr(terminal_tracking._thread_local, 'terminal_number'):
                     terminal_num = terminal_tracking._thread_local.terminal_number
-                    console.print(f"[cyan]Loading file to Terminal {terminal_num}[/cyan]")
+                    console.print(f"[cyan]Загрузка файла в Терминал {terminal_num}[/cyan]")
                     return self.handle_load_to_agent([f"P{terminal_num}", args[0]])
                 
                 # Fallback to P1
@@ -261,9 +261,9 @@ class LoadCommand(Command):
                         return False
                 else:
                     # Any other ID in single agent mode is invalid
-                    console.print(f"[red]Error: No agent found with ID '{identifier}'[/red]")
-                    console.print("[yellow]In single agent mode, only P1 is valid[/yellow]")
-                    console.print("[dim]Use '/parallel' to configure multiple agents[/dim]")
+                    console.print(f"[red]Ошибка: Агент с ID '{identifier}' не найден[/red]")
+                    console.print("[yellow]В режиме одного агента допустим только P1[/yellow]")
+                    console.print("[dim]Используйте '/parallel' для настройки нескольких агентов[/dim]")
                     return False
             else:
                 # Look for matching ID in parallel configs
@@ -298,8 +298,8 @@ class LoadCommand(Command):
                 args[0] = agent_name
                 return self.handle_load_to_agent(args)
             else:
-                console.print(f"[red]Error: No agent found with ID '{identifier}'[/red]")
-                console.print("[dim]Use '/parallel' to see configured agents with IDs[/dim]")
+                console.print(f"[red]Ошибка: Агент с ID '{identifier}' не найден[/red]")
+                console.print("[dim]Используйте '/parallel' для просмотра настроенных агентов с ID[/dim]")
                 return False
 
         # Otherwise, treat first arg as agent name and rest as file path
@@ -404,7 +404,7 @@ class LoadCommand(Command):
 
             # Debug: Show what agent names were found
             if agent_conversations:
-                console.print("[dim]Found agent conversations:[/dim]")
+                console.print("[dim]Найдены диалоги агентов:[/dim]")
                 for agent_name, msgs in agent_conversations.items():
                     console.print(f"[dim]  - {agent_name}: {len(msgs)} messages[/dim]")
 
@@ -464,7 +464,7 @@ class LoadCommand(Command):
                     else:
                         # Skip if pattern not found
                         console.print(
-                            f"[yellow]Warning: Pattern '{config.agent_name}' not found[/yellow]"
+                            f"[yellow]Предупреждение: Шаблон '{config.agent_name}' не найден[/yellow]"
                         )
                         continue
                 elif config.agent_name in agents:
@@ -473,7 +473,7 @@ class LoadCommand(Command):
                 else:
                     # Skip if agent not found
                     console.print(
-                        f"[yellow]Warning: Agent '{config.agent_name}' not found[/yellow]"
+                        f"[yellow]Предупреждение: Агент '{config.agent_name}' не найден[/yellow]"
                     )
                     continue
 
@@ -587,33 +587,33 @@ class LoadCommand(Command):
                                 )
 
                         console.print(
-                            f"[green]Loaded {best_count} messages into '{instance_name}' [P{idx}][/green]"
+                            f"[green]Загружено {best_count} сообщений в '{instance_name}' [P{idx}][/green]"
                         )
                         loaded_count += 1
 
             if loaded_count > 0:
                 console.print(
-                    f"[bold green]Successfully loaded history for {loaded_count} agents[/bold green]"
+                    f"[bold green]История успешно загружена для {loaded_count} агентов[/bold green]"
                 )
 
                 # Final sync to ensure all histories are visible
                 if PARALLEL_ISOLATION.is_parallel_mode():
-                    console.print("[dim]Syncing loaded histories...[/dim]")
+                    console.print("[dim]Синхронизация загруженных историй...[/dim]")
                     PARALLEL_ISOLATION.sync_with_agent_manager()
             else:
-                console.print("[yellow]No matching agent histories found in JSONL[/yellow]")
+                console.print("[yellow]Соответствующие истории агентов не найдены в JSONL[/yellow]")
 
                 # If no agents were found, provide helpful information
                 if not agent_conversations:
                     console.print(
-                        "[dim]The JSONL file appears to be empty or does not contain agent messages[/dim]"
+                        "[dim]Файл JSONL пуст или не содержит сообщений агентов[/dim]"
                     )
                     console.print(
-                        "[dim]Agent names should be in 'name', 'sender', or 'agent_name' fields[/dim]"
+                        "[dim]Имена агентов должны быть в полях 'name', 'sender' или 'agent_name'[/dim]"
                     )
                     return False
                 else:
-                    console.print(f"\n[dim]Found agents in JSONL:[/dim]")
+                    console.print(f"\n[dim]Найдены агенты в JSONL:[/dim]")
                     for agent, messages in sorted(
                         agent_conversations.items(), key=lambda x: len(x[1]), reverse=True
                     )[:5]:
@@ -621,7 +621,7 @@ class LoadCommand(Command):
                     if len(agent_conversations) > 5:
                         console.print(f"  ... and {len(agent_conversations) - 5} more")
 
-                    console.print(f"\n[dim]Configured agents expecting history:[/dim]")
+                    console.print(f"\n[dim]Настроенные агенты, ожидающие историю:[/dim]")
                     for idx, config in enumerate(PARALLEL_CONFIGS, 1):
                         if config.agent_name in agents:
                             agent = agents[config.agent_name]
@@ -629,13 +629,13 @@ class LoadCommand(Command):
                             console.print(f"  • [P{idx}] {display_name}")
 
                     console.print(
-                        "\n[dim]Tip: Agent names in JSONL must match the configured agent names[/dim]"
+                        "\n[dim]Совет: Имена агентов в JSONL должны совпадать с настроенными именами агентов[/dim]"
                     )
 
             return True
 
         except Exception as e:
-            console.print(f"[red]Error loading pattern from JSONL: {str(e)}[/red]")
+            console.print(f"[red]Ошибка загрузки шаблона из JSONL: {str(e)}[/red]")
             return False
 
     def handle_load_default(self, jsonl_file: Optional[str] = None) -> bool:
@@ -695,8 +695,8 @@ class LoadCommand(Command):
                         return self._load_to_agent(p_id, jsonl_file)
 
             if not current_agent:
-                console.print("[red]Error: No active agent found[/red]")
-                console.print("[yellow]Please select an agent first with '/agent <name>'[/yellow]")
+            console.print("[red]Ошибка: Активный агент не найден[/red]")
+            console.print("[yellow]Сначала выберите агента с помощью '/agent <name>'[/yellow]")
                 return False
 
             # Use the same loading logic as /resume (without replay display)
@@ -829,8 +829,8 @@ class LoadCommand(Command):
                         resolved_agent_name = resolved_name
                         console.print(f"[cyan]Resolved {agent_id} to {resolved_agent_name}[/cyan]")
                     else:
-                        console.print(f"[red]Error: No agent found with ID '{agent_id}'[/red]")
-                        console.print("[yellow]Available agents:[/yellow]")
+                    console.print(f"[red]Ошибка: Агент с ID '{agent_id}' не найден[/red]")
+                    console.print("[yellow]Доступные агенты:[/yellow]")
                         all_histories = get_all_agent_histories()
                         for agent in sorted(all_histories.keys()):
                             console.print(f"  - {agent}")
@@ -965,11 +965,11 @@ class LoadCommand(Command):
         all_agents = set(all_histories.keys()) | configured_agents
 
         if not all_agents:
-            console.print("[yellow]No agents have been initialized or configured yet[/yellow]")
+            console.print("[yellow]Агенты ещё не инициализированы и не настроены[/yellow]")
             console.print(
-                "[dim]Agents are created when they are first used in a conversation[/dim]"
+                "[dim]Агенты создаются при первом использовании в диалоге[/dim]"
             )
-            console.print("[dim]Or configured using '/parallel add <agent>'[/dim]")
+            console.print("[dim]Или настраиваются с помощью '/parallel add <agent>'[/dim]")
             return True
 
         # Get agent IDs mapping from AGENT_MANAGER
@@ -998,15 +998,15 @@ class LoadCommand(Command):
 
         # Create a table showing all agents
         table = Table(
-            title="Available Agents for Loading History",
+            title="Доступные агенты для загрузки истории",
             show_header=True,
             header_style="bold yellow",
         )
         table.add_column("ID", style="magenta", width=4)
-        table.add_column("Agent Name", style="cyan")
-        table.add_column("Current Messages", style="green", justify="right")
-        table.add_column("Message Types", style="magenta")
-        table.add_column("Status", style="yellow")
+        table.add_column("Имя агента", style="cyan")
+        table.add_column("Текущие сообщения", style="green", justify="right")
+        table.add_column("Типы сообщений", style="magenta")
+        table.add_column("Статус", style="yellow")
 
         for agent_name in sorted(all_agents):
             history = all_histories.get(agent_name, [])
@@ -1023,10 +1023,10 @@ class LoadCommand(Command):
                 role_str = ", ".join(
                     [f"{role}: {count}" for role, count in sorted(role_counts.items())]
                 )
-                status = "Active"
+                status = "Активен"
             else:
-                role_str = "No messages"
-                status = "Configured" if agent_name in configured_agents else "Empty"
+                role_str = "Нет сообщений"
+                status = "Настроен" if agent_name in configured_agents else "Пустой"
 
             # Get ID for this agent
             id_str = agent_ids.get(agent_name, "-")
@@ -1034,15 +1034,15 @@ class LoadCommand(Command):
             table.add_row(id_str, agent_name, str(msg_count), role_str, status)
 
         console.print(table)
-        console.print("\n[dim]Usage: /load agent <agent_name> [jsonl_file][/dim]")
+        console.print("\n[dim]Использование: /load agent <agent_name> [jsonl_file][/dim]")
         console.print("[dim]       /load <ID> [jsonl_file][/dim]")
         console.print(
-            "[dim]       /load load-all [jsonl_file] - Load same messages to all parallel agents[/dim]"
+            "[dim]       /load load-all [jsonl_file] - Загрузить одинаковые сообщения всем параллельным агентам[/dim]"
         )
-        console.print("[dim]Example: /load agent red_teamer logs/session_20240101.jsonl[/dim]")
-        console.print('[dim]Example: /load agent "Bug Bounter #1"[/dim]')
-        console.print("[dim]Example: /load P2 logs/last[/dim]")
-        console.print("[dim]Example: /load load-all logs/session.jsonl[/dim]")
+        console.print("[dim]Пример: /load agent red_teamer logs/session_20240101.jsonl[/dim]")
+        console.print('[dim]Пример: /load agent "Bug Bounter #1"[/dim]')
+        console.print("[dim]Пример: /load P2 logs/last[/dim]")
+        console.print("[dim]Пример: /load load-all logs/session.jsonl[/dim]")
 
         # IDs are now shown in the table above
 
@@ -1062,8 +1062,8 @@ class LoadCommand(Command):
 
         # Check if there are parallel configs
         if not PARALLEL_CONFIGS:
-            console.print("[yellow]No parallel agents configured[/yellow]")
-            console.print("[dim]Use '/parallel add <agent>' to configure agents first[/dim]")
+                console.print("[yellow]Параллельные агенты не настроены[/yellow]")
+                console.print("[dim]Сначала настройте агентов с помощью '/parallel add <agent>'[/dim]")
             return False
 
         try:

@@ -1,4 +1,4 @@
-# `Handoff prompt`
+# `Промпт передачи`
 
 ::: cai.sdk.agents.extensions.handoff_prompt
 

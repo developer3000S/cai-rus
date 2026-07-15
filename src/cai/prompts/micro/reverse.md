@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 # AGENT MICRO-PROFILE: REVERSE ENGINEERING
 
 ## Instruction hierarchy (modular stack)

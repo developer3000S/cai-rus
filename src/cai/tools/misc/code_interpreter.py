@@ -1,5 +1,5 @@
 """
-Module for executing Python code and capturing its output.
+Модуль для выполнения кода Python и перехвата его вывода.
 """
 
 import io
@@ -12,15 +12,15 @@ from cai.sdk.agents import function_tool
 @function_tool
 def execute_python_code(code: str, context: Optional[str] = None) -> str:
     """
-    Execute Python code and return the output.
+    Выполнение кода Python и возврат вывода.
 
     Args:
-        code (str): Python code to execute
-        context (str, optional): Additional context for execution as a JSON string
-            (e.g. '{"x": 1, "y": 2}')
+        code (str): Код Python для выполнения
+        context (str, optional): Дополнительный контекст для выполнения в виде строки JSON
+            (например, '{"x": 1, "y": 2}')
 
     Returns:
-        str: Output from code execution
+        str: Вывод выполнения кода
     """
     try:
         local_vars = {}
@@ -46,7 +46,7 @@ def execute_python_code(code: str, context: Optional[str] = None) -> str:
         return output if output else str(local_vars.get("__builtins__", {}).get("_", None))
 
     except Exception as e:  # pylint: disable=broad-except
-        return f"Error executing code: {str(e)}"
+        return f"Ошибка выполнения кода: {str(e)}"
 
 
 # --- Auto-register with ToolRegistry ---

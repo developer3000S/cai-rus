@@ -1,5 +1,5 @@
 """
-Meta Agent debug command for TUI
+Команда отладки Meta Agent для TUI
 """
 
 import os
@@ -15,13 +15,13 @@ console = Console()
 
 
 class MetaDebugCommand(Command):
-    """Show Meta Agent debug information"""
+    """Показать отладочную информацию Meta Agent"""
 
     def __init__(self):
         """Initialize the meta debug command."""
         super().__init__(
             name="/metadebug",
-            description="Show Meta Agent debug information",
+            description="Показать отладочную информацию Meta Agent",
             aliases=["/md"],
         )
 
@@ -30,20 +30,20 @@ class MetaDebugCommand(Command):
         
         # Check if Meta Agent is enabled
         if os.getenv("CAI_META_AGENT", "false").lower() != "true":
-            console.print("[yellow]Meta Agent is not enabled. Set CAI_META_AGENT=True to enable.[/yellow]")
+            console.print("[yellow]Meta Agent не включён. Установите CAI_META_AGENT=True для включения.[/yellow]")
             return True
         
         # Lazy import to avoid circular dependency
         try:
             from cai.tui.meta_agent_controller import get_meta_agent_controller
         except ImportError as e:
-            console.print(f"[red]Error importing Meta Agent controller: {e}[/red]")
+            console.print(f"[red]Ошибка импорта контроллера Meta Agent: {e}[/red]")
             return True
         
         # Get controller
         controller = get_meta_agent_controller()
         if not controller:
-            console.print("[red]Meta Agent controller not initialized[/red]")
+            console.print("[red]Контроллер Meta Agent не инициализирован[/red]")
             return True
         
         # Get debug info

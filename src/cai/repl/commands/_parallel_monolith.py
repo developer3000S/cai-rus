@@ -1,9 +1,9 @@
 """
-Parallel command for CAI CLI abstraction.
+Команда parallel для абстракции CAI CLI.
 
-Provides commands for managing parallel agent configurations.
-Different agents can be configured with specific models and prompts,
-which will then be executed in parallel through the CLI.
+Предоставляет команды для управления конфигурациями параллельных агентов.
+Различные агенты могут быть настроены с определёнными моделями и подсказками,
+которые затем выполняются параллельно через CLI.
 """
 
 # Standard library imports

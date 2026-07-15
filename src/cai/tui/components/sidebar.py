@@ -215,19 +215,19 @@ class AddApiKeyDialog(Container):
         with Container(id="add-key-overlay"):
             with Vertical(id="add-key-content"):
                 # Header
-                yield Label("Add API Key", id="add-key-header")
+                yield Label("Добавить API ключ", id="add-key-header")
                 
                 # Form
                 with Vertical(id="add-key-form"):
                     # Model field
-                    yield Label("PROVIDER:", classes="form-label")
+                    yield Label("ПРОВАЙДЕР:", classes="form-label")
                     yield Input(placeholder="OPENAI, ANTHROPIC...", id="model-input")
                     
                     # Small spacer
                     yield Static("", classes="form-spacer")
                     
                     # API Key field  
-                    yield Label("API_KEY:", classes="form-label")
+                    yield Label("API_КЛЮЧ:", classes="form-label")
                     yield Input(placeholder="sk-...", id="api-key-input", password=True)
                     
                     # Error message area (initially hidden)
@@ -238,8 +238,8 @@ class AddApiKeyDialog(Container):
                 
                 # Buttons
                 with Horizontal(id="add-key-buttons"):
-                    yield Button("Cancel", id="cancel-btn", classes="dialog-cancel-btn")
-                    yield Button("Save", id="save-btn", classes="dialog-save-btn")
+                    yield Button("Отмена", id="cancel-btn", classes="dialog-cancel-btn")
+                    yield Button("Сохранить", id="save-btn", classes="dialog-save-btn")
     
     def show_dialog(self, callback=None):
         """Show the dialog"""
@@ -378,13 +378,13 @@ class AddApiKeyDialog(Container):
         
         # Validation with error messages as fallback
         if not model and not api_key:
-            self._show_error_message("Both PROVIDER and API_KEY fields are required")
+            self._show_error_message("Поля ПРОВАЙДЕР и API_КЛЮЧ обязательны для заполнения")
             return
         elif not model:
-            self._show_error_message("PROVIDER field is required")
+            self._show_error_message("Поле ПРОВАЙДЕР обязательно для заполнения")
             return
         elif not api_key:
-            self._show_error_message("API_KEY field is required")
+            self._show_error_message("Поле API_КЛЮЧ обязательно для заполнения")
             return
         
         # Hide error message if validation passes
@@ -484,18 +484,18 @@ class AgentActionDialog(Container):
     def compose(self) -> ComposeResult:
         with Container(id="agent-action-overlay"):
             with Container(id="agent-action-content"):
-                yield Label("Choose Action", id="agent-action-header")
+                yield Label("Выберите действие", id="agent-action-header")
                 with Container(id="agent-action-buttons"):
-                    yield Button("Update T1", id="update-terminal-btn", classes="dialog-action-btn")
-                    yield Button("New Terminal", id="new-terminal-btn", classes="dialog-action-btn")
-                    yield Button("Cancel", id="cancel-action-btn", classes="dialog-action-btn")
+                    yield Button("Обновить T1", id="update-terminal-btn", classes="dialog-action-btn")
+                    yield Button("Новый терминал", id="new-terminal-btn", classes="dialog-action-btn")
+                    yield Button("Отмена", id="cancel-action-btn", classes="dialog-action-btn")
     
     def show_dialog(self, agent_name: str, callback=None):
         """Show the dialog for the given agent"""
         self.agent_name = agent_name
         self.callback = callback
         header = self.query_one("#agent-action-header")
-        header.update(f"Agent: {agent_name}")
+        header.update(f"Агент: {agent_name}")
         self.display = True
     
     def hide_dialog(self):
@@ -1086,16 +1086,16 @@ class Sidebar(Container):
         with Vertical(id="sidebar-content"):
             # Tabbed content
             with TabbedContent(initial="stats"):
-                with TabPane("Teams", id="teams"):
+                with TabPane("Команды", id="teams"):
                     self.button_container = VerticalScroll(classes="sidebar-list")
                     yield self.button_container
-                with TabPane("Queue", id="queue"):
+                with TabPane("Очередь", id="queue"):
                     self.queue_container = VerticalScroll(classes="queue-list")
                     yield self.queue_container
-                with TabPane("Stats", id="stats"):
+                with TabPane("Статистика", id="stats"):
                     self.state_container = VerticalScroll(classes="state-list")
                     yield self.state_container
-                with TabPane("Keys", id="keys"):
+                with TabPane("Ключи", id="keys"):
                     self.keys_container = VerticalScroll(classes="keys-list")
                     yield self.keys_container
         
@@ -1464,7 +1464,7 @@ class Sidebar(Container):
                     if isinstance(app, CAITerminal):
                         main_terminal = app.terminal_grid.get_main_terminal()
                         if main_terminal:
-                            main_terminal.write(f"[yellow]🗑️ Removed from queue: {removed_item.prompt[:30]}...[/yellow]")
+                            main_terminal.write(f"[yellow]🗑️ Удалено из очереди: {removed_item.prompt[:30]}...[/yellow]")
                     
                     # Refresh the queue display
                     self.refresh_queue()
@@ -1479,7 +1479,7 @@ class Sidebar(Container):
             
             # Add description if available
             if hasattr(agent, 'description') and agent.description:
-                tooltip_parts.append(f"\n\n[bright_cyan]Description:[/bright_cyan] [white]{agent.description}[/white]")
+                tooltip_parts.append(f"\n\n[bright_cyan]Описание:[/bright_cyan] [white]{agent.description}[/white]")
             
             # Add system prompt preview if available
             if hasattr(agent, 'instructions') and agent.instructions:
@@ -1487,25 +1487,25 @@ class Sidebar(Container):
                 # If it's a callable, show that it's dynamic
                 if callable(instructions):
                     if hasattr(instructions, '__name__'):
-                        tooltip_parts.append(f"\n\n[bright_cyan]System Prompt:[/bright_cyan] [yellow]<Dynamic - {instructions.__name__}>[/yellow]")
+                        tooltip_parts.append(f"\n\n[bright_cyan]Системный промпт:[/bright_cyan] [yellow]<Динамический - {instructions.__name__}>[/yellow]")
                     else:
-                        tooltip_parts.append(f"\n\n[bright_cyan]System Prompt:[/bright_cyan] [yellow]<Dynamic Function>[/yellow]")
+                        tooltip_parts.append(f"\n\n[bright_cyan]Системный промпт:[/bright_cyan] [yellow]<Динамическая функция>[/yellow]")
                 else:
                     # It's a string, show the actual prompt
                     prompt_text = str(instructions)
                     if len(prompt_text) > 400:
                         prompt_text = prompt_text[:400] + "..."
-                    tooltip_parts.append(f"\n\n[bright_cyan]System Prompt:[/bright_cyan]\n[white]{prompt_text}[/white]")
+                    tooltip_parts.append(f"\n\n[bright_cyan]Системный промпт:[/bright_cyan]\n[white]{prompt_text}[/white]")
             
             # Add tools count if available
             if hasattr(agent, 'tools') and agent.tools:
                 tool_count = len(agent.tools)
-                tooltip_parts.append(f"\n\n[bright_cyan]Tools:[/bright_cyan] [bright_green]{tool_count}[/bright_green] available")
+                tooltip_parts.append(f"\n\n[bright_cyan]Инструменты:[/bright_cyan] [bright_green]{tool_count}[/bright_green] доступно")
             
             # Add handoffs if available
             if hasattr(agent, 'handoffs') and agent.handoffs:
                 handoff_count = len(agent.handoffs)
-                tooltip_parts.append(f"\n\n[bright_cyan]Handoffs:[/bright_cyan] [bright_green]{handoff_count}[/bright_green] available")
+                tooltip_parts.append(f"\n\n[bright_cyan]Передачи:[/bright_cyan] [bright_green]{handoff_count}[/bright_green] доступно")
             
             return "".join(tooltip_parts)
         
@@ -1545,7 +1545,7 @@ class Sidebar(Container):
         
         if not queue:
             # Show empty message
-            empty_msg = Static("Queue is empty", classes="queue-empty")
+            empty_msg = Static("Очередь пуста", classes="queue-empty")
             self.queue_container.mount(empty_msg)
         else:
             # Display queue items as buttons matching agent style
@@ -2006,13 +2006,13 @@ class Sidebar(Container):
                 self.state_container.remove_children()
                 
                 # Create sections with children already composed
-                self._stats_widgets['agent_title'] = Static("🤖 AGENTS", classes="state-section-title")
+                self._stats_widgets['agent_title'] = Static("🤖 АГЕНТЫ", classes="state-section-title")
                 self._stats_widgets['agent_section'] = Vertical(
                     self._stats_widgets['agent_title'],
                     classes="state-section"
                 )
                 
-                self._stats_widgets['system_title'] = Static("⚙️ SYSTEM", classes="state-section-title")
+                self._stats_widgets['system_title'] = Static("⚙️ СИСТЕМА", classes="state-section-title")
                 self._stats_widgets['system_section'] = Vertical(
                     self._stats_widgets['system_title'],
                     classes="state-section"
@@ -2091,9 +2091,9 @@ class Sidebar(Container):
             
             display_cost = current_state.get('cost', '--')
             if display_cost != "--":
-                system_section.mount(Static(f"Cost: [yellow]{display_cost}[/yellow]", classes="state-content"))
+                system_section.mount(Static(f"Стоимость: [yellow]{display_cost}[/yellow]", classes="state-content"))
             else:
-                system_section.mount(Static("Cost: [dim]--[/dim]", classes="state-content"))
+                system_section.mount(Static("Стоимость: [dim]--[/dim]", classes="state-content"))
 
             terminal_costs_map = current_state.get('terminal_costs', {})
             terminal_labels_map = current_state.get('terminal_labels', {})
@@ -2124,7 +2124,7 @@ class Sidebar(Container):
                             return (int(match.group(1)), item[0])
                         return (9999, item[0])
 
-                    system_section.mount(Static("[dim]Per Terminal[/dim]", classes="state-content"))
+                    system_section.mount(Static("[dim]По терминалам[/dim]", classes="state-content"))
                     for label, cost in sorted(terminal_lines.items(), key=_sort_key):
                         system_section.mount(
                             Static(f"{label}: [yellow]${cost:.4f}[/yellow]", classes="state-content")
@@ -2133,20 +2133,20 @@ class Sidebar(Container):
             if unattributed_cost > 0.00005:
                 system_section.mount(
                     Static(
-                        f"Unattributed: [yellow]${unattributed_cost:.4f}[/yellow]",
+                        f"Нераспределённая: [yellow]${unattributed_cost:.4f}[/yellow]",
                         classes="state-content",
                     )
                 )
-            system_section.mount(Static(f"Mode: [cyan]{current_state['mode']}[/cyan]", classes="state-content"))
+            system_section.mount(Static(f"Режим: [cyan]{current_state['mode']}[/cyan]", classes="state-content"))
 
             # Show Meta Agent brief panel if active
             meta = current_state.get('meta_agent')
             if meta and meta.get('enabled'):
                 last_agent = meta.get('last_agent', '-')
                 parallel = ", ".join(meta.get('parallel', [])) or '-'
-                system_section.mount(Static("Meta Agent: [green]ON[/green]", classes="state-content"))
-                system_section.mount(Static(f"Last Agent: [cyan]{last_agent}[/cyan]", classes="state-content"))
-                system_section.mount(Static(f"Parallel: [magenta]{parallel}[/magenta]", classes="state-content"))
+                system_section.mount(Static("Мета-агент: [green]ВКЛ[/green]", classes="state-content"))
+                system_section.mount(Static(f"Последний агент: [cyan]{last_agent}[/cyan]", classes="state-content"))
+                system_section.mount(Static(f"Параллельный: [magenta]{parallel}[/magenta]", classes="state-content"))
                 # Recent activity (last 3)
                 recent = meta.get('recent', [])[-3:]
                 for a in recent:
@@ -2158,7 +2158,7 @@ class Sidebar(Container):
             # Add optional sections only if needed
             if current_state['memory_count'] > 0:
                 if 'memory_section' not in self._stats_widgets:
-                    self._stats_widgets['memory_title'] = Static("🧠 MEMORY", classes="state-section-title")
+                    self._stats_widgets['memory_title'] = Static("🧠 ПАМЯТЬ", classes="state-section-title")
                     self._stats_widgets['memory_section'] = Vertical(
                         self._stats_widgets['memory_title'],
                         classes="state-section"
@@ -2408,7 +2408,7 @@ class Sidebar(Container):
             
             if not api_keys:
                 # Show empty state
-                empty_label = Label("No API keys found", classes="keys-empty")
+                empty_label = Label("API-ключи не найдены", classes="keys-empty")
                 self.keys_container.mount(empty_label)
             else:
                 # Display each API key - always recreate after cleanup
@@ -2446,7 +2446,7 @@ class Sidebar(Container):
                             pass
             
             # Always add "Add New Key" button at the end (after cleanup, it shouldn't exist)
-            add_button = Button("+ Add New Key", classes="key-add-button")
+            add_button = Button("+ Добавить ключ", classes="key-add-button")
             add_button.id = "add-key-button"
             self.keys_container.mount(add_button)
             if os.getenv("CAI_DEBUG"):
@@ -2724,7 +2724,7 @@ class Sidebar(Container):
         buttons_container = Horizontal(classes="key-buttons-container-simple")
         
         # Edit/Cancel button
-        edit_btn = Button("Edit", classes="key-edit-button")
+        edit_btn = Button("Изменить", classes="key-edit-button")
         edit_btn.id = f"edit-{key_name}"
         
         # Delete button
@@ -2732,7 +2732,7 @@ class Sidebar(Container):
         delete_btn.id = f"delete-{key_name}"
         
         # Save button (initially hidden)
-        save_btn = Button("Save", classes="key-save-button-simple")
+        save_btn = Button("Сохранить", classes="key-save-button-simple")
         save_btn.id = f"save-{key_name}"
         save_btn.display = False
         
@@ -2844,7 +2844,7 @@ class Sidebar(Container):
                 input_widget.display = False
                 display_widget.update(self._mask_key_value(input_widget._real_value))
                 input_widget._is_editing = False
-                edit_button.label = "Edit"
+                edit_button.label = "Изменить"
                 edit_button.remove_class("editing-mode")
                 save_button.remove_class("editing-mode")
                 # Remove editing-mode class from the buttons container
@@ -2949,7 +2949,7 @@ class Sidebar(Container):
                 edit_button = self.query_one(f"#edit-{key_name}", Button)
                 delete_button = self.query_one(f"#delete-{key_name}", Button)
                 save_button = self.query_one(f"#save-{key_name}", Button)
-                edit_button.label = "Edit"
+                edit_button.label = "Изменить"
                 edit_button.remove_class("editing-mode")
                 save_button.remove_class("editing-mode")
                 # Remove editing-mode class from the buttons container

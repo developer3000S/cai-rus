@@ -69,7 +69,7 @@ def _print_model_selection_error(body: str, *, title: str = "Invalid selection")
 
 def _print_model_usage_header() -> None:
     z = _CAI_GREEN
-    console.print(f"\n[bold {z}]Usage:[/bold {z}]")
+    console.print(f"\n[bold {z}]Использование:[/bold {z}]")
 
 
 def _print_model_usage_catalog_lines() -> None:
@@ -77,20 +77,20 @@ def _print_model_usage_catalog_lines() -> None:
     z = _CAI_GREEN
     _print_model_usage_header()
     console.print(
-        f"  [bold {z}]/model show[/bold {z}] [dim]— full catalog[/dim]"
+        f"  [bold {z}]/model show[/bold {z}] [dim]— полный каталог[/dim]"
     )
     console.print(
-        f"  [bold {z}]/model show supported[/bold {z}] [dim]— function-calling models only[/dim]"
+        f"  [bold {z}]/model show supported[/bold {z}] [dim]— только модели с function calling[/dim]"
     )
     console.print(
-        f"  [bold {z}]/model show <term>[/bold {z}] [dim]— filter by name[/dim]"
+        f"  [bold {z}]/model show <term>[/bold {z}] [dim]— фильтр по имени[/dim]"
     )
     console.print(
-        f"  [bold {z}]/model show supported <term>[/bold {z}] [dim]— filter supported set[/dim]"
+        f"  [bold {z}]/model show supported <term>[/bold {z}] [dim]— фильтр по поддерживаемым[/dim]"
     )
     console.print(
         f"  [bold {z}]/model <name>[/bold {z}] [dim]/[/dim] [bold {z}]/model <n>[/bold {z}] "
-        f"[dim]— set CAI_MODEL[/dim]"
+        f"[dim]— установить CAI_MODEL[/dim]"
     )
 
 
@@ -99,19 +99,19 @@ def _print_model_usage_short_list_lines() -> None:
     z = _CAI_GREEN
     _print_model_usage_header()
     console.print(
-        f"  [bold {z}]/model <model_name>[/bold {z}] [dim]— select by name (e.g.[/dim] "
+        f"  [bold {z}]/model <model_name>[/bold {z}] [dim]— выбрать по имени (напр.[/dim] "
         f"[bold {z}]/model claude-3-7-sonnet-20250219[/bold {z}][dim])[/dim]"
     )
     console.print(
-        f"  [bold {z}]/model <number>[/bold {z}] [dim]— select by row # (same index as[/dim] "
+        f"  [bold {z}]/model <number>[/bold {z}] [dim]— выбрать по номеру строки (тот же индекс, что и[/dim] "
         f"[bold {z}]/model show[/bold {z}][dim])[/dim]"
     )
     console.print(
-        f"  [bold {z}]/model show[/bold {z}] [dim]— full LiteLLM catalog + features[/dim]"
+        f"  [bold {z}]/model show[/bold {z}] [dim]— полный каталог LiteLLM + функции[/dim]"
     )
     console.print(
-        f"  [dim]Note: row # skips LiteLLM-only slots not listed above; see[/dim] "
-        f"[bold {z}]/model show[/bold {z}] [dim]for full order.[/dim]"
+        f"  [dim]Примечание: номер строки пропускает слоты только LiteLLM, не указанные выше; см.[/dim] "
+        f"[bold {z}]/model show[/bold {z}] [dim]для полного порядка.[/dim]"
     )
 
 
@@ -142,19 +142,19 @@ def get_predefined_model_categories() -> Dict[str, List[Dict[str, str]]]:
             {
                 "name": "alias1",
                 "description": (
-                    "Best model for Cybersecurity AI tasks"
+                    "Лучшая модель для задач ИИ в кибербезопасности"
                 )
             },
             {
                 "name": "alias3",
                 "description": (
-                    "Default CSI model via Alias API"
+                    "Модель CSI по умолчанию через Alias API"
                 )
             },
             {
                 "name": "alias2-mini",
                 "description": (
-                    "Smaller Alias cybersecurity model via Alias API; supports abliteration"
+                    "Компактная модель кибербезопасности Alias через Alias API; поддерживает abliteration"
                 )
             }
         ],
@@ -162,49 +162,49 @@ def get_predefined_model_categories() -> Dict[str, List[Dict[str, str]]]:
             {
                 "name": "claude-opus-4-5-20251101",
                 "description": (
-                    "Most capable Claude model (200K ctx, $5/$25 per MTok)"
+                    "Самая мощная модель Claude (200K ctx, $5/$25 за MTok)"
                 )
             },
             {
                 "name": "claude-sonnet-4-5-20250929",
                 "description": (
-                    "Latest Sonnet - excellent for coding and agents (200K ctx)"
+                    "Последний Sonnet — отличен для кодинга и агентов (200K ctx)"
                 )
             },
             {
                 "name": "claude-sonnet-4-20250514",
                 "description": (
-                    "Claude Sonnet 4 with 1M context window ($3/$15 per MTok)"
+                    "Claude Sonnet 4 с окном контекста 1M ($3/$15 за MTok)"
                 )
             },
             {
                 "name": "claude-opus-4-1-20250805",
                 "description": (
-                    "Opus 4.1 - agentic tasks and reasoning ($15/$75 per MTok)"
+                    "Opus 4.1 — агентные задачи и рассуждения ($15/$75 за MTok)"
                 )
             },
             {
                 "name": "claude-haiku-4-5-20251001",
                 "description": (
-                    "Fast Haiku 4.5 - low latency (200K ctx, $1/$5 per MTok)"
+                    "Быстрый Haiku 4.5 — низкая задержка (200K ctx, $1/$5 за MTok)"
                 )
             },
             {
                 "name": "claude-3-7-sonnet-20250219",
                 "description": (
-                    "Claude 3.7 Sonnet - complex reasoning (200K ctx)"
+                    "Claude 3.7 Sonnet — сложные рассуждения (200K ctx)"
                 )
             },
             {
                 "name": "claude-3-5-sonnet-20241022",
                 "description": (
-                    "Claude 3.5 Sonnet - balanced performance (200K ctx)"
+                    "Claude 3.5 Sonnet — сбалансированная производительность (200K ctx)"
                 )
             },
             {
                 "name": "claude-3-5-haiku-20241022",
                 "description": (
-                    "Claude 3.5 Haiku - fast and efficient ($0.80/$4 per MTok)"
+                    "Claude 3.5 Haiku — быстрый и эффективный ($0.80/$4 за MTok)"
                 )
             },
         ],
@@ -212,61 +212,61 @@ def get_predefined_model_categories() -> Dict[str, List[Dict[str, str]]]:
             {
                 "name": "gpt-5.2",
                 "description": (
-                    "Latest GPT-5.2 (400K ctx, $1.75/$14 per MTok)"
+                    "Последний GPT-5.2 (400K ctx, $1.75/$14 за MTok)"
                 )
             },
             {
                 "name": "gpt-5",
                 "description": (
-                    "GPT-5 base model (272K ctx, $1.25/$10 per MTok)"
+                    "Базовая модель GPT-5 (272K ctx, $1.25/$10 за MTok)"
                 )
             },
             {
                 "name": "gpt-4.1",
                 "description": (
-                    "GPT-4.1 with 1M context window ($2/$8 per MTok)"
+                    "GPT-4.1 с окном контекста 1M ($2/$8 за MTok)"
                 )
             },
             {
                 "name": "gpt-4.1-mini",
                 "description": (
-                    "GPT-4.1 Mini - cost efficient (1M ctx, $0.40/$1.60)"
+                    "GPT-4.1 Mini — экономичный (1M ctx, $0.40/$1.60)"
                 )
             },
             {
                 "name": "gpt-4o",
                 "description": (
-                    "GPT-4o multimodal (128K ctx, $2.50/$10 per MTok)"
+                    "GPT-4o мультимодальная (128K ctx, $2.50/$10 за MTok)"
                 )
             },
             {
                 "name": "gpt-4o-mini",
                 "description": (
-                    "GPT-4o Mini - very cheap (128K ctx, $0.15/$0.60)"
+                    "GPT-4o Mini — очень дешёвая (128K ctx, $0.15/$0.60)"
                 )
             },
             {
                 "name": "o3",
                 "description": (
-                    "O3 reasoning model (200K ctx, $2/$8 per MTok)"
+                    "Модель рассуждений O3 (200K ctx, $2/$8 за MTok)"
                 )
             },
             {
                 "name": "o3-mini",
                 "description": (
-                    "O3 Mini reasoning (200K ctx, $1.10/$4.40 per MTok)"
+                    "Рассуждения O3 Mini (200K ctx, $1.10/$4.40 за MTok)"
                 )
             },
             {
                 "name": "o4-mini",
                 "description": (
-                    "O4 Mini reasoning (200K ctx, $1.10/$4.40 per MTok)"
+                    "Рассуждения O4 Mini (200K ctx, $1.10/$4.40 за MTok)"
                 )
             },
             {
                 "name": "o1",
                 "description": (
-                    "O1 reasoning model (200K ctx, $15/$60 per MTok)"
+                    "Модель рассуждений O1 (200K ctx, $15/$60 за MTok)"
                 )
             },
         ],
@@ -274,37 +274,37 @@ def get_predefined_model_categories() -> Dict[str, List[Dict[str, str]]]:
             {
                 "name": "gemini/gemini-2.5-pro",
                 "description": (
-                    "Gemini 2.5 Pro (1M ctx, $1.25/$10 per MTok)"
+                    "Gemini 2.5 Pro (1M ctx, $1.25/$10 за MTok)"
                 )
             },
             {
                 "name": "gemini/gemini-2.5-flash",
                 "description": (
-                    "Gemini 2.5 Flash - fast (1M ctx, $0.30/$2.50 per MTok)"
+                    "Gemini 2.5 Flash — быстрый (1M ctx, $0.30/$2.50 за MTok)"
                 )
             },
             {
                 "name": "gemini/gemini-2.5-flash-lite",
                 "description": (
-                    "Gemini 2.5 Flash Lite (1M ctx, $0.10/$0.40 per MTok)"
+                    "Gemini 2.5 Flash Lite (1M ctx, $0.10/$0.40 за MTok)"
                 )
             },
             {
                 "name": "gemini/gemini-2.0-flash",
                 "description": (
-                    "Gemini 2.0 Flash (1M ctx, $0.10/$0.40 per MTok)"
+                    "Gemini 2.0 Flash (1M ctx, $0.10/$0.40 за MTok)"
                 )
             },
             {
                 "name": "gemini/gemini-3-pro-preview",
                 "description": (
-                    "Gemini 3 Pro Preview (1M ctx, $2/$12 per MTok)"
+                    "Gemini 3 Pro Preview (1M ctx, $2/$12 за MTok)"
                 )
             },
             {
                 "name": "gemini/gemini-3-flash-preview",
                 "description": (
-                    "Gemini 3 Flash Preview (1M ctx, $0.50/$3 per MTok)"
+                    "Gemini 3 Flash Preview (1M ctx, $0.50/$3 за MTok)"
                 )
             },
         ],
@@ -312,31 +312,31 @@ def get_predefined_model_categories() -> Dict[str, List[Dict[str, str]]]:
             {
                 "name": "deepseek/deepseek-v3.2",
                 "description": (
-                    "DeepSeek V3.2 latest (164K ctx, $0.28/$0.40 per MTok)"
+                    "DeepSeek V3.2 последний (164K ctx, $0.28/$0.40 за MTok)"
                 )
             },
             {
                 "name": "deepseek/deepseek-v3",
                 "description": (
-                    "DeepSeek V3 general-purpose (128K ctx, $0.27/$1.10)"
+                    "DeepSeek V3 универсальная (128K ctx, $0.27/$1.10)"
                 )
             },
             {
                 "name": "deepseek/deepseek-r1",
                 "description": (
-                    "DeepSeek R1 reasoning (128K ctx, $0.55/$2.19 per MTok)"
+                    "DeepSeek R1 рассуждения (128K ctx, $0.55/$2.19 за MTok)"
                 )
             },
             {
                 "name": "deepseek-chat",
                 "description": (
-                    "DeepSeek Chat API (131K ctx, $0.60/$1.70 per MTok)"
+                    "DeepSeek Chat API (131K ctx, $0.60/$1.70 за MTok)"
                 )
             },
             {
                 "name": "deepseek-reasoner",
                 "description": (
-                    "DeepSeek Reasoner API (131K ctx, $0.60/$1.70 per MTok)"
+                    "DeepSeek Reasoner API (131K ctx, $0.60/$1.70 за MTok)"
                 )
             },
         ],
@@ -344,25 +344,25 @@ def get_predefined_model_categories() -> Dict[str, List[Dict[str, str]]]:
             {
                 "name": "ollama_cloud/gpt-oss:120b",
                 "description": (
-                    "Ollama Cloud - Large 120B parameter model (no GPU required)"
+                    "Ollama Cloud — большая модель 120B параметров (GPU не требуется)"
                 )
             },
             {
                 "name": "ollama_cloud/llama3.3:70b",
                 "description": (
-                    "Ollama Cloud - Llama 3.3 70B model (no GPU required)"
+                    "Ollama Cloud — модель Llama 3.3 70B (GPU не требуется)"
                 )
             },
             {
                 "name": "ollama_cloud/qwen2.5:72b",
                 "description": (
-                    "Ollama Cloud - Qwen 2.5 72B model (no GPU required)"
+                    "Ollama Cloud — модель Qwen 2.5 72B (GPU не требуется)"
                 )
             },
             {
                 "name": "ollama_cloud/deepseek-v3:671b",
                 "description": (
-                    "Ollama Cloud - DeepSeek V3 671B model (no GPU required)"
+                    "Ollama Cloud — модель DeepSeek V3 671B (GPU не требуется)"
                 )
             }
         ]
@@ -502,31 +502,31 @@ def _execute_model_show(show_args: Optional[List[str]] = None) -> bool:  # pylin
     }
 
     try:
-        with console.status(f"[bold {_CAI_GREEN}]Fetching model data...[/]"):
+        with console.status(f"[bold {_CAI_GREEN}]Загрузка данных моделей...[/]"):
             response = requests.get(LITELLM_URL, timeout=5)
 
             if response.status_code != 200:
                 console.print(
-                    f"[red]Error fetching model data: HTTP {response.status_code}[/red]"
+                    f"[red]Ошибка загрузки данных моделей: HTTP {response.status_code}[/red]"
                 )
                 return True
 
             model_data = response.json()
 
-        title = "All Available Models"
+        title = "Все доступные модели"
         if show_only_supported:
-            title = "Supported Models (with Function Calling)"
+            title = "Поддерживаемые модели (с Function Calling)"
         if search_term:
-            title += f" - Search: '{search_term}'"
+            title += f" - Поиск: '{search_term}'"
 
         model_table = _model_table(title=title)
         model_table.add_column("#", style="bold white", justify="right")
-        model_table.add_column("Model", style=_CAI_GREEN)
-        model_table.add_column("Provider", style=_MODEL_MUTED)
-        model_table.add_column("Max Tokens", style=_MODEL_MUTED, justify="right")
-        model_table.add_column("Input Cost ($/M)", style=_MODEL_MUTED, justify="right")
-        model_table.add_column("Output Cost ($/M)", style=_MODEL_MUTED, justify="right")
-        model_table.add_column("Features", style="white")
+        model_table.add_column("Модель", style=_CAI_GREEN)
+        model_table.add_column("Провайдер", style=_MODEL_MUTED)
+        model_table.add_column("Макс. токенов", style=_MODEL_MUTED, justify="right")
+        model_table.add_column("Стоимость ввода ($/M)", style=_MODEL_MUTED, justify="right")
+        model_table.add_column("Стоимость вывода ($/M)", style=_MODEL_MUTED, justify="right")
+        model_table.add_column("Функции", style="white")
 
         total_models = 0
         displayed_models = 0
@@ -583,7 +583,7 @@ def _execute_model_show(show_args: Optional[List[str]] = None) -> bool:  # pylin
 
             displayed_models += 1
 
-            provider = model_info.get("litellm_provider", "Unknown")
+            provider = model_info.get("litellm_provider", "Неизвестно")
             if provider == "text-completion-openai":
                 provider = "OpenAI"
             elif provider == "openai":
@@ -602,28 +602,28 @@ def _execute_model_show(show_args: Optional[List[str]] = None) -> bool:  # pylin
             if input_cost_per_million:
                 input_cost_str = f"${input_cost_per_million:.4f}"
             else:
-                input_cost_str = "Free"
+                input_cost_str = "Бесплатно"
 
             if output_cost_per_million:
                 output_cost_str = f"${output_cost_per_million:.4f}"
             else:
-                output_cost_str = "Free"
+                output_cost_str = "Бесплатно"
 
             features = []
             if model_info.get("supports_vision"):
-                features.append("Vision")
+                features.append("Видение")
             if model_info.get("supports_function_calling"):
                 features.append("Function calling")
             if model_info.get("supports_parallel_function_calling"):
-                features.append("Parallel functions")
+                features.append("Параллельные функции")
             if model_info.get("supports_audio_input") or model_info.get("supports_audio_output"):
-                features.append("Audio")
+                features.append("Аудио")
             if model_info.get("mode") == "embedding":
-                features.append("Embeddings")
+                features.append("Эмбеддинги")
             if model_info.get("mode") == "image_generation":
-                features.append("Image generation")
+                features.append("Генерация изображений")
 
-            features_str = ", ".join(features) if features else "Text generation"
+            features_str = ", ".join(features) if features else "Генерация текста"
 
             model_table.add_row(
                 str(model_index),
@@ -659,7 +659,7 @@ def _execute_model_show(show_args: Optional[List[str]] = None) -> bool:  # pylin
                     size_gb = size_mb / 1024
                     size_str = f"{size_gb:.1f} GB"
 
-            model_description = "Local model"
+            model_description = "Локальная модель"
             if size_str:
                 model_description += f" ({size_str})"
 
@@ -667,21 +667,21 @@ def _execute_model_show(show_args: Optional[List[str]] = None) -> bool:  # pylin
                 str(model_index),
                 model_name,
                 "Ollama",
-                "Varies",
-                "Free",
-                "Free",
+                "Разная",
+                "Бесплатно",
+                "Бесплатно",
                 model_description,
             )
 
         console.print(model_table)
 
         summary_text = (
-            f"\n[bold {_CAI_GREEN}]Showing {displayed_models} of {total_models} models"
+            f"\n[bold {_CAI_GREEN}]Показано {displayed_models} из {total_models} моделей"
         )
         if show_only_supported:
-            summary_text += " with function calling support"
+            summary_text += " с поддержкой function calling"
         if search_term:
-            summary_text += f" matching '{search_term}'"
+            summary_text += f" по запросу '{search_term}'"
         summary_text += f"[/bold {_CAI_GREEN}]"
         console.print(summary_text)
 
@@ -690,10 +690,10 @@ def _execute_model_show(show_args: Optional[List[str]] = None) -> bool:  # pylin
         data_source = (
             "https://github.com/BerriAI/litellm/blob/main/model_prices_and_context_window.json"
         )
-        console.print(f"\n[dim]Data source: {data_source}[/dim]")
+        console.print(f"\n[dim]Источник данных: {data_source}[/dim]")
 
     except Exception as e:  # pylint: disable=broad-except
-        console.print(f"[red]Error fetching model data: {str(e)}[/red]")
+        console.print(f"[red]Ошибка загрузки данных моделей: {str(e)}[/red]")
 
     return True
 
@@ -705,7 +705,7 @@ class ModelCommand(Command):
         """Initialize the model command."""
         super().__init__(
             name="/model",
-            description="View or change the current LLM model",
+            description="Просмотр или изменение текущей модели LLM",
             aliases=["/mod"]
         )
 
@@ -752,33 +752,37 @@ class ModelCommand(Command):
 
         if not args:  # pylint: disable=too-many-nested-blocks
             # Display current model
-            model_info = os.getenv("CAI_MODEL", "Unknown")
+            model_info = os.getenv("CAI_MODEL", "Неизвестно")
             console.print(
                 _model_info_panel(
-                    f"Current model: [bold {_CAI_GREEN}]{model_info}[/bold {_CAI_GREEN}]",
-                    "Active Model",
+                    f"Текущая модель: [bold {_CAI_GREEN}]{model_info}[/bold {_CAI_GREEN}]",
+                    "Активная модель",
                 )
             )
 
-            model_table = _model_table(title="Available Models")
+            model_table = _model_table(title="Доступные модели")
             model_table.add_column("#", style="bold white", justify="right")
-            model_table.add_column("Model", style=_CAI_GREEN)
-            model_table.add_column("Provider", style=_MODEL_MUTED)
-            model_table.add_column("Category", style=_MODEL_MUTED)
-            model_table.add_column("Input Cost ($/M)", style=_MODEL_MUTED, justify="right")
-            model_table.add_column("Output Cost ($/M)", style=_MODEL_MUTED, justify="right")
-            model_table.add_column("Description", style="white")
+            model_table.add_column("Модель", style=_CAI_GREEN)
+            model_table.add_column("Провайдер", style=_MODEL_MUTED)
+            model_table.add_column("Категория", style=_MODEL_MUTED)
+            model_table.add_column("Стоимость ввода ($/M)", style=_MODEL_MUTED, justify="right")
+            model_table.add_column("Стоимость вывода ($/M)", style=_MODEL_MUTED, justify="right")
+            model_table.add_column("Описание", style="white")
 
             # Add predefined models with numbers
             for i, model in enumerate(ALL_MODELS, 1):
                 # Format pricing info as dollars per million tokens
                 input_cost_str = (
                     f"${model['input_cost']:.2f}"
-                    if model['input_cost'] is not None else "Unknown"
+                    if model['input_cost'] is not None else "Неизвестно"
                 )
                 output_cost_str = (
                     f"${model['output_cost']:.2f}"
-                    if model['output_cost'] is not None else "Unknown"
+                    if model['output_cost'] is not None else "Неизвестно"
+                )
+                output_cost_str = (
+                    f"${model['output_cost']:.2f}"
+                    if model['output_cost'] is not None else "Неизвестно"
                 )
 
                 model_table.add_row(
@@ -806,7 +810,7 @@ class ModelCommand(Command):
                             size_gb = size_mb / 1024
                             size_str = f"{size_gb:.1f} GB"
 
-                    model_description = "Local model"
+                    model_description = "Локальная модель"
                     if size_str:
                         model_description += f" ({size_str})"
 
@@ -814,9 +818,9 @@ class ModelCommand(Command):
                         str(i),
                         model_name,
                         "Ollama",
-                        "Local",
-                        "Free",
-                        "Free",
+                        "Локальная",
+                        "Бесплатно",
+                        "Бесплатно",
                         model_description
                     )
             else:  # pylint: disable=broad-except
@@ -826,24 +830,24 @@ class ModelCommand(Command):
                     str(start_index),
                     "llama3",
                     "Ollama",
-                    "Local",
-                    "Free",
-                    "Free",
-                    "Local Llama 3 model (if installed)")
+                    "Локальная",
+                    "Бесплатно",
+                    "Бесплатно",
+                    "Локальная модель Llama 3 (если установлена)")
                 model_table.add_row(str(start_index + 1),
                                     "mistral",
                                     "Ollama",
-                                    "Local",
-                                    "Free",
-                                    "Free",
-                                    "Local Mistral model (if installed)")
+                                    "Локальная",
+                                    "Бесплатно",
+                                    "Бесплатно",
+                                    "Локальная модель Mistral (если установлена)")
                 model_table.add_row(str(start_index + 2),
                                     "...",
                                     "Ollama",
-                                    "Local",
-                                    "Free",
-                                    "Free",
-                                    "Other local models (if installed)")
+                                    "Локальная",
+                                    "Бесплатно",
+                                    "Бесплатно",
+                                    "Другие локальные модели (если установлены)")
 
             console.print(model_table)
 
@@ -853,10 +857,10 @@ class ModelCommand(Command):
         model_arg = (args[0] or "").strip()
         if not model_arg:
             _print_model_selection_error(
-                "[red]Missing model name or number.[/red]\n"
-                f"Run [bold {_CAI_GREEN}]/model[/bold {_CAI_GREEN}] for a short list or "
-                f"[bold {_CAI_GREEN}]/model show[/bold {_CAI_GREEN}] for the full catalog.",
-                title="Invalid selection",
+                "[red]Не указано имя или номер модели.[/red]\n"
+                f"Выполните [bold {_CAI_GREEN}]/model[/bold {_CAI_GREEN}] для краткого списка или "
+                f"[bold {_CAI_GREEN}]/model show[/bold {_CAI_GREEN}] для полного каталога.",
+                title="Неверный выбор",
             )
             return True
 
@@ -870,34 +874,34 @@ class ModelCommand(Command):
             else:
                 lo, hi = (1, n) if n else (0, 0)
                 _print_model_selection_error(
-                    f"[red]Number[/red] [bold]{escape(model_arg)}[/bold] [red]is out of range "
-                    f"(use[/red] [bold]{lo}[/bold][red]–[/red][bold]{hi}[/bold] [red]for the "
-                    f"loaded catalog).[/red]\n"
-                    f"Run [bold {_CAI_GREEN}]/model[/bold {_CAI_GREEN}] or "
-                    f"[bold {_CAI_GREEN}]/model show[/bold {_CAI_GREEN}] for the numbered list.",
-                    title="Invalid number",
+                    f"[red]Номер[/red] [bold]{escape(model_arg)}[/bold] [red]вне диапазона "
+                    f"(используйте[/red] [bold]{lo}[/bold][red]–[/red][bold]{hi}[/bold] [red]для "
+                    f"загруженного каталога).[/red]\n"
+                    f"Выполните [bold {_CAI_GREEN}]/model[/bold {_CAI_GREEN}] или "
+                    f"[bold {_CAI_GREEN}]/model show[/bold {_CAI_GREEN}] для нумерованного списка.",
+                    title="Неверный номер",
                 )
                 return True
         elif model_arg in known:
             model_name = model_arg
         else:
             _print_model_selection_error(
-                f"[red]Unknown model[/red] [bold]{escape(model_arg)}[/bold][red].[/red]\n"
-                f"[dim]It is not among the {n} ids in the current catalog.[/dim]\n"
-                f"Run [bold {_CAI_GREEN}]/model[/bold {_CAI_GREEN}] or "
-                f"[bold {_CAI_GREEN}]/model show[/bold {_CAI_GREEN}] to pick a valid name.",
-                title="Unknown model",
+                f"[red]Неизвестная модель[/red] [bold]{escape(model_arg)}[/bold][red].[/red]\n"
+                f"[dim]Её нет среди {n} идентификаторов в текущем каталоге.[/dim]\n"
+                f"Выполните [bold {_CAI_GREEN}]/model[/bold {_CAI_GREEN}] или "
+                f"[bold {_CAI_GREEN}]/model show[/bold {_CAI_GREEN}], чтобы выбрать корректное имя.",
+                title="Неизвестная модель",
             )
             return True
 
         os.environ["CAI_MODEL"] = model_name
 
         change_message = (
-            f"Model changed to: [bold {_CAI_GREEN}]{model_name}[/bold {_CAI_GREEN}]\n"
-            f"[{_MODEL_MUTED}]Note: This will take effect on the next agent interaction[/]"
+            f"Модель изменена на: [bold {_CAI_GREEN}]{model_name}[/bold {_CAI_GREEN}]\n"
+            f"[{_MODEL_MUTED}]Примечание: изменение вступит в силу при следующем взаимодействии с агентом[/]"
         )
         console.print(
-            _model_info_panel(change_message, "Model Changed"),
+            _model_info_panel(change_message, "Модель изменена"),
             end="",
         )
         return True

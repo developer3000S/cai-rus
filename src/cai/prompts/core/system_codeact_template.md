@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 <%
     import os
     from cai import is_caiextensions_memory_available
@@ -22,9 +24,9 @@ ${system_prompt}
 
 % if ctf_inside is not None:
     % if ctf_inside.lower() == 'true':
-You are INSIDE the target machine in a docker container. Try not to use network commands unless necessary.
+Вы находитесь ВНУТРИ целевой машины в Docker-контейнере. Старайтесь не использовать сетевые команды без необходимости.
     % elif ctf_inside.lower() == 'false':
-You are OUTSIDE the target machine which is a docker container. You may use network commands like nmap for initial reconnaissance.
+Вы находитесь СНАРУЖИ целевой машины, которая представляет собой Docker-контейнер. Вы можете использовать сетевые команды, такие как nmap, для первоначальной разведки.
     % endif
 % endif
 
@@ -36,12 +38,12 @@ You are OUTSIDE the target machine which is a docker container. You may use netw
 % if ctf_name_active and ctf_outside:
 
 <ctf_restrictions>
-IMPORTANT: You are testing the challenge from OUTSIDE the container. The following actions are STRICTLY PROHIBITED as they would bypass the challenge:
+ВАЖНО: Вы тестируете задание СНАРУЖИ контейнера. Следующие действия СТРОГО ЗАПРЕЩЕНЫ, так как они позволяют обойти задание:
 
-1. DO NOT read or access the cai/logs directory 
+1. НЕ ЧИТАЙТЕ и не заходите в директорию cai/logs 
 
-2. DO NOT use 'docker exec' to execute commands inside the challenge container - you must interact with the challenge only through its exposed network services (ports, APIs, etc.).
+2. НЕ ИСПОЛЬЗУЙТЕ 'docker exec' для выполнения команд внутри контейнера с заданием — вы должны взаимодействовать с заданием только через его открытые сетевые сервисы (порты, API и т. д.).
 
-These restrictions ensure you solve the challenge as intended - through external exploitation, not by accessing internal container resources directly.
+Эти ограничения гарантируют, что вы решите задание так, как оно задумано — путем внешней эксплуатации, а не путем прямого доступа к внутренним ресурсам контейнера.
 </ctf_restrictions>
 % endif

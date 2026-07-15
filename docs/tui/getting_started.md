@@ -1,342 +1,341 @@
-# Getting Started with CAI TUI
+# Начало работы с CAI TUI
 
-> **⚡ CAI-Pro Exclusive Feature**  
-> The Terminal User Interface (TUI) is available exclusively in **CAI-Pro**. To access this feature and unlock advanced multi-agent workflows, visit [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) for more information.
+> **⚡ Эксклюзивная функция CAI-Pro**  
+> Терминальный пользовательский интерфейс (TUI) доступен исключительно в **CAI-Pro**. Для получения доступа к этой функции и расблокировки продвинутых рабочих процессов с несколькими агентами посетите [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) для получения дополнительной информации.
 
 ---
 
-This guide will walk you through launching the CAI TUI for the first time and performing your first security assessment.
+Это руководство проведет вас через запуск CAI TUI впервые и выполнение вашей первой оценки безопасности.
 
-## Prerequisites
+## Предварительные требования
 
-Before starting, ensure you have:
+Перед началом убедитесь, что у вас есть:
 
-- ✅ CAI installed (see [Installation Guide](../Installation_Guide_for_CAI_Pro_v0.6.md))
-- ✅ Python 3.9+ installed
-- ✅ A valid `ALIAS_API_KEY` from [Alias Robotics](https://aliasrobotics.com)
+- ✅ Установлен CAI (см. [Руководство по установке](../Installation_Guide_for_CAI_Pro_v0.6.md))
+- ✅ Установлен Python 3.9+
+- ✅ Действительный `ALIAS_API_KEY` от [Alias Robotics](https://aliasrobotics.com)
 
 
-## Step 1: Launch the TUI
+## Шаг 1: Запуск TUI
 
-Open your terminal and run:
+Откройте терминал и выполните:
 
 ```bash
 cai --tui
 ```
 
-If your `ALIAS_API_KEY` is not configured, you'll see an authentication error. Don't worry—we'll fix this in the next step.
+Если ваш `ALIAS_API_KEY` не настроен, вы увидите ошибку аутентификации. Не волнуйтесь — мы исправим это на следующем шаге.
 
 
-## Step 2: Configure Your API Key
+## Шаг 2: Настройка вашего API ключа
 
-The first time you use CAI TUI, you need to configure your API key:
+Впервые используя CAI TUI, вам необходимо настроить ваш API ключ:
 
-1. **Open the Sidebar**
-   - Press `Ctrl+S` to toggle the sidebar (if not already visible)
+1. **Откройте боковую панель**
+   - Нажмите `Ctrl+S` для переключения боковой панели (если она еще не видна)
 
-2. **Navigate to Keys Tab**
-   - Click on the **"Keys"** tab in the sidebar
-   - This shows all configured API keys
+2. **Перейдите на вкладку Ключи**
+   - Нажмите на вкладку **"Keys"** в боковой панели
+   - Здесь отображаются все настроенные API ключи
 
-3. **Add Your API Key**
-   - Click the **"Add New Key"** button
-   - A dialog will appear with two fields:
-     - **Key Name**: Enter `ALIAS_API_KEY`
-     - **Key Value**: Enter your API key (e.g., `ak_live_1234567890abcdef`)
+3. **Добавьте ваш API ключ**
+   - Нажмите кнопку **"Add New Key"**
+   - Появится диалоговое окно с двумя полями:
+     - **Key Name**: Введите `ALIAS_API_KEY`
+     - **Key Value**: Введите ваш API ключ (например, `ak_live_1234567890abcdef`)
    
-4. **Save the Key**
-   - Click the **"Save"** button
-   - Your key is now securely stored in `~/.cai/.env`
+4. **Сохраните ключ**
+   - Нажмите кнопку **"Save"**
+   - Ваш ключ теперь безопасно хранится в `~/.cai/.env`
 
-### Alternative: Using Environment Variables
+### Альтернатива: Использование переменных окружения
 
-You can also set your API key via environment variable:
+Вы также можете установить API ключ через переменную окружения:
 
 ```bash
 export ALIAS_API_KEY="your_api_key_here"
 cai --tui
 ```
 
-Or create a `.env` file in your project directory:
+Или создайте файл `.env` в каталоге вашего проекта:
 
 ```env
 ALIAS_API_KEY=your_api_key_here
 ```
 
-## Step 3: Select Your Model
+## Шаг 3: Выберите модель
 
-CAI supports multiple AI models. For optimal performance and cost balance, we recommend `alias1`:
+CAI поддерживает несколько ИИ моделей. Для оптимального баланса производительности и стоимости мы рекомендуем `alias1`:
 
-### Option 1: Using the Dropdown (Recommended)
+### Вариант 1: Использование выпадающего списка (Рекомендуется)
 
-1. Look at the terminal header (top bar of each terminal)
-2. Find the **"model"** dropdown (center-right area)
-3. Click on it to see available models
-4. Select **`alias1`**
+1. Посмотрите на заголовок терминала (верхняя панель каждого терминала)
+2. Найдите выпадающий список **"model"** (центрально-правая область)
+3. Нажмите на него, чтобы увидеть доступные модели
+4. Выберите **`alias1`**
 
-### Option 2: Using a Command
+### Вариант 2: Использование команды
 
-Type in the input field at the bottom:
+Введите в поле ввода внизу:
 
 ```
 /model alias1
 ```
 
-Press **Enter**.
+Нажмите **Enter**.
 
-### Available Models
+### Доступные модели
 
-| Model | Provider | Best For | Cost |
+| Модель | Провайдер | Лучше всего для | Стоимость |
 |-------|----------|----------|------|
-| `alias1` | Alias Robotics | **Recommended** - Balanced performance | Medium |
-| `gpt-5` | OpenAI | Latest reasoning and code generation | Very High |
-| `gpt-4o` | OpenAI | Complex reasoning and multi-modal | High |
-| `claude-4-5` | Anthropic | Advanced reasoning and long contexts | Very High |
-| `claude-3-5-sonnet-20241022` | Anthropic | Fast responses with good quality | High |
+| `alias1` | Alias Robotics | **Рекомендуется** - Сбалансированная производительность | Средняя |
+| `gpt-5` | OpenAI | Последние рассуждения и генерация кода | Очень высокая |
+| `gpt-4o` | OpenAI | Сложные рассуждения и мультимодальность | Высокая |
+| `claude-4-5` | Anthropic | Продвинутые рассуждения и длинные контексты | Очень высокая |
+| `claude-3-5-sonnet-20241022` | Anthropic | Быстрые ответы хорошего качества | Высокая |
 
-> **💡 Tip**: You can change models at any time without losing your conversation history.
+> **💡 Совет**: Вы можете менять модели в любое время без потери истории беседы.
 
-## Step 4: Choose Your Agent
+## Шаг 4: Выберите агента
 
-CAI comes with specialized agents for different security tasks. Here's how to choose:
+CAI поставляется со специализированными агентами для различных задач безопасности. Вот как выбрать:
 
-### Option 1: Use the Agent Recommendation System
+### Вариант 1: Использование системы рекомендаций агентов
 
-The easiest way to start:
+Простейший способ начать:
 
-1. Click the **agent** dropdown in the terminal header
-2. Select **`selection_agent`** 
-3. Type your task description: `"I need to test a web application for SQL injection"`
-4. The agent will recommend the best agent for your task
+1. Нажмите на выпадающий список **agent** в заголовке терминала
+2. Выберите **`selection_agent`** 
+3. Введите описание вашей задачи: `"Мне нужно протестировать веб-приложение на SQL-инъекции"`
+4. Агент порекомендует лучшего агента для вашей задачи
 
-Alternatively, use the command:
+Или используйте команду:
 
 ```
 /agent selection_agent
 ```
 
-Then describe your task.
+Затем опишите вашу задачу.
 
-### Option 2: Choose Directly from the Dropdown
+### Вариант 2: Выбор напрямую из выпадающего списка
 
-If you know which agent you need:
+Если вы знаете, какой агент вам нужен:
 
-1. Click the **agent** dropdown
-2. Browse available agents (scroll if needed)
-3. Select your desired agent (e.g., `redteam_agent`, `bug_bounter_agent`)
+1. Нажмите на выпадающий список **agent**
+2. Просмотрите доступных агентов (прокрутите при необходимости)
+3. Выберите нужного агента (например, `redteam_agent`, `bug_bounter_agent`)
 
-### Option 3: List All Agents
+### Вариант 3: Список всех агентов
 
-To see all available agents with descriptions:
+Чтобы увидеть всех доступных агентов с описаниями:
 
 ```
 /agent list
 ```
 
-### Common Agent Types
+### Основные типы агентов
 
-| Agent | Purpose | When to Use |
+| Агент | Назначение | Когда использовать |
 |-------|---------|-------------|
-| `redteam_agent` | Offensive security testing | Default for penetration testing |
-| `blueteam_agent` | Defensive security analysis | Security posture assessment |
-| `bug_bounter_agent` | Bug bounty hunting | Finding high-value vulnerabilities |
-| `retester_agent` | Vulnerability retesting | Confirming fixes |
-| `selection_agent` | Agent recommendation | **When unsure which agent to use** |
+| `redteam_agent` | Наступательное тестирование безопасности | По умолчанию для пентестинга |
+| `blueteam_agent` | Защитный анализ безопасности | Оценка وضعа безопасности |
+| `bug_bounter_agent` | Поиск ошибок за награду | Поиск высокозначимых уязвимостей |
+| `retester_agent` | Повторное тестирование уязвимостей | Подтверждение исправлений |
+| `selection_agent` | Рекомендация агентов | **Когда не уверены, какого агента использовать** |
 
-> **💡 Pro Tip**: Start with `selection_agent` if you're new to CAI—it will guide you to the right agent for your task.
+> **💡 Совет профессионала**: Начните с `selection_agent`, если вы новичок в CAI — он направит вас к правильному агенту для вашей задачи.
 
-## Step 5: Start Your First Conversation
+## Шаг 5: Начните первую беседу
 
-Now you're ready to interact with CAI!
+Теперь вы готовы взаимодействовать с CAI!
 
-### Example 1: Basic Reconnaissance
+### Пример 1: Базовая разведка
 
-In the input field at the bottom (marked with `CAI>`), type:
-
-```
-Scan 198.51.100.50 for open ports and services
-```
-
-Press **Enter**.
-
-The agent will:
-- Process your request
-- Use appropriate tools (nmap, etc.)
-- Display results in the terminal output area
-
-### Example 2: Web Application Testing
-
-Prompt example:
+В поле ввода внизу (отмеченном `CAI>`), введите:
 
 ```
-Test https://example.com for common web vulnerabilities
+Просканируй 198.51.100.50 на открытые порты и сервисы
 ```
 
-Press **Enter**.
+Нажмите **Enter**.
 
-The agent will:
-- Process your request
-- Use appropriate tools (nmap, etc.)
-- Display results in the terminal output area
+Агент будет:
+- Обрабатывать ваш запрос
+- Использовать подходящие инструменты (nmap и т.д.)
+- Отображать результаты в области вывода терминала
 
-### Example 3: Network Analysis
+### Пример 2: Тестирование веб-приложений
 
-Prompt example:
+Пример промпта:
 
 ```
-Analyze the network traffic from this pcap file: capture.pcap
+Протестируй https://example.com на распространенные уязвимости веб-приложений
 ```
 
-### Understanding the Output
+Нажмите **Enter**.
 
-As the agent works, you'll see:
+Агент будет:
+- Обрабатывать ваш запрос
+- Использовать подходящие инструменты (nmap и т.д.)
+- Отображать результаты в области вывода терминала
 
-1. **Tool Execution**: Messages showing which tools are being launched
-2. **Streaming Output**: Real-time results from tools
-3. **Agent Reasoning**: The agent's thought process (if `CAI_DEBUG=1`)
-4. **Final Response**: Summary and recommendations
+### Пример 3: Анализ сети
 
-### Queuing Prompts
+Пример промпта:
 
-If the agent is busy, you can send another prompt—it will be **automatically queued**:
+```
+Проанализируй сетевой трафик из этого pcap файла: capture.pcap
+```
 
-- View the queue: Press `Ctrl+Shift+Q` or use `/queue`
-- The next prompt will execute when the current one finishes
+### Понимание вывода
 
-## Step 6: Working with Multiple Terminals
+Пока агент работает, вы будете видеть:
 
-One of the TUI's most powerful features is multi-terminal support.
+1. **Выполнение инструментов**: Сообщения о том, какие инструменты запускаются
+2. **Стриминговый вывод**: Результаты от инструментов в реальном времени
+3. **Рассуждения агента**: Процесс мышления агента (если `CAI_DEBUG=1`)
+4. **Итоговый ответ**: Резюме и рекомендации
 
-### Adding a New Terminal
+### Постановка промптов в очередь
 
-Click the **"Add +"** button in the top of the screen
+Если агент занят, вы можете отправить другой промпт — он будет **автоматически поставлен в очередь**:
 
-Each new terminal:
-- Starts with `alias1` model and `redteam_agent`
-- Has an independent conversation history
-- Can run a different agent and model
+- Просмотрите очередь: Нажмите `Ctrl+Shift+Q` или используйте `/queue`
+- Следующий промпт выполнится, когда текущий завершится
 
-### Navigating Between Terminals
+## Шаг 6: Работа с несколькими терминалами
 
-- **Next terminal**: `Ctrl+N`
-- **Previous terminal**: `Ctrl+B`
-- **Click directly** on any terminal to focus it
+Одна из самых мощных функций TUI — поддержка нескольких терминалов.
 
-### Example Workflow: Dual-Perspective Analysis
+### Добавление нового терминала
 
-1. **Terminal 1**: Keep `redteam_agent` for offensive testing
-2. **Terminal 2**: Add a new terminal, switch to `blueteam_agent`
-3. Send the same target to both:
-   - T1: Offensive analysis
-   - T2: Defensive recommendations
-4. Compare results side-by-side
+Нажмите кнопку **"Add +"** в верхней части экрана
 
-## Step 7: Using Preconfigured Teams
+Каждый новый терминал:
+- Начинается с модели `alias1` и `redteam_agent`
+- Имеет независимую историю бесед
+- Может запускать другого агента и модель
 
-For common multi-agent workflows, use **Teams**:
+### Навигация между терминалами
 
-1. Open the sidebar (`Ctrl+S`)
-2. Click the **"Teams"** tab
-3. Select a team (e.g., **"#1: 2 red + 2 bug"**)
+- **Следующий терминал**: `Ctrl+N`
+- **Предыдущий терминал**: `Ctrl+B`
+- **Нажмите напрямую** на любой терминал для фокусировки
 
-This will:
-- Automatically open 4 terminals (or reuse existing ones)
-- Assign agents according to the team configuration
-- Ready to process your prompt in parallel
+### Пример рабочего процесса: Двухперспективный анализ
 
-**Popular Teams**:
-- **2 Red + 2 Bug**: Comprehensive penetration testing + bug hunting
-- **2 Red + 2 Blue**: Offensive + defensive analysis
-- **Red + Blue + Retester + Bug**: Full security assessment lifecycle
+1. **Терминал 1**: Оставьте `redteam_agent` для наступательного тестирования
+2. **Терминал 2**: Добавьте новый терминал, переключитесь на `blueteam_agent`
+3. Отправьте одну и ту же цель обоим:
+   - T1: Наступательный анализ
+   - T2: Защитные рекомендации
+4. Сравните результаты бок о бок
 
-Learn more about Teams and Parallel Execution in the full TUI documentation.
+## Шаг 7: Использование предустановленных команд
 
-## Step 8: Saving Your Work
+Для распространенных рабочих процессов с несколькими агентами используйте **Команды**:
 
-To save all agent histories:
+1. Откройте боковую панель (`Ctrl+S`)
+2. Нажмите вкладку **"Teams"**
+3. Выберите команду (например, **"#1: 2 red + 2 bug"**)
 
-- **JSONL** (reload later with `/load`):
+Это:
+- Автоматически откроет 4 терминала (или повторно использует существующие)
+- Назначит агентов в соответствии с конфигурацией команды
+- Будет готово обработать ваш промпт параллельно
+
+**Популярные команды**:
+- **2 Red + 2 Bug**: Комплексный пентестинг + поиск ошибок
+- **2 Red + 2 Blue**: Наступательный + защитный анализ
+- **Red + Blue + Retester + Bug**: Полный жизненный цикл оценки безопасности
+
+Подробнее о командах и параллельном выполнении в полной документации TUI.
+
+## Шаг 8: Сохранение вашей работы
+
+Чтобы сохранить историю всех агентов:
+
+- **JSONL** (перезагрузка позже с `/load`):
 
 ```
 /save my-assessment.jsonl
 ```
 
-- **Markdown** (readable report or handoff document; not for `/load`):
+- **Markdown** (читаемый отчет или документ для передачи; не для `/load`):
 
 ```
 /save my-assessment.md
 ```
 
-Files are written to the path you give (relative paths use the current working directory). This is separate from `/memory save`, which stores summarized memory under `.cai/memory`.
+Файлы записываются по указанному вами пути (относительные пути используют текущий рабочий каталог). Это отдельно от `/memory save`, который хранит резюмированную память в `.cai/memory`.
 
-### Loading a Saved Session
+### Загрузка сохраненной сессии
 
-Use a **`.jsonl`** file from `/save` (or a compatible session log):
+Используйте файл **`.jsonl`** из `/save` (или совместимый журнал сессий):
 
 ```
 /load my-assessment.jsonl
 ```
 
-This merges the saved messages into the session (see `/help load` for targeting a specific agent or parallel slot).
+Это объединит сохраненные сообщения в сессию (смотрите `/help load` для нацеливания на конкретного агента или параллельный слот).
 
-## Step 9: Monitoring Costs
+## Шаг 9: Мониторинг затрат
 
-CAI tracks your API usage and costs in real-time.
+CAI отслеживает использование API и затраты в реальном времени.
 
-### View Costs for Current Agent
+### Просмотр затрат для текущего агента
 
 ```
 /cost
 ```
 
-This shows:
-- Total tokens used (input + output)
-- Estimated cost in USD
-- Breakdown by interaction
+Это показывает:
+- Общее количество использованных токенов (вход + выход)
+- Примерную стоимость в долларах США
+- Разбивку по взаимодействиям
 
-### Check Stats in Sidebar
+### Просмотр статистики в боковой панели
 
-Open the sidebar (`Ctrl+S`) and go to **"Stats"** tab to see:
-- Session duration
-- Total agents used
-- Total cost across all terminals
+Откройте боковую панель (`Ctrl+S`) и перейдите на вкладку **"Stats"**, чтобы увидеть:
+- Длительность сессии
+- Общее количество использованных агентов
+- Общую стоимость по всем терминалам
 
-## Common First-Time Issues
+## Типичные проблемы при первом использовании
 
-### Issue: Agent is not responding
+### Проблема: Агент не отвечает
 
-**Solution**: 
-- Press `Ctrl+C` to cancel the current agent
-- Check your internet connection
-- Verify your API key is valid
+**Решение**: 
+- Нажмите `Ctrl+C` для отмены текущего агента
+- Проверьте подключение к интернету
+- Убедитесь, что ваш API ключ действителен
 
-### Issue: Terminal output is cluttered
+### Проблема: Вывод терминала загроможден
 
-**Solution**:
-- Clear the terminal: `Ctrl+L` or `/clear`
-- Reduce debug output: Set `CAI_DEBUG=0` before launching
-- Use `/flush` to clear conversation history
+**Решение**:
+- Очистите терминал: `Ctrl+L` или `/clear`
+- Уменьшите вывод отладки: Установите `CAI_DEBUG=0` перед запуском
+- Используйте `/flush` для очистки истории беседы
 
-### Issue: I can't see the full interface
+### Проблема: Я не могу увидеть полный интерфейс
 
-**Solution**:
-- Resize your terminal window to at least 120x40 characters
-- Try full-screen mode: `F11` (on most terminals)
-- Zoom out: `Ctrl+-` (on most terminals)
+**Решение**:
+- Измените размер окна терминала минимум до 120x40 символов
+- Попробуйте режим полного экрана: `F11` (в большинстве терминалов)
+- Уменьшите масштаб: `Ctrl+-` (в большинстве терминалов)
 
-## Next Steps
+## Следующие шаги
 
-Congratulations! You've completed the basics of CAI TUI. Here's what to explore next:
+Поздравляем! Вы освоили основы CAI TUI. Вот что изучить дальше:
 
-### Learn More Commands
-- 📖 [Commands Reference](commands_reference.md) - Master all available commands
-- ⌨️ [Keyboard Shortcuts](keyboard_shortcuts.md) - Speed up your workflow
+### Изучите больше команд
+- 📖 [Справочник команд](commands_reference.md) - Освойте все доступные команды
+- ⌨️ [Горячие клавиши](keyboard_shortcuts.md) - Ускорьте свой рабочий процесс
 
-### Explore Advanced Features
-- 👥 [Teams and Parallel Execution](teams_and_parallel_execution.md) - Multi-agent workflows
-- 🚀 [Advanced Features](advanced_features.md) - MCP, ICL, and more
+### Исследуйте продвинутые функции
+- 👥 [Команды и параллельное выполнение](teams_and_parallel_execution.md) - Рабочие процессы с несколькими агентами
+- 🚀 [Продвинутые функции](advanced_features.md) - MCP, ICL и другое
 
-### Get Help
-- 🔧 [Troubleshooting](troubleshooting.md) - Solve issues
-- 💬 [Community Discord](https://discord.gg/aliasrobotics) - Ask questions
-
+### Получите помощь
+- 🔧 [Решение проблем](troubleshooting.md) - Решайте проблемы
+- 💬 [Discord сообщество](https://discord.gg/aliasrobotics) - Задавайте вопросы

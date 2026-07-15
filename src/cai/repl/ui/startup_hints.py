@@ -27,7 +27,7 @@ def startup_hints_disabled() -> bool:
 def mask_key_for_hint(raw: str) -> str:
     raw = (raw or "").strip()
     if not raw:
-        return "not set"
+        return "не задано"
     if len(raw) <= 10:
         return "***"
     return f"{raw[:4]}…{raw[-4:]}"
@@ -66,7 +66,7 @@ class StartupHints:
     def _render(self, message: str):
         return build_startup_hint_renderable(message)
 
-    def start(self, message: str = "Starting framework...", *, leading_blank: bool = True) -> None:
+    def start(self, message: str = "Запуск фреймворка...", *, leading_blank: bool = True) -> None:
         if startup_hints_disabled() or self._cm is not None:
             return
         if leading_blank:

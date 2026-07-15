@@ -1,4 +1,4 @@
-name: Tests
+name: Тесты
 
 on:
   push:
@@ -17,63 +17,63 @@ jobs:
   # lint:
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - name: Checkout repository
+  #     - name: Клонирование репозитория
   #       uses: actions/checkout@v4
-  #     - name: Setup uv
+  #     - name: Настройка uv
   #       uses: astral-sh/setup-uv@v5
   #       with:
   #         enable-cache: true
-  #     - name: Install dependencies
+  #     - name: Установка зависимостей
   #       run: make sync
-  #     - name: Run lint
+  #     - name: Запуск линтера
   #       run: make lint
 
   # typecheck:
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - name: Checkout repository
+  #     - name: Клонирование репозитория
   #       uses: actions/checkout@v4
-  #     - name: Setup uv
+  #     - name: Настройка uv
   #       uses: astral-sh/setup-uv@v5
   #       with:
   #         enable-cache: true
-  #     - name: Install dependencies
+  #     - name: Установка зависимостей
   #       run: make sync
-  #     - name: Run typecheck
+  #     - name: Запуск проверки типов
   #       run: make mypy
 
-  # Lightweight prompt / layering checks (no refusals suite; mirrors GitLab smoke slice)
+  # Лёгкие проверки промптов / наслоений (без набора отказов; зеркалит срез GitLab)
   cyber-prompt-smoke:
     runs-on: ubuntu-latest
     env:
       OPENAI_API_KEY: fake-for-tests
     steps:
-      - name: Checkout repository
+      - name: Клонирование репозитория
         uses: actions/checkout@v4
-      - name: Setup uv
+      - name: Настройка uv
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-      - name: Install dependencies
+      - name: Установка зависимостей
         run: make sync
-      - name: Run cyber layering and prompt bundle load tests
+      - name: Запуск тестов наслоений cyber и загрузки пакетов промптов
         run: uv run pytest tests/util/test_cyber_prompt_layering.py tests/prompts/test_prompt_bundles_load.py -q --timeout=300
 
-  # Heavier: full selection_agent import graph (optional in local runs: pytest -m "not slow")
+  # Тяжелее: полный граф импорта selection_agent (опционально в локальных запусках: pytest -m "not slow")
   selection-agent-smoke:
     runs-on: ubuntu-latest
     env:
       OPENAI_API_KEY: fake-for-tests
     steps:
-      - name: Checkout repository
+      - name: Клонирование репозитория
         uses: actions/checkout@v4
-      - name: Setup uv
+      - name: Настройка uv
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-      - name: Install dependencies
+      - name: Установка зависимостей
         run: make sync
-      - name: Run selection agent smoke tests
+      - name: Запуск smoke-тестов selection agent
         run: uv run pytest tests/agents/test_selection_agent_smoke.py -q --timeout=600
 
   build-docs:
@@ -81,15 +81,15 @@ jobs:
     env:
       OPENAI_API_KEY: fake-for-tests
     steps:
-      - name: Checkout repository
+      - name: Клонирование репозитория
         uses: actions/checkout@v4
-      - name: Setup uv
+      - name: Настройка uv
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-      - name: Install dependencies
+      - name: Установка зависимостей
         run: make sync
-      - name: Build docs
+      - name: Сборка документации
         run: make build-docs
 
   # old_versions:
@@ -97,13 +97,13 @@ jobs:
   #   env:
   #     OPENAI_API_KEY: fake-for-tests
   #   steps:
-  #     - name: Checkout repository
+  #     - name: Клонирование репозитория
   #       uses: actions/checkout@v4
-  #     - name: Setup uv
+  #     - name: Настройка uv
   #       uses: astral-sh/setup-uv@v5
   #       with:
   #         enable-cache: true
-  #     - name: Install dependencies
+  #     - name: Установка зависимостей
   #       run: make sync
-  #     - name: Run tests
+  #     - name: Запуск тестов
   #       run: make old_version_tests

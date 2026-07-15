@@ -117,7 +117,7 @@ def get_available_agents() -> Dict[str, Agent]:  # pylint: disable=R0912  # noqa
             except (ImportError, AttributeError) as e:
                 # Extract module name from the full import path
                 module_short_name = name.split(".")[-1]
-                print(f"Error importing {module_short_name}: {e}")
+                print(f"Ошибка импорта {module_short_name}: {e}")
     
     # Also check the personal subdirectory
     personal_path = os.path.join(os.path.dirname(__file__), "personal")
@@ -135,7 +135,7 @@ def get_available_agents() -> Dict[str, Agent]:  # pylint: disable=R0912  # noqa
             except (ImportError, AttributeError) as e:
                 # Extract module name from the full import path
                 module_short_name = name.split(".")[-1]
-                print(f"Error importing personal agent {module_short_name}: {e}")
+                print(f"Ошибка импорта персонального агента {module_short_name}: {e}")
 
     # Add all patterns (parallel, swarm, etc.) as pseudo-agents
     from cai.agents.patterns import PATTERNS
@@ -177,8 +177,8 @@ def get_available_agents() -> Dict[str, Agent]:  # pylint: disable=R0912  # noqa
 try:
     class MetaAgentToggle:
         name = "meta_agent"
-        description = "Toggle CAI Meta Agent (global TUI orchestrator). Select to enable CAI_META_AGENT=True."
-        instructions = "Meta controller for TUI orchestration and context merging."
+        description = "Переключатель CAI Meta Agent (глобальный оркестратор TUI). Выберите для включения CAI_META_AGENT=True."
+        instructions = "Мета-контроллер для оркестрации TUI и объединения контекста."
         tools = []
         handoffs = []
         model = None
@@ -305,7 +305,7 @@ def get_agent_by_name(
     # Check if the agent exists in available_agents
     if agent_name_lower not in available_agents:
         raise ValueError(
-            f"Invalid agent type: {agent_name}. Available agents: {', '.join(available_agents.keys())}"
+            f"Недопустимый тип агента: {agent_name}. Доступные агенты: {', '.join(available_agents.keys())}"
         )
 
     # Get the agent instance (singleton)

@@ -1,46 +1,46 @@
 # MCP
 
-CAI supports the Model Context Protocol (MCP) for integrating external tools and services with AI agents. Common patterns:
+CAI поддерживает Model Context Protocol (MCP) для интеграции внешних инструментов и сервисов с AI-агентами. Распространенные паттерны:
 
-1. **STDIO (Standard Input/Output)** — For local processes, including the **Burp Suite MCP** stdio proxy from PortSwigger (extract `mcp-proxy-all.jar` from the MCP Server BApp; default Burp SSE URL is usually `http://127.0.0.1:9876`):
+1. **STDIO (Standard Input/Output)** — Для локальных процессов, включая stdio-прокси **Burp Suite MCP** от PortSwigger (извлеките `mcp-proxy-all.jar` из MCP Server BApp; URL Burp SSE по умолчанию обычно `http://127.0.0.1:9876`):
 
 ```bash
 CAI>/mcp load stdio burp java -jar /path/to/mcp-proxy-all.jar --sse-url http://127.0.0.1:9876
 ```
 
-2. **SSE (Server-Sent Events)** — Direct HTTP/SSE only works when the server sends a compliant `Content-Type: text/event-stream` response. Many tools (including Burp’s in-process SSE) are unreliable with CAI’s client; prefer **stdio** for Burp.
+2. **SSE (Server-Sent Events)** — Прямой HTTP/SSE работает только в том случае, если сервер отправляет соответствующий ответ `Content-Type: text/event-stream`. Многие инструменты (включая встроенный SSE в Burp) работают нестабильно с клиентом CAI; для Burp рекомендуется использовать **stdio**.
 
 ```bash
 CAI>/mcp load http://127.0.0.1:8000/sse myserver
 ```
 
-Other stdio servers:
+Другие stdio-серверы:
 
 ```bash
 CAI>/mcp load stdio myserver python mcp_server.py
 ```
 
-Once connected, add the MCP tools to an agent (server name first, then agent id or index). The REPL prints a table of each tool and its status.
+После подключения добавьте инструменты MCP агенту (сначала имя сервера, затем ID или индекс агента). REPL выведет таблицу с каждым инструментом и его статусом.
 
 ```bash
 CAI>/mcp add burp redteam_agent
 ```
 
-You can list all active MCP connections and their transport types:
+Вы можете вывести список всех активных MCP-соединений и типы их транспорта:
 
 ```bash
 CAI>/mcp list
 ```
 
-Other useful subcommands: `/mcp status`, `/mcp associations`, `/mcp test <server>`, and `/mcp help` (same summary as `/help mcp` and `/h mcp`).
+Другие полезные подкоманды: `/mcp status`, `/mcp associations`, `/mcp test <server>` и `/mcp help` (та же сводка, что и в `/help mcp` и `/h mcp`).
 
 [https://github.com/user-attachments/assets/386a1fd3-3469-4f84-9396-2a5236febe1f](https://github.com/user-attachments/assets/386a1fd3-3469-4f84-9396-2a5236febe1f)
 
-## Example: Controlling Chrome with CAI
+## Пример: Управление Chrome с помощью CAI
 
-1. Install node, following the instructions on the [official site](https://nodejs.org/en/download/current)
-2. Install Chrome (Chromium is not compatible with this functionality)
-3. Run the following commands:
+1. Установите node, следуя инструкциям на [официальном сайте](https://nodejs.org/en/download/current)
+2. Установите Chrome (Chromium не совместим с данным функционалом)
+3. Выполните следующие команды:
 
 ```bash
 CAI>/mcp load stdio devtools npx chrome-devtools-mcp@latest
@@ -48,4 +48,4 @@ CAI>/mcp add devtools redteam_agent
 CAI>/agent redteam_agent
 ```
 
-Once this is done, you will have full control of Chrome using the red team agent.
+После этого вы получите полный контроль над Chrome с помощью red team агента.

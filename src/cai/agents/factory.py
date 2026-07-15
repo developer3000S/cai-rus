@@ -100,11 +100,23 @@ def create_generic_agent_factory(
                     for tool in extra_tools:
                         tname = getattr(tool, "name", str(tool))
                         if tname not in existing_names:
+                            # Gate Professional tools
+                            from cai.permissions import has_permission
+                            from cai.auth_types import Edition
+                            # Since we don't have a specific user here, we use global edition
+                            if not has_permission(required_edition=Edition.PROFESSIONAL):
+                                # Only add the tool if it's not marked as professional.
+                                # We assume tools in these categories are professional:
+                                # exploitation, lateral_movement, privilege_scalation, command_and_control
+                                tool_path = getattr(tool, "__module__", "")
+                                if any(cat in tool_path for cat in ["exploitation", "lateral_movement", "privilege_scalation", "command_and_control"]):
+                                    continue
+                                    
                             if not hasattr(cloned_agent, "tools") or cloned_agent.tools is None:
                                 cloned_agent.tools = []
                             cloned_agent.tools.append(tool)
                             existing_names.add(tname)
-                            logger.debug("[R] Auto-added tool %s to agent %s", tname, agent_var_name)
+                    logger.debug("[R] ToolRegistry supplement completed for agent %s", agent_var_name)
             except Exception as exc:
                 logger.debug("[R] ToolRegistry supplement skipped: %s", exc)
 
@@ -131,6 +143,31 @@ def create_generic_agent_factory(
         except ImportError:
             # MCP command not available, skip
             pass
+
+        from cai.permissions import require_professional
+        
+        # Gate the 'alias1' model and its thinking variants for Community Edition
+        # Admin role override is handled by get_active_edition() / permissions logic
+        if "alias1" in model_name.lower():
+            try:
+                # In the factory, we don't have the current user's role yet, 
+                # but we can check if the system is in Professional mode.
+                # If it's Community, we force a fallback or raise error.
+                require_professional()
+            except PermissionError:
+                # Fallback for community edition: replace alias1 with a default open-source model
+                # This ensures the system doesn't crash but limits the capabilities.
+                logger.warning(f"Model {model_name} is Professional-only. Falling back to gpt-4o-mini for Community Edition.")
+                model_name = "gpt-4o-mini"
+                
+                # Re-create the model instance with the fallback
+                new_model = OpenAIChatCompletionsModel(
+                    model=model_name,
+                    openai_client=AsyncOpenAI(api_key=api_key),
+                    agent_name=original_agent.name,
+                    agent_id=agent_id,
+                    agent_type=agent_var_name,
+                )
 
         return cloned_agent
 
@@ -257,7 +294,7 @@ def get_agent_factory(agent_name: str) -> Callable[[], Agent]:
 
     if agent_name_lower not in AGENT_FACTORIES:
         raise ValueError(
-            f"Agent '{agent_name}' not found. Available agents: {list(AGENT_FACTORIES.keys())}"
+            f"Агент '{agent_name}' не найден. Доступные агенты: {list(AGENT_FACTORIES.keys())}"
         )
 
     return AGENT_FACTORIES[agent_name_lower]

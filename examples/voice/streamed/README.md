@@ -1,25 +1,25 @@
-# Streamed voice demo
+# Потоковое голосовое демо
 
-This is an interactive demo, where you can talk to an Agent conversationally. It uses the voice pipeline's built in turn detection feature, so if you stop speaking the Agent responds.
+Это интерактивное демо, где вы можете разговаривать с Агентом разговорно. Оно использует встроенную функцию определения окончания речи в голосовом конвейере, поэтому если вы прекратите говорить, Агент ответит.
 
-Run via:
+Запуск:
 
 ```
 python -m examples.voice.streamed.main
 ```
 
-## How it works
+## Как это работает
 
-1. We create a `VoicePipeline`, setup with a `SingleAgentVoiceWorkflow`. This is a workflow that starts at an Assistant agent, has tools and handoffs.
-2. Audio input is captured from the terminal.
-3. The pipeline is run with the recorded audio, which causes it to:
-    1. Transcribe the audio
-    2. Feed the transcription to the workflow, which runs the agent.
-    3. Stream the output of the agent to a text-to-speech model.
-4. Play the audio.
+1. Мы создаем `VoicePipeline`, настроенный с `SingleAgentVoiceWorkflow`. Это рабочий процесс, который начинается с Агента-ассистента, имеет инструменты и передачи.
+2. Аудиовход захватывается из терминала.
+3. Конвейер запускается с записанным аудио, что вызывает:
+    1. Транскрипцию аудио
+    2. Передачу транскрипции в рабочий процесс, который запускает агента.
+    3. Потоковый вывод агента в модель преобразования текста в речь.
+4. Воспроизведение аудио.
 
-Some suggested examples to try:
+Некоторые предлагаемые примеры для попытки:
 
--   Tell me a joke (_the assistant tells you a joke_)
--   What's the weather in Tokyo? (_will call the `get_weather` tool and then speak_)
--   Hola, como estas? (_will handoff to the spanish agent_)
+-   Расскажи мне анекдот (_ассистент рассказывает вам анекдот_)
+-   Какая погода в Токио? (_вызовет инструмент `get_weather` и затем заговорит_)
+-   Hola, como estas? (_передаст агенту на испанском_)

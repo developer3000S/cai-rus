@@ -45,8 +45,8 @@ _input_guardrails, _output_guardrails = get_security_guardrails()
 orchestration_agent = Agent(
     name="Orchestration Agent",
     description=(
-        "Default CAI orchestrator: breadth-first multi-agent delegation (parallel broad scouts, "
-        "optional 2-branch contest), then narrow follow-up specialists until the user goal is met."
+        "Оркестратор CAI по умолчанию: пошаговая делегация нескольким агентам (параллельные широкие разведчики, "
+        "опциональный конкурс из 2 ветвей), затем узкие специалисты для последующих задач до достижения цели пользователя."
     ),
     instructions=create_system_prompt_renderer(
         _orchestration_system_prompt,

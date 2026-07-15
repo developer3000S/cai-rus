@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 <%
     # A template for the user prompt
     # Args:

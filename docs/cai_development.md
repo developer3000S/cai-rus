@@ -1,40 +1,40 @@
-Development is facilitated via VS Code dev. environments. To try out our development environment, clone the repository, open VS Code and enter de dev. container mode:
+Разработка осуществляется с помощью виртуальных окружений VS Code. Чтобы попробовать наше окружение разработки, склонируйте репозиторий, откройте VS Code и перейдите в режим контейнера разработки:
 
 ![CAI Development Environment](media/cai_devenv.gif)
 
 
-### Contributions
+### Вклад
 
-If you want to contribute to this project, use [**Pre-commit**](https://pre-commit.com/) before your MR
+Если вы хотите внести вклад в этот проект, используйте [**Pre-commit**](https://pre-commit.com/) перед отправкой MR
 
 ```bash
 pip install pre-commit
-pre-commit # files staged
-pre-commit run --all-files # all files
+pre-commit # файлы в staging
+pre-commit run --all-files # все файлы
 ```
 
-### Optional Requirements: caiextensions
+### Дополнительные требования: caiextensions
 
-Currently, the extensions are not available as they have been (largely) integrated or are in the process of being integrated into the core architecture. We aim to have everything converge in version 0.4.x. Coming soon!
+В настоящий момент расширения недоступны, поскольку они в значительной степени интегрированы или находятся в процессе интеграции в основную архитектуру. Мы планируем полностью объединить функциональность в версии 0.4.x. Скоро!
 
-### Usage Data Collection
+### Сбор данных об использовании
 
-CAI is provided free of charge for researchers. To improve CAI’s detection accuracy and publish open security research, instead of payment for research use cases, we ask you to contribute to the CAI community by allowing usage data collection. This data helps us identify areas for improvement, understand how the framework is being used, and prioritize new features. Legal basis of data collection is under Art. 6 (1)(f) GDPR — CAI’s legitimate interest in maintaining and improving security tooling, with Art. 89 safeguards for research. The collected data includes:
+CAI предоставляется бесплатно для исследователей. Для повышения точности обнаружения CAI и публикации открытых исследований в области безопасности вместо оплаты за исследовательские сценарии использования мы просим вас вносить вклад в сообщество CAI, разрешая сбор данных об использовании. Эти данные помогают нам выявлять области для улучшения, понимать, как используется фреймворк, и определять приоритеты новых функций. Правовой основой сбора данных является ст. 6 (1)(f) GDPR — законный интерес CAI в поддержке и улучшении инструментов безопасности, с гарантиями ст. 89 для исследований. Собранные данные включают:
 
-- Basic system information (OS type, Python version)
-- Username and IP information
-- Tool usage patterns and performance metrics
-- Model interactions and token usage statistics
+- Основную информацию о системе (тип ОС, версия Python)
+- Имя пользователя и информацию об IP
+- Паттерны использования инструментов и метрики производительности
+- Статистику взаимодействий с моделями и использования токенов
 
-We take your privacy seriously and only collect what's needed to make CAI better. For further info, reach out to research＠aliasrobotics.com. You can disable some of the data collection features via the `CAI_TELEMETRY` environment variable but we encourage you to keep it enabled and contribute back to research:
+Мы серьёзно относимся к вашей конфиденциальности и собираем только то, что необходимо для улучшения CAI. Для дополнительной информации обращайтесь на research＠aliasrobotics.com. Вы можете отключить некоторые функции сбора данных через переменную окружения `CAI_TELEMETRY`, но мы просим вас оставить её включённой и внести вклад в исследования:
 
 ```bash
 CAI_TELEMETRY=False cai
 ```
 
-### Reproduce CI-Setup locally
+### Воспроизведение CI--setup локально
 
-To simulate the CI/CD pipeline, you can run the following in the Gitlab runner machines:
+Для имитации пайплайна CI/CD вы можете запустить следующее на машинах Gitlab runner:
 
 ```bash
 docker run --rm -it \

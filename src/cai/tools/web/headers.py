@@ -1,9 +1,9 @@
 """
-Module for analyzing HTTP requests and responses with security focus.
+Модуль анализа HTTP-запросов и ответов с акцентом на безопасность.
 
-This module provides utilities for making HTTP requests and analyzing
-the responses from a security testing perspective, including header
-analysis, parameter inspection, and security vulnerability detection.
+Этот модуль предоставляет утилиты для выполнения HTTP-запросов и анализа
+ответов с точки зрения тестирования безопасности, включая анализ
+заголовков, проверку параметров и обнаружение уязвимостей.
 """
 
 from urllib.parse import urlparse

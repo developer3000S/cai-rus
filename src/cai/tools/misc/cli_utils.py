@@ -1,5 +1,5 @@
 """
-CLI utilities module for executing shell commands and processing their output.
+Модуль утилит CLI для выполнения команд оболочки и обработки их вывода.
 """
 
 from cai.tools.common import run_command  # pylint: disable=E0401
@@ -9,18 +9,18 @@ from cai.sdk.agents import function_tool
 @function_tool
 def execute_cli_command(command: str) -> str:
     """
-    Execute a CLI command and return the output.
+    Выполнение команды CLI и возврат вывода.
 
     Args:
-        command (str): The command to execute.
-        Should be concise and focused.
+        command (str): Команда для выполнения.
+        Должна быть краткой иocused.
 
-        Avoid overly verbose commands
-        with unnecessary flags/options.
+        Избегайте излишне длинных команд
+        с ненужными флагами/опциями.
 
     Returns:
-        str: Command output, formatted for clarity and readability.
-            Long outputs will be truncated or filtered
+        str: Вывод команды, отформатированный для ясности и читаемости.
+            Длинные выводы будут обрезаны или отфильтрованы
     """
     return run_command(command)
 

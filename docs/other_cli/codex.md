@@ -1,39 +1,39 @@
 # Codex CLI
 
-!!! danger "Third-Party Scaffolding — Privacy & Security Warning"
-    Third-party scaffoldings may be serving your data outside your environment.
-    For **privacy** and **cybersecurity refusal optimization**, use **CAI** to obtain the best performance.
+!!! danger "Сторонние каркасы — Предупреждение о конфиденциальности и безопасности"
+    Сторонние каркасы могут обрабатывать ваши данные за пределами вашей среды.
+    Для **конфиденциальности** и **оптимизации отказа от кибербезопасности** используйте **CAI** для получения лучшей производительности.
 
-[Codex CLI](https://github.com/openai/codex) is OpenAI's open-source terminal-based AI coding agent. Because it uses the **OpenAI API format** natively, it can connect directly to the Alias API without any proxy.
+[Codex CLI](https://github.com/openai/codex) — это открытый терминальный ИИ агент для кодирования от OpenAI. Поскольку он использует **формат API OpenAI** нативно, он может подключаться напрямую к API Alias без какого-либо прокси.
 
-!!! warning "Support Disclaimer"
-    Alias Robotics **does not provide support** for developments or integrations related to Codex CLI. This page documents API compatibility only. Alias simply allows usage of the Alias API through your preferred scaffolding.
+!!! warning "Отказ от поддержки"
+    Alias Robotics **не предоставляет поддержку** для разработок или интеграций, связанных с Codex CLI. Эта страница документирует только совместимость API. Alias просто разрешает использование API Alias через ваш предпочтительный каркас.
 
 ---
 
-## Setup
+## Настройка
 
-### 1. Get your Alias API Key
+### 1. Получите ваш API ключ Alias
 
-An `ALIAS_API_KEY` (format: `sk-...`) can be obtained from either of the following:
+`ALIAS_API_KEY` (формат: `sk-...`) можно получить из одного из следующих источников:
 
-- **[CAI PRO](https://aliasrobotics.com/cybersecurityai.php)** — full cybersecurity AI platform with access to `alias1` and other models.
-- **[Alias LLMs](https://aliasrobotics.com/aliasLLMs.php)** — acquire `alias2-mini` and other Alias language models directly.
+- **[CAI PRO](https://aliasrobotics.com/cybersecurityai.php)** — полная платформа кибербезопасности с доступом к `alias1` и другим моделям.
+- **[Alias LLMs](https://aliasrobotics.com/aliasLLMs.php)** — приобретите `alias2-mini` и другие языковые модели Alias напрямую.
 
-### 2. Install Codex CLI
+### 2. Установка Codex CLI
 
 ```bash
 npm install -g @openai/codex
 ```
 
-### 3. Configure environment variables
+### 3. Настройка переменных окружения
 
 ```bash
 export OPENAI_API_KEY="sk-your-alias-api-key-here"
 export OPENAI_BASE_URL="https://api.aliasrobotics.com:666/"
 ```
 
-To persist these, add them to your shell profile (`~/.zshrc`, `~/.bashrc`, etc.):
+Чтобы сохранить эти переменные, добавьте их в профиль shell (`~/.zshrc`, `~/.bashrc` и т.д.):
 
 ```bash
 echo 'export OPENAI_API_KEY="sk-your-alias-api-key-here"' >> ~/.zshrc
@@ -41,13 +41,13 @@ echo 'export OPENAI_BASE_URL="https://api.aliasrobotics.com:666/"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
-### 4. Run Codex with an Alias model
+### 4. Запуск Codex с моделью Alias
 
 ```bash
 codex --model alias1
 ```
 
-Or set the model inline per session:
+Или настройте модель для конкретной сессии:
 
 ```bash
 OPENAI_API_KEY="sk-your-alias-api-key-here" \
@@ -57,16 +57,16 @@ codex --model alias1
 
 ---
 
-## Notes
+## Примечания
 
-- The Alias API is fully OpenAI-compatible — no additional configuration is required beyond pointing the base URL and API key.
-- Use `alias1` for best cybersecurity performance, or `alias0` for a faster, lighter alternative.
-- Token usage and billing appear in your Alias account dashboard.
+- API Alias полностью совместим с OpenAI — никакой дополнительной настройки не требуется, кроме указания базового URL и API ключа.
+- Используйте `alias1` для лучшей производительности в области кибербезопасности или `alias0` для более быстрой и легкой альтернативы.
+- Использование токенов и расчеты отображаются в панели вашего аккаунта Alias.
 
 ---
 
-## Related
+## Связанная информация
 
-- [CAI PRO Quickstart](../cai_pro_quickstart.md)
-- [Available Models](../cai_list_of_models.md)
-- [Environment Variables](../environment_variables.md)
+- [Быстрый старт CAI PRO](../cai_pro_quickstart.md)
+- [Доступные модели](../cai_list_of_models.md)
+- [Переменные окружения](../environment_variables.md)

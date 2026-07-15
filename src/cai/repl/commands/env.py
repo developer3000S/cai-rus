@@ -1,6 +1,6 @@
 """
-Environment command for CAI REPL.
-This module provides commands for displaying and configuring environment variables.
+Команда окружения для CAI REPL.
+Этот модуль предоставляет команды для отображения и настройки переменных окружения.
 """
 
 from typing import List, Optional
@@ -16,33 +16,33 @@ from cai.repl.commands.env_catalog import (
 
 
 class EnvCommand(Command):
-    """Command for displaying and configuring environment variables (REPL session)."""
+    """Команда для отображения и настройки переменных окружения (сессия REPL)."""
 
     def __init__(self):
         """Initialize the env command."""
         super().__init__(
             name="/env",
-            description="Display and configure environment variables",
+            description="Отображение и настройка переменных окружения",
             aliases=["/e"],
         )
         self.add_subcommand(
             "list",
-            "List all catalog environment variables and their values",
+            "Показать все переменные каталога и их значения",
             handle_env_catalog_list,
         )
         self.add_subcommand(
             "get",
-            "Get a catalog variable by number or name",
+            "Получить переменную каталога по номеру или имени",
             handle_env_catalog_get,
         )
         self.add_subcommand(
             "set",
-            "Set a catalog variable: /env set <#|NAME> <value...>",
+            "Установить переменную каталога: /env set <#|NAME> <value...>",
             handle_env_catalog_set,
         )
         self.add_subcommand(
             "default",
-            "Restore all catalog variables to registered defaults",
+            "Восстановить все переменные каталога до значений по умолчанию",
             handle_env_catalog_default,
         )
 

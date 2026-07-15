@@ -1,231 +1,231 @@
-# Getting Started with CAI Mobile UI
+# Начало работы с Мобильным интерфейсом CAI
 
-> **⚡ CAI-Pro Exclusive**  
-> **[Join the TestFlight Beta](https://testflight.apple.com/join/nXZZD4Z5)** to get started with CAI Mobile UI.
+> **⚡ Эксклюзивная функция CAI-Pro**  
+> **[Присоединяйтесь к TestFlight бета-тестированию](https://testflight.apple.com/join/nXZZD4Z5)** для начала работы с Мобильным интерфейсом CAI.
 
-This guide will walk you through installing, configuring, and using the CAI Mobile UI for the first time.
+Это руководство проведет вас через установку, настройку и использование Мобильного интерфейса CAI впервые.
 
-## Prerequisites
+## Предварительные требования
 
-Before you begin, ensure you have:
+Перед началом убедитесь, что у вас есть:
 
-1. **CAI-Pro License**: Active subscription from [Alias Robotics](https://aliasrobotics.com)
-2. **iOS Device**: iPhone or iPad running iOS 15.0+
-3. **CAI API Server**: Running CAI API server (v0.7.0+) on your network
-4. **API Key**: Valid `ALIAS_API_KEY` for authentication
+1. **Лицензия CAI-Pro**: Действующая подписка от [Alias Robotics](https://aliasrobotics.com)
+2. **Устройство iOS**: iPhone или iPad с iOS 15.0+
+3. **API сервер CAI**: Запущенный API сервер CAI (v0.7.0+) в вашей сети
+4. **API ключ**: Действительный `ALIAS_API_KEY` для аутентификации
 
-## Installation
+## Установка
 
-### Step 1: Join TestFlight Beta
+### Шаг 1: Присоединяйтесь к TestFlight бета-тестированию
 
-1. On your iOS device, visit: [https://testflight.apple.com/join/nXZZD4Z5](https://testflight.apple.com/join/nXZZD4Z5)
-2. If prompted, install TestFlight from the App Store
-3. Accept the beta testing invitation
-4. Tap "Install" to download CAI Mobile UI
+1. На вашем устройстве iOS посетите: [https://testflight.apple.com/join/nXZZD4Z5](https://testflight.apple.com/join/nXZZD4Z5)
+2. Если будет предложено, установите TestFlight из App Store
+3. Примите приглашение к бета-тестированию
+4. Нажмите "Установить" для загрузки Мобильного интерфейса CAI
 
-### Step 2: Launch the App
+### Шаг 2: Запустите приложение
 
-1. Find the CAI app icon on your home screen
-2. Tap to launch
-3. Grant necessary permissions when prompted:
-   - **Local Network**: Required for discovering CAI servers
-   - **Notifications**: Optional, for background task alerts
+1. Найдите значок приложения CAI на главном экране
+2. Нажмите для запуска
+3. Предоставьте необходимые разрешения при запросе:
+   - **Локальная сеть**: Требуется для обнаружения серверов CAI
+   - **Уведомления**: Опционально, для оповещений о фоновых задачах
 
-![CAI Mobile UI Login Screen](../media/MUI/cai_app_ios_login.png)
+![Экран входа Мобильного интерфейса CAI](../media/MUI/cai_app_ios_login.png)
 
-## Initial Setup
+## Первоначальная настройка
 
-### Option A: Automatic Server Discovery
+### Вариант А: Автоматическое обнаружение сервера
 
-Perfect for local network setups:
+Идеально для сетевых конфигураций:
 
-1. **Start your CAI API server** on your computer:
+1. **Запустите ваш API сервер CAI** на компьютере:
    ```bash
    cai --api
    ```
-   Note the server address (e.g., `http://192.168.1.100:8000`)
+   Запишите адрес сервера (например, `http://192.168.1.100:8000`)
 
-2. **On your iOS device**:
-   - Ensure Wi-Fi is enabled and connected to the same network
-   - Tap "Scan Network" on the login screen
-   - Wait for the discovery process (usually 2-3 seconds)
-   - Select your server from the list
+2. **На вашем устройстве iOS**:
+   - Убедитесь, что Wi-Fi включен и подключена к той же сети
+   - Нажмите "Сканировать сеть" на экране входа
+   - Дождитесь процесса обнаружения (обычно 2-3 секунды)
+   - Выберите ваш сервер из списка
 
-3. **Enter your API key**:
-   - Paste or type your `ALIAS_API_KEY`
-   - Toggle "Remember Me" to save credentials
-   - Tap "Connect"
+3. **Введите ваш API ключ**:
+   - Вставьте или введите ваш `ALIAS_API_KEY`
+   - Включите "Запомнить меня" для сохранения учетных данных
+   - Нажмите "Подключить"
 
-### Option B: Manual Server Configuration
+### Вариант Б: Ручная настройка сервера
 
-For remote servers or specific configurations:
+Для удаленных серверов или конкретных конфигураций:
 
-1. **Server URL**:
-   - Enter the complete URL (e.g., `https://cai.company.com:8443`)
-   - Include the protocol (`http://` or `https://`)
-   - Include the port if not standard
+1. **URL сервера**:
+   - Введите полный URL (например, `https://cai.company.com:8443`)
+   - Укажите протокол (`http://` или `https://`)
+   - Укажите порт, если он нестандартный
 
-2. **API Key**:
-   - Enter your `ALIAS_API_KEY`
-   - Toggle "Remember Me" for convenience
+2. **API ключ**:
+   - Введите ваш `ALIAS_API_KEY`
+   - Включите "Запомнить меня" для удобства
 
-3. **Advanced Options** (tap gear icon):
-   - **Timeout**: Adjust connection timeout (default: 30s)
-   - **SSL Verification**: Toggle for self-signed certificates
-   - **Proxy**: Configure if needed
+3. **Расширенные опции** (нажмите значок шестеренки):
+   - **Тайм-аут**: Настройте тайм-аут подключения (по умолчанию: 30с)
+   - **Проверка SSL**: Переключите для самоподписанных сертификатов
+   - **Прокси**: Настройте при необходимости
 
-4. Tap "Connect"
+4. Нажмите "Подключить"
 
-## First Session
+## Первая сессия
 
-### 1. Welcome Screen
+### 1. Экран приветствия
 
-After successful connection, you'll see:
-- Agent selector at the top
-- Model selector below
-- Empty chat interface
-- Navigation tabs at bottom
+После успешного подключения вы увидите:
+- Выбор агента вверху
+- Выбор модели ниже
+- Пустой интерфейс чата
+- Вкладки навигации внизу
 
-### 2. Select an Agent
+### 2. Выберите агента
 
-For your first session, we recommend:
+Для вашей первой сессии мы рекомендуем:
 
-1. Tap the agent selector
-2. Choose `selection_agent` - it helps recommend the right agent for your task
-3. Or select a specific agent like:
-   - `red_teamer_agent` - For offensive security testing
-   - `blue_teamer_agent` - For defensive analysis
-   - `bug_hunter_agent` - For vulnerability discovery
+1. Нажмите на выбор агента
+2. Выберите `selection_agent` - он помогает порекомендовать правильного агента для вашей задачи
+3. Или выберите конкретного агента, такого как:
+   - `red_teamer_agent` - Для наступательного тестирования безопасности
+   - `blue_teamer_agent` - Для защитного анализа
+   - `bug_hunter_agent` - Для обнаружения уязвимостей
 
-### 3. Choose a Model
+### 3. Выберите модель
 
-1. Tap the model dropdown
-2. Recommended models:
-   - `gpt-4o` - Best overall performance
-   - `claude-3.5-sonnet` - Excellent for code analysis
-   - `alias1` - Optimized for security tasks
-   - `cohere/command-r-plus-08-2024` - Great performance and value
+1. Нажмите на выпадающий список моделей
+2. Рекомендуемые модели:
+   - `gpt-4o` - Лучшая общая производительность
+   - `claude-3.5-sonnet` - Отлично для анализа кода
+   - `alias1` - Оптимизирована для задач безопасности
+   - `cohere/command-r-plus-08-2024` - Отличная производительность и ценность
 
-### 4. Start Your First Conversation
+### 4. Начните первую беседу
 
-![CAI Mobile UI Chat Interface](../media/MUI/cai_app_ios_chat.png)
+![Интерфейс чата Мобильного интерфейса CAI](../media/MUI/cai_app_ios_chat.png)
 
-Try these starter prompts:
+Попробуйте эти стартовые промпты:
 
-**For Security Testing:**
+**Для тестирования безопасности:**
 ```
-Analyze the security of example.com
-```
-
-**For Learning:**
-```
-Explain how SQL injection works and how to prevent it
+Проанализируй безопасность example.com
 ```
 
-**For Agent Recommendation:**
+**Для обучения:**
 ```
-I need to perform a penetration test on a web application. Which agent should I use?
+Объясни, как работают SQL-инъекции и как их предотвратить
 ```
 
-### 5. Understanding Responses
+**Для рекомендации агентов:**
+```
+Мне нужно провести пентест веб-приложения. Какого агента мне следует использовать?
+```
 
-As the agent responds, you'll see:
+### 5. Понимание ответов
 
-- **Streaming Text**: Responses appear in real-time
-- **Formatted Output**: Code blocks, lists, and emphasis
-- **Thinking Indicators**: When agents are processing
-- **Tool Usage**: When agents use external tools
+По мере ответа агента вы будете видеть:
 
-![CAI Mobile UI Reasoning Display](../media/MUI/cai_app_ios_reasoning.png)
+- **Стриминговый текст**: Ответы появляются в реальном времени
+- **Форматированный вывод**: Блоки кода, списки и выделение
+- **Индикаторы обработки**: Когда агенты обрабатывают информацию
+- **Использование инструментов**: Когда агенты используют внешние инструменты
 
-## Essential Features
+![Отображение рассуждений Мобильного интерфейса CAI](../media/MUI/cai_app_ios_reasoning.png)
 
-### Message Interactions
+## Основные функции
 
-- **Copy Text**: Long press any message → Copy
-- **Share Output**: Long press → Share → Choose app
-- **Save Code**: Tap code blocks → Copy button
-- **Retry Message**: Swipe left on your message → Retry
+### Взаимодействия с сообщениями
 
-### Navigation
+- **Копировать текст**: Длительное нажатие на любое сообщение → Копировать
+- **Поделиться выводом**: Длительное нажатие → Поделиться → Выбрать приложение
+- **Сохранить код**: Нажмите на блоки кода → Кнопка копирования
+- **Повторить сообщение**: Свайп влево по вашему сообщению → Повторить
 
-- **Switch Conversations**: Swipe left/right or use tab bar
-- **New Conversation**: Tap + button
-- **View History**: Tap clock icon
-- **Return Home**: Tap CAI logo
+### Навигация
 
-### Quick Actions
+- **Переключение бесед**: Свайп влево/вправо или используйте панель вкладок
+- **Новая беседа**: Нажмите кнопку +
+- **Просмотр истории**: Нажмите значок часов
+- **Возврат домой**: Нажмите логотип CAI
 
-- **Cancel Generation**: Pull down while response is streaming
-- **Clear Chat**: Shake device → Clear option
-- **Change Agent Mid-Chat**: Tap agent name → Select new
-- **Export Session**: Menu → Export → Choose format
+### Быстрые действия
 
-## Keyboard Shortcuts (iPad with External Keyboard)
+- **Отмена генерации**: Проведите вниз во время стриминга ответа
+- **Очистка чата**: Тряска устройства → Опция очистки
+- **Смена агента во время чата**: Нажмите на имя агента → Выберите нового
+- **Экспорт сессии**: Меню → Экспорт → Выберите формат
 
-| Shortcut | Action |
+## Горячие клавиши (iPad с внешней клавиатурой)
+
+| Сочетание клавиш | Действие |
 |----------|--------|
-| `⌘ + N` | New conversation |
-| `⌘ + W` | Close current chat |
-| `⌘ + ←/→` | Switch conversations |
-| `⌘ + K` | Quick agent switch |
-| `⌘ + /` | Focus message input |
-| `⌘ + ↑` | Previous message |
+| `⌘ + N` | Новая беседа |
+| `⌘ + W` | Закрыть текущий чат |
+| `⌘ + ←/→` | Переключение бесед |
+| `⌘ + K` | Быстрое переключение агентов |
+| `⌘ + /` | Фокус на ввод сообщения |
+| `⌘ + ↑` | Предыдущее сообщение |
 
-## Best Practices
+## Лучшие практики
 
-### 1. Network Connection
-- Use Wi-Fi when possible for better performance
-- Enable "Low Data Mode" in settings for cellular
-- Download conversations for offline viewing
+### 1. Сетевое подключение
+- Используйте Wi-Fi когда возможно для лучшей производительности
+- Включите "Режим низкого потребления данных" в настройках для мобильной сети
+- Скачивайте беседы для офлайн просмотра
 
-### 2. Security
-- Enable Face ID/Touch ID in settings
-- Don't share screenshots with API keys visible
-- Use secure connections (HTTPS) when possible
+### 2. Безопасность
+- Включите Face ID/Touch ID в настройках
+- Не делитесь скриншотами с видимыми API ключами
+- Используйте безопасные соединения (HTTPS) когда возможно
 
-### 3. Performance
-- Close unused conversations to free memory
-- Enable "Reduce Motion" for older devices
-- Clear cache periodically in settings
+### 3. Производительность
+- Закрывайте неиспользуемые беседы для освобождения памяти
+- Включите "Уменьшение анимации" для старых устройств
+- Периодически очищайте кэш в настройках
 
-## Troubleshooting
+## Решение проблем
 
-### Common Issues
+### Типичные проблемы
 
-**Can't connect to server:**
-- Verify server is running: `cai --api`
-- Check firewall allows port 8000
-- Ensure devices are on same network
-- Try manual IP instead of discovery
+**Не удается подключиться к серверу:**
+- Проверьте, что сервер запущен: `cai --api`
+- Проверьте, что файрвол разрешает порт 8000
+- Убедитесь, что устройства в одной сети
+- Попробуйте ручной IP вместо обнаружения
 
-**Authentication failed:**
-- Regenerate API key: `cai --keys`
-- Check key hasn't expired
-- Verify key matches server configuration
+**Ошибка аутентификации:**
+- Пересоздайте API ключ: `cai --keys`
+- Проверьте, что ключ не истек
+- Убедитесь, что ключ соответствует конфигурации сервера
 
-**App crashes or freezes:**
-- Force quit and restart app
-- Check for app updates in TestFlight
-- Clear app cache in settings
-- Report issue with crash logs
+**Приложение падает или зависает:**
+- Принудительно закройте и перезапустите приложение
+- Проверьте обновления приложения в TestFlight
+- Очистите кэш приложения в настройках
+- Сообщите о проблеме с логами падений
 
-### Getting Help
+### Получение помощи
 
-1. **In-App Help**: Tap menu → Help
-2. **Documentation**: [https://docs.aliasrobotics.com](https://docs.aliasrobotics.com)
-3. **Discord Community**: [Join Discord](https://discord.gg/aliasrobotics)
-4. **Report Issues**: [GitHub Issues](https://github.com/aliasrobotics/cai/issues)
+1. **Справка в приложении**: Нажмите меню → Справка
+2. **Документация**: [https://docs.aliasrobotics.com](https://docs.aliasrobotics.com)
+3. **Discord сообщество**: [Присоединяйтесь к Discord](https://discord.gg/aliasrobotics)
+4. **Сообщите о проблемах**: [GitHub Issues](https://github.com/aliasrobotics/cai/issues)
 
-## Next Steps
+## Следующие шаги
 
-Now that you're connected and running:
+Теперь, когда вы подключены и работаете:
 
-1. 📱 [Explore the User Interface](user_interface.md)
-2. 👆 [Master Gestures & Shortcuts](gestures_shortcuts.md)
-3. 💬 [Learn Advanced Chat Features](chat_features.md)
-4. 🛠️ [Configure Network & MCP Tools](network_mcp.md)
+1. 📱 [Исследуйте пользовательский интерфейс](user_interface.md)
+2. 👆 [Освойте жесты и сочетания клавиш](gestures_shortcuts.md)
+3. 💬 [Изучите продвинутые функции чата](chat_features.md)
+4. 🛠️ [Настройте сеть и инструменты MCP](network_mcp.md)
 
 ---
 
-*Welcome to CAI Mobile UI - Security testing in your pocket!*
+*Добро пожаловать в Мобильный интерфейс CAI - Тестирование безопасности у вас в кармане!*

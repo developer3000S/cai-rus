@@ -1,69 +1,69 @@
 # Ollama Cloud
 
-Run large language models without local GPU using Ollama's cloud service.
+Запуск больших языковых моделей без локального GPU с использованием облачного сервиса Ollama.
 
-## Quick Start
+## Быстрый старт
 
-### 1. Get API Key
+### 1. Получение API-ключа
 
-- Create account at [ollama.com](https://ollama.com)
-- Generate API key from your profile
+- Создайте аккаунт на [ollama.com](https://ollama.com)
+- Сгенерируйте API-ключ в вашем профиле
 
-### 2. Configure `.env`
+### 2. Настройка `.env`
 
 ```bash
-OLLAMA_API_KEY=your_api_key_here
+OLLAMA_API_KEY=ваш_api_ключ_здесь
 OLLAMA_API_BASE=https://ollama.com
 CAI_MODEL=ollama_cloud/gpt-oss:120b
 ```
 
-### 3. Run
+### 3. Запуск
 
 ```bash
 cai
 ```
 
-## Available Models
+## Доступные модели
 
-View in CAI with `/model show` (predefined list includes Ollama Cloud models):
+Просмотрите в CAI с помощью `/model show` (предопределенный список включает модели Ollama Cloud):
 
-- `ollama_cloud/gpt-oss:120b` - General purpose 120B model
-- `ollama_cloud/llama3.3:70b` - Llama 3.3 70B
-- `ollama_cloud/qwen2.5:72b` - Qwen 2.5 72B
-- `ollama_cloud/deepseek-v3:671b` - DeepSeek V3 671B
+- `ollama_cloud/gpt-oss:120b` — модель общего назначения 120B
+- `ollama_cloud/llama3.3:70b` — Llama 3.3 70B
+- `ollama_cloud/qwen2.5:72b` — Qwen 2.5 72B
+- `ollama_cloud/deepseek-v3:671b` — DeepSeek V3 671B
 
-More models at [ollama.com/library](https://ollama.com/library).
+Другие модели доступны на [ollama.com/library](https://ollama.com/library).
 
-## Model Selection
+## Выбор модели
 
 ```bash
-# By name
+# По имени
 CAI> /model ollama_cloud/gpt-oss:120b
 
-# By number (after /model show)
+# По номеру (после /model show)
 CAI> /model 3
 ```
 
-## Local vs Cloud
+## Локально vs Облако
 
-| Feature | Local | Cloud |
+| Функция | Локально | Облако |
 |---------|-------|-------|
-| Prefix | `ollama/` | `ollama_cloud/` |
-| API Key | Not required | Required |
-| Endpoint | `http://localhost:8000/v1` | `https://ollama.com/v1` |
-| GPU | Required | Not required |
+| Префикс | `ollama/` | `ollama_cloud/` |
+| API-ключ | Не требуется | Требуется |
+| Эндпоинт | `http://localhost:8000/v1` | `https://ollama.com/v1` |
+| GPU | Требуется | Не требуется |
 
-## Troubleshooting
+## Решение проблем
 
-**Unauthorized error**: Verify `OLLAMA_API_KEY` is set correctly
+**Ошибка Unauthorized**: Убедитесь, что `OLLAMA_API_KEY` установлен правильно.
 
-**Path not found**: Ensure `OLLAMA_API_BASE=https://ollama.com` (without `/v1`)
+**Путь не найден**: Убедитесь, что `OLLAMA_API_BASE=https://ollama.com` (без `/v1`).
 
-**Model not listed**: Check model prefix is `ollama_cloud/`, not `ollama/`
+**Модель не в списке**: Проверьте, что префикс модели `ollama_cloud/`, а не `ollama/`.
 
-## Validation
+## Валидация
 
-Test connection with curl:
+Проверьте соединение с помощью curl:
 
 ```bash
 curl https://ollama.com/v1/chat/completions \
@@ -72,8 +72,8 @@ curl https://ollama.com/v1/chat/completions \
   -d '{"model": "gpt-oss:120b", "messages": [{"role": "user", "content": "test"}]}'
 ```
 
-## References
+## Ссылки
 
-- [Ollama Cloud Docs](https://ollama.com/docs/cloud)
-- [Model Library](https://ollama.com/library)
-- [Get API Key](https://ollama.com/settings/keys)
+- [Документация Ollama Cloud](https://ollama.com/docs/cloud)
+- [Библиотека моделей](https://ollama.com/library)
+- [Получить API-ключ](https://ollama.com/settings/keys)

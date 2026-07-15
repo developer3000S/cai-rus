@@ -1,6 +1,6 @@
 """
-Shell command for CAI REPL.
-This module provides commands for executing shell commands.
+Команда shell для CAI REPL.
+Этот модуль предоставляет команды для выполнения команд оболочки.
 """
 
 import os
@@ -23,7 +23,7 @@ class ShellCommand(Command):
         """Initialize the shell command."""
         super().__init__(
             name="/shell",
-            description="Execute shell commands in the current environment",
+            description="Выполнить команды оболочки в текущем окружении",
             aliases=["/s", "$"],
         )
 
@@ -68,11 +68,11 @@ class ShellCommand(Command):
 
                 if is_async:
                     console.print(
-                        f"[{YELLOW_WARN}]Running in async mode (Ctrl+C to return to REPL)[/]"
+                        f"[{YELLOW_WARN}]Выполнение в асинхронном режиме (Ctrl+C для возврата в REPL)[/]"
                     )
                     os.system(command)
                     console.print(
-                        f"[bold {CAI_GREEN}]Async command completed or detached[/bold {CAI_GREEN}]"
+                        f"[bold {CAI_GREEN}]Асинхронная команда завершена или отсоединена[/bold {CAI_GREEN}]"
                     )
                     return True
 
@@ -93,11 +93,11 @@ class ShellCommand(Command):
 
                 if process.returncode == 0:
                     console.print(
-                        f"[bold {CAI_GREEN}]Command completed successfully[/bold {CAI_GREEN}]"
+                        f"[bold {CAI_GREEN}]Команда выполнена успешно[/bold {CAI_GREEN}]"
                     )
                 else:
                     console.print(
-                        f"[{YELLOW_WARN}]Command exited with code {process.returncode}[/]"
+                        f"[{YELLOW_WARN}]Команда завершена с кодом {process.returncode}[/]"
                     )
                 return True
 

@@ -1,19 +1,22 @@
-"""Dual-approach contest, parallel specialists, and single-specialist tools.
+"""Инструменты конкурса двух подходов, параллельных специалистов и одного специалиста.
 
-This module exposes ``@function_tool`` entrypoints used by the orchestration
-agent (``cai.agents.orchestration_agent``):
+Этот модуль предоставляет точки входа ``@function_tool``, используемые
+агентом оркестрации (``cai.agents.orchestration_agent``):
 
-* :func:`run_dual_approach_contest` — two parallel exploratory workers on the
-  same user task (competing hypotheses or orthogonal framings).
-* :func:`run_parallel_specialists` — two to four specialists concurrently on
-  independent sub-tasks.
-* :func:`run_specialist` — one specialist while the orchestrator stays in control.
+* :func:`run_dual_approach_contest` — два параллельных исследовательских
+  воркера для одной задачи пользователя (конкурирующие гипотезы или
+  ортогональные рамки).
+* :func:`run_parallel_specialists` — от двух до четырёх специалистов
+  параллельно для независимых подзадач.
+* :func:`run_specialist` — один специалист, при этом оркестратор остаётся
+  под контролем.
 
-All share the same internal pipeline (resolve agent → clone with at most one
-allowed tool → run with display silenced → wrap output as orchestrator-only
-scratch data). The shared machinery uses :class:`WorkerSpec`,
-:class:`WorkerResult`, and :func:`_compose_contest_brief` so every tool returns
-the same markdown skeleton.
+Все используют один общий внутренний конвейер (поиск агента → клонирование
+с не более чем одним допустимым инструментом → запуск с отключённым
+отображением → оборачивание вывода как черновых данных только для
+оркестратора). Общая инфраструктура использует :class:`WorkerSpec`,
+:class:`WorkerResult` и :func:`_compose_contest_brief`, чтобы каждый
+инструмент возвращал одинаковый каркас разметки.
 """
 
 from __future__ import annotations
@@ -46,20 +49,21 @@ def _worker_constraints_prefix(max_turns: int) -> str:
     """Worker-facing budget text; ``max_turns`` matches ``Runner.run(..., max_turns=...)``."""
     n = max(1, int(max_turns))
     return (
-        "## Contest constraints (mandatory)\n"
-        f"- You have at most **{n} turns** total in this run (each turn = one model step, including "
-        "its tool calls).\n"
-        "- Use **at most one tool invocation per turn** "
-        "(prefer zero if you can answer from reasoning).\n"
-        "- Stay within the framing below; do not start a nested dual-approach contest.\n\n"
-        "## Exploration discipline (mandatory)\n"
-        "- Unless framing marks **narrow follow-up** or an exact user command: first actionable "
-        "step = shortest safe **landscape recon**; tighten targets in later turns once you have signal.\n"
-        "- Verbatim user command in framing overrides this.\n\n"
-        "## Output constraints\n"
-        "- Return a compact contest brief, not a final user-facing report.\n"
-        "- Use this structure only: Status, Key evidence, Risks/unknowns, Recommended next action.\n"
-        "- Keep it short; the orchestration agent will synthesize the final conclusion.\n\n"
+        "## Ограничения конкурса (обязательно)\n"
+        f"- У вас не более **{n} ходов** всего за этот запуск (каждый ход = один шаг модели, "
+        "включая вызовы инструментов).\n"
+        "- Используйте **не более одного вызова инструмента за ход** "
+        "(предпочтительно ноль, если можете ответить на основе рассуждений).\n"
+        "- Оставайтесь в рамках ниже; не начинайте вложенный конкурс двух подходов.\n\n"
+        "## Дисциплина исследования (обязательно)\n"
+        "- Если в рамках не указано **узкое последующее действие** или точная команда пользователя: "
+        "первый действенный шаг = кратчайшая безопасная **разведка территории**; уточняйте цели "
+        "в последующих ходах, когда у вас есть сигнал.\n"
+        "- Дословная команда пользователя в рамках имеет приоритет.\n\n"
+        "## Ограничения вывода\n"
+        "- Возвращайте компактную сводку конкурса, а не окончательный отчёт для пользователя.\n"
+        "- Используйте только эту структуру: Статус, Ключевые доказательства, Риски/неизвестности, Рекомендуемое следующее действие.\n"
+        "- Делайте это кратко; агент оркестрации синтезирует окончательный вывод.\n\n"
     )
 
 
@@ -74,9 +78,9 @@ _NO_TOOL_NAMES: Final[frozenset[str]] = frozenset(
 # headings produced by the workers do not leak into the user-facing reply.
 _INTERNAL_OPEN: Final[str] = (
     "<orchestrator_internal>\n"
-    "# INTERNAL DATA — orchestrator scratch only.\n"
-    "# Do NOT quote, copy, paraphrase or reformat anything below to the user.\n"
-    "# Read it, decide, then write a concise reply in your own voice.\n"
+    "# ВНУТРЕННИЕ ДАННЫЕ — только черновик оркестратора.\n"
+    "# НЕ цитируйте, не копируйте, не перефразируйте и не форматируйте ничего из нижеследующего для пользователя.\n"
+    "# Прочитайте, решите, затем напишите краткий ответ от своего имени.\n"
 )
 _INTERNAL_CLOSE: Final[str] = "</orchestrator_internal>"
 
@@ -100,29 +104,31 @@ def _per_worker_output_cap(branch_count: int) -> int:
 # control flow.
 
 _DECISION_BOTH_FAILED: Final[str] = (
-    "Both branches failed. The orchestration agent should explain the blocker briefly "
-    "and choose the next concrete recovery step."
+    "Обе ветки провалились. Агент оркестрации должен кратко объяснить причину блокировки "
+    "и выбрать следующий конкретный шаг восстановления."
 )
 _DECISION_READY: Final[str] = (
-    "The orchestration agent compares evidence, coverage, and risk, then continues with "
-    "`run_specialist` for concrete execution unless the next decision is again volatile "
-    "enough to justify another contest. The final user-facing conclusion comes from the "
-    "orchestration agent."
+    "Агент оркестрации сравнивает доказательства, покрытие и риски, затем продолжает с "
+    "`run_specialist` для конкретного выполнения, если следующее решение снова достаточно "
+    "нестабильно для оправдания нового конкурса. Окончательный вывод для пользователя "
+    "поступает от агента оркестрации."
 )
 _DECISION_SPECIALIST: Final[str] = (
-    "The orchestration agent uses the worker brief above as scratch data, decides on the "
-    "next concrete action, and either calls another tool or writes the final synthesis."
+    "Агент оркестрации использует вышеприведённую сводку воркера как черновик, принимает "
+    "решение о следующем конкретном действии и либо вызывает другой инструмент, либо "
+    "пишет окончательный синтез."
 )
 _DECISION_PARALLEL: Final[str] = (
-    "The orchestration agent merges the worker briefs, then continues in the same user turn "
-    "with more tool calls until the user goal is met, or writes one final synthesis."
+    "Агент оркестрации объединяет сводки воркеров, затем продолжает в том же ходу "
+    "пользователя с дополнительными вызовами инструментов до достижения цели пользователя "
+    "или пишет один окончательный синтез."
 )
 _DECISION_PARALLEL_ALL_FAILED: Final[str] = (
-    "All parallel workers failed. The orchestration agent should explain the blocker briefly "
-    "and choose the next concrete recovery step."
+    "Все параллельные воркеры провалились. Агент оркестрации должен кратко объяснить "
+    "причину блокировки и выбрать следующий конкретный шаг восстановления."
 )
 
-_RATIONALE_SPECIALIST: Final[str] = "single-specialist execution selected by the orchestrator"
+_RATIONALE_SPECIALIST: Final[str] = "выполнение одним специалистом, выбранное оркестратором"
 
 _DEFAULT_MAX_TURNS: Final[int] = 2
 
@@ -195,7 +201,7 @@ def _truncate_worker_output(text: str, max_chars: int | None = None) -> str:
     tail = text[-half:]
     return (
         f"{head}\n\n"
-        f"... [truncated by orchestrator: {len(text) - cap} chars] ...\n\n"
+        f"... [обрезано оркестратором: {len(text) - cap} символов] ...\n\n"
         f"{tail}"
     )
 
@@ -220,17 +226,17 @@ def _new_group_id(kind: str) -> str:
 
 
 def _resolve_worker_tool(agent: Any, allowed_tool_name: str) -> tuple[list[Any], str | None]:
-    """Resolve the tool(s) a worker is allowed to use.
+    """Определяет инструменты, которые воркер может использовать.
 
-    Accepts either a single tool name or a comma-separated list (e.g.
-    ``"fetch_url,generic_linux_command"``) so the orchestrator can grant a
-    worker a small toolbox in a single delegation, avoiding the 1-tool /
-    1-delegation amplification (see debug session ab1027).
+    Принимает одно имя инструмента или разделённый запятыми список (например,
+    ``"fetch_url,generic_linux_command"``), чтобы оркестратор мог предоставить
+    воркеру небольшой набор инструментов за одну делегацию, избегая амплификации
+    1-инструмент/1-делегация (см. отладочную сессию ab1027).
 
-    Returns the list of resolved tools — empty when the caller passed
-    ``none`` / ``""`` for reasoning-only workers. Returns ``(tools, None)``
-    on success or ``([], error_message)`` when ANY requested name is
-    unknown for ``agent``.
+    Возвращает список разрешённых инструментов — пустой, когда вызывающий передал
+    ``none`` / ``""`` для воркеров только с рассуждениями. Возвращает ``(tools, None)``
+    при успехе или ``([], сообщение_об_ошибке)``, когда ANY запрошенное имя
+    неизвестно для ``agent``.
     """
     requested = (allowed_tool_name or "").strip()
     if requested.lower() in _NO_TOOL_NAMES:
@@ -257,16 +263,16 @@ def _resolve_worker_tool(agent: Any, allowed_tool_name: str) -> tuple[list[Any],
         joined_missing = ", ".join(f"`{m}`" for m in missing)
         return (
             [],
-            f"Tool(s) {joined_missing} not available for `{agent.name}`. Available: {avail}",
+            f"Инструмент(ы) {joined_missing} недоступны для `{agent.name}`. Доступные: {avail}",
         )
     return resolved, None
 
 
 def _contest_worker(agent: Any, allowed_tool_name: str) -> tuple[Any | None, str | None]:
-    """Return a worker clone that cannot hand off and exposes the chosen tool(s).
+    """Возвращает клон воркера, который не может передавать и предоставляет выбранные инструменты.
 
-    ``allowed_tool_name`` may be a single tool or a comma-separated list, in
-    which case the worker is given the full small toolbox at once.
+    ``allowed_tool_name`` может быть одним инструментом или разделённым запятыми списком,
+    в этом случае воркер получает весь небольшой набор инструментов сразу.
     """
     tools, error = _resolve_worker_tool(agent, allowed_tool_name)
     if error:
@@ -288,12 +294,12 @@ def _contest_worker(agent: Any, allowed_tool_name: str) -> tuple[Any | None, str
 
 
 def _resolve_agent(agent_type: str, label: str) -> tuple[Any | None, str | None]:
-    """Look up a specialist agent factory; return ``(agent, error_message)``.
+    """Ищет фабрику специализированного агента; возвращает ``(агент, сообщение_об_ошибке)``.
 
-    On failure (typo, removed agent, capitalisation) the error string includes
-    the list of available factory keys so the orchestration agent can self-
-    correct without an extra round-trip — mirrors how :func:`_resolve_worker_tool`
-    already advertises available tool names.
+    При ошибке (опечатка, удалённый агент, регистр) строка ошибки содержит
+    список доступных ключей фабрик, чтобы агент оркестрации мог исправиться
+    без дополнительного раунда — аналогично тому, как :func:`_resolve_worker_tool`
+    уже предоставляет список доступных имён инструментов.
     """
     from cai.agents import get_agent_by_name
 
@@ -307,23 +313,23 @@ def _resolve_agent(agent_type: str, label: str) -> tuple[Any | None, str | None]
             available = ", ".join(sorted(get_available_agents().keys()))
         except Exception:  # pragma: no cover — defensive: discovery rarely fails
             available = ""
-        suggestion = f" Available: {available}." if available else ""
-        return None, f"Invalid agent_type `{key}`: {exc}.{suggestion}"
+        suggestion = f" Доступные: {available}." if available else ""
+        return None, f"Неверный agent_type `{key}`: {exc}.{suggestion}"
 
 
 def _build_worker_input(spec: WorkerSpec) -> str:
-    """Compose the user prompt fed to one worker.
+    """Формирует пользовательский промпт для одного воркера.
 
-    Kept as a pure function so the test suite can assert against deterministic
-    headings (``## Approach framing (A)``, ``## Allowed worker tool``, …)
-    without booting the whole orchestration pipeline.
+    Сохраняется как чистая функция, чтобы тесты могли проверять
+    детерминированные заголовки (``## Approach framing (A)``, ``## Allowed worker tool`` и т.д.)
+    без запуска всего конвейера оркестрации.
     """
     return (
         f"{_worker_constraints_prefix(spec.max_turns)}"
-        f"## Approach framing ({spec.label})\n{spec.framing}\n\n"
-        f"## Shared user task\n{spec.user_task}\n\n"
-        f"## Allowed worker tool\n{spec.allowed_tool_name or 'none'}\n\n"
-        f"## Contest rationale (from orchestrator)\n{spec.rationale}\n"
+        f"## Рамки подхода ({spec.label})\n{spec.framing}\n\n"
+        f"## Общая задача пользователя\n{spec.user_task}\n\n"
+        f"## Допустимый инструмент воркера\n{spec.allowed_tool_name or 'нет'}\n\n"
+        f"## Обоснование конкурса (от оркестратора)\n{spec.rationale}\n"
     )
 
 
@@ -331,10 +337,10 @@ def _build_worker_input(spec: WorkerSpec) -> str:
 
 
 async def _run_worker(spec: WorkerSpec) -> WorkerResult:
-    """Execute one worker according to ``spec`` and return a typed ``WorkerResult``."""
+    """Запускает одного воркера согласно ``spec`` и возвращает типизированный ``WorkerResult``."""
     base_agent, agent_error = _resolve_agent(spec.agent_type, spec.label)
     if agent_error or base_agent is None:
-        msg = agent_error or "Unknown agent resolution error"
+        msg = agent_error or "Неизвестная ошибка разрешения агента"
         return WorkerResult(
             label=spec.label,
             agent_name=spec.agent_type,
@@ -391,7 +397,7 @@ async def _run_worker(spec: WorkerSpec) -> WorkerResult:
 
     out = ItemHelpers.text_message_outputs(result.new_items)
     if not out.strip():
-        out = "(no textual output captured)"
+        out = "(текстовый вывод не захвачен)"
     out_cap = spec.max_output_chars
     return WorkerResult(
         label=spec.label,
@@ -406,12 +412,12 @@ async def _run_worker(spec: WorkerSpec) -> WorkerResult:
 
 def _format_branch_section(result: WorkerResult) -> list[str]:
     return [
-        f"### Approach {result.label}",
-        f"- Agent: `{result.agent_name}`",
-        f"- Tool: `{_display_tool_name(result.allowed_tool_name)}`",
-        f"- Status: `{result.status}`",
+        f"### Подход {result.label}",
+        f"- Агент: `{result.agent_name}`",
+        f"- Инструмент: `{_display_tool_name(result.allowed_tool_name)}`",
+        f"- Статус: `{result.status}`",
         "",
-        "#### Worker brief",
+        "#### Сводка воркера",
         result.output,
         "",
     ]
@@ -426,24 +432,24 @@ def _compose_contest_brief(
     decision_text: str,
     extra_header_lines: tuple[str, ...] = (),
 ) -> str:
-    """Render the canonical brief shared by both contest and single-specialist tools.
+    """Рендерит каноническую сводку, общую для конкурсов и инструментов одного специалиста.
 
-    Both tools used to render a different markdown shape, which forced the LLM
-    (and any downstream parser) to learn two formats. With a single skeleton
-    here, ``run_specialist`` and ``run_dual_approach_contest`` differ only on
-    the title, the number of branches, and the closing decision paragraph.
+    Ранее оба инструмента рендерили разную структуру разметки, что заставляло LLM
+    (и любой downstream-парсер) изучать два формата. С одним каркасом здесь
+    ``run_specialist`` и ``run_dual_approach_contest`` различаются только
+    заголовком, количеством веток и заключительным абзацем решения.
     """
     lines: list[str] = [
         f"## {title}",
         "",
-        f"- Overall status: `{overall_status}`",
-        f"- Rationale: {rationale}",
+        f"- Общий статус: `{overall_status}`",
+        f"- Обоснование: {rationale}",
     ]
     lines.extend(extra_header_lines)
     lines.append("")
     for result in results:
         lines.extend(_format_branch_section(result))
-    lines.extend(["### Next Decision", decision_text])
+    lines.extend(["### Следующее решение", decision_text])
     return "\n".join(lines)
 
 
@@ -461,29 +467,32 @@ async def run_dual_approach_contest(
     shared_user_task: str,
     contest_rationale: str,
 ) -> str:
-    """Run two parallel exploratory approaches on the same user task (max 2 agents; worker turn budget from ``CAI_ORCHESTRATION_WORKER_MAX_TURNS``).
+    """Запускает два параллельных исследовательских подхода к одной задаче пользователя (макс. 2 агента; бюджет ходов воркеров из ``CAI_ORCHESTRATION_WORKER_MAX_TURNS``).
 
-    Use only when comparing orthogonal methodologies, competing hypotheses, volatile evidence,
-    or a high-risk fork before committing CAI to a single path. Tactical follow-up actions should
-    normally use ``run_specialist`` instead.
+    Используйте только для сравнения ортогональных методологий, конкурирующих гипотез,
+    нестабильных доказательств или высокорискового ветвления перед тем, как направить CAI
+    по одному пути. Тактические последующие действия обычно следует выполнять с помощью
+    ``run_specialist``.
 
-    ``agent_type_*`` must be factory keys (e.g. ``redteam_agent``, ``blueteam_agent``).
-    Workers run with no handoffs and at most one selected tool name (``none`` = reasoning only).
+    ``agent_type_*`` должны быть ключами фабрик (например, ``redteam_agent``, ``blueteam_agent``).
+    Воркеры работают без передачи и с не более чем одним допустимым именем инструмента
+    (``none`` = только рассуждения).
 
-    After this tool returns, you (Orchestration Agent) remain in control: compare outputs, pick a
-    winner, plan the **next** step, and either call this tool again for a new genuinely volatile
-    decision, call ``run_specialist`` for concrete follow-up work, or continue reasoning until the
-    user's goal is met.
+    После возврата этого инструмента вы (Агент оркестрации) остаётесь под контролем:
+    сравнивайте выводы, выбирайте победителя, планируйте **следующий** шаг и либо снова
+    вызывайте этот инструмент для нового по-настоящему нестабильного решения, вызывайте
+    ``run_specialist`` для конкретной последующей работы, или продолжайте рассуждать до
+    достижения цели пользователя.
 
     Args:
-        agent_type_for_approach_a: Factory key for worker A.
-        agent_type_for_approach_b: Factory key for worker B (may equal A).
-        allowed_tool_for_approach_a: Exact tool name A may use, or ``none`` for reasoning-only.
-        allowed_tool_for_approach_b: Exact tool name B may use, or ``none`` for reasoning-only.
-        approach_a_framing: How A should tackle the task (tools/strategy are directed here).
-        approach_b_framing: How B should tackle it (**orthogonal** to A when possible).
-        shared_user_task: The concrete user request both workers must address.
-        contest_rationale: Short justification for running a contest now.
+        agent_type_for_approach_a: Ключ фабрики для воркера A.
+        agent_type_for_approach_b: Ключ фабрики для воркера B (может совпадать с A).
+        allowed_tool_for_approach_a: Точное имя инструмента A или ``none`` для только рассуждений.
+        allowed_tool_for_approach_b: Точное имя инструмента B или ``none`` для только рассуждений.
+        approach_a_framing: Как A должен решать задачу (инструменты/стратегия указываются здесь).
+        approach_b_framing: Как B должен решать задачу (**ортогонально** A по возможности).
+        shared_user_task: Конкретный запрос пользователя, который должны решить оба воркера.
+        contest_rationale: Краткое обоснование проведения конкурса.
     """
     group_id = _new_group_id("contest")
     per_cap = _per_worker_output_cap(2)
@@ -520,8 +529,8 @@ async def run_dual_approach_contest(
     if all(r.failed for r in results):
         return _wrap_internal(
             _compose_contest_brief(
-                title="Dual-Approach Contest",
-                overall_status="both branches failed",
+                title="Конкурс двух подходов",
+                overall_status="обе ветки провалились",
                 rationale=contest_rationale,
                 results=results,
                 decision_text=_DECISION_BOTH_FAILED,
@@ -529,12 +538,12 @@ async def run_dual_approach_contest(
         )
     return _wrap_internal(
         _compose_contest_brief(
-            title="Dual-Approach Contest",
-            overall_status="ready for orchestration decision",
+            title="Конкурс двух подходов",
+            overall_status="готово к решению оркестратора",
             rationale=contest_rationale,
             extra_header_lines=(
-                "- Structure: worker briefs are shown for transparency; final conclusion follows "
-                "after orchestration.",
+                "- Структура: сводки воркеров показаны для прозрачности; окончательный вывод "
+                "после оркестрации.",
             ),
             results=results,
             decision_text=_DECISION_READY,
@@ -549,21 +558,23 @@ async def run_specialist(
     task: str,
     framing: str,
 ) -> str:
-    """Run one specialist while keeping the orchestration agent in control.
+    """Запускает одного специалиста, сохраняя контроль агента оркестрации.
 
-    Use this for the winning path after a contest, for **narrow follow-up** drill-down, or when
-    only one lane is appropriate. Prefer ``run_parallel_specialists`` for wave-1 parallel broad
-    recon across orthogonal fronts. The worker cannot hand off and exposes at most one tool name.
+    Используйте это для победившего пути после конкурса, для **узкого последующего** углубления,
+    или когда подходит только один канал. Используйте ``run_parallel_specialists`` для
+    параллельной широкой разведки первого волны по ортогональным направлениям. Воркер не может
+    передавать и предоставляет не более одного имени инструмента.
 
     Args:
-        agent_type: Factory key for the specialist (e.g. ``redteam_agent``).
-        allowed_tool_name: Tool name the worker may use, OR a comma-separated list
-            of names (e.g. ``"fetch_url,generic_linux_command"``) to grant a small
-            toolbox in one delegation and avoid 1-tool/1-delegation fan-out, OR
-            ``none`` for reasoning-only.
-        task: Short concrete work request (avoid pasting the entire user brief verbatim).
-        framing: Strategy and constraints; include **broad recon** vs **narrow follow-up** so the
-            worker applies breadth-first discipline or skips it when you need exact execution.
+        agent_type: Ключ фабрики для специалиста (например, ``redteam_agent``).
+        allowed_tool_name: Имя инструмента, которое может использовать воркер, ИЛИ разделённый
+            запятыми список имён (например, ``"fetch_url,generic_linux_command"``) для предоставления
+            небольшого набора инструментов за одну делегацию и избежания 1-инструмент/1-делегация,
+            ИЛИ ``none`` для только рассуждений.
+        task: Краткая конкретная рабочая просьба (не копируйте дословно весь пользовательский запрос).
+        framing: Стратегия и ограничения; укажите **широкую разведку** или **узкое последующее**
+            действие, чтобы воркер применял дисциплину поиска в ширину или пропускал её, когда
+            вам нужно точное выполнение.
     """
     spec = WorkerSpec(
         label="S",
@@ -577,10 +588,10 @@ async def run_specialist(
         max_turns=_configured_worker_max_turns(),
     )
     result = await _run_worker(spec)
-    overall_status = "failed" if result.failed else "completed"
+    overall_status = "провалено" if result.failed else "выполнено"
     return _wrap_internal(
         _compose_contest_brief(
-            title="Specialist Brief",
+            title="Сводка специалиста",
             overall_status=overall_status,
             rationale=_RATIONALE_SPECIALIST,
             results=(result,),
@@ -590,44 +601,47 @@ async def run_specialist(
 
 @function_tool
 async def run_parallel_specialists(workers_json: str, parallel_rationale: str) -> str:
-    """Run 2–4 specialists concurrently on independent sub-tasks while you keep control.
+    """Запускает 2–4 специалиста параллельно для независимых подзадач, сохраняя ваш контроль.
 
-    Primary tool for **wave-1 MAS**: parallel **broad** scouts on orthogonal fronts (short ``task``
-    strings, recon-oriented ``framing``). Also use when the user names multiple workstreams.
+    Основной инструмент для **параллельных разведчиков первого волны MAS**: параллельная
+    **широкая** разведка по ортогональным направлениям (короткие строки ``task``, разведывательные
+    ``framing``). Также используйте, когда пользователь называет несколько рабочих направлений.
 
-    Prefer ``run_dual_approach_contest`` when comparing two hypotheses for the **same** fork;
-    prefer ``run_specialist`` for a single **narrow** follow-up after you have signal.
+    Используйте ``run_dual_approach_contest`` при сравнении двух гипотез для **одного**
+    ветвления; используйте ``run_specialist`` для одного **узкого** последующего действия,
+    когда у вас есть сигнал.
 
-    ``workers_json`` must be a JSON array of 2–4 objects. Each object requires keys:
-    ``agent_type``, ``allowed_tool_name``, ``task``, ``framing`` (same contract as
-    ``run_specialist``).
+    ``workers_json`` должен быть JSON-массивом из 2–4 объектов. Каждый объект требует ключей:
+    ``agent_type``, ``allowed_tool_name``, ``task``, ``framing`` (тот же контракт, что
+    и ``run_specialist``).
 
     Args:
-        workers_json: JSON array of worker specs (2–4 items).
-        parallel_rationale: Why parallel execution is appropriate now (e.g. wave-1 landscape map).
+        workers_json: JSON-массив спецификаций воркеров (2–4 элемента).
+        parallel_rationale: Почему параллельное выполнение уместно сейчас (например, карта
+            территории первого волны).
     """
     raw = (workers_json or "").strip()
     try:
         data = json.loads(raw)
     except json.JSONDecodeError as exc:
-        return f"Invalid workers_json (not valid JSON): {exc}"
+        return f"Неверный workers_json (недопустимый JSON): {exc}"
 
     if not isinstance(data, list):
-        return "workers_json must be a JSON array."
+        return "workers_json должен быть JSON-массивом."
 
     if len(data) < 2:
-        return "Provide at least 2 workers for parallel execution, or use run_specialist for one."
+        return "Укажите не менее 2 воркеров для параллельного выполнения или используйте run_specialist для одного."
 
     if len(data) > 4:
-        return "At most 4 parallel workers are allowed; split extra work across subsequent tool calls."
+        return "Допускается не более 4 параллельных воркеров; разделите дополнительную работу на последующие вызовы инструментов."
 
     required = ("agent_type", "allowed_tool_name", "task", "framing")
     for i, w in enumerate(data, start=1):
         if not isinstance(w, dict):
-            return f"Worker {i} must be a JSON object."
+            return f"Воркер {i} должен быть JSON-объектом."
         for key in required:
             if key not in w:
-                return f"Worker {i} missing required key `{key}`."
+                return f"У воркера {i} отсутствует обязательный ключ `{key}`."
 
     max_t = _configured_worker_max_turns()
     per_cap = _per_worker_output_cap(len(data))
@@ -656,18 +670,18 @@ async def run_parallel_specialists(workers_json: str, parallel_rationale: str) -
     if all(r.failed for r in results):
         return _wrap_internal(
             _compose_contest_brief(
-                title="Parallel Specialists",
-                overall_status="all branches failed",
+                title="Параллельные специалисты",
+                overall_status="все ветки провалились",
                 rationale=parallel_rationale,
                 results=results,
                 decision_text=_DECISION_PARALLEL_ALL_FAILED,
             )
         )
 
-    overall = "partial completion" if any(r.failed for r in results) else "completed"
+    overall = "частичное выполнение" if any(r.failed for r in results) else "выполнено"
     return _wrap_internal(
         _compose_contest_brief(
-            title="Parallel Specialists",
+            title="Параллельные специалисты",
             overall_status=overall,
             rationale=parallel_rationale,
             results=results,

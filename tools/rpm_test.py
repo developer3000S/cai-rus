@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Properly test rate limit by checking current status and waiting if needed.
+Корректное тестирование ограничения скорости путем проверки текущего статуса и ожидания при необходимости.
 """
 
 import warnings
@@ -14,7 +14,7 @@ from rich.console import Console
 from rich.panel import Panel
 import time
 
-# Load environment variables
+# Загрузка переменных окружения
 load_dotenv()
 
 console = Console()
@@ -24,7 +24,7 @@ API_KEY = os.getenv("ALIAS_API_KEY", "").strip()
 MODEL = os.getenv("CAI_MODEL", "alias1")
 
 async def check_rate_limit_status(session: httpx.AsyncClient):
-    """Check current rate limit status."""
+    """Проверка текущего статуса ограничения скорости."""
     headers = {
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json"
@@ -58,12 +58,12 @@ async def check_rate_limit_status(session: httpx.AsyncClient):
                 "status": 429,
                 "rpm_limit": 60,
                 "rpm_remaining": 0,
-                "error": "Currently rate limited"
+                "error": "В настоящее время действует ограничение скорости"
             }
         raise
 
 async def make_request(session: httpx.AsyncClient, request_id: int):
-    """Make a single request."""
+    """Выполнение одного запроса."""
     headers = {
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json"
@@ -98,34 +98,34 @@ async def make_request(session: httpx.AsyncClient, request_id: int):
 
 async def main():
     console.print(Panel(
-        "[bold cyan]Rate Limit Test with Proper Status Check[/bold cyan]\n\n"
-        "This script will check the current rate limit status and test accordingly.",
-        title="🚀 Starting Test"
+        "[bold cyan]Тестирование ограничения скорости с проверкой статуса[/bold cyan]\n\n"
+        "Этот скрипт проверит текущий статус ограничения скорости и проведет тестирование соответственно.",
+        title="🚀 Запуск теста"
     ))
     
     async with httpx.AsyncClient() as session:
-        # First check current rate limit status
-        console.print("\n[yellow]Checking current rate limit status...[/yellow]")
+        # Сначала проверяем текущий статус ограничения скорости
+        console.print("\n[yellow]Проверка текущего статуса ограничения скорости...[/yellow]")
         status = await check_rate_limit_status(session)
         
         if status["status"] == 429:
-            console.print("[red]Currently rate limited! Please wait a minute and try again.[/red]")
+            console.print("[red]В настоящее время действует ограничение скорости! Пожалуйста, подождите минуту и попробуйте снова.[/red]")
             return
         
         console.print(f"RPM Limit: {status['rpm_limit']}")
         console.print(f"RPM Remaining: {status['rpm_remaining']}")
         
         if status['rpm_remaining'] < 65:
-            console.print(f"\n[yellow]Only {status['rpm_remaining']} requests remaining in current window.[/yellow]")
-            console.print("[yellow]Waiting 60 seconds for rate limit to reset...[/yellow]")
+            console.print(f"\n[yellow]Осталось только {status['rpm_remaining']} запросов в текущем окне.[/yellow]")
+            console.print("[yellow]Ожидание 60 секунд для сброса ограничения скорости...[/yellow]")
             await asyncio.sleep(60)
             
-            # Check again
+            # Проверяем снова
             status = await check_rate_limit_status(session)
-            console.print(f"\nAfter waiting - RPM Remaining: {status['rpm_remaining']}")
+            console.print(f"\nПосле ожидания - RPM Осталось: {status['rpm_remaining']}")
         
-        # Now send 65 requests to exceed the 60 limit
-        console.print(f"\n[bold green]Sending 65 requests to exceed the {status['rpm_limit']} RPM limit...[/bold green]\n")
+        # Теперь отправляем 65 запросов, чтобы превысить лимит 60
+        console.print(f"\n[bold green]Отправка 65 запросов для превышения лимита {status['rpm_limit']} RPM...[/bold green]\n")
         
         tasks = []
         for i in range(65):
@@ -135,17 +135,17 @@ async def main():
         results = await asyncio.gather(*tasks)
         duration = time.time() - start_time
         
-        # Count results
+        # Подсчитываем результаты
         success_200 = sum(1 for r in results if r["status"] == 200)
         rate_limited_429 = sum(1 for r in results if r["status"] == 429)
         
-        console.print(f"\n[bold]Results:[/bold]")
-        console.print(f"Duration: {duration:.2f}s")
-        console.print(f"✅ Successful (200): {success_200}")
-        console.print(f"⚠️  Rate Limited (429): {rate_limited_429}")
+        console.print(f"\n[bold]Результаты:[/bold]")
+        console.print(f"Длительность: {duration:.2f}s")
+        console.print(f"✅ Успешные (200): {success_200}")
+        console.print(f"⚠️  Ограничены скоростью (429): {rate_limited_429}")
         
-        # Show some individual results
-        console.print(f"\n[bold]Sample Results:[/bold]")
+        # Показываем некоторые отдельные результаты
+        console.print(f"\n[bold]Примеры результатов:[/bold]")
         for i in [0, 30, 58, 59, 60, 61, 62, 63, 64]:
             if i < len(results):
                 r = results[i]
@@ -154,10 +154,10 @@ async def main():
         
         if rate_limited_429 > 0:
             console.print(Panel(
-                f"[bold green]✓ Rate limiting confirmed![/bold green]\n\n"
-                f"Successfully sent {success_200} requests before hitting the rate limit.\n"
-                f"The remaining {rate_limited_429} requests were rate limited with 429 status.",
-                title="Test Successful",
+                f"[bold green]✓ Ограничение скорости подтверждено![/bold green]\n\n"
+                f"Успешно отправлено {success_200} запросов перед достижением ограничения скорости.\n"
+                f"Остальные {rate_limited_429} запросов были ограничены со статусом 429.",
+                title="Тест успешно пройден",
                 border_style="green"
             ))
 

@@ -1,19 +1,19 @@
 """
-This script is used to create a web-based logs analysis dashboard.
+Этот скрипт используется для создания веб-панели анализа журналов.
 
-It allows you to visualize the logs in different ways and see the PyPI download statistics.
+Он позволяет визуализировать журналы различными способами и просматривать статистику загрузок PyPI.
 
-Usage:
-    # Show all logs
+Использование:
+    # Показать все журналы
     python tools/web_logs.py <(cat ./logs.txt)
 
-    # Show last 10 logs and enable map
+    # Показать последние 10 журналов и включить карту
     python tools/web_logs.py --enable-map <(tail -n 10 ./logs.txt)
 
-Ideas for further improvements:
-- Re-generate the log heatmap with only top 20 IPs
-- Create a map with the top 20 IPs
-- Dive into the logs
+Идеи для дальнейшего улучшения:
+- Пересоздать тепловую карту журналов только с топ-20 IP
+- Создать карту с топ-20 IP
+- Погрузиться в журналы
 """
 
 import matplotlib
@@ -37,10 +37,10 @@ import re
 app = Flask(__name__)
 
 
-# Configuration for enabled visualizations
+# Конфигурация включенных визуализаций
 class Config:
     def __init__(self):
-        self.enable_map = False  # Default to disabled
+        self.enable_map = False  # По умолчанию отключено
         self.enable_daily_logs = True
         self.enable_system_dist = True
         self.enable_user_activity = True
@@ -48,7 +48,7 @@ class Config:
     @classmethod
     def from_args(cls, args):
         config = cls()
-        # Handle map options - disable takes precedence
+        # Обработка опций карты - отключение имеет приоритет
         if hasattr(args, "disable_map") and args.disable_map:
             config.enable_map = False
         elif hasattr(args, "enable_map") and args.enable_map:
@@ -63,7 +63,7 @@ class Config:
         return config
 
 
-# Visualization components
+# Компоненты визуализации
 class Visualizations:
     def __init__(self, df: pd.DataFrame, config: Config):
         self.df = df
@@ -79,58 +79,58 @@ class Visualizations:
             "%Y-%m-%d"
         )  # Format the index to 'yyyy-mm-dd'
 
-        # Plot bar chart for daily counts
-        ax = daily_counts.plot(kind="bar", color="skyblue", label="Daily Count")
+        # Построение гистограммы для ежедневных подсчетов
+        ax = daily_counts.plot(kind="bar", color="skyblue", label="Ежедневный подсчет")
 
-        # Plot line chart for cumulative counts
+        # Построение линейной диаграммы для кумулятивных подсчетов
         cumulative_counts = daily_counts.cumsum()
-        total_cumulative_count = cumulative_counts.iloc[-1]  # Get the total cumulative count
+        total_cumulative_count = cumulative_counts.iloc[-1]  # Получение общего кумулятивного подсчета
         cumulative_counts.plot(
             kind="line",
             color="orange",
             secondary_y=True,
             ax=ax,
-            label=f"Cumulative Count (Total: {total_cumulative_count})",
+            label=f"Кумулятивный подсчет (Всего: {total_cumulative_count})",
         )
 
-        # Add vertical red line on 2025-04-09
+        # Добавление вертикальной красной линии на 2025-04-09
         if "2025-04-09" in daily_counts.index:
             red_line_index = daily_counts.index.get_loc("2025-04-09")
             ax.axvline(
-                x=red_line_index, color="red", linestyle="--", label="Public Release v0.3.11"
+                x=red_line_index, color="red", linestyle="--", label="Публичный релиз v0.3.11"
             )
 
-            # Add grey-ish background to all elements prior to the red line
+            # Добавление серого фона для всех элементов до красной линии
             ax.axvspan(0, red_line_index, color="grey", alpha=0.3)
 
-        # Add vertical blue line on 2025-05-30
+        # Добавление вертикальной синей линии на 2025-05-30
         if "2025-05-30" in daily_counts.index:
             green_line_index = daily_counts.index.get_loc("2025-05-30")
             ax.axvline(
                 x=green_line_index,
                 color="green",
                 linestyle="--",
-                label='"CAIv0.4.0" and "alias1" releases',
+                label='"Релизы CAIv0.4.0" и "alias1"',
             )
 
-        # Add vertical yellow line on 2025-04-01
+        # Добавление вертикальной желтой линии на 2025-04-01
         if "2025-04-01" in daily_counts.index:
             yellow_line_index = daily_counts.index.get_loc("2025-04-01")
             ax.axvline(
                 x=yellow_line_index,
                 color="yellow",
                 linestyle="--",
-                label="Professional Bug Bounty Test",
+                label="Профессиональный тест Bug Bounty",
             )
 
-        # Set titles and labels
-        ax.set_title("Number of Logs by Day")
-        ax.set_xlabel("Date")
-        ax.set_ylabel("Number of Logs")
-        ax.right_ax.set_ylabel("Cumulative Count")
+        # Установка заголовков и меток
+        ax.set_title("Количество журналов по дням")
+        ax.set_xlabel("Дата")
+        ax.set_ylabel("Количество журналов")
+        ax.right_ax.set_ylabel("Кумулятивный подсчет")
         ax.set_xticklabels(daily_counts.index, rotation=45)
 
-        # Add legends
+        # Добавление легенд
         ax.legend(loc="upper left")
         ax.right_ax.legend(loc="upper right")
 
@@ -152,9 +152,9 @@ class Visualizations:
         self.df["system_grouped"] = self.df["system"].map(system_map).fillna("Other")
         system_counts = self.df["system_grouped"].value_counts()
         system_counts.plot(kind="bar")
-        plt.title("Total Number of Logs per System")
-        plt.xlabel("System")
-        plt.ylabel("Number of Logs")
+        plt.title("Общее количество журналов по системам")
+        plt.xlabel("Система")
+        plt.ylabel("Количество журналов")
         plt.tight_layout()
         return self._get_plot_base64()
 
@@ -166,12 +166,12 @@ class Visualizations:
         user_counts = self.df["username"].value_counts().head(50)
         total_unique_users = self.df["username"].nunique()
         ax = user_counts.plot(kind="bar")
-        plt.title(f"Top 50 Most Active Users (out of {total_unique_users} different users)")
-        plt.xlabel("Username")
-        plt.ylabel("Number of Logs")
+        plt.title(f"Топ-50 самых активных пользователей (из {total_unique_users} разных пользователей)")
+        plt.xlabel("Имя пользователя")
+        plt.ylabel("Количество журналов")
         plt.xticks(rotation=45)
 
-        # Add the actual number on top of each bar
+        # Добавление фактического числа над каждым столбцом
         for i, count in enumerate(user_counts):
             ax.text(i, count, str(count), ha="center", va="bottom")
 
@@ -221,19 +221,19 @@ class Visualizations:
         plt.figure(figsize=(max(6, 0.5 * len(pivot.columns)), min(20, 1 + 0.5 * len(pivot.index))))
         ax = plt.gca()
         im = ax.imshow(pivot.values, aspect="auto", cmap="YlOrRd", origin="lower")
-        plt.colorbar(im, ax=ax, label="Number of Logs")
+        plt.colorbar(im, ax=ax, label="Количество журналов")
         ax.set_xticks(range(len(pivot.columns)))
         ax.set_xticklabels(pivot.columns, rotation=90, fontsize=8)
         ax.set_yticks(range(len(ip_labels)))
         ax.set_yticklabels(ip_labels, fontsize=8)
-        plt.title("Log Heatmap: Number of Logs per IP Address and Date")
-        plt.xlabel("Date")
-        plt.ylabel("IP Address (Location)")
+        plt.title("Тепловая карта журналов: Количество журналов по IP-адресу и дате")
+        plt.xlabel("Дата")
+        plt.ylabel("IP-адрес (Местоположение)")
         plt.tight_layout()
         return self._get_plot_base64()
 
     def _get_ip_location_label(self, ip: str) -> str:
-        # Try to get city/country from ip-api.com
+        # Попытка получить город/страну с ip-api.com
         if ip in ("127.0.0.1", "localhost"):
             return "Vitoria, Spain"
         try:
@@ -248,12 +248,12 @@ class Visualizations:
                     return country
         except Exception:
             pass
-        # Fallback to lat/lon
+        # Запасной вариант - широта/долгота
         try:
             lat, lon = get_location(ip)
             return f"{lat:.2f},{lon:.2f}"
         except Exception:
-            return "Unknown"
+            return "Неизвестно"
 
     def _get_plot_base64(self) -> str:
         buf = io.BytesIO()
@@ -266,16 +266,16 @@ class Visualizations:
 
 def parse_logs(file_path, parse_ips=False):
     logs = []
-    # Regex patterns for the three formats
-    # 1. Old: ...-cai_20250405_091537_root_linux_6.10.14-linuxkit_81_38_188_36.jsonl
+    # Шаблоны регулярных выражений для трех форматов
+    # 1. Старый: ...-cai_20250405_091537_root_linux_6.10.14-linuxkit_81_38_188_36.jsonl
     old_pattern = re.compile(
         r"cai_(\d{8})_(\d{6})_([^_]+)_([^_]+)_([^_]+)_(\d+)_(\d+)_(\d+)_(\d+)\.jsonl$"
     )
-    # 2. New: uuid_cai_uuid_20250426_054313_root_linux_6.12.13-amd64_177_91_253_204.jsonl
+    # 2. Новый: uuid_cai_uuid_20250426_054313_root_linux_6.12.13-amd64_177_91_253_204.jsonl
     new_pattern = re.compile(
         r"([\w-]+)_cai_([\w-]+)_(\d{8})_(\d{6})_([^_]+)_([^_]+)_([^_]+)_([\d]+)_([\d]+)_([\d]+)_([\d]+)\.jsonl$"
     )
-    # 3. Intermediate: logs/sessions/uuid/intermediate_20250422_222021.jsonl
+    # 3. Промежуточный: logs/sessions/uuid/intermediate_20250422_222021.jsonl
     intermediate_pattern = re.compile(r"intermediate_(\d{8})_(\d{6})\.jsonl$")
 
     with open(file_path, "r") as file:
@@ -287,9 +287,9 @@ def parse_logs(file_path, parse_ips=False):
                 size = parts[2].split()[0]
                 filename = parts[2].split()[1] if len(parts[2].split()) > 1 else parts[2]
 
-                # --- Old and New format ---
+                    # --- Старый и новый форматы ---
                 if "cai_" in filename:
-                    # Try new format first
+                    # Сначала пробуем новый формат
                     m_new = new_pattern.search(filename)
                     if m_new:
                         # uuid_cai_uuid_YYYYMMDD_HHMMSS_user_system_version_ip.jsonl
@@ -310,7 +310,7 @@ def parse_logs(file_path, parse_ips=False):
                             ip_address = "disabled"
                         logs.append([ts, size, ip_address, system, username])
                         continue
-                    # Try old format
+                    # Пробуем старый формат
                     m_old = old_pattern.search(filename)
                     if m_old:
                         # Groups: 1=date, 2=time, 3=username, 4=system, 5=version, 6-9=ip
@@ -330,20 +330,20 @@ def parse_logs(file_path, parse_ips=False):
                             ip_address = "disabled"
                         logs.append([ts, size, ip_address, system, username])
                         continue
-                # --- Intermediate format ---
+                # --- Промежуточный формат ---
                 m_inter = intermediate_pattern.search(filename)
                 if m_inter:
-                    # Only date is relevant
+                    # Только дата имеет значение
                     date_str = m_inter.group(1)
                     time_str = m_inter.group(2)
-                    # Compose a timestamp from the extracted date/time
+                    # Формируем временную метку из извлеченной даты/времени
                     ts = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:]} {time_str[:2]}:{time_str[2:4]}:{time_str[4:]}"
                     logs.append([ts, size, "disabled", "unknown", "unknown"])
                     continue
-                # If none matched, skip
+                # Если ничего не совпало, пропускаем
                 continue
             except Exception as e:
-                print(f"Error parsing line: {line.strip()} -> {e}")
+                print(f"Ошибка разбора строки: {line.strip()} -> {e}")
                 continue
     return logs
 
@@ -385,89 +385,89 @@ def get_location(ip):
 
 
 def get_overall_stats():
-    """Fetch overall download statistics for cai-framework"""
+    """Получение общей статистики загрузок для cai-framework"""
     url = "https://pypistats.org/api/packages/cai-framework/overall"
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
     else:
-        print(f"Error fetching overall stats: {response.status_code}")
+        print(f"Ошибка получения общей статистики: {response.status_code}")
         return None
 
 
 def get_system_stats():
-    """Fetch system-specific download statistics for cai-framework"""
+    """Получение статистики загрузок по системам для cai-framework"""
     url = "https://pypistats.org/api/packages/cai-framework/system"
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
     else:
-        print(f"Error fetching system stats: {response.status_code}")
+        print(f"Ошибка получения статистики систем: {response.status_code}")
         return None
 
 
 def create_pypi_plot():
-    # Get the data
+    # Получаем данные
     overall_stats = get_overall_stats()
     system_stats = get_system_stats()
 
     if not overall_stats or not system_stats:
-        print("Error: Could not fetch PyPI statistics")
+        print("Ошибка: Не удалось получить статистику PyPI")
         return None, None
 
-    # Create a figure with custom layout
+    # Создаем фигуру с пользовательской компоновкой
     plt.figure(figsize=(15, 8))
 
-    # Convert data to DataFrames
+    # Преобразуем данные в DataFrames
     df_overall = pd.DataFrame(overall_stats["data"])
     df_system = pd.DataFrame(system_stats["data"])
 
-    # Filter for downloads without mirrors (matches website reporting)
+    # Фильтруем загрузки без зеркал (соответствует отчетности сайта)
     df_overall_no_mirrors = df_overall[df_overall["category"] == "without_mirrors"]
     without_mirrors_total = df_overall_no_mirrors["downloads"].sum()
 
-    # Process the data
+    # Обрабатываем данные
     daily_downloads = df_overall_no_mirrors.groupby("date")["downloads"].sum().reset_index()
     daily_downloads["date"] = pd.to_datetime(daily_downloads["date"])
-    # Add cumulative downloads
+    # Добавляем кумулятивные загрузки
     daily_downloads["cumulative_downloads"] = daily_downloads["downloads"].cumsum()
 
-    # Get release date (first date in the dataset)
+    # Получаем дату релиза (первая дата в наборе данных)
     release_date = daily_downloads["date"].min()
 
-    # Calculate system percentages for each day
+    # Вычисляем проценты систем для каждого дня
     system_pivot = df_system.pivot(index="date", columns="category", values="downloads")
     system_pivot.index = pd.to_datetime(system_pivot.index)
     system_pivot = system_pivot.fillna(0)
 
-    # Keep track of the total downloads per system for the legend
+    # Отслеживаем общее количество загрузок по системам для легенды
     system_totals = system_pivot.sum()
 
-    # Create main plot with two y-axes
+    # Создаем основную диаграмму с двумя осями Y
     ax1 = plt.subplot(111)
-    ax2 = ax1.twinx()  # Create a second y-axis sharing the same x-axis
+    ax2 = ax1.twinx()  # Создаем вторую ось Y, разделяя ту же ось X
 
-    # Plot total cumulative downloads on the left axis
+    # Строим общие кумулятивные загрузки на левой оси
     ax1.plot(
         daily_downloads["date"],
         daily_downloads["cumulative_downloads"],
         linewidth=3,
         color="black",
-        label=f"Total Downloads (without mirrors): {without_mirrors_total:,}",
+        label=f"Всего загрузок (без зеркал): {without_mirrors_total:,}",
     )
 
-    # Define color mapping for systems
+    # Определяем соответствие цветов для систем
     color_map = {
-        "Darwin": "#1E88E5",  # Blue
-        "Linux": "#FB8C00",  # Orange
-        "Windows": "#43A047",  # Green
-        "null": "#E53935",  # Red
+        "Darwin": "#1E88E5",  # Синий
+        "Linux": "#FB8C00",  # Оранжевый
+        "Windows": "#43A047",  # Зеленый
+        "null": "#E53935",  # Красный
     }
 
-    # Plot system distribution on the right axis
+    # Строим распределение систем на правой оси
     bottom = np.zeros(len(system_pivot))
 
-    # Ensure specific order of systems
+    # Обеспечиваем определенный порядок систем
     desired_order = ["Darwin", "Linux", "Windows", "null"]
     for col in desired_order:
         if col in system_pivot.columns:
@@ -482,10 +482,10 @@ def create_pypi_plot():
             )
             bottom += system_pivot[col]
 
-    # Add release date annotation
+    # Добавляем аннотацию даты релиза
     ax1.axvline(x=release_date, color="#E53935", linestyle="--", alpha=0.7)
     ax1.annotate(
-        "Release Date",
+        "Дата релиза",
         xy=(release_date, ax1.get_ylim()[1]),
         xytext=(10, 10),
         textcoords="offset points",
@@ -494,7 +494,7 @@ def create_pypi_plot():
         bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="#E53935", alpha=0.8),
     )
 
-    # Set the x-ticks to be at each date in the dataset
+    # Устанавливаем отметки X на каждую дату в наборе данных
     ax1.set_xticks(system_pivot.index)
     ax1.set_xticklabels(
         [date.strftime("%Y-%m-%d") for date in system_pivot.index],
@@ -503,39 +503,39 @@ def create_pypi_plot():
         ha="right",
     )
 
-    # Add padding between x-axis and the date labels
+    # Добавляем отступ между осью X и метками дат
     ax1.tick_params(axis="x", which="major", pad=10)
 
-    ax1.set_title("CAI Framework Download Statistics", fontsize=14, pad=20)
-    ax1.set_ylabel("Total Cumulative Downloads", fontsize=14, color="black")
-    ax2.set_ylabel("Daily Downloads by System", fontsize=14, color="black")
-    ax1.set_xlabel("Date", fontsize=14)
+    ax1.set_title("Статистика загрузок CAI Framework", fontsize=14, pad=20)
+    ax1.set_ylabel("Общие кумулятивные загрузки", fontsize=14, color="black")
+    ax2.set_ylabel("Ежедневные загрузки по системам", fontsize=14, color="black")
+    ax1.set_xlabel("Дата", fontsize=14)
 
-    # Set grid and tick parameters
+    # Устанавливаем сетку и параметры делений
     ax1.grid(True, linestyle="--", alpha=0.7)
     ax1.tick_params(axis="y", colors="black")
     ax2.tick_params(axis="y", colors="black")
 
-    # Add legend with combined information
+    # Добавляем легенду с комбинированной информацией
     handles1, labels1 = ax1.get_legend_handles_labels()
     handles2, labels2 = [], []
 
-    # Add bars to legend in the desired order with correct colors
+    # Добавляем столбцы в легенду в желаемом порядке с правильными цветами
     for col in desired_order:
         if col in system_pivot.columns:
-            # Create a proxy artist with the correct color
+            # Создаем замещающий объект с правильным цветом
             proxy = plt.Rectangle((0, 0), 1, 1, fc=color_map[col], alpha=0.5)
             handles2.append(proxy)
-            # Calculate percentage of both system total and overall total
+            # Вычисляем процент как для общей суммы систем, так и для общей суммы
             system_percentage = (system_totals[col] / system_totals.sum()) * 100
             website_percentage = (system_totals[col] / without_mirrors_total) * 100
-            labels2.append(f"{col} ({int(system_totals[col]):,} total, {system_percentage:.1f}%)")
+            labels2.append(f"{col} (всего {int(system_totals[col]):,}, {system_percentage:.1f}%)")
 
-    # Create legend with updated colors
+    # Создаем легенду с обновленными цветами
     ax1.legend(
         handles1 + handles2,
         labels1 + labels2,
-        title="Operating Systems",
+        title="Операционные системы",
         bbox_to_anchor=(1.05, 1),
         loc="upper left",
         fontsize=12,
@@ -544,16 +544,16 @@ def create_pypi_plot():
 
     plt.tight_layout()
 
-    # Create a BytesIO buffer for the image
+    # Создаем буфер BytesIO для изображения
     buf = io.BytesIO()
     plt.savefig(buf, format="png", bbox_inches="tight", dpi=300)
     plt.close()
 
-    # Encode the image to base64 string
+    # Кодируем изображение в строку base64
     buf.seek(0)
     image_base64 = base64.b64encode(buf.getvalue()).decode("utf-8")
 
-    # Prepare statistics for the template
+    # Подготавливаем статистику для шаблона
     stats = {
         "total_downloads": without_mirrors_total,
         "latest_downloads": daily_downloads.iloc[-1]["downloads"]
@@ -582,21 +582,21 @@ def create_pypi_plot():
 
 @app.route("/")
 def index():
-    # Get log file path from app config
+    # Получаем путь к файлу журнала из конфигурации приложения
     log_file = app.config["LOG_FILE"]
 
-    # Parse logs
+    # Разбираем журналы
     logs = parse_logs(log_file, parse_ips=True)
     if not logs:
-        return f"No logs were parsed. Please check if the file {log_file} exists and contains valid log entries."
+        return f"Не удалось разобрать журналы. Пожалуйста, проверьте, существует ли файл {log_file} и содержит ли он допустимые записи журнала."
 
     df = pd.DataFrame(logs, columns=["timestamp", "size", "ip_address", "system", "username"])
     df["timestamp"] = pd.to_datetime(df["timestamp"])
 
-    # Create visualizations
+    # Создаем визуализации
     viz = Visualizations(df, app.config["VIZ_CONFIG"])
 
-    # Only create enabled visualizations
+    # Создаем только включенные визуализации
     visualizations = {
         "logs_by_day": viz.create_daily_logs(),
         "logs_by_system": viz.create_system_distribution(),
@@ -605,11 +605,11 @@ def index():
         "config": app.config["VIZ_CONFIG"],
     }
 
-    # Only create map if enabled
+    # Создаем карту только если она включена
     if app.config["VIZ_CONFIG"].enable_map:
         visualizations["map_html"] = viz.create_map()
 
-    # Generate PyPI plot
+    # Генерируем диаграмму PyPI
     pypi_plot, pypi_stats = create_pypi_plot()
     visualizations["pypi_plot"] = pypi_plot
     visualizations["pypi_stats"] = pypi_stats
@@ -619,43 +619,43 @@ def index():
 
 @app.route("/pypi-stats")
 def pypi_stats():
-    # Generate PyPI plot
+    # Генерируем диаграмму PyPI
     pypi_plot, stats = create_pypi_plot()
 
     return render_template("pypi_stats.html", pypi_plot=pypi_plot, stats=stats)
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Web-based log analysis dashboard")
+    parser = argparse.ArgumentParser(description="Веб-панель анализа журналов")
     parser.add_argument(
         "log_file",
         nargs="?",
         default="/tmp/logs.txt",
-        help="Path to the log file (default: /tmp/logs.txt)",
+        help="Путь к файлу журнала (по умолчанию: /tmp/logs.txt)",
     )
 
-    # Map control group
+    # Группа управления картой
     map_group = parser.add_mutually_exclusive_group()
     map_group.add_argument(
         "--enable-map",
         action="store_true",
-        help="Enable the geographic distribution map (default: disabled)",
+        help="Включить карту географического распределения (по умолчанию: отключено)",
     )
     map_group.add_argument(
         "--disable-map",
         action="store_true",
-        help="Disable the geographic distribution map (takes precedence)",
+        help="Отключить карту географического распределения (имеет приоритет)",
     )
 
-    parser.add_argument("--disable-daily", action="store_true", help="Disable the daily logs chart")
+    parser.add_argument("--disable-daily", action="store_true", help="Отключить диаграмму ежедневных журналов")
     parser.add_argument(
-        "--disable-system", action="store_true", help="Disable the system distribution chart"
+        "--disable-system", action="store_true", help="Отключить диаграмму распределения систем"
     )
     parser.add_argument(
-        "--disable-users", action="store_true", help="Disable the user activity chart"
+        "--disable-users", action="store_true", help="Отключить диаграмму активности пользователей"
     )
     parser.add_argument(
-        "--port", type=int, default=5001, help="Port to run the server on (default: 5001)"
+        "--port", type=int, default=5001, help="Порт для запуска сервера (по умолчанию: 5001)"
     )
     return parser.parse_args()
 
@@ -663,17 +663,17 @@ def parse_args():
 def main():
     args = parse_args()
 
-    # Ensure the log file exists
+    # Убедимся, что файл журнала существует
     if not os.path.exists(args.log_file):
-        print(f"Error: {args.log_file} not found!")
+        print(f"Ошибка: {args.log_file} не найден!")
         exit(1)
 
-    # Configure the application
+    # Настраиваем приложение
     app.config["LOG_FILE"] = args.log_file
     app.config["VIZ_CONFIG"] = Config.from_args(args)
 
-    print(f"Starting web server on http://localhost:{args.port}")
-    print(f"Using log file: {args.log_file}")
+    print(f"Запуск веб-сервера на http://localhost:{args.port}")
+    print(f"Используемый файл журнала: {args.log_file}")
     app.run(host="0.0.0.0", port=args.port, debug=True)
 
 

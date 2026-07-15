@@ -113,7 +113,7 @@ def build_wait_hint_renderable(
     if include_suffix:
         line.append("  —  ", style="bold")
         line.append_text(_ctrl_c_badge())
-        line.append(" to interrupt", style="bold")
+        line.append(" для прерывания", style="bold")
     return line
 
 

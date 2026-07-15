@@ -34,7 +34,7 @@ class AgentManager:
             self.agent = get_agent_by_name(self.current_agent_name, agent_id=DEFAULT_SESSION_AGENT_ID)
         except Exception as e:
             if self.output:
-                self.output.write(f"[red]✗ Failed to initialize agent: {e}[/red]")
+                self.output.write(f"[red]✗ Ошибка инициализации агента: {e}[/red]")
                 self.output.write("")
         finally:
             self._initializing = False
@@ -53,7 +53,7 @@ class AgentManager:
     async def chat_with_agent(self, message: str) -> None:
         """Process a message with the current agent"""
         if not self.agent:
-            self.output.write("[red]No agent available[/red]")
+            self.output.write("[red]Агент недоступен[/red]")
             self.output.write("")
             return
 
@@ -66,5 +66,5 @@ class AgentManager:
             self.output.write("")
 
         except Exception as e:
-            self.output.write(f"[red]Error: {e}[/red]")
+            self.output.write(f"[red]Ошибка: {e}[/red]")
             self.output.write("")

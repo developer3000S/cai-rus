@@ -47,7 +47,7 @@ class CommandHandler:
         ):
             if self.output:
                 self.output.write(
-                    "[yellow]Compaction in progress. Wait until it finishes before running new commands.[/yellow]"
+                    "[yellow]Идёт компактификация. Подождите завершения перед запуском новых команд.[/yellow]"
                 )
             return
 
@@ -238,10 +238,10 @@ class CommandHandler:
 
             if not handled:
                 if suggested:
-                    intercept_console.print(f"[red]Unknown command: {cmd_name}[/red]")
-                    intercept_console.print(f"[yellow]Did you mean: {suggested}?[/yellow]")
+                    intercept_console.print(f"[red]Неизвестная команда: {cmd_name}[/red]")
+                    intercept_console.print(f"[yellow]Вы имели в виду: {suggested}?[/yellow]")
                 else:
-                    intercept_console.print(f"[red]Unknown command: {cmd_name}[/red]")
+                    intercept_console.print(f"[red]Неизвестная команда: {cmd_name}[/red]")
 
             # Special handling for agent commands
             # Convert /agent <number> to /agent select <agent_name> for secondary terminals
@@ -263,15 +263,15 @@ class CommandHandler:
                                 agent_name = agent_list[agent_number - 1]
                                 # Convert to select command
                                 args = ["select", agent_name]
-                                intercept_console.print(f"[cyan]Agent {agent_number}: {agent_name}[/cyan]")
+                                intercept_console.print(f"[cyan]Агент {agent_number}: {agent_name}[/cyan]")
                                 # Important: update the command string so it gets processed correctly
                                 command = f"/agent select {agent_name}"
                             else:
-                                intercept_console.print(f"[red]Invalid agent number: {agent_number}[/red]")
-                                intercept_console.print(f"[yellow]Available agents: 1-{len(agent_list)}[/yellow]")
+                                intercept_console.print(f"[red]Недопустимый номер агента: {agent_number}[/red]")
+                                intercept_console.print(f"[yellow]Доступные агенты: 1-{len(agent_list)}[/yellow]")
                                 return
                         except Exception as e:
-                            intercept_console.print(f"[red]Error getting agent list: {e}[/red]")
+                            intercept_console.print(f"[red]Ошибка получения списка агентов: {e}[/red]")
                             return
                     # For main terminal with agent >= 20, let it handle parallel patterns
                     elif self.terminal_number == 1 and agent_number >= 20:
@@ -312,7 +312,7 @@ class CommandHandler:
                         intercept_console.print(f"[cyan]DEBUG: Has session_manager: {hasattr(self, 'session_manager')}[/cyan]")
                     
                     # Show immediate feedback
-                    intercept_console.print(f"[yellow]Updating agent to: {agent_name} for Terminal {self.terminal_number}...[/yellow]")
+                    intercept_console.print(f"[yellow]Обновление агента на: {agent_name} для Терминала {self.terminal_number}...[/yellow]")
                     
                     # Create async task with proper error handling
                     async def update_agent_async():
@@ -320,7 +320,7 @@ class CommandHandler:
                             await self.session_manager.update_terminal_agent(
                                 self.terminal_number, agent_name
                             )
-                            intercept_console.print(f"[green]✓ Agent updated to: {agent_name} for Terminal {self.terminal_number}[/green]")
+                            intercept_console.print(f"[green]✓ Агент обновлён на: {agent_name} для Терминала {self.terminal_number}[/green]")
 
                             # Also update the top-bar dropdown as if selected there
                             try:
@@ -368,7 +368,7 @@ class CommandHandler:
                             except Exception:
                                 pass
                         except Exception as e:
-                            intercept_console.print(f"[red]Error updating agent: {e}[/red]")
+                            intercept_console.print(f"[red]Ошибка обновления агента: {e}[/red]")
                             if os.getenv("CAI_DEBUG") == "2":
                                 import traceback
                                 intercept_console.print(f"[red]{traceback.format_exc()}[/red]")
@@ -392,7 +392,7 @@ class CommandHandler:
                         task.add_done_callback(done_callback)
                         
                         # Don't wait - return immediately
-                        intercept_console.print(f"[green]Agent change initiated for Terminal {self.terminal_number}[/green]")
+                        intercept_console.print(f"[green]Смена агента инициирована для Терминала {self.terminal_number}[/green]")
                     except RuntimeError:
                         # No running event loop, create one
                         asyncio.run(update_agent_async())
@@ -404,12 +404,12 @@ class CommandHandler:
                         self.current_agent_name = agent_name
                     except Exception as e:
                         if os.getenv("CAI_DEBUG") == "2":
-                            intercept_console.print(f"[red]Error updating local agent: {e}[/red]")
+                            intercept_console.print(f"[red]Ошибка обновления локального агента: {e}[/red]")
                     
                     # Return to prevent double command execution
                     return
                 else:
-                    intercept_console.print(f"[red]Error: Session manager not available for agent update[/red]")
+                    intercept_console.print(f"[red]Ошибка: Менеджер сессий недоступен для обновления агента[/red]")
                     return
 
             elif cmd_name.lower() == "/model" and args:
@@ -419,7 +419,7 @@ class CommandHandler:
                 
                 # Just show processing feedback
                 model_name = args[0]
-                intercept_console.print(f"[yellow]Processing model change to: {model_name}...[/yellow]")
+                intercept_console.print(f"[yellow]Обработка смены модели на: {model_name}...[/yellow]")
                 
                 # The actual model update will be handled by:
                 # 1. The /model command itself (which sets the environment variable)
@@ -429,7 +429,7 @@ class CommandHandler:
                 return
 
         except Exception as e:
-            intercept_console.print(f"[red]Command error: {e}[/red]")
+            intercept_console.print(f"[red]Ошибка команды: {e}[/red]")
         finally:
             # Restore active-terminal context environment variables
             if had_active_terminal:

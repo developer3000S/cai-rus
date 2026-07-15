@@ -1,4 +1,4 @@
-# `Lifecycle`
+# `Жизненный цикл`
 
 ::: cai.sdk.agents.lifecycle
 

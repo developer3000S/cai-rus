@@ -1,26 +1,26 @@
-# Static voice demo
+# Статическое голосовое демо
 
-This demo operates by capturing a recording, then running a voice pipeline on it.
+Это демо работает путем захвата записи, а затем запуска голосового конвейера на ней.
 
-Run via:
+Запуск:
 
 ```
 python -m examples.voice.static.main
 ```
 
-## How it works
+## Как это работает
 
-1. We create a `VoicePipeline`, setup with a custom workflow. The workflow runs an Agent, but it also has some custom responses if you say the secret word.
-2. When you speak, audio is forwarded to the voice pipeline. When you stop speaking, the agent runs.
-3. The pipeline is run with the audio, which causes it to:
-    1. Transcribe the audio
-    2. Feed the transcription to the workflow, which runs the agent.
-    3. Stream the output of the agent to a text-to-speech model.
-4. Play the audio.
+1. Мы создаем `VoicePipeline`, настроенный с пользовательским рабочим процессом. Рабочий процесс запускает Агента, но также имеет некоторые пользовательские ответы, если вы произнесете секретное слово.
+2. Когда вы говорите, аудио пересылается в голосовой конвейер. Когда вы прекращаете говорить, запускается агент.
+3. Конвейер запускается с аудио, что вызывает:
+    1. Транскрипцию аудио
+    2. Передачу транскрипции в рабочий процесс, который запускает агента.
+    3. Потоковый вывод агента в модель преобразования текста в речь.
+4. Воспроизведение аудио.
 
-Some suggested examples to try:
+Некоторые предлагаемые примеры для попытки:
 
--   Tell me a joke (_the assistant tells you a joke_)
--   What's the weather in Tokyo? (_will call the `get_weather` tool and then speak_)
--   Hola, como estas? (_will handoff to the spanish agent_)
--   Tell me about dogs. (_will respond with the hardcoded "you guessed the secret word" message_)
+-   Расскажи мне анекдот (_ассистент рассказывает вам анекдот_)
+-   Какая погода в Токио? (_вызовет инструмент `get_weather` и затем заговорит_)
+-   Hola, como estas? (_передаст агенту на испанском_)
+-   Расскажи мне о собаках. (_ответит заранее заданным сообщением «вы угадали секретное слово»_)

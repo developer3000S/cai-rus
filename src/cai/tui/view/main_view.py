@@ -1301,14 +1301,14 @@ def compose_main_layout() -> ComposeResult:
             with Horizontal(id="top-bar"):
                 yield Static("\u2630", id="sidebar-toggle-btn", classes="sidebar-toggle")
                 with Container(id="tab-headers"):
-                    yield Button("Terminal", id="tab-terminal-btn", classes="custom-tab active-tab")
-                    add_btn = Static("Add +", id="add-terminal-btn", classes="add-terminal-button")
-                    add_btn.tooltip = "Add new terminal"
-                    yield add_btn
-                    yield Button("Graph", id="tab-graph-btn", classes="custom-tab")
-                    yield Button("Help", id="tab-help-btn", classes="custom-tab")
+                yield Button("Терминал", id="tab-terminal-btn", classes="custom-tab active-tab")
+                add_btn = Static("Добавить +", id="add-terminal-btn", classes="add-terminal-button")
+                add_btn.tooltip = "Добавить новый терминал"
+                yield add_btn
+                yield Button("Граф", id="tab-graph-btn", classes="custom-tab")
+                yield Button("Помощь", id="tab-help-btn", classes="custom-tab")
                 close_btn = Static("\u00d7", id="app-close-btn", classes="app-close-button")
-                close_btn.tooltip = "Close CAI"
+                close_btn.tooltip = "Закрыть CAI"
                 yield close_btn
 
             # Main tabs content
@@ -1327,7 +1327,7 @@ def compose_main_layout() -> ComposeResult:
                 with TabPane("Help", id="help"):
                     with Container(id="help-content"):
                         yield Static(
-                            "[bold cyan]CAI Quick Start Guide[/bold cyan]",
+                            "[bold cyan]Краткое руководство CAI[/bold cyan]",
                             id="help-title",
                             classes="help-title",
                             markup=True,
@@ -1432,92 +1432,91 @@ def update_tab_appearance(query_one_fn: Any, active_tab: str) -> None:
 
 def get_help_basic_content() -> str:
     """Left-column help content."""
-    return """[bold yellow]Initial Setup[/bold yellow]
-[cyan]Configure your API Key:[/cyan]
-\u2022 Go to [bold]Sidebar -> Keys[/bold] tab
-\u2022 Click [bold green]Add New Key[/bold green]
-\u2022 Enter: [bold]ALIAS_API_KEY[/bold] = your_alias_api_key_here
-\u2022 Click [bold green]Save[/bold green] button
-\u2022 [dim]Alternative: You can add other providers API_KEYS the same way[/dim]
+    return """[bold yellow]Начальная настройка[/bold yellow]
+[cyan]Настройте ваш API ключ:[/cyan]
+\• Перейдите в [bold]Боковая панель -> Ключи[/bold]
+\• Нажмите [bold green]Добавить ключ[/bold green]
+\• Введите: [bold]ALIAS_API_KEY[/bold] = ваш_alias_api_key
+\• Нажмите кнопку [bold green]Сохранить[/bold green]
+\• [dim]Альтернатива: Можно добавить ключи других провайдеров аналогичным образом[/dim]
 
-[bold yellow]Select Your Model[/bold yellow]
-[cyan]Choose the right model:[/cyan]
-\u2022 In terminal header, click [bold]model[/bold] dropdown
-\u2022 Select: [bold green]alias1[/bold green] (recommended)
-\u2022 [dim]Alternative: Use command[/dim] [bold]/model alias1[/bold]
-\u2022 [dim]alias1 provides optimal performance and cost balance[/dim]
+[bold yellow]Выберите модель[/bold yellow]
+[cyan]Выберите подходящую модель:[/cyan]
+\• В заголовке терминала нажмите выпадающее меню [bold]модели[/bold]
+\• Выберите: [bold green]alias1[/bold green] (рекомендуется)
+\• [dim]Альтернатива: Используйте команду[/dim] [bold]/model alias1[/bold]
+\• [dim]alias1 обеспечивает оптимальный баланс производительности и стоимости[/dim]
 
-[bold yellow]Choose an Agent[/bold yellow]
-[cyan]Pick your AI assistant:[/cyan]
-\u2022 Click [bold]agent[/bold] dropdown in terminal header and browse available agents
-\u2022 [dim]Recommendation:[/dim] Use [bold]selection_agent[/bold] (or [bold]/agent 17[/bold]) to get a recommendation based on your task
-\u2022 [dim]List all agents:[/dim] [bold]/agent list[/bold]
-\u2022 [dim]Alternative: Use command[/dim] [bold]/agent agent_name[/bold]
-
-
-[bold yellow]Add New Terminal[/bold yellow]
-[cyan]Open another workspace quickly:[/cyan]
-\u2022 Click [bold]Add +[/bold] on the top bar
-\u2022 Creates a new terminal with model [bold]alias1[/bold] and agent [bold]redteam_agent[/bold]
-\u2022 Tooltip shows: [bold]Add new terminal[/bold]
+[bold yellow]Выберите агента[/bold yellow]
+[cyan]Выберите вашего AI-ассистента:[/cyan]
+\• Нажмите выпадающее меню [bold]агента[/bold] в заголовке терминала
+\• [dim]Рекомендация:[/dim] Используйте [bold]selection_agent[/bold] (или [bold]/agent 17[/bold]) для рекомендации на основе вашей задачи
+\• [dim]Список всех агентов:[/dim] [bold]/agent list[/bold]
+\• [dim]Альтернатива: Используйте команду[/dim] [bold]/agent имя_агента[/bold]
 
 
-[bold yellow]Start Chatting[/bold yellow]
-[cyan]Begin your conversation:[/cyan]
-\u2022 Type in the input field at bottom: [bold]CAI>[/bold]
-\u2022 Press [bold]Enter[/bold] to send your prompt
-\u2022 You can send another prompt while the first one is being processed, and it will be queued automatically.
-\u2022 Use [bold]/help[/bold] for available commands
+[bold yellow]Добавьте новый терминал[/bold yellow]
+[cyan]Быстро откройте ещё одно рабочее пространство:[/cyan]
+\• Нажмите [bold]Добавить +[/bold] на верхней панели
+\• Создаёт новый терминал с моделью [bold]alias1[/bold] и агентом [bold]redteam_agent[/bold]
+
+
+[bold yellow]Начните общаться[/bold yellow]
+[cyan]Начните диалог:[/cyan]
+\• Введите текст в поле ввода внизу: [bold]CAI>[/bold]
+\• Нажмите [bold]Enter[/bold] для отправки запроса
+\• Можно отправить следующий запрос, пока обрабатывается предыдущий — он будет поставлен в очередь автоматически.
+\• Используйте [bold]/help[/bold] для списка доступных команд
 """
 
 
 def get_help_advanced_content() -> str:
     """Right-column help content."""
-    return """[bold yellow]Interface Overview[/bold yellow]
-[cyan]Main sections explained:[/cyan]
-\u2022 [bold]Sidebar[/bold]:
-  - [dim]Agents:[/dim] Browse and select AI assistants
-  - [dim]Queue:[/dim] Manage prompt batches
-  - [dim]Keys:[/dim] Configure API credentials
-  - [dim]Stats:[/dim] View conversation stats
-\u2022 [bold]Terminal[/bold]: Chat interface and command execution
-  - [dim]Add +:[/dim] Create a new terminal (defaults: [bold]alias1[/bold] + [bold]redteam_agent[/bold])
-\u2022 [bold]Graph[/bold]: Visual conversation flow representation
-\u2022 [bold]Help[/bold]: You are here!
+    return """[bold yellow]Обзор интерфейса[/bold yellow]
+[cyan]Основные разделы:[/cyan]
+\• [bold]Боковая панель[/bold]:
+  - [dim]Команды:[/dim] Просмотр и выбор AI-ассистентов
+  - [dim]Очередь:[/dim] Управление пакетами запросов
+  - [dim]Ключи:[/dim] Настройка API-учётных данных
+  - [dim]Статистика:[/dim] Просмотр статистики диалога
+\• [bold]Терминал[/bold]: Интерфейс чата и выполнение команд
+  - [bold]Добавить +:[/bold] Создать новый терминал (по умолчанию: [bold]alias1[/bold] + [bold]redteam_agent[/bold])
+\• [bold]Граф[/bold]: Визуальное представление потока диалога
+\• [bold]Помощь[/bold]: Вы здесь!
 
-[bold yellow]Advanced Features[/bold yellow]
-[cyan]Power user capabilities:[/cyan]
-\u2022 [bold]Teams[/bold]: Try collaborative agent groups
-  - [dim]Use for complex multi-step tasks[/dim]
-  - [dim]Combine different agent specialties[/dim]
+[bold yellow]Расширенные возможности[/bold yellow]
+[cyan]Возможности для опытных пользователей:[/cyan]
+\• [bold]Команды[/bold]: Используйте совместные группы агентов
+  - [dim]Для сложных многоэтапных задач[/dim]
+  - [dim]Объединяйте разные специализации агентов[/dim]
 
-\u2022 [bold]Stats Monitoring[/bold]: Track conversation metrics
-  - [dim]View costs, tokens...[/dim]
-  - [dim]Monitor conversation history[/dim]
+\• [bold]Мониторинг статистики[/bold]: Отслеживание метрик диалога
+  - [dim]Просмотр стоимости, токенов...[/dim]
+  - [dim]Мониторинг истории диалога[/dim]
 
-\u2022 [bold]Graph Visualization[/bold]: Understand conversation flow
-  - [dim]See agent interactions visually[/dim]
-  - [dim]Track conversation branches[/dim]
+\• [bold]Визуализация графа[/bold]: Понимание потока диалога
+  - [dim]Визуальное отображение взаимодействий агентов[/dim]
+  - [dim]Отслеживание ветвлений диалога[/dim]
 
-[bold yellow]Essential Shortcuts[/bold yellow]
-[cyan]Most used hotkeys:[/cyan]
-\u2022 [bold]Ctrl+S[/bold]: Toggle sidebar
-\u2022 [bold]Ctrl+Q[/bold]: Exit CAI
-\u2022 [bold]Ctrl+L[/bold]: Clear terminals
-\u2022 [bold]Ctrl+N/B[/bold]: Next/Previous terminal
-\u2022 [bold]Ctrl+E[/bold]: Close current terminal
+[bold yellow]Основные горячие клавиши[/bold yellow]
+[cyan]Наиболее часто используемые:[/cyan]
+\• [bold]Ctrl+S[/bold]: Переключить боковую панель
+\• [bold]Ctrl+Q[/bold]: Выйти из CAI
+\• [bold]Ctrl+L[/bold]: Очистить терминалы
+\• [bold]Ctrl+N/B[/bold]: Следующий/Предыдущий терминал
+\• [bold]Ctrl+E[/bold]: Закрыть текущий терминал
 """
 
 
 def get_help_protips_content() -> str:
     """Footer help content."""
-    return """[bold green]Pro Tips[/bold green]
-[cyan]Expert recommendations:[/cyan]
-- Start with [bold]alias1[/bold] model and explore different agents to find your perfect AI assistant!
-- Use [bold]/agent list[/bold] to explore all available capabilities and specialties
-- Try different agents in parallel for specialized tasks and comprehensive analysis
-- You can add at the end of the prompt or command: "t1", "t2", "t3", etc. or "all" to specify the terminal
-- Use Teams feature for complex multi-agent workflows and collaborative problem-solving
-- Use the Graph view to understand conversation flow and agent interactions visually
+    return """[bold green]Советы профессионалов[/bold green]
+[cyan]Рекомендации экспертов:[/cyan]
+- Начните с модели [bold]alias1[/bold] и попробуйте разных агентов, чтобы найти идеального AI-ассистента!
+- Используйте [bold]/agent list[/bold] для просмотра всех доступных возможностей и специализаций
+- Попробуйте разных агентов параллельно для специализированных задач и комплексного анализа
+- Можно добавить в конец запроса или команды: "t1", "t2", "t3" и т.д. или "all" для указания терминала
+- Используйте функцию Команды для сложных многоагентных рабочих процессов и совместного решения проблем
+- Используйте вид графа для понимания потока диалога и взаимодействий агентов
 
-[dim]Need more help? Check the sidebar sections or use /help command in terminal.[/dim]"""
+[dim]Нужна помощь? Смотрите разделы боковой панели или используйте команду /help в терминале.[/dim]"""

@@ -1,103 +1,103 @@
 # Cyber Ranges II
 
-Cyber ranges II are realistic, segmented network environments designed to practice penetration testing, incident response, and adversary emulation in controlled settings. Each cyber range simulates corporate networks, industrial control systems, or specialized attack scenarios.
+Cyber Ranges II — это реалистичные сегментированные сетевые среды, предназначенные для практики тестирования на проникновение, реагирования на инциденты и эмуляции действий противника в контролируемых условиях. Каждый полигон симулирует корпоративные сети, промышленные системы управления или специализированные сценарии атак.
 
-## Available Cyber Ranges
+## Доступные Cyber Ranges
 
-### 1. TechCorp Corporate Network (`easy_techcorp2`)
-- **Difficulty**: Easy
-- **Flags**: 4
-- **Estimated Time**: 20-30 minutes
-- **Focus**: Multi-tier corporate network with SQL injection, file upload RCE, SMTP enumeration, SSH pivoting, privilege escalation, and database exfiltration
-- **Network Segments**: DMZ (192.168.10.0/24) and Backend (192.168.20.0/24)
+### 1. Корпоративная сеть TechCorp (`easy_techcorp2`)
+- **Сложность**: Легко
+- **Флаги**: 4
+- **Ориентировочное время**: 20–30 минут
+- **Фокус**: Многоуровневая корпоративная сеть с SQL-инъекциями, RCE через загрузку файлов, перечислением SMTP, пивотингом через SSH, повышением привилегий и эксфильтрацией базы данных
+- **Сетевые сегменты**: DMZ (192.168.10.0/24) и Backend (192.168.20.0/24)
 
-### 2. Cobalt Group Ransomware Attack (`CobaltGroupRansomware`)
-- **Difficulty**: Medium
-- **Challenges**: 5 stages
-- **Estimated Time**: 45-60 minutes
-- **Focus**: Advanced adversary emulation simulating a Cobalt Group ransomware campaign with lateral movement across segmented networks
-- **Network Segments**: Public Internet (172.20.0.0/24), DMZ (172.21.0.0/24), Office LAN (172.22.0.0/24), Server LAN (172.23.0.0/24)
+### 2. Атака программы-вымогателя Cobalt Group (`CobaltGroupRansomware`)
+- **Сложность**: Средне
+- **Задания**: 5 этапов
+- **Ориентировочное время**: 45–60 минут
+- **Фокус**: Продвинутая эмуляция противника, симулирующая кампанию программы-вымогателя Cobalt Group с горизонтальным перемещением по сегментированным сетям
+- **Сетевые сегменты**: Публичный интернет (172.20.0.0/24), DMZ (172.21.0.0/24), Офисная LAN (172.22.0.0/24), Серверная LAN (172.23.0.0/24)
 
 ---
 
-## Setting Up and Starting a Cyber Range
+## Настройка и запуск Cyber Range
 
-### Step 1: Navigate to the Cyber Range Directory
+### Шаг 1: Переход в директорию Cyber Range
 
 ```bash
-# From the CAI repository root
+# Из корня репозитория CAI
 cd src/cai/caibench/cyber_ranges/<cyber-range-name>
 
-# For example:
+# Например:
 cd src/cai/caibench/cyber_ranges/easy_techcorp2
-# or
+# или
 cd src/cai/caibench/cyber_ranges/CobaltGroupRansomware
 ```
 
-### Step 2: Start the Environment
+### Шаг 2: Запуск среды
 
-Start all containers using Docker Compose:
+Запустите все контейнеры с помощью Docker Compose:
 
 ```bash
 docker-compose up -d
 ```
 
-**Wait for initialization**: Give containers 10-30 seconds to fully initialize before attacking.
+**Дождитесь инициализации**: Дайте контейнерам 10–30 секунд для полной инициализации перед началом атаки.
 
-### Step 3: Verify Containers are Running
+### Шаг 3: Проверка работы контейнеров
 
 ```bash
 docker-compose ps
 ```
 
-You should see all containers in the "Up" state.
+Все контейнеры должны находиться в состоянии "Up".
 
-### Step 4: Check Logs (Optional)
+### Шаг 4: Просмотр логов (опционально)
 
 ```bash
-# View logs for all services
+# Просмотр логов всех сервисов
 docker-compose logs
 
-# View logs for a specific service
+# Просмотр логов конкретного сервиса
 docker-compose logs <service-name>
 ```
 
 ---
 
-## Configuring CAI for Cyber Ranges
+## Конфигурация CAI для Cyber Ranges
 
-### Setting the Active Container
+### Установка активного контейнера
 
-When working with cyber ranges, CAI agents operate from within a development container that serves as the "attacker position." You need to configure which container CAI should use.
+При работе с cyber ranges агенты CAI работают изнутри контейнера разработки, который служит «позицией атакующего». Вам необходимо настроить, какой контейнер должен использовать CAI.
 
 
-1. **Development container network** (required for attack position)
+1. **Сеть контейнера разработки** (необходима для позиции атакующего)
    ```bash
    cd .devcontainer
    docker-compose up -d
 
-   # The devcontainer_cainet network should exist
+   # Сеть devcontainer_cainet должна существовать
    docker network ls | grep cainet
 
-   # If not present, some cyber ranges will create it automatically
-   # or you may need to create it:
+   # Если она отсутствует, некоторые cyber ranges создадут ее автоматически,
+   # либо вам потребуется создать ее вручную:
    docker network create --driver bridge --subnet 192.168.3.0/24 devcontainer_cainet
    ```
 
-2. **Setting the attacker position**
+2. **Установка позиции атакующего**
    ```bash
-   docker ps # Find ID for 
+   docker ps # Найдите ID контейнера 
 
-   #in .env add
+   # в .env добавьте
    CAI_ACTIVE_CONTAINER="[CONTAINER ID]"
    ```
 
-3. **CAI environment set up**
+3. **Настройка окружения CAI**
    ```bash
-   # From the cai repository root
+   # Из корня репозитория cai
    source cai_env/bin/activate 
 
-   #start cai as normal and prompt to agents
+   # запустите cai как обычно и дайте промпты агентам
    ```
 
 ---

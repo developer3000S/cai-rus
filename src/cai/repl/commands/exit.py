@@ -1,4 +1,4 @@
-"""REPL /exit command."""
+"""Команда REPL /exit."""
 
 from typing import List, Optional
 
@@ -9,7 +9,7 @@ REPL_EXIT_REQUESTED = False
 
 class ExitCommand(Command):
     def __init__(self):
-        super().__init__(name="/exit", description="Exit the CAI REPL", aliases=["/q", "/quit"])
+        super().__init__(name="/exit", description="Выйти из CAI REPL", aliases=["/q", "/quit"])
 
     def handle(self, args: Optional[List[str]] = None) -> bool:
         if args:

@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 # AGENT MICRO-PROFILE: WI-FI / WIRELESS
 
 ## Instruction hierarchy (modular stack)

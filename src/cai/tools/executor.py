@@ -1,10 +1,10 @@
-"""Subprocess/PTY management, signal handling, and timeout logic.
+"""Управление подпроцессами/PTY, обработка сигналов и логика таймаутов.
 
-Extracted from tools/common.py (3,343 LOC) as part of the core-engine refactor.
-Contains ShellSession for interactive PTY sessions, local/CTF/SSH execution,
-and the top-level run_command / run_command_async dispatchers.
+Извлечено из tools/common.py (3 343 строк) в рамках рефакторинга основного движка.
+Содержит ShellSession для интерактивных PTY-сессий, локальное/CTF/SSH-выполнение
+и верхнеуровневые диспетчеры run_command / run_command_async.
 
-Emits OutputManager events (ToolStartEvent, ToolCompleteEvent, ToolErrorEvent) [T].
+Генерирует события OutputManager (ToolStartEvent, ToolCompleteEvent, ToolErrorEvent) [T].
 """
 
 import subprocess  # nosec B404
@@ -68,7 +68,7 @@ SESSION_OUTPUT_COUNTER = {}
 # ---------------------------------------------------------------------------
 
 class ShellSession:  # pylint: disable=too-many-instance-attributes
-    """Class to manage interactive shell sessions"""
+    """Класс для управления интерактивными сессиями оболочки."""
 
     def __init__(self, command, session_id=None, ctf=None, workspace_dir=None, container_id=None):  # noqa E501
         self.session_id = session_id or str(uuid.uuid4())[:8]
@@ -92,7 +92,7 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
         self.last_activity = time.time()
 
     def start(self):
-        """Start the shell session in the appropriate environment."""
+        """Запустить сессию оболочки в соответствующем окружении."""
         start_message_cmd = self.command
 
         # --- Start in Container ---
@@ -114,14 +114,14 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
                 self.is_running = True
                 with self._buffer_lock:
                     self.output_buffer.append(
-                        f"[Session {self.session_id}] Started in container {self.container_id[:12]}: "
-                        f"{start_message_cmd} in {self.workspace_dir}"
+                        f"[Сессия {self.session_id}] Запущена в контейнере {self.container_id[:12]}: "
+                        f"{start_message_cmd} в {self.workspace_dir}"
                     )
                 threading.Thread(target=self._read_output, daemon=True).start()
                 return None
             except Exception as e:
                 with self._buffer_lock:
-                    self.output_buffer.append(f"Error starting container session: {str(e)}")
+                    self.output_buffer.append(f"Ошибка запуска контейнерной сессии: {str(e)}")
                 self.is_running = False
                 return str(e)
 
@@ -131,7 +131,7 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
                 self.is_running = True
                 with self._buffer_lock:
                     self.output_buffer.append(
-                        f"[Session {self.session_id}] Started CTF command: {self.command}"
+                        f"[Сессия {self.session_id}] Запущена CTF-команда: {self.command}"
                     )
                 output = self.ctf.get_shell(self.command)
                 if output:
@@ -141,7 +141,7 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
                 return None
             except Exception as e:  # pylint: disable=broad-except
                 with self._buffer_lock:
-                    self.output_buffer.append(f"Error executing CTF command: {str(e)}")
+                    self.output_buffer.append(f"Ошибка выполнения CTF-команды: {str(e)}")
                 self.is_running = False
                 return str(e)
 
@@ -155,16 +155,16 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
             )
             self.is_running = True
             with self._buffer_lock:
-                self.output_buffer.append(f"[Session {self.session_id}] Started: {self.command}")
+                self.output_buffer.append(f"[Сессия {self.session_id}] Запущена: {self.command}")
             threading.Thread(target=self._read_output, daemon=True).start()
         except Exception as e:  # pylint: disable=broad-except
             with self._buffer_lock:
-                self.output_buffer.append(f"Error starting local session: {str(e)}")
+                self.output_buffer.append(f"Ошибка запуска локальной сессии: {str(e)}")
             self.is_running = False
             return str(e)
 
     def _read_output(self):
-        """Read output with non-blocking select"""
+        """Чтение вывода с неблокирующим select"""
         start_time = time.time()
         max_lifetime = 3600  # 1 hour max session lifetime
         try:
@@ -172,7 +172,7 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
                 if time.time() - start_time > max_lifetime:
                     self.is_running = False
                     with self._buffer_lock:
-                        self.output_buffer.append("\n[Session timed out after max lifetime]")
+                        self.output_buffer.append("\n[Сессия завершена по таймауту после максимального времени жизни]")
                     break
                 try:
                     if self.process and self.process.poll() is not None:
@@ -195,17 +195,17 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
                     break
                 except Exception as read_err:
                     with self._buffer_lock:
-                        self.output_buffer.append(f"Error reading output buffer: {str(read_err)}")
+                        self.output_buffer.append(f"Ошибка чтения буфера вывода: {str(read_err)}")
                     self.is_running = False
                     break
         except Exception as e:
             with self._buffer_lock:
-                self.output_buffer.append(f"Error in read_output loop: {str(e)}")
+                self.output_buffer.append(f"Ошибка в цикле read_output: {str(e)}")
             self.is_running = False
             return str(e)
 
     def is_process_running(self):
-        """Check if the process is still running"""
+        """Проверить, работает ли процесс"""
         if self.container_id or self.ctf:
             return self.is_running
         if not self.process:
@@ -213,37 +213,37 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
         return self.process.poll() is None
 
     def send_input(self, input_data):
-        """Send input to the process (local or container)"""
+        """Отправить ввод в процесс (локальный или контейнерный)"""
         if not self.is_running:
             if self.process and self.process.poll() is None:
                 self.is_running = True
             else:
-                return "Session is not running"
+                return "Сессия не запущена"
         try:
             if self.ctf:
                 output = self.ctf.get_shell(input_data)
                 with self._buffer_lock:
                     self.output_buffer.append(output)
-                return "Input sent to CTF session"
+                return "Ввод отправлен в CTF-сессию"
             if self.master is not None:
                 input_data_bytes = (input_data.rstrip() + "\n").encode()
                 bytes_written = os.write(self.master, input_data_bytes)
                 if bytes_written != len(input_data_bytes):
                     with self._buffer_lock:
                         self.output_buffer.append(
-                            f"[Session {self.session_id}] Warning: Partial input write."
+                            f"[Сессия {self.session_id}] Предупреждение: Частичная запись ввода."
                         )
                 self.last_activity = time.time()
-                return "Input sent to session"
+                return "Ввод отправлен в сессию"
             else:
-                return "Session PTY not available for input"
+                return "PTY сессии недоступен для ввода"
         except Exception as e:  # pylint: disable=broad-except
             with self._buffer_lock:
-                self.output_buffer.append(f"Error sending input: {str(e)}")
-            return f"Error sending input: {str(e)}"
+                self.output_buffer.append(f"Ошибка отправки ввода: {str(e)}")
+            return f"Ошибка отправки ввода: {str(e)}"
 
     def get_output(self, clear=True):
-        """Get and optionally clear the output buffer"""
+        """Получить и опционально очистить буфер вывода"""
         with self._buffer_lock:
             output = "\n".join(self.output_buffer)
             if clear:
@@ -251,7 +251,7 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
         return output
 
     def get_new_output(self, mark_position=True):
-        """Get only new output since last marked position"""
+        """Получить только новый вывод с последней отмеченной позиции"""
         with self._buffer_lock:
             if not hasattr(self, "_last_output_position"):
                 self._last_output_position = 0
@@ -262,15 +262,15 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
         return new_output
 
     def terminate(self):
-        """Terminate the session"""
+        """Завершить сессию"""
         session_id_short = self.session_id[:8]
-        termination_message = f"Session {session_id_short} terminated"
+        termination_message = f"Сессия {session_id_short} завершена"
 
         if not self.is_running:
             if self.process and self.process.poll() is None:
                 pass
             else:
-                return f"Session {session_id_short} already terminated or finished."
+                return f"Сессия {session_id_short} уже завершена или закончена."
 
         try:
             self.is_running = False
@@ -286,7 +286,7 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
                     # If still running, force kill
                     if self.process.poll() is None:
                         print(color(
-                            f"Session {session_id_short} did not terminate gracefully, sending SIGKILL...",
+                            f"Сессия {session_id_short} не завершилась корректно, отправка SIGKILL...",
                             fg="yellow",
                         ))
                         os.killpg(pgid, signal.SIGKILL)
@@ -294,7 +294,7 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
                 except ProcessLookupError:
                     pass
                 except Exception as term_err:
-                    termination_message = f" (Error during termination: {term_err})"
+                    termination_message = f" (Ошибка при завершении: {term_err})"
                     try:
                         self.process.kill()
                     except Exception:
@@ -302,10 +302,10 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
 
                 if self.process.poll() is None:
                     print(color(
-                        f"Session {session_id_short} process {self.process.pid} may still be running after termination attempts.",
+                        f"Процесс {self.process.pid} сессии {session_id_short} возможно всё ещё работает после попыток завершения.",
                         fg="red",
                     ))
-                    termination_message += " (Warning: Process may still be running)"
+                    termination_message += " (Предупреждение: Процесс возможно всё ещё работает)"
 
             if self.master:
                 try:
@@ -322,7 +322,7 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
 
             return termination_message
         except Exception as e:  # pylint: disable=broad-except
-            return f"Error terminating session {session_id_short}: {str(e)}"
+            return f"Ошибка завершения сессии {session_id_short}: {str(e)}"
 
 
 # ---------------------------------------------------------------------------
@@ -330,7 +330,7 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
 # ---------------------------------------------------------------------------
 
 def create_shell_session(command, ctf=None, container_id=None, workspace_dir=None, **kwargs):
-    """Create a new shell session in the correct workspace/environment."""
+    """Создать новую сессию оболочки в правильной рабочей директории/окружении."""
     if container_id:
         session = ShellSession(command, ctf=ctf, container_id=container_id)
     else:
@@ -349,12 +349,12 @@ def create_shell_session(command, ctf=None, container_id=None, workspace_dir=Non
         return session.session_id
     else:
         error_msg = session.get_output(clear=True)
-        print(color(f"Failed to start session: {error_msg}", fg="red"))
-        return f"Failed to start session: {error_msg}"
+        print(color(f"Не удалось запустить сессию: {error_msg}", fg="red"))
+        return f"Не удалось запустить сессию: {error_msg}"
 
 
 def list_shell_sessions():
-    """List all active shell sessions"""
+    """Вывести список всех активных сессий оболочки"""
     result = []
     for session_id, session in list(ACTIVE_SESSIONS.items()):
         if not session.is_running:
@@ -371,7 +371,7 @@ def list_shell_sessions():
 
 
 def _resolve_session_id(session_identifier):
-    """Resolve a session identifier (real ID, friendly alias S1/#1/1, or 'last')."""
+    """Разрешить идентификатор сессии (реальный ID, псевдоним S1/#1/1 или 'last')."""
     if not session_identifier:
         return None
     sid = str(session_identifier).strip()
@@ -400,26 +400,26 @@ def _resolve_session_id(session_identifier):
 
 
 def send_to_session(session_id, input_data):
-    """Send input to a specific session"""
+    """Отправить ввод в определённую сессию"""
     resolved = _resolve_session_id(session_id)
     if not resolved or resolved not in ACTIVE_SESSIONS:
-        return f"Session {session_id} not found"
+        return f"Сессия {session_id} не найдена"
     return ACTIVE_SESSIONS[resolved].send_input(input_data)
 
 
 def get_session_output(session_id, clear=True, stdout=True):
-    """Get output from a specific session"""
+    """Получить вывод из определённой сессии"""
     resolved = _resolve_session_id(session_id)
     if not resolved or resolved not in ACTIVE_SESSIONS:
-        return f"Session {session_id} not found"
+        return f"Сессия {session_id} не найдена"
     return ACTIVE_SESSIONS[resolved].get_output(clear)
 
 
 def terminate_session(session_id):
-    """Terminate a specific session"""
+    """Завершить определённую сессию"""
     resolved = _resolve_session_id(session_id)
     if not resolved or resolved not in ACTIVE_SESSIONS:
-        return f"Session {session_id} not found or already terminated."
+        return f"Сессия {session_id} не найдена или уже завершена."
     session = ACTIVE_SESSIONS[resolved]
     result = session.terminate()
     if resolved in ACTIVE_SESSIONS:
@@ -445,7 +445,7 @@ async def execute_generic_linux_command_async(
     call_id: str | None = None,
     workspace_dir: str | None = None,
 ):
-    """Unified async dispatcher for generic_linux_command."""
+    """Единый асинхронный диспетчер для generic_linux_command."""
     import asyncio as _asyncio
 
     command = str(command or "").strip()
@@ -474,7 +474,7 @@ async def execute_generic_linux_command_async(
 # ---------------------------------------------------------------------------
 
 def _run_ctf(ctf, command, stdout=False, timeout=100, workspace_dir=None, stream=False):
-    """Runs command in CTF env."""
+    """Выполнить команду в CTF-окружении."""
     env_timeout = str(_get_config().tool_timeout) if _get_config().tool_timeout else None
     if env_timeout:
         try:
@@ -491,13 +491,13 @@ def _run_ctf(ctf, command, stdout=False, timeout=100, workspace_dir=None, stream
             print(f"\033[32m{context_msg} $ {original_cmd_for_msg}\n{output}\033[0m")
         return output
     except Exception as e:  # pylint: disable=broad-except
-        error_msg = f"Error executing CTF command '{original_cmd_for_msg}' in '{target_dir}': {e}"
+        error_msg = f"Ошибка выполнения CTF-команды '{original_cmd_for_msg}' в '{target_dir}': {e}"
         print(color(error_msg, fg="red"))
         return error_msg
 
 
 def _run_ssh(command, stdout=False, timeout=100, workspace_dir=None, stream=False):
-    """Runs command via SSH."""
+    """Выполнить команду через SSH."""
     env_timeout = str(_get_config().tool_timeout) if _get_config().tool_timeout else None
     if env_timeout:
         try:
@@ -528,16 +528,16 @@ def _run_ssh(command, stdout=False, timeout=100, workspace_dir=None, stream=Fals
         return output.strip()
     except subprocess.TimeoutExpired as e:
         error_output = e.stdout if e.stdout else str(e)
-        timeout_msg = f"Timeout executing SSH command: {error_output}"
+        timeout_msg = f"Таймаут при выполнении SSH-команды: {error_output}"
         if stdout and not stream:
             print(f"\033[33m{context_msg} $ {original_cmd_for_msg}\nTIMEOUT\n{error_output}\033[0m")
         return timeout_msg
     except FileNotFoundError:
-        error_msg = "'sshpass' or 'ssh' command not found. Ensure they are installed and in PATH."
+        error_msg = "Команда 'sshpass' или 'ssh' не найдена. Убедитесь, что они установлены и находятся в PATH."
         print(color(error_msg, fg="red"))
         return error_msg
     except Exception as e:  # pylint: disable=broad-except
-        error_msg = f"Error executing SSH command '{original_cmd_for_msg}' on {ssh_host}: {e}"
+        error_msg = f"Ошибка выполнения SSH-команды '{original_cmd_for_msg}' на {ssh_host}: {e}"
         print(color(error_msg, fg="red"))
         return error_msg
 
@@ -563,7 +563,7 @@ async def _run_local_async(
     command, stdout=False, timeout=100, stream=False,
     call_id=None, tool_name=None, workspace_dir=None, custom_args=None,
 ):
-    """Async local command execution with streaming and TUI capture support."""
+    """Асинхронное выполнение локальных команд с поддержкой потоковой передачи и захвата TUI."""
     import asyncio
 
     stop_idle_timer()
@@ -746,7 +746,7 @@ async def _run_local_async(
                                     except asyncio.TimeoutError:
                                         process.kill()
                                         await process.wait()
-                                    output_buffer.append(f"\n[Terminated: idle {idle_timeout}s, likely waiting for input]")
+                                    output_buffer.append(f"\n[Завершено: простой {idle_timeout}с, вероятно ожидание ввода]")
                                     break
 
                         if process.returncode is None:
@@ -773,7 +773,7 @@ async def _run_local_async(
                         process.terminate()
 
                     partial_output = "".join(output_buffer) if 'output_buffer' in locals() else ""
-                    timeout_msg = f"\n[Command timed out after {timeout} seconds]"
+                    timeout_msg = f"\n[Команда завершена по таймауту через {timeout} секунд]"
 
                     execution_info = {
                         "status": "timeout", "environment": "Local",
@@ -789,7 +789,7 @@ async def _run_local_async(
                 stderr_data = await process.stderr.read()
                 if stderr_data:
                     stderr_str = stderr_data.decode("utf-8", errors="replace")
-                    output_buffer.append("\nERROR OUTPUT:\n" + stderr_str)
+                    output_buffer.append("\nВЫВОД ОШИБОК:\n" + stderr_str)
 
                 final_output = "".join(output_buffer)
                 if return_code != 0:
@@ -819,7 +819,7 @@ async def _run_local_async(
                     "tool_time": time.time() - process_start_time,
                 }
                 cancelled_output = "".join(output_buffer) if 'output_buffer' in locals() else ""
-                cancelled_output += "\n[Execution cancelled]"
+                cancelled_output += "\n[Выполнение отменено]"
                 finish_tool_streaming(
                     tool_name, tool_args, cancelled_output, call_id, execution_info, token_info
                 )
@@ -828,7 +828,7 @@ async def _run_local_async(
             # Non-streaming async execution
             process_start_time = time.time()
             if capture_id:
-                capture.append_output(capture_id, f"Executing: {command}\n", is_error=False)
+                capture.append_output(capture_id, f"Выполнение: {command}\n", is_error=False)
 
             process = await asyncio.create_subprocess_shell(
                 command, stdout=asyncio.subprocess.PIPE,
@@ -889,7 +889,7 @@ async def _run_local_async(
                             except asyncio.TimeoutError:
                                 process.kill()
                                 await process.wait()
-                            stderr_chunks.append(f"\n[Terminated: idle {idle_timeout}s]".encode())
+                            stderr_chunks.append(f"\n[Завершено: простой {idle_timeout}с]".encode())
                             break
             except asyncio.CancelledError:
                 # Ctrl+C / cancellation: kill the spawned subprocess so it
@@ -914,7 +914,7 @@ async def _run_local_async(
             if not output and stderr_output:
                 output = stderr_output
             elif stderr_output:
-                output += "\nERROR OUTPUT:\n" + stderr_output
+                output += "\nВЫВОД ОШИБОК:\n" + stderr_output
 
             parts = command.strip().split(" ", 1)
             token_info = _get_agent_token_info()
@@ -984,7 +984,7 @@ async def _run_local_async(
 
     except subprocess.TimeoutExpired as e:
         error_output = e.stdout if hasattr(e, "stdout") and e.stdout else str(e)
-        error_msg = f"Command timed out after {timeout} seconds\n{error_output}"
+        error_msg = f"Команда завершена по таймауту через {timeout} секунд\n{error_output}"
         if stream and call_id:
             from cai.util import finish_tool_streaming
             parts = command.strip().split(" ", 1)
@@ -1004,7 +1004,7 @@ async def _run_local_async(
             print("\033[32m" + error_msg + "\033[0m")
         return error_msg
     except Exception as e:  # pylint: disable=broad-except
-        error_msg = f"Error executing local command: {e}"
+        error_msg = f"Ошибка выполнения локальной команды: {e}"
         if stream and call_id:
             from cai.util import finish_tool_streaming
             parts = command.strip().split(" ", 1)
@@ -1031,7 +1031,7 @@ def _run_local(
     command, stdout=False, timeout=100, stream=False,
     call_id=None, tool_name=None, workspace_dir=None, custom_args=None,
 ):
-    """Runs command locally in the specified workspace_dir."""
+    """Выполнить команду локально в указанной workspace_dir."""
     stop_idle_timer()
     start_active_timer()
 
@@ -1139,11 +1139,11 @@ def _run_local(
 
             stderr_data = process.stderr.read()
             if stderr_data:
-                output_buffer.append("\nERROR OUTPUT:\n" + stderr_data)
+                output_buffer.append("\nВЫВОД ОШИБОК:\n" + stderr_data)
 
             final_output = "".join(output_buffer)
             if return_code != 0:
-                final_output += f"\nCommand exited with code {return_code}"
+                final_output += f"\nКоманда завершена с кодом {return_code}"
 
             execution_info = {
                 "status": "completed" if return_code == 0 else "error",
@@ -1208,7 +1208,7 @@ def _run_local(
             return output.strip()
     except subprocess.TimeoutExpired as e:
         error_output = e.stdout if hasattr(e, "stdout") and e.stdout else str(e)
-        error_msg = f"Command timed out after {timeout} seconds\n{error_output}"
+        error_msg = f"Команда завершена по таймауту через {timeout} секунд\n{error_output}"
         if stream and call_id:
             from cai.util import finish_tool_streaming
             parts = command.strip().split(" ", 1)
@@ -1229,7 +1229,7 @@ def _run_local(
             return error_msg
         return error_msg
     except Exception as e:  # pylint: disable=broad-except
-        error_msg = f"Error executing local command: {e}"
+        error_msg = f"Ошибка выполнения локальной команды: {e}"
         if stream and call_id:
             from cai.util import finish_tool_streaming
             parts = command.strip().split(" ", 1)
@@ -1291,9 +1291,9 @@ async def run_command_async(
     timeout=None, stream=False, call_id=None, tool_name=None, args=None,
     workspace_dir=None,
 ):
-    """Async command dispatcher -- routes to Docker/CTF/SSH/Local backends.
+    """Асинхронный диспетчер команд -- маршрутизация к Docker/CTF/SSH/Локальным бэкендам.
 
-    Emits ToolStartEvent at dispatch and ToolCompleteEvent/ToolErrorEvent on finish [T].
+    Генерирует ToolStartEvent при диспетчеризации и ToolCompleteEvent/ToolErrorEvent при завершении [T].
     """
     if timeout is None:
         env_timeout = str(_get_config().tool_timeout) if _get_config().tool_timeout else None
@@ -1452,7 +1452,7 @@ def run_command(
     timeout=None, stream=False, call_id=None, tool_name=None, args=None,
     workspace_dir=None,
 ):
-    """Sync command dispatcher -- routes to Docker/CTF/SSH/Local backends."""
+    """Синхронный диспетчер команд -- маршрутизация к Docker/CTF/SSH/Локальным бэкендам."""
     if timeout is None:
         env_timeout = str(_get_config().tool_timeout) if _get_config().tool_timeout else None
         if env_timeout:
@@ -1486,7 +1486,7 @@ def run_command(
             resolved_session_id = _resolve_session_id(session_id)
             if not resolved_session_id or resolved_session_id not in ACTIVE_SESSIONS:
                 stop_active_timer(); start_idle_timer()
-                return f"Session {session_id} not found"
+                return f"Сессия {session_id} не найдена"
             session = ACTIVE_SESSIONS[resolved_session_id]
             session.send_input(command)
 
@@ -1552,7 +1552,7 @@ def run_command(
                 stop_active_timer(); start_idle_timer()
             if output and output.strip():
                 return output
-            return f"Command sent to session {label}. No output captured."
+            return f"Команда отправлена в сессию {label}. Вывод не получен."
 
         # --- Environment detection (via CAIConfig) ---
         _cfg_sync = _get_config()
@@ -1577,7 +1577,7 @@ def run_command(
                 if session:
                     time.sleep(0.2)
                     initial_output = session.get_new_output(mark_position=True)
-                output_msg = f"Started async session {label} in container {container_id[:12]}. Use this ID to interact."
+                output_msg = f"Асинхронная сессия {label} запущена в контейнере {container_id[:12]}. Используйте этот ID для взаимодействия."
                 if initial_output:
                     output_msg += f"\n\n{initial_output}"
                 cli_print_tool_output(
@@ -1589,7 +1589,7 @@ def run_command(
                     token_info=_get_agent_token_info(), streaming=False,
                 )
                 stop_active_timer(); start_idle_timer()
-                return f"Started async session {label} in container {container_id[:12]}. Use this ID to interact."
+                return f"Асинхронная сессия {label} запущена в контейнере {container_id[:12]}. Используйте этот ID для взаимодействия."
 
             if stream:
                 from cai.util import start_tool_streaming, update_tool_streaming, finish_tool_streaming
@@ -1607,7 +1607,7 @@ def run_command(
                     tool_args["refresh_rate"] = 2
                 token_info = _get_agent_token_info()
                 call_id = start_tool_streaming(tool_name, tool_args, call_id, token_info)
-                update_tool_streaming(tool_name, tool_args, f"Executing: {command}", call_id, token_info)
+                update_tool_streaming(tool_name, tool_args, f"Выполнение: {command}", call_id, token_info)
                 mkdir_cmd = ["docker", "exec", container_id, "mkdir", "-p", container_workspace]
                 subprocess.run(mkdir_cmd, capture_output=True, text=True, check=False, timeout=10)
                 docker_exec_cmd = (
@@ -1639,10 +1639,10 @@ def run_command(
                     execution_time = time.time() - start_time
                     stderr_data = process.stderr.read()
                     if stderr_data:
-                        output_buffer.append("\nERROR OUTPUT:\n" + stderr_data)
+                        output_buffer.append("\nВЫВОД ОШИБОК:\n" + stderr_data)
                     final_output = "".join(output_buffer)
                     if return_code != 0:
-                        final_output += f"\nCommand exited with code {return_code}"
+                        final_output += f"\nКоманда завершена с кодом {return_code}"
                     execution_info = {"status": "completed" if return_code == 0 else "error",
                                       "return_code": return_code, "environment": "Container",
                                       "host": container_id[:12], "tool_time": execution_time}
@@ -1651,20 +1651,20 @@ def run_command(
                     return final_output
                 except subprocess.TimeoutExpired as e:
                     error_output = e.stdout if hasattr(e, "stdout") and e.stdout else str(e)
-                    error_msg = f"Command timed out after {timeout} seconds\n{error_output}"
+                    error_msg = f"Команда завершена по таймауту через {timeout} секунд\n{error_output}"
                     finish_tool_streaming(tool_name, tool_args, error_msg, call_id,
                                           {"status": "timeout", "environment": "Container",
                                            "host": container_id[:12], "error": str(e)}, token_info)
                     stop_active_timer(); start_idle_timer()
-                    print(color("Container execution timed out. Attempting execution on host instead.", fg="yellow"))
+                    print(color("Таймаут выполнения в контейнере. Попытка выполнения на хосте.", fg="yellow"))
                     return _run_local(command, stdout, timeout, False, None, tool_name, _get_workspace_dir(), args)
                 except Exception as e:
-                    error_msg = f"Error executing command in container: {str(e)}"
+                    error_msg = f"Ошибка выполнения команды в контейнере: {str(e)}"
                     finish_tool_streaming(tool_name, tool_args, error_msg, call_id,
                                           {"status": "error", "environment": "Container",
                                            "host": container_id[:12], "error": str(e)}, token_info)
                     stop_active_timer(); start_idle_timer()
-                    print(color("Container execution failed. Attempting execution on host instead.", fg="yellow"))
+                    print(color("Ошибка выполнения в контейнере. Попытка выполнения на хосте.", fg="yellow"))
                     return _run_local(command, stdout, timeout, False, None, tool_name, _get_workspace_dir(), args)
 
             # Sync non-streaming container execution
@@ -1679,7 +1679,7 @@ def run_command(
                 if stdout and not stream:
                     print(f"\033[32m{context_msg} $ {command}\n{output}\033[0m")
                 if result.returncode != 0 and "is not running" in result.stderr:
-                    print(color(f"{context_msg} Container is not running. Attempting execution on host instead.", fg="yellow"))
+                    print(color(f"{context_msg} Контейнер не запущен. Попытка выполнения на хосте.", fg="yellow"))
                     stop_active_timer(); start_idle_timer()
                     return _run_local(command, stdout, timeout, stream, call_id, tool_name, _get_workspace_dir(), args)
                 if not stream:
@@ -1713,12 +1713,12 @@ def run_command(
             except subprocess.TimeoutExpired:
                 if stdout:
                     print(f"\033[33m{context_msg} $ {command}\nTIMEOUT\033[0m")
-                    print(color("Attempting execution on host instead.", fg="yellow"))
+                    print(color("Попытка выполнения на хосте.", fg="yellow"))
                 stop_active_timer(); start_idle_timer()
                 return _run_local(command, stdout, timeout, stream, call_id, tool_name, _get_workspace_dir(), args)
             except Exception as e:  # pylint: disable=broad-except
-                print(color(f"{context_msg} Error executing command in container: {str(e)}", fg="red"))
-                print(color("Attempting execution on host instead.", fg="yellow"))
+                print(color(f"{context_msg} Ошибка выполнения команды в контейнере: {str(e)}", fg="red"))
+                print(color("Попытка выполнения на хосте.", fg="yellow"))
                 stop_active_timer(); start_idle_timer()
                 return _run_local(command, stdout, timeout, stream, call_id, tool_name, _get_workspace_dir(), args)
 
@@ -1741,7 +1741,7 @@ def run_command(
                 call_id = start_tool_streaming(tool_name, tool_args, call_id, token_info)
                 full_command = command
                 update_tool_streaming(tool_name, tool_args,
-                                      f"Executing in CTF environment: {full_command}\n\nWaiting for response...",
+                                      f"Выполнение в CTF-окружении: {full_command}\n\nОжидание ответа...",
                                       call_id, token_info)
                 try:
                     start_time = time.time()
@@ -1752,7 +1752,7 @@ def run_command(
                     stop_active_timer(); start_idle_timer()
                     return output
                 except Exception as e:
-                    error_msg = f"Error executing CTF command: {str(e)}"
+                    error_msg = f"Ошибка выполнения CTF-команды: {str(e)}"
                     finish_tool_streaming(tool_name, tool_args, error_msg, call_id,
                                           {"status": "error", "environment": "CTF", "error": str(e)}, token_info)
                     stop_active_timer(); start_idle_timer()
@@ -1782,7 +1782,7 @@ def run_command(
                 token_info = _get_agent_token_info()
                 call_id = start_tool_streaming(tool_name, tool_args, call_id, token_info)
                 update_tool_streaming(tool_name, tool_args,
-                                      f"Executing on {ssh_connection}: {command}\n\nWaiting for response...",
+                                      f"Выполнение на {ssh_connection}: {command}\n\nОжидание ответа...",
                                       call_id, token_info)
                 try:
                     ssh_pass = os.environ.get("SSH_PASS")
@@ -1793,7 +1793,7 @@ def run_command(
                     result = subprocess.run(ssh_cmd_list, capture_output=True, text=True, check=False, timeout=timeout)
                     execution_time = time.time() - start_time
                     output = result.stdout if result.stdout else result.stderr
-                    result_with_info = f"Command executed on {ssh_connection}:\n\n{output}"
+                    result_with_info = f"Команда выполнена на {ssh_connection}:\n\n{output}"
                     token_info = _get_agent_token_info()
                     finish_tool_streaming(tool_name, tool_args, result_with_info, call_id,
                                           {"status": "completed" if result.returncode == 0 else "error",
@@ -1803,7 +1803,7 @@ def run_command(
                     return output.strip()
                 except subprocess.TimeoutExpired as e:
                     error_output = e.stdout if e.stdout else str(e)
-                    error_msg = f"Command timed out after {timeout} seconds\n{error_output}"
+                    error_msg = f"Команда завершена по таймауту через {timeout} секунд\n{error_output}"
                     token_info = _get_agent_token_info()
                     finish_tool_streaming(tool_name, tool_args, error_msg, call_id,
                                           {"status": "timeout", "environment": "SSH",
@@ -1811,7 +1811,7 @@ def run_command(
                     stop_active_timer(); start_idle_timer()
                     return error_msg
                 except Exception as e:
-                    error_msg = f"Error executing SSH command: {str(e)}"
+                    error_msg = f"Ошибка выполнения SSH-команды: {str(e)}"
                     token_info = _get_agent_token_info()
                     finish_tool_streaming(tool_name, tool_args, error_msg, call_id,
                                           {"status": "error", "environment": "SSH",
@@ -1838,7 +1838,7 @@ def run_command(
             if session:
                 time.sleep(0.2)
                 initial_output = session.get_new_output(mark_position=True)
-            output_msg = f"Started async session {label} locally. Use this ID to interact."
+            output_msg = f"Асинхронная сессия {label} запущена локально. Используйте этот ID для взаимодействия."
             if initial_output:
                 output_msg += f"\n\n{initial_output}"
             cli_print_tool_output(
@@ -1850,7 +1850,7 @@ def run_command(
                 token_info=_get_agent_token_info(), streaming=False,
             )
             stop_active_timer(); start_idle_timer()
-            return f"Started async session {label} locally. Use this ID to interact."
+            return f"Асинхронная сессия {label} запущена локально. Используйте этот ID для взаимодействия."
 
         local_cwd = workspace_dir if workspace_dir is not None else _get_workspace_dir()
         result = _run_local(

@@ -1,6 +1,6 @@
 """
-Memory command for CAI REPL.
-Manages memory storage in .cai/memory for persistent context.
+Команда memory для CAI REPL.
+Управляет хранилищем памяти в .cai/memory для постоянного контекста.
 """
 
 from typing import List, Optional, Dict, Any

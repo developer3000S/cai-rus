@@ -1,3 +1,3 @@
-# `Handoffs`
+# `Передачи`
 
 ::: cai.sdk.agents.handoffs

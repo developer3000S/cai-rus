@@ -214,13 +214,13 @@ def _create_token_display(
 
     # Current interaction tokens with individual costs (include reasoning tokens explicitly)
     tokens_text.append("  ", style="cyan")
-    tokens_text.append("Interaction: ", style="bold cyan")
-    tokens_text.append(f"In: {interaction_input_tokens}", style="green")
+    tokens_text.append("Взаимодействие: ", style="bold cyan")
+    tokens_text.append(f"Вход: {interaction_input_tokens}", style="green")
     if interaction_input_cost and interaction_input_cost > 0:
         tokens_text.append(f" -> (${interaction_input_cost:.6f})", style="dim green")
     tokens_text.append(" ")
 
-    tokens_text.append(f"Out: {interaction_output_tokens}", style="yellow")
+    tokens_text.append(f"Выход: {interaction_output_tokens}", style="yellow")
     if interaction_output_cost and interaction_output_cost > 0:
         tokens_text.append(f" -> (${interaction_output_cost:.6f})", style="dim yellow")
     tokens_text.append(" ")
@@ -279,12 +279,12 @@ def _create_token_display(
     # Session total
     session_total = getattr(COST_TRACKER, 'session_total_cost', total_cost_value)
     tokens_text.append("\n  ", style="blue")
-    tokens_text.append("Session Total: ", style="bold blue")
+    tokens_text.append("Итого сессия: ", style="bold blue")
     tokens_text.append(f"${session_total:.4f}", style="bold blue")
-    tokens_text.append(" (all agents) ", style="dim")
+    tokens_text.append(" (все агенты) ", style="dim")
 
     # Session total across all agents
-    tokens_text.append("Session: ", style="bold magenta")
+    tokens_text.append("Сессия: ", style="bold magenta")
     tokens_text.append(f"${COST_TRACKER.session_total_cost:.4f}", style="bold magenta")
 
     # Context usage (show current interaction input vs model capacity)
@@ -306,7 +306,7 @@ def _create_token_display(
     else:
         indicator = ""
         indicator_style = "green"
-    tokens_text.append(f"Context: {context_pct:.1f}%", style=indicator_style)
+    tokens_text.append(f"Контекст: {context_pct:.1f}%", style=indicator_style)
     if indicator:
         tokens_text.append(f" {indicator}", style=indicator_style)
 

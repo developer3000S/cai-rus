@@ -1,8 +1,8 @@
 """
-Shodan search utility for reconnaissance.
+Утилита поиска Shodan для разведки.
 
-This module provides functions to search Shodan for information about hosts,
-services, and vulnerabilities using the Shodan API.
+Этот модуль предоставляет функции для поиска информации о хостах,
+сервисах и уязвимостях в Shodan с помощью API Shodan.
 """
 
 import os
@@ -15,33 +15,33 @@ from cai.sdk.agents import function_tool
 @function_tool
 def shodan_search(query: str, limit: int = 10) -> str:
     """
-    Search Shodan for information based on the provided query.
+    Поиск информации в Shodan по указанному запросу.
 
     Args:
-        query (str): The Shodan search query.
-        limit (int): Maximum number of results to return. Default is 10.
+        query (str): Поисковый запрос Shodan.
+        limit (int): Максимальное количество результатов. По умолчанию 10.
 
     Returns:
-        str: A formatted string containing the search results.
+        str: Отформатированная строка с результатами поиска.
     """
     results = _perform_shodan_search(query, limit)
 
     if not results:
-        return "No results found or API error occurred."
+        return "Результаты не найден или произошла ошибка API."
 
     formatted_results = ""
     for result in results:
         formatted_results += f"IP: {result.get('ip_str', 'N/A')}\n"
-        formatted_results += f"Port: {result.get('port', 'N/A')}\n"
-        formatted_results += f"Organization: {result.get('org', 'N/A')}\n"
-        formatted_results += f"Hostnames: {', '.join(result.get('hostnames', ['N/A']))}\n"
-        formatted_results += f"Country: {result.get('location', {}).get('country_name', 'N/A')}\n"
+        formatted_results += f"Порт: {result.get('port', 'N/A')}\n"
+        formatted_results += f"Организация: {result.get('org', 'N/A')}\n"
+        formatted_results += f"Имена хостов: {', '.join(result.get('hostnames', ['N/A']))}\n"
+        formatted_results += f"Страна: {result.get('location', {}).get('country_name', 'N/A')}\n"
 
         if "data" in result:
             formatted_results += (
-                f"Banner: {result['data'][:200]}...\n"
+                f"Баннер: {result['data'][:200]}...\n"
                 if len(result["data"]) > 200
-                else f"Banner: {result['data']}\n"
+                else f"Баннер: {result['data']}\n"
             )
 
         formatted_results += "\n"
@@ -52,34 +52,34 @@ def shodan_search(query: str, limit: int = 10) -> str:
 @function_tool
 def shodan_host_info(ip: str) -> str:
     """
-    Get detailed information about a specific host from Shodan.
+    Получить подробную информацию о конкретном хосте из Shodan.
 
     Args:
-        ip (str): The IP address of the host.
+        ip (str): IP-адрес хоста.
 
     Returns:
-        str: A formatted string containing host information.
+        str: Отформатированная строка с информацией о хосте.
     """
     result = _get_shodan_host_info(ip)
 
     if not result:
-        return f"No information found for IP {ip} or API error occurred."
+        return f"Информация для IP {ip} не найдена или произошла ошибка API."
 
     formatted_result = f"IP: {result.get('ip_str', 'N/A')}\n"
-    formatted_result += f"Organization: {result.get('org', 'N/A')}\n"
-    formatted_result += f"Operating System: {result.get('os', 'N/A')}\n"
-    formatted_result += f"Country: {result.get('country_name', 'N/A')}\n"
-    formatted_result += f"City: {result.get('city', 'N/A')}\n"
-    formatted_result += f"ISP: {result.get('isp', 'N/A')}\n"
-    formatted_result += f"Last Update: {result.get('last_update', 'N/A')}\n"
-    formatted_result += f"Hostnames: {', '.join(result.get('hostnames', ['N/A']))}\n"
-    formatted_result += f"Domains: {', '.join(result.get('domains', ['N/A']))}\n\n"
+    formatted_result += f"Организация: {result.get('org', 'N/A')}\n"
+    formatted_result += f"Операционная система: {result.get('os', 'N/A')}\n"
+    formatted_result += f"Страна: {result.get('country_name', 'N/A')}\n"
+    formatted_result += f"Город: {result.get('city', 'N/A')}\n"
+    formatted_result += f"Провайдер: {result.get('isp', 'N/A')}\n"
+    formatted_result += f"Последнее обновление: {result.get('last_update', 'N/A')}\n"
+    formatted_result += f"Имена хостов: {', '.join(result.get('hostnames', ['N/A']))}\n"
+    formatted_result += f"Домены: {', '.join(result.get('domains', ['N/A']))}\n\n"
 
     if "ports" in result:
-        formatted_result += f"Open Ports: {', '.join(map(str, result['ports']))}\n\n"
+        formatted_result += f"Открытые порты: {', '.join(map(str, result['ports']))}\n\n"
 
     if "vulns" in result:
-        formatted_result += "Vulnerabilities:\n"
+        formatted_result += "Уязвимости:\n"
         for vuln in result["vulns"]:
             formatted_result += f"- {vuln}\n"
 
@@ -88,20 +88,20 @@ def shodan_host_info(ip: str) -> str:
 
 def _perform_shodan_search(query: str, limit: int = 10) -> List[Dict[str, Any]]:
     """
-    Helper function to perform Shodan searches.
+    Вспомогательная функция для выполнения поиска в Shodan.
 
     Args:
-        query (str): The Shodan search query.
-        limit (int): Maximum number of results to return.
+        query (str): Поисковый запрос Shodan.
+        limit (int): Максимальное количество результатов.
 
     Returns:
-        List[Dict[str, Any]]: A list of dictionaries containing the search results.
+        List[Dict[str, Any]]: Список словарей с результатами поиска.
     """
     load_dotenv()
     api_key = os.getenv("SHODAN_API_KEY")
 
     if not api_key:
-        raise ValueError("Shodan API key (SHODAN_API_KEY) must be set in environment variables.")
+        raise ValueError("Ключ API Shodan (SHODAN_API_KEY) должен быть установлен в переменных окружения.")
 
     base_url = "https://api.shodan.io/shodan/host/search"
 
@@ -130,19 +130,19 @@ def _perform_shodan_search(query: str, limit: int = 10) -> List[Dict[str, Any]]:
 
 def _get_shodan_host_info(ip: str) -> Optional[Dict[str, Any]]:
     """
-    Helper function to get host information from Shodan.
+    Вспомогательная функция для получения информации о хосте из Shodan.
 
     Args:
-        ip (str): The IP address of the host.
+        ip (str): IP-адрес хоста.
 
     Returns:
-        Optional[Dict[str, Any]]: A dictionary containing host information or None if an error occurs.
+        Optional[Dict[str, Any]]: Словарь с информацией о хосте или None в случае ошибки.
     """
     load_dotenv()
     api_key = os.getenv("SHODAN_API_KEY")
 
     if not api_key:
-        raise ValueError("Shodan API key (SHODAN_API_KEY) must be set in environment variables.")
+        raise ValueError("Ключ API Shodan (SHODAN_API_KEY) должен быть установлен в переменных окружения.")
 
     base_url = f"https://api.shodan.io/shodan/host/{ip}"
 

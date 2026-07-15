@@ -1,25 +1,27 @@
-"""CAI Centralized Configuration.
+"""Централизованная конфигурация CAI.
 
-Single source of truth for all configuration.
-Replaces 936 scattered os.getenv() calls across 137 files.
+Единый источник правды для всей конфигурации.
+Заменяет 936 рассеянных вызовов os.getenv() в 137 файлах.
 
-Created in Day 0 as shared contract between 3 refactoring streams.
-- Stream 2 (Foundation): implements from_env() and validate()
-- Stream 1 (Core Engine): consumes for LLM/tool settings
-- Stream 3 (Interface): consumes for TUI/REPL settings
+Создано в Day 0 как общий контракт между 3 потоками рефакторинга.
+- Поток 2 (Foundation): реализует from_env() и validate()
+- Поток 1 (Core Engine): потребляет для настроек LLM/инструментов
+- Поток 3 (Interface): потребляет для настроек TUI/REPL
 """
 
-from __future__ import annotations
-
+from enum import Enum
+from dataclasses import dataclass
+from typing import Final, Optional, List
 import os
 import warnings
-from dataclasses import dataclass
-from typing import Final
+
+from .auth_types import Edition, Role
 
 _LEGACY_COMPACTED_MEMORY_WARNED = False
 
-# Auto-compact never waits beyond this fraction of the model context window,
-# even if CAI_AUTO_COMPACT_THRESHOLD is set higher (users can still set lower).
+# Автоматическое сжатие никогда не ждёт дольше этой доли окна контекста модели,
+# даже если CAI_AUTO_COMPACT_THRESHOLD установлен выше (пользователи всё ещё
+# могут установить меньшее значение).
 AUTO_COMPACT_THRESHOLD_MAX: Final[float] = 0.8
 
 DEFAULT_AGENT_TYPE: Final[str] = "selection_agent"
@@ -37,10 +39,10 @@ def _parse_bool(value: str) -> bool:
 
 
 def compacted_memory_env_enabled() -> bool:
-    """Whether REPL /compact summaries are injected into agent system prompts.
+    """Включены ли сводки /compact из REPL для внедрения в системные подсказки агента.
 
-    Reads ``CAI_COMPACTED_MEMORY`` when set; otherwise falls back to legacy
-    ``CAI_MEMORY`` (deprecated) for one release.
+    Читает ``CAI_COMPACTED_MEMORY`` если установлено; в противном случае использует
+    устаревшее ``CAI_MEMORY`` (deprecated) на один выпуск.
     """
     global _LEGACY_COMPACTED_MEMORY_WARNED  # pylint: disable=global-statement
     if "CAI_COMPACTED_MEMORY" in os.environ:
@@ -49,9 +51,9 @@ def compacted_memory_env_enabled() -> bool:
     if legacy in ("true", "1", "yes", "episodic", "semantic", "all"):
         if not _LEGACY_COMPACTED_MEMORY_WARNED:
             warnings.warn(
-                "CAI_MEMORY is deprecated for compacted-session memory; set "
-                "CAI_COMPACTED_MEMORY=true. Legacy CAI_MEMORY support will be removed "
-                "in a future release.",
+                "CAI_MEMORY устарел для компактной памяти сессий; установите "
+                "CAI_COMPACTED_MEMORY=true. Поддержка устаревшего CAI_MEMORY будет "
+                "удалена в будущем выпуске.",
                 DeprecationWarning,
                 stacklevel=2,
             )
@@ -62,9 +64,9 @@ def compacted_memory_env_enabled() -> bool:
 
 @dataclass
 class CAIConfig:
-    """Complete CAI configuration, loaded once at startup."""
+    """Полная конфигурация CAI, загружаемая один раз при запуске."""
 
-    # --- Model & Agent ---
+    # --- Модель и агент ---
     model: str = "alias1"
     agent_type: str = DEFAULT_AGENT_TYPE
     temperature: float = 0.7
@@ -72,33 +74,33 @@ class CAIConfig:
     max_tokens: int | None = None
     reasoning_effort: str | None = None
 
-    # --- Limits ---
+    # --- Лимиты ---
     max_turns: int | float = float("inf")
     max_interactions: int | float = float("inf")
     price_limit: float = 1.0
 
-    # --- Streaming ---
+    # --- Стриминг ---
     stream: bool = False
     tool_stream: bool = True
 
-    # --- Parallel ---
+    # --- Параллелизм ---
     parallel: int = 1
 
-    # --- Compacted session memory (/compact) ---
+    # --- Компактная память сессий (/compact) ---
     compacted_memory: bool = False
 
-    # --- Debug & Logging ---
+    # --- Отладка и логирование ---
     debug: int = 1
     debug_pricing: bool = False
     tracing: bool = True
     telemetry: bool = True
 
-    # --- Auto-compaction ---
+    # --- Автоматическое сжатие ---
     auto_compact: bool = True
-    # Compact when context exceeds this fraction of the model window.
+    # Сжимать когда контекст превышает эту долю окна модели.
     auto_compact_threshold: float = 0.8
 
-    # --- Security ---
+    # --- Безопасность ---
     guardrails: bool = False
     tool_timeout: int = 120
 
@@ -113,41 +115,42 @@ class CAIConfig:
     ctf_name: str | None = None
     ctf_challenge: str | None = None
 
-    # --- Planning ---
+    # --- Планирование ---
     plan_enabled: bool = False
 
-    # --- Orchestration (workers spawned by orchestration_agent tools) ---
+    # --- Оркестрация (воркеры, создаваемые инструментами orchestration_agent) ---
     orchestration_worker_max_turns: int = 6
     orchestration_mas_hint: bool = True
 
-    # --- Tool Registry ---
-    # When True, the ToolRegistry auto-supplements agent tools based on
-    # agent-type category mapping.  Disabled by default to keep token usage
-    # minimal (each extra tool schema costs ~120-150 prompt tokens per turn).
+    # --- Реестр инструментов ---
+    # Если True, ToolRegistry автоматически дополняет инструменты агента на основе
+    # отображения категорий по типу агента. По умолчанию отключено для минимизации
+    # использования токенов (каждая дополнительная схема инструмента стоит ~120-150
+    # токенов подсказки за ход).
     tool_registry_auto: bool = False
 
-    # --- Continuation ---
+    # --- Продолжение ---
     continuation_fallback_model: str | None = None
 
-    # --- Search ---
+    # --- Поиск ---
     google_search_api_key: str | None = None
     google_search_cx: str | None = None
 
-    # --- Web fetch (fetch_url tool) ---
-    # SSRF policy: by default the fetch_url tool blocks loopback, RFC1918,
-    # link-local and cloud-metadata hosts to prevent server-side request
-    # forgery via prompt injection. Set CAI_FETCH_ALLOW_INTERNAL=true to allow
-    # internal targets (e.g. when pentesting an internal network).
+    # --- Веб-загрузка (инструмент fetch_url) ---
+    # Политика SSRF: по умолчанию инструмент fetch_url блокирует loopback, RFC1918,
+    # link-local и cloud-metadata хосты для предотвращения подделки запросов
+    # на стороне сервера через инъекцию подсказок. Установите CAI_FETCH_ALLOW_INTERNAL=true
+    # для разрешения внутренних целей (например, при пентесте внутренней сети).
     fetch_allow_internal: bool = False
-    fetch_user_agent: str | None = None  # CAI_FETCH_USER_AGENT (OPSEC override)
-    fetch_max_bytes: int = 5_242_880  # CAI_FETCH_MAX_BYTES (5 MB response cap)
-    fetch_timeout: int = 20  # CAI_FETCH_TIMEOUT (seconds)
+    fetch_user_agent: str | None = None  # CAI_FETCH_USER_AGENT (переопределение OPSEC)
+    fetch_max_bytes: int = 5_242_880  # CAI_FETCH_MAX_BYTES (лимит ответа 5 МБ)
+    fetch_timeout: int = 20  # CAI_FETCH_TIMEOUT (секунды)
 
-    # --- Workspace ---
-    workspace_dir: str | None = None  # CAI_WORKSPACE_DIR override
-    workspace_name: str | None = None  # CAI_WORKSPACE named workspace
+    # --- Рабочее пространство ---
+    workspace_dir: str | None = None  # Переопределение CAI_WORKSPACE_DIR
+    workspace_name: str | None = None  # Именованное рабочее пространство CAI_WORKSPACE
 
-    # --- API Keys (not logged) ---
+    # --- Ключи API (не логируются) ---
     alias_api_key: str | None = None
     openai_api_key: str | None = None
     anthropic_api_key: str | None = None
@@ -155,8 +158,9 @@ class CAIConfig:
     perplexity_api_key: str | None = None
     c99_api_key: str | None = None
     shodan_api_key: str | None = None
+    admin_password: str | None = None
 
-    # --- Virtualization ---
+    # --- Виртуализация ---
     active_container: str | None = None
     default_docker_image: str = "kalilinux/kali-rolling"
 
@@ -165,27 +169,27 @@ class CAIConfig:
     ssh_host: str | None = None
 
     # --- CTF runtime ---
-    ctf_inside: bool = True  # CTF_INSIDE: whether tool runs inside CTF container
+    ctf_inside: bool = True  # CTF_INSIDE: выполнять ли инструменты внутри контейнера CTF
 
-    # --- Session ---
-    session_input_wait: float = 5.0  # CAI_SESSION_INPUT_WAIT: seconds to wait for input
+    # --- Сессия ---
+    session_input_wait: float = 5.0  # CAI_SESSION_INPUT_WAIT: секунды ожидания ввода
 
-    # --- LiteLLM bypass ---
-    force_httpx: bool = False  # When True, ALL OpenAI-compat models use httpx directly
+    # --- Обход LiteLLM ---
+    force_httpx: bool = False  # Если True, ВСЕ модели совместимые с OpenAI используют httpx напрямую
 
     # --- Ollama ---
     ollama_url: str | None = None
 
-    # --- API Server ---
+    # --- API-сервер ---
     api_host: str = "127.0.0.1"
     api_port: int = 8000
     api_reload: bool = False
     api_workers: int = 1
 
-    # --- Broadcast (parallel TUI) ---
+    # --- Широковещание (параллельный TUI) ---
     broadcast_mode: bool = False
 
-    # --- Automation ---
+    # --- Автоматизация ---
     auto_run_queue: bool = False
     auto_run_parallel: bool = False
     queue_file: str | None = None
@@ -193,7 +197,23 @@ class CAIConfig:
 
     @classmethod
     def from_env(cls) -> CAIConfig:
-        """Load all configuration from environment variables. Called ONCE."""
+        """Загрузить всю конфигурацию из переменных окружения. Вызывается ОДИН раз."""
+        # Determine edition first to apply constraints
+        from .auth_types import Edition
+        
+        def _get_edition() -> Edition:
+            if os.getenv("CAI_LICENSE_OFF", "").strip().lower() in ("1", "true", "yes"):
+                return Edition.COMMUNITY
+            if os.getenv("ALIAS_API_KEY"):
+                return Edition.PROFESSIONAL
+            return Edition.COMMUNITY
+
+        edition = _get_edition()
+        
+        parallel = int(os.getenv("CAI_PARALLEL", "1"))
+        if edition == Edition.COMMUNITY:
+            parallel = 1
+
         return cls(
             model=os.getenv("CAI_MODEL", "alias1"),
             agent_type=os.getenv("CAI_AGENT_TYPE", DEFAULT_AGENT_TYPE),
@@ -215,7 +235,7 @@ class CAIConfig:
             ),
             stream=_parse_bool(os.getenv("CAI_STREAM", "false")),
             tool_stream=_parse_bool(os.getenv("CAI_TOOL_STREAM", "true")),
-            parallel=int(os.getenv("CAI_PARALLEL", "1")),
+            parallel=parallel,
             compacted_memory=compacted_memory_env_enabled(),
             debug=int(os.getenv("CAI_DEBUG", "1")),
             debug_pricing=os.getenv("CAI_DEBUG_PRICING", "0") == "1",
@@ -254,6 +274,7 @@ class CAIConfig:
             perplexity_api_key=os.getenv("PERPLEXITY_API_KEY"),
             c99_api_key=os.getenv("C99_API_KEY"),
             shodan_api_key=os.getenv("SHODAN_API_KEY"),
+            admin_password=os.getenv("CAI_ADMIN_PASSWORD"),
             active_container=os.getenv("CAI_ACTIVE_CONTAINER"),
             default_docker_image=os.getenv(
                 "CAI_DOCKER_IMAGE", "kalilinux/kali-rolling"
@@ -276,30 +297,30 @@ class CAIConfig:
         )
 
     def validate(self) -> list[str]:
-        """Return list of validation warnings. Empty = all OK."""
+        """Вернуть список предупреждений валидации. Пустой = всё в порядке."""
         warnings = []
         if self.price_limit <= 0:
-            warnings.append("CAI_PRICE_LIMIT must be > 0")
+            warnings.append("CAI_PRICE_LIMIT должен быть > 0")
         if not (0 <= self.temperature <= 2):
-            warnings.append("CAI_TEMPERATURE must be between 0 and 2")
+            warnings.append("CAI_TEMPERATURE должен быть от 0 до 2")
         if not (0 <= self.top_p <= 1):
-            warnings.append("CAI_TOP_P must be between 0 and 1")
+            warnings.append("CAI_TOP_P должен быть от 0 до 1")
         if self.parallel < 1:
-            warnings.append("CAI_PARALLEL must be >= 1")
+            warnings.append("CAI_PARALLEL должен быть >= 1")
         if not (1 <= self.orchestration_worker_max_turns <= 32):
-            warnings.append("CAI_ORCHESTRATION_WORKER_MAX_TURNS must be between 1 and 32")
+            warnings.append("CAI_ORCHESTRATION_WORKER_MAX_TURNS должен быть от 1 до 32")
         if self.tool_timeout < 1:
-            warnings.append("CAI_TOOL_TIMEOUT must be >= 1")
+            warnings.append("CAI_TOOL_TIMEOUT должен быть >= 1")
         if self.debug not in (0, 1, 2):
-            warnings.append("CAI_DEBUG must be 0, 1, or 2")
+            warnings.append("CAI_DEBUG должен быть 0, 1 или 2")
         _ac_env = os.getenv("CAI_AUTO_COMPACT_THRESHOLD")
         if _ac_env is not None:
             try:
                 if float(_ac_env) > AUTO_COMPACT_THRESHOLD_MAX + 1e-9:
                     cap = f"{AUTO_COMPACT_THRESHOLD_MAX:.0%}"
                     warnings.append(
-                        f"CAI_AUTO_COMPACT_THRESHOLD above {cap} is capped at {cap}; "
-                        "auto-compact will not defer past that."
+                        f"CAI_AUTO_COMPACT_THRESHOLD выше {cap} ограничен до {cap}; "
+                        "автоматическое сжатие не будет отложено за эту отметку."
                     )
             except ValueError:
                 pass
@@ -307,21 +328,33 @@ class CAIConfig:
 
 
 # ---------------------------------------------------------------------------
-# Module-level singleton — loaded once, available everywhere via:
+# Синглтон модуля — загружается один раз, доступен везде через:
 #   from cai.config import get_config
 # ---------------------------------------------------------------------------
 _CONFIG: CAIConfig | None = None
 
 
 def get_config() -> CAIConfig:
-    """Return the global CAIConfig singleton (lazy-loaded from env on first call)."""
+    """Вернуть глобальный синглтон CAIConfig (ленивая загрузка из окружения при первом вызове)."""
     global _CONFIG
     if _CONFIG is None:
         _CONFIG = CAIConfig.from_env()
     return _CONFIG
 
 
-def reset_config() -> None:
-    """Force reload from environment. Useful after tests or dynamic env changes."""
-    global _CONFIG
-    _CONFIG = None
+def get_active_edition() -> Edition:
+    """
+    Determine the active edition of the framework.
+    
+    - If CAI_LICENSE_OFF is true, it's Community Edition.
+    - If ALIAS_API_KEY is present and valid, it's Professional Edition.
+    - Otherwise, default to Community Edition.
+    """
+    if os.getenv("CAI_LICENSE_OFF", "").strip().lower() in ("1", "true", "yes"):
+        return Edition.COMMUNITY
+    
+    # Check if a valid ALIAS_API_KEY is set
+    if os.getenv("ALIAS_API_KEY"):
+        return Edition.PROFESSIONAL
+        
+    return Edition.COMMUNITY

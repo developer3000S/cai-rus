@@ -1,340 +1,340 @@
-# CAI TUI Commands Reference
+# Справочник команд CAI TUI
 
-!!! warning "Documentation freshness"
-    This page is **likely out of date**. **Maintained command reference:** **[CLI docs](../cai/getting-started/commands.md)** and **`docs/cai/`** — use those when in doubt.
+!!! warning "Актуальность документации"
+    Эта страница, вероятно, **устарела**. **Поддерживаемый справочник команд:** **[документация CLI](../cai/getting-started/commands.md)** и **`docs/cai/`** — используйте эти источники при сомнениях.
 
-> **⚡ CAI-Pro Exclusive Feature**  
-> The Terminal User Interface (TUI) is available exclusively in **CAI-Pro**. To access this feature and unlock advanced multi-agent workflows, visit [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) for more information.
-
----
-
-This comprehensive guide documents all commands available in the CAI Terminal User Interface (TUI), including command palette actions, keyboard shortcuts, and CLI-style commands.
+> **⚡ Эксклюзивная функция CAI-Pro**  
+> Терминальный пользовательский интерфейс (TUI) доступен исключительно в **CAI-Pro**. Для получения доступа к этой функции и расблокировки продвинутых рабочих процессов с несколькими агентами посетите [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) для получения дополнительной информации.
 
 ---
 
-## Command Categories
-
-CAI TUI commands are organized into the following categories:
-
-1. [Agent Management](#agent-management)
-2. [Model Management](#model-management)
-3. [Terminal Control](#terminal-control)
-4. [History and Memory](#history-and-memory)
-5. [Session Management](#session-management)
-6. [Utility Commands](#utility-commands)
-7. [Navigation and UI](#navigation-and-ui)
+Это исчерпывающее руководство документирует все команды, доступные в Терминальном пользовательском интерфейсе CAI (TUI), включая действия палитры команд, горячие клавиши и команды в стиле CLI.
 
 ---
 
-## Agent Management
+## Категории команд
 
-### `/agent` or `/a`
+Команды CAI TUI организованы в следующие категории:
 
-Switch between agents or list all available agents.
+1. [Управление агентами](#управление-агентами)
+2. [Управление моделями](#управление-моделями)
+3. [Управление терминалами](#управление-терминалами)
+4. [История и память](#история-и-память)
+5. [Управление сессиями](#управление-сессиями)
+6. [Утилитарные команды](#утилитарные-команды)
+7. [Навигация и UI](#навигация-и-ui)
 
-**Syntax**:
+---
+
+## Управление агентами
+
+### `/agent` или `/a`
+
+Переключение между агентами или вывод списка всех доступных агентов.
+
+**Синтаксис**:
 ```
-/agent [agent_name]
-/a [agent_name]
+/agent [имя_агента]
+/a [имя_агента]
 ```
 
-**Examples**:
+**Примеры**:
 ```bash
-# List all available agents
+# Вывести список всех доступных агентов
 /agent
 
-# Switch to red team agent
+# Переключиться на агента красной команды
 /agent redteam_agent
 
-# Switch to bug bounty agent
+# Переключиться на агента bug bounty
 /a bug_bounter_agent
 ```
 
-**Available Agents**:
-- `redteam_agent` - Offensive security testing and penetration testing
-- `blueteam_agent` - Defensive security analysis and hardening
-- `bug_bounter_agent` - Bug bounty hunting and vulnerability research
-- `retester_agent` - Retesting and validation of vulnerabilities
-- `one_tool_agent` - Basic single-tool execution (minimalist approach)
-- `dfir_agent` - Digital forensics and incident response
-- `reporting_agent` - Report generation and security documentation
-- `reverse_engineering_agent` - Binary analysis and reverse engineering
-- `network_security_analyzer_agent` - Network security assessment
-- `wifi_security_agent` - WiFi security testing and wireless analysis
-- `memory_analysis_agent` - Memory forensics and analysis
-- `dns_smtp_agent` - DNS and SMTP protocol analysis
-- `replay_attack_agent` - Replay attack testing and analysis
-- `subghz_sdr_agent` - Sub-GHz and Software Defined Radio (SDR) analysis
-- `thought_agent` - Reasoning, planning, and analysis
-- `use_case_agent` - Use case analysis and scenario planning
-- `flag_discriminator` - CTF flag identification and discrimination
-- `cybersecurity_engineer` - Cybersecurity engineering and architecture
-- `selection_agent` - Intelligent agent selection and routing
-- `bb_triage_swarm_pattern` - Bug bounty triage swarm pattern
-- `redteam_swarm_pattern` - Red team swarm coordination pattern
-- `offsec_pattern` - Offensive security pattern orchestration
+**Доступные агенты**:
+- `redteam_agent` - Наступательное тестирование безопасности и пентестинг
+- `blueteam_agent` - Защитный анализ безопасности и укрепление
+- `bug_bounter_agent` - Охота за наградами за ошибки и исследование уязвимостей
+- `retester_agent` - Повторное тестирование и валидация уязвимостей
+- `one_tool_agent` - Базовое выполнение одного инструмента (минималистический подход)
+- `dfir_agent` - Цифровая криминалистика и реагирование на инциденты
+- `reporting_agent` - Генерация отчетов и документация безопасности
+- `reverse_engineering_agent` - Анализ бинарных файлов и реверс-инжиниринг
+- `network_security_analyzer_agent` - Оценка безопасности сети
+- `wifi_security_agent` - Тестирование безопасности WiFi и беспроводной анализ
+- `memory_analysis_agent` - Криминалистика и анализ памяти
+- `dns_smtp_agent` - Анализ протоколов DNS и SMTP
+- `replay_attack_agent` - Тестирование и анализ атак воспроизведения
+- `subghz_sdr_agent` - Анализ Sub-GHz и программно-определяемых радиостанций (SDR)
+- `thought_agent` - Рассуждение, планирование и анализ
+- `use_case_agent` - Анализ вариантов использования и планирование сценариев
+- `flag_discriminator` - Идентификация и дискриминация флагов CTF
+- `cybersecurity_engineer` - Инженерия и архитектура кибербезопасности
+- `selection_agent` - Интеллектуальный выбор и маршрутизация агентов
+- `bb_triage_swarm_pattern` - Паттерн сортировки ошибок в группе
+- `redteam_swarm_pattern` - Паттерн координации красной команды в группе
+- `offsec_pattern` - Оркестрация паттернов наступательной безопасности
 
-**Notes**:
-- Agent changes are immediate and affect only the active terminal
-- Each terminal can run a different agent simultaneously
-- Agent context is preserved when switching between terminals
+**Примечания**:
+- Изменения агентов вступают в силу немедленно и затрагивают только активный терминал
+- Каждый терминал может запускать разного агента одновременно
+- Контекст агента сохраняется при переключении между терминалами
 
 ---
 
-## Model Management
+## Управление моделями
 
-### Model Selection via Dropdown
+### Выбор модели через выпадающий список
 
-CAI TUI uses model dropdowns in each terminal header for model management. Models are configured via environment variables and aliases.
+CAI TUI использует выпадающие списки моделей в заголовке каждого терминала для управления моделями. Модели настраиваются через переменные окружения и псевдонимы.
 
-**Available Models**:
-- `alias1` - Cybersecurity focus model [Recommended]
+**Доступные модели**:
+- `alias1` - Модель, ориентированная на кибербезопасность [Рекомендуется]
 - `gpt-4o` - OpenAI GPT-4 Optimized
 - `gpt-4-turbo` - OpenAI GPT-4 Turbo
 - `claude-3-5-sonnet-20241022` - Anthropic Claude 3.5 Sonnet
 - `o1-mini` - OpenAI O1 Mini
 - `o1-preview` - OpenAI O1 Preview
 
-**How to Change Models**:
-1. Click the model dropdown in any terminal header
-2. Select desired model from the list
-3. Model change takes effect immediately for that terminal
+**Как менять модели**:
+1. Нажмите на выпадающий список модели в заголовке любого терминала
+2. Выберите нужную модель из списка
+3. Изменение модели вступает в силу немедленно для этого терминала
 
-**Environment Variables**:
+**Переменные окружения**:
 ```bash
-export CAI_MODEL=gpt-4o              # Set default model
-export CAI_OPENAI_API_KEY=sk-...    # OpenAI API key
-export CAI_ANTHROPIC_API_KEY=sk-... # Anthropic API key
+export CAI_MODEL=gpt-4o              # Установить модель по умолчанию
+export CAI_OPENAI_API_KEY=sk-...    # API ключ OpenAI
+export CAI_ANTHROPIC_API_KEY=sk-... # API ключ Anthropic
 ```
 
-**Notes**:
-- Each terminal can use a different model
-- Model costs are tracked separately per terminal
-- Switching models mid-conversation preserves history
+**Примечания**:
+- Каждый терминал может использовать разную модель
+- Стоимость моделей отслеживается отдельно для каждого терминала
+- Переключение моделей во время беседы сохраняет историю
 
 ---
 
-## Terminal Control
+## Управление терминалами
 
-### Terminal-Specific Commands
+### Команды для конкретных терминалов
 
-Send commands to specific terminals using either the prefix notation or the flag notation.
+Отправляйте команды в конкретные терминалы, используя либо префиксную нотацию, либо нотацию с флагами.
 
-#### Method 1: Prefix Notation
+#### Способ 1: Префиксная нотация
 
-**Syntax**:
+**Синтаксис**:
 ```
-T<terminal_number>:<command>
+T<номер_терминала>:<команда>
 ```
 
-**Examples**:
+**Примеры**:
 ```bash
-# Switch agent in Terminal 2
+# Сменить агента в Терминале 2
 T2:/agent blueteam_agent
 
-# Change model in Terminal 3
+# Сменить модель в Терминале 3
 T3:/model alias1
 
-# Clear Terminal 1
+# Очистить Терминал 1
 T1:/clear
 
-# Execute command in Terminal 4
-T4:scan target.com for vulnerabilities
+# Выполнить команду в Терминале 4
+T4:просканируй target.com на уязвимости
 ```
-#### Method 2: Flag Notation
+#### Способ 2: Нотация с флагами
 
-**Syntax**:
-
-```
-<command> t<terminal_number>
+**Синтаксис**:
 
 ```
+<команда> t<номер_терминала>
 
-**Examples**:
+```
+
+**Примеры**:
 ```bash
-# Switch agent in Terminal 2
+# Сменить агента в Терминале 2
 /agent blueteam_agent t2
 
-# Change model in Terminal 3
+# Сменить модель в Терминале 3
 /model alias1 t3
 
-# Clear Terminal 1
+# Очистить Терминал 1
 /clear t1
 
-# Execute any command in Terminal 4
+# Выполнить любую команду в Терминале 4
 /help t4
 
-# Send prompt to Terminal 2
-Scan target.com for XSS vulnerabilities t2
+# Отправить промпт в Терминал 2
+Просканируй target.com на уязвимости XSS t2
 ```
 
-**Supported Flags**:
-- `t1` - Target Terminal 1
-- `t2` - Target Terminal 2
-- `t3` - Target Terminal 3
-- `t4` - Target Terminal 4
-- (Additional terminals if configured: `t5`, `t6`, etc.)
+**Поддерживаемые флаги**:
+- `t1` - Нацелить на Терминал 1
+- `t2` - Нацелить на Терминал 2
+- `t3` - Нацелить на Терминал 3
+- `t4` - Нацелить на Терминал 4
+- (Дополнительные терминалы, если настроены: `t5`, `t6` и т.д.)
 
-**Notes**:
-- Both methods achieve the same result
-- Flag notation is more concise for quick commands
-- Prefix notation is clearer for complex prompts
-- You can target any terminal without focusing it first
-- Useful for scripting and automation
-- Works with all commands (slash commands and prompts)
+**Примечания**:
+- Оба способа достигают одинакового результата
+- Нотация с флагами более лаконична для быстрых команд
+- Префиксная нотация яснее для сложных промптов
+- Вы можете нацелить любой терминал без предварительной фокусировки
+- Полезно для скриптов и автоматизации
+- Работает со всеми командами (слеш-команды и промпты)
 
-**Keyboard Shortcut**: Click the `[+]` button in the top bar
+**Горячая клавиша**: Нажмите кнопку `[+]` на верхней панели
 
-**Notes**:
-- New terminals start with `redteam_agent` by default
-- Maximum recommended terminals: 4 (for optimal UX)
-- Terminals beyond 4 use scrollable layout
+**Примечания**:
+- Новые терминалы начинают с `redteam_agent` по умолчанию
+- Рекомендуемое максимальное количество терминалов: 4 (для оптимального UX)
+- Терминалы свыше 4 используют прокручиваемую компоновку
 
 ---
 
-## History and Memory
+## История и память
 
-### `/history [number] [agent_name]` or `/h`
+### `/history [номер] [имя_агента]` или `/h`
 
-Display conversation history for the current or specified agent.
+Отображение истории бесед для текущего или указанного агента.
 
-**Syntax**:
+**Синтаксис**:
 ```
-/history [number] [agent_name]
+/history [номер] [имя_агента]
 ```
 
-**Examples**:
+**Примеры**:
 ```bash
-# Show last 10 messages
+# Показать последние 10 сообщений
 /history
 
-# Show last 20 messages
+# Показать последние 20 сообщений
 /history 20
 
-# Show history for specific agent
+# Показать историю для конкретного агента
 /history 10 redteam_agent
 
-# Compact syntax
+# Компактный синтаксис
 /h 5
 ```
 
-**Notes**:
-- Default shows last 10 interactions
-- History includes both user prompts and agent responses
-- History is terminal-specific
-- In the REPL, `/history` also supports subcommands such as `all`, `agent`, `search`, and `index` (see `/help history`). To export conversations, use **`/save <file>`** (`.jsonl` for `/load`, `.md` for a readable report). The old **`/history export`** command was removed (using it prints a deprecation hint).
+**Примечания**:
+- По умолчанию показывает последние 10 взаимодействий
+- История включает как промпты пользователя, так и ответы агентов
+- История специфична для терминала
+- В REPL `/history` также поддерживает подкоманды, такие как `all`, `agent`, `search` и `index` (смотрите `/help history`). Для экспорта бесед используйте **`/save <file>`** (`.jsonl` для `/load`, `.md` для читаемого отчета). Старая команда **`/history export`** была удалена (ее использование выводит подсказку об устаревании).
 
-### `/flush [agent_name|all]`
+### `/flush [имя_агента|all]`
 
-Clear agent message history.
+Очистка истории сообщений агента.
 
-**Syntax**:
+**Синтаксис**:
 ```
-/flush [agent_name|all]
+/flush [имя_агента|all]
 ```
 
-**Examples**:
+**Примеры**:
 ```bash
-# Flush current agent history
+# Очистить историю текущего агента
 /flush
 
-# Flush specific agent
+# Очистить конкретного агента
 /flush redteam_agent
 
-# Flush all agents
+# Очистить всех агентов
 /flush all
 ```
 
-**Notes**:
-- Flushing is irreversible
-- Agent context window is reset
-- Useful for starting fresh conversations
+**Примечания**:
+- Очистка необратима
+- Окно контекста агента сбрасывается
+- Полезно для начала новых бесед
 
-### `/memory [subcommand]` or `/mem`
+### `/memory [подкоманда]` или `/mem`
 
-Advanced memory management for agents.
+Продвинутое управление памятью для агентов.
 
-**Syntax**:
+**Синтаксис**:
 ```
-/memory <subcommand>
-/mem <subcommand>
+/memory <подкоманда>
+/mem <подкоманда>
 ```
 
-**Subcommands**:
+**Подкоманды**:
 
 #### `list`
-Show all saved memories.
+Показать все сохраненные воспоминания.
 ```bash
 /memory list
 ```
 
-#### `save [name]`
-Save current conversation as a memory.
+#### `save [имя]`
+Сохранить текущую беседу как воспоминание.
 ```bash
-/memory save "Authentication bypass research"
+/memory save "Исследование обхода аутентификации"
 /mem save pentest_findings
 ```
 
 #### `apply <memory_id>`
-Apply a saved memory to the current agent.
+Применить сохраненное воспоминание к текущему агенту.
 ```bash
 /memory apply mem_12345
 ```
 
 #### `show <memory_id>`
-Display the content of a specific memory.
+Отобразить содержимое конкретного воспоминания.
 ```bash
 /memory show mem_12345
 ```
 
 #### `delete <memory_id>`
-Remove a memory permanently.
+Навсегда удалить воспоминание.
 ```bash
 /memory delete mem_12345
 ```
 
-#### `merge <id1> <id2> [name]`
-Combine two memories into one.
+#### `merge <id1> <id2> [имя]`
+Объединить два воспоминания в одно.
 ```bash
-/memory merge mem_12345 mem_67890 "Combined pentesting notes"
+/memory merge mem_12345 mem_67890 "Объединенные заметки по пентесту"
 ```
 
 #### `compact`
-AI-powered memory summarization.
+Резюмирование памяти с помощью ИИ.
 ```bash
 /memory compact
 ```
 
 #### `status`
-Show memory system status and statistics.
+Показать статус и статистику системы памяти.
 ```bash
 /memory status
 ```
 
-**Notes**:
-- Memories persist across sessions
-- Useful for resuming long-term research projects
-- AI-powered summarization reduces token usage
+**Примечания**:
+- Воспоминания сохраняются между сессиями
+- Полезно для возобновления долгосрочных исследовательских проектов
+- Резюмирование с помощью ИИ снижает потребление токенов
 
 ---
 
-## Session Management
+## Управление сессиями
 
-### `/save <filename>`
+### `/save <имя_файла>`
 
-Save all agent conversation histories in one of two formats (chosen by file extension):
+Сохранение всех историй бесед агентов в одном из двух форматов (выбирается по расширению файла):
 
-| Extension | Purpose |
+| Расширение | Назначение |
 |-----------|---------|
-| **`.jsonl`** (default style) | One JSON object per line (`agent`, `role`, `content`, plus tool fields). **Reload with `/load`.** |
-| **`.md`** or **`.markdown`** | Human-readable Markdown (sections per agent, `### role` headings, fenced content). **Not** for `/load`. |
+| **`.jsonl`** (стиль по умолчанию) | Один JSON объект на строку (`agent`, `role`, `content`, плюс поля инструментов). **Перезагрузка с `/load`.** |
+| **`.md`** или **`.markdown`** | Читаемый Markdown (разделы для каждого агента, заголовки `### role`, ограниченное содержимое). **Не** для `/load`. |
 
-**Syntax**:
+**Синтаксис**:
 ```
-/save <filename>
+/save <имя_файла>
 ```
 
-**Examples**:
+**Примеры**:
 ```bash
 /save pentest_session.jsonl
 /save ~/Documents/cai_sessions/project_alpha.jsonl
@@ -342,81 +342,81 @@ Save all agent conversation histories in one of two formats (chosen by file exte
 /save findings.markdown
 ```
 
-**Notes**:
-- Distinct from `/memory save` (that writes summarized memory markdown under `.cai/memory`)
-- Paths such as `~/file.jsonl` are expanded to your home directory; parent folders are created if they do not exist yet
+**Примечания**:
+- Отличается от `/memory save` (который записывает резюмированный markdown памяти в `.cai/memory`)
+- Пути вроде `~/file.jsonl` расширяются до вашего домашнего каталога; родительские папки создаются, если они еще не существуют
 
-### `/load <filename>` or `/l`
+### `/load <имя_файла>` или `/l`
 
-Load conversation messages from **JSONL** (e.g. a `/save` **`.jsonl`** file, or compatible session logs — not **`.md`** exports).
+Загрузка сообщений беседы из **JSONL** (например, файл **`.jsonl`** из `/save` или совместимые журналы сессий — **не** экспорт `.md`).
 
-**Syntax**:
+**Синтаксис**:
 ```
-/load <filename>
-/l <filename>
+/load <имя_файла>
+/l <имя_файла>
 ```
 
-**Examples**:
+**Примеры**:
 ```bash
 /load pentest_session.jsonl
 /l ~/cai_sessions/old_session.jsonl
 ```
 
-**Notes**:
-- Restores message history into the session (see `/help load` for agent- and parallel-specific forms)
-- Only **`/save` `.jsonl`** files round-trip with `/load`; Markdown exports are for reading or sharing
+**Примечания**:
+- Восстанавливает историю сообщений в сессии (смотрите `/help load` для форм, специфичных для агентов и параллельного выполнения)
+- Только файлы **`/save` `.jsonl`** совместимы с `/load`; экспорт Markdown предназначен для чтения или обмена
 
 ---
 
-## Utility Commands
+## Утилитарные команды
 
-### `/cost [agent_name]`
+### `/cost [имя_агента]`
 
-Display API usage costs and token statistics.
+Отображение стоимости использования API и статистики токенов.
 
-**Syntax**:
+**Синтаксис**:
 ```
-/cost [agent_name]
+/cost [имя_агента]
 ```
 
-**Examples**:
+**Примеры**:
 ```bash
-# Show costs for active terminal
+# Показать стоимость для активного терминала
 /cost
 
-# Show costs for specific agent
+# Показать стоимость для конкретного агента
 /cost redteam_agent
 
-# Show total session costs
+# Показать общую стоимость сессии
 /cost all
 ```
 
-**Output Includes**:
-- Total cost (USD)
-- Input tokens used
-- Output tokens used
-- Cost per interaction
-- Model pricing rates
-- Terminal breakdown
+**Вывод включает**:
+- Общую стоимость (в долларах США)
+- Использованные входные токены
+- Использованные выходные токены
+- Стоимость за взаимодействие
+- Тарифы на модели
+- Разбивку по терминалам
 
-### `/help [command]` or `/?`
+### `/help [команда]` или `/?`
 
-Get help for commands.
+Получение справки по командам.
 
-**CLI headless only:** typing **`?`** alone (no leading slash) shows a compact **input shortcuts** panel. In the TUI, **`?`** is sent as normal chat text. **`/?`** remains an alias for **`/help`** (with slash).
+**Только CLI без графического интерфейса:** ввод **`?`** без косой черты показывает компактную панель **быстрых клавиш ввода**. В TUI **`?`** отправляется как обычный текст чата. **`/?`** остается псевдонимом для **`/help`** (с косой чертой).
 
-**Syntax**:
+**Синтаксис**:
 ```
-/help [command]
-/? [command]
+/help [команда]
+/? [команда]
 ```
 
-**Examples**:
+**Примеры**:
 ```bash
-# General help
+# Общая справка
 /help
 
-# Help for specific command
+# Справка по конкретной команде
 /help agent
 /help parallel
 /help mcp
@@ -425,133 +425,132 @@ Get help for commands.
 
 ### `/env`
 
-Display environment variables relevant to CAI.
+Отображение переменных окружения, относящихся к CAI.
 
-**Syntax**:
+**Синтаксис**:
 ```
 /env
 ```
 
-**Output Includes**:
-- `CAI_MODEL` - Default model
-- `CAI_AGENT_TYPE` - Default agent
-- `CAI_MAX_TURNS` - Maximum interaction turns
-- `CAI_TRACING` - Tracing status
-- `CAI_GUARDRAILS` - Guardrails enabled
-- `CAI_PRICE_LIMIT` - Cost limit
-- `CAI_TUI_MODE` - TUI mode settings
-- API keys (masked)
+**Вывод включает**:
+- `CAI_MODEL` - Модель по умолчанию
+- `CAI_AGENT_TYPE` - Агент по умолчанию
+- `CAI_MAX_TURNS` - Максимальное количество ходов взаимодействия
+- `CAI_TRACING` - Статус трассировки
+- `CAI_GUARDRAILS` - Включены ограничители
+- `CAI_PRICE_LIMIT` - Лимит стоимости
+- `CAI_TUI_MODE` - Настройки режима TUI
+- API ключи (маскированные)
 
-### `/shell` or `$`
+### `/shell` или `$`
 
-Execute shell commands directly from the TUI.
+Выполнение shell-команд непосредственно из TUI.
 
-**Syntax**:
+**Синтаксис**:
 ```
-/shell <command>
-$<command>
+/shell <команда>
+$<команда>
 ```
 
-**Examples**:
+**Примеры**:
 ```bash
-# List files
+# Список файлов
 /shell ls -la
 
-# Check network
+# Проверка сети
 $ping -c 3 target.com
 
-# Run nmap scan
+# Запуск сканирования nmap
 $nmap -sV 192.168.1.1
 ```
 
-**Notes**:
-- Commands execute in the system shell
-- Output is displayed in the terminal
-- Use with caution - no sandboxing
+**Примечания**:
+- Команды выполняются в системном shell
+- Вывод отображается в терминале
+- Используйте с осторожностью — нет песочницы
 
-### Interrupting agent execution
+### Прерывание выполнения агента
 
-There is **no** `/kill` slash-command in CAI. To stop the agent mid-turn in the TUI, use **`Ctrl+C`** on the focused terminal (or press **`Escape` twice** for a broader cancel, depending on your layout). Partial streaming output may be discarded; conversation context in memory is otherwise preserved unless you clear it with `/flush`.
+В CAI **нет** слеш-команды `/kill`. Для остановки агента во время хода в TUI используйте **`Ctrl+C`** на активном терминале (или нажмите **`Escape` дважды** для более широкой отмены, в зависимости от вашей компоновки). Частичный стриминговый вывод может быть отброшен; контекст беседы в памяти в остальном сохраняется, если вы не очистите его с помощью `/flush`.
 
 ### `/clear`
 
-Clear the terminal output.
+Очистка вывода терминала.
 
-**Syntax**:
+**Синтаксис**:
 ```
 /clear
 ```
 
-**Keyboard Shortcut**: `Ctrl+L`
+**Горячая клавиша**: `Ctrl+L`
 
-**Notes**:
-- Clears visual output only
-- Conversation history is preserved
-- Cost tracking continues
-
-
-**Keyboard Shortcut**: `Ctrl+Q`
-
-**Notes**:
-- Unsaved sessions will be lost
-- Graceful shutdown of all terminals
-
----
-
-## Navigation and UI
-
-### Command Palette
-
-Access the command palette for quick command search and execution.
-
-**Keyboard Shortcut**: `Ctrl+P`
-
-**Features**:
-- Fuzzy search for commands
-- Command descriptions
-- Keyboard navigation (arrow keys, Enter)
-- Recent commands
-- Theme switching
-
-### Sidebar Toggle
-
-Show or hide the sidebar.
-
-**Keyboard Shortcut**: `Ctrl+S`
-
-**Alternative**: Click the `[≡]` button in the top bar
+**Примечания**:
+- Очищает только визуальный вывод
+- История беседы сохраняется
+- Отслеживание стоимости продолжается
 
 
-### Clear Input
+**Горячая клавиша**: `Ctrl+Q`
 
-Clear the prompt input field.
-
-**Keyboard Shortcut**: `Ctrl+U`
-
-**Use Cases**:
-- Parallel agent execution
-- Comparing agent responses
-- Team-based workflows
-
-### Cancel Operations
-
-Cancel running operations.
-
-**Keyboard Shortcuts**:
-- `Ctrl+C` - Cancel execution in focused terminal
-- `Escape` - Cancel all running agents (press twice to exit)
+**Примечания**:
+- Несохраненные сессии будут потеряны
+- Корректное завершение работы всех терминалов
 
 ---
 
-## Next Steps
+## Навигация и UI
 
-- [Terminals Management](terminals_management.md) - Advanced multi-terminal workflows
-- [Keyboard Shortcuts](keyboard_shortcuts.md) - Complete keyboard reference
-- [User Interface Guide](user_interface.md) - Visual components and layouts
+### Палитра команд
 
-For questions or issues, visit [CAI GitHub Issues](https://github.com/aliasrobotics/cai/issues).
+Доступ к палитре команд для быстрого поиска и выполнения команд.
+
+**Горячая клавиша**: `Ctrl+P`
+
+**Функции**:
+- Нечеткий поиск команд
+- Описания команд
+- Навигация клавиатурой (стрелки, Enter)
+- Недавние команды
+- Переключение темы
+
+### Переключение боковой панели
+
+Показ или скрытие боковой панели.
+
+**Горячая клавиша**: `Ctrl+S`
+
+**Альтернатива**: Нажмите кнопку `[≡]` на верхней панели
+
+
+### Очистка ввода
+
+Очистка поля ввода промпта.
+
+**Горячая клавиша**: `Ctrl+U`
+
+**Случаи использования**:
+- Параллельное выполнение агентов
+- Сравнение ответов агентов
+- Рабочие процессы на основе команд
+
+### Отмена операций
+
+Отмена выполняемых операций.
+
+**Горячие клавиши**:
+- `Ctrl+C` - Отменить выполнение в активном терминале
+- `Escape` - Отменить всех запущенных агентов (нажмите дважды для выхода)
 
 ---
 
-*Last updated: October 2025 | CAI TUI v0.6+*
+## Следующие шаги
 
+- [Управление терминалами](terminals_management.md) - Продвинутые рабочие процессы с несколькими терминалами
+- [Горячие клавиши](keyboard_shortcuts.md) - Полный справочник клавиатуры
+- [Руководство по пользовательскому интерфейсу](user_interface.md) - Визуальные компоненты и макеты
+
+По вопросам или проблемам посетите [CAI GitHub Issues](https://github.com/aliasrobotics/cai/issues).
+
+---
+
+*Последнее обновление: Октябрь 2025 | CAI TUI v0.6+*

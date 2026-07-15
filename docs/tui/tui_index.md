@@ -1,221 +1,220 @@
-# CAI Terminal User Interface (TUI)
+# CAI Терминальный Пользовательский Интерфейс (TUI)
 
-!!! warning "Documentation freshness"
-    This TUI section is **likely out of date**. **Maintained documentation** for commands and behaviour lives under the **[CLI docs](../cai/getting-started/commands.md)** and the rest of the **`docs/cai/`** tree; prefer those sources when something disagrees with this guide.
+!!! warning "Актуальность документации"
+    Этот раздел TUI, вероятно, **устарел**. **Поддерживаемая документация** по командам и поведению находится в **[документации CLI](../cai/getting-started/commands.md)** и остальной части дерева **`docs/cai/`**; предпочитайте эти источники, если что-то расходится с данным руководством.
 
-> **⚠️ DEPRECATED - Superseded by Mobile UI**  
-> The Terminal User Interface (TUI) has been deprecated in favor of the new **[Mobile UI](../mui/mui_index.md)** for CAI-Pro users.  
-> While the TUI remains functional for existing users, all new features and development efforts are focused on the Mobile UI.  
-> **[Join the Mobile UI TestFlight Beta](https://testflight.apple.com/join/nXZZD4Z5)** for the latest CAI experience.
+> **⚠️ УСТАРЕЛО - Заменено Мобильным Интерфейсом**  
+> Терминальный пользовательский интерфейс (TUI) был устарен в пользу нового **[Мобильного Интерфейса](../mui/mui_index.md)** для пользователей CAI-Pro.  
+> Хотя TUI по-прежнему работает для существующих пользователей, все новые функции и усилия по разработке сосредоточены на Мобильном Интерфейсе.  
+> **[Присоединяйтесь к TestFlight бета-тестированию Мобильного Интерфейса](https://testflight.apple.com/join/nXZZD4Z5)** для получения последнего опыта CAI.
 
-> **⚡ CAI-Pro Exclusive Feature**  
-> The Terminal User Interface (TUI) is available exclusively in **CAI-Pro**. To access this feature and unlock advanced multi-agent workflows, visit [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) for more information.
+> **⚡ Эксклюзивная функция CAI-Pro**  
+> Терминальный пользовательский интерфейс (TUI) доступен исключительно в **CAI-Pro**. Для получения доступа к этой функции и расблокировки продвинутых рабочих процессов с несколькими агентами посетите [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) для получения дополнительной информации.
 
 ---
 
-The CAI TUI provides a modern, terminal-based interface for interacting with CAI agents, enabling powerful multi-agent workflows, parallel execution, and advanced security testing capabilities.
+CAI TUI предоставляет современный интерфейс на основе терминала для взаимодействия с агентами CAI, обеспечивая мощные рабочие процессы с несколькими агентами, параллельное выполнение и продвинутые возможности тестирования безопасности.
 
-![CAI TUI Interface](../media/cai-tui-main.png)
+![Интерфейс CAI TUI](../media/cai-tui-main.png)
 
-## Overview
+## Обзор
 
-The TUI is built on [Textual](https://textual.textualize.io/), offering:
+TUI построен на [Textual](https://textual.textualize.io/), предлагая:
 
-- **🖥️ Multi-Terminal Support**: Work with up to 4 agents simultaneously in split-screen layouts
-- **👥 Preconfigured Teams**: One-click deployment of specialized agent teams for security assessments
-- **⚡ Parallel Execution**: Execute multiple agents in parallel with independent conversations
-- **📊 Real-Time Stats**: Monitor costs, tokens, and agent performance
-- **🎯 Smart Agent Selection**: Built-in agent recommendation system
-- **🔧 MCP Integration**: Connect to external tools via Model Context Protocol
-- **💾 Session Management**: Save and restore conversations across sessions
+- **🖥️ Поддержка нескольких терминалов**: Работа с до 4 агентов одновременно в макетах с разделенным экраном
+- **👥 Предустановленные команды**: Однократное развертывание специализированных команд агентов для оценок безопасности
+- **⚡ Параллельное выполнение**: Запуск нескольких агентов параллельно с независимыми беседами
+- **📊 Статистика в реальном времени**: Мониторинг затрат, токенов и производительности агентов
+- **🎯 Умный выбор агента**: Встроенная система рекомендаций агентов
+- **🔧 Интеграция MCP**: Подключение к внешним инструментам через Model Context Protocol
+- **💾 Управление сессиями**: Сохранение и восстановление бесед между сессиями
 
-## When to Use the TUI vs CLI
+## Когда использовать TUI vs CLI
 
-| Feature | TUI | CLI |
+| Функция | TUI | CLI |
 |---------|-----|-----|
-| **Visual feedback** | ✅ Rich UI with colors and layouts | ⚠️ Basic text output |
-| **Multi-agent workflows** | ✅ Visual split-screen | ❌ Sequential only |
-| **Agent teams** | ✅ One-click preconfigured teams | ❌ Manual setup |
-| **Real-time monitoring** | ✅ Stats sidebar | ⚠️ Limited |
-| **Session management** | ✅ Visual queue and history | ⚠️ Command-based |
-| **Scripting/Automation** | ❌ Interactive only | ✅ Full scripting support |
-| **Resource usage** | ⚠️ Higher (UI overhead) | ✅ Minimal |
+| **Визуальная обратная связь** | ✅ Насыщенный UI с цветами и макетами | ⚠️ Базовый текстовый вывод |
+| **Рабочие процессы с несколькими агентами** | ✅ Визуальный разделенный экран | ❌ Только последовательно |
+| **Команды агентов** | ✅ Однократные предустановленные команды | ❌ Ручная настройка |
+| **Мониторинг в реальном времени** | ✅ Боковая панель статистики | ⚠️ Ограниченный |
+| **Управление сессиями** | ✅ Визуальная очередь и история | ⚠️ На основе команд |
+| **Скриптинг/Автоматизация** | ❌ Только интерактивно | ✅ Полная поддержка скриптов |
+| **Использование ресурсов** | ⚠️ Выше (накладные расходы UI) | ✅ Минимальное |
 
-**Use TUI for**: Interactive security testing, bug bounty hunting, team-based analysis, exploratory testing
+**Используйте TUI для**: Интерактивного тестирования безопасности, поиска уязвимостей, командного анализа, исследовательского тестирования
 
-**Use CLI for**: Automation, scripting, CI/CD integration, headless environments
+**Используйте CLI для**: Автоматизации, скриптов, интеграции CI/CD, безголовых сред
 
-## Quick Start
+## Быстрый старт
 
-Launch the TUI:
+Запуск TUI:
 
 ```bash
 cai --tui
 ```
 
-Basic workflow:
+Базовый рабочий процесс:
 
-1. Configure your `ALIAS_API_KEY` in **Sidebar → Keys**
-2. Select a model (recommended: `alias1`) from the terminal header dropdown
-3. Choose an agent or use `selection_agent` for recommendations
-4. Type your prompt and press **Enter**
+1. Настройте ваш `ALIAS_API_KEY` в **Боковая панель → Ключи**
+2. Выберите модель (рекомендуется: `alias1`) из выпадающего списка в заголовке терминала
+3. Выберите агента или используйте `selection_agent` для рекомендаций
+4. Введите промпт и нажмите **Enter**
 
-See the [Getting Started Guide](getting_started.md) for detailed instructions.
+Смотрите [Руководство по началу работы](getting_started.md) для подробных инструкций.
 
-## System Requirements
+## Системные требования
 
-- **Python**: 3.9 or higher
-- **Terminal**: Modern terminal with 256+ color support
-- **Minimum window size**: 120x40 characters (recommended)
-- **API Key**: Valid `ALIAS_API_KEY` (get one from [Alias Robotics](https://aliasrobotics.com))
+- **Python**: 3.9 или выше
+- **Терминал**: Современный терминал с поддержкой 256+ цветов
+- **Минимальный размер окна**: 120x40 символов (рекомендуется)
+- **API ключ**: Действительный `ALIAS_API_KEY` (получите у [Alias Robotics](https://aliasrobotics.com))
 
-### Supported Terminals
+### Поддерживаемые терминалы
 
 - ✅ iTerm2 (macOS)
 - ✅ Terminal.app (macOS)
 - ✅ GNOME Terminal (Linux)
 - ✅ Konsole (Linux)
 - ✅ Windows Terminal (Windows)
-- ✅ Alacritty (all platforms)
-- ⚠️ tmux/screen (limited color support)
+- ✅ Alacritty (все платформы)
+- ⚠️ tmux/screen (ограниченная поддержка цветов)
 
-## Key Features
+## Основные функции
 
-### 🖥️ Multiple Terminals
+### 🖥️ Несколько терминалов
 
-Work with multiple agents simultaneously in responsive layouts:
+Работа с несколькими агентами одновременно в адаптивных макетах:
 
-- **1 terminal**: Full-screen mode
-- **2 terminals**: Horizontal split
-- **3 terminals**: 2+1 grid layout
-- **4+ terminals**: 2x2 grid with scroll
+- **1 терминал**: Режим полного экрана
+- **2 терминала**: Горизонтальное разделение
+- **3 терминала**: Макет сетки 2+1
+- **4+ терминала**: Сетка 2x2 с прокруткой
 
-Each terminal maintains its own:
-- Independent agent and model selection
-- Isolated conversation history
-- Separate execution context
+Каждый терминал поддерживает:
+- Независимый выбор агента и модели
+- Изолированную историю бесед
+- Отдельный контекст выполнения
 
-Learn more: [Terminals Management](terminals_management.md)
+Подробнее: [Управление терминалами](terminals_management.md)
 
-### 👥 Preconfigured Teams
+### 👥 Предустановленные команды
 
-Access specialized agent teams from the sidebar:
+Доступ к специализированным командам агентов через боковую панель:
 
-- **Team: 2 Red + 2 Bug**: Offensive testing + bug hunting
-- **Team: 2 Red + 2 Blue**: Dual-perspective security analysis
-- **Team: Red + Blue + Retester + Bug**: Comprehensive assessment workflow
+- **Команда: 2 Red + 2 Bug**: Наступательное тестирование + поиск ошибок
+- **Команда: 2 Red + 2 Blue**: Двухперспективный анализ безопасности
+- **Команда: Red + Blue + Retester + Bug**: Комплексный рабочий процесс оценки
 
-Learn more: [Teams and Parallel Execution](teams_and_parallel_execution.md)
+Подробнее: [Команды и параллельное выполнение](teams_and_parallel_execution.md)
 
-### 🎯 Smart Agent Selection
+### 🎯 Умный выбор агента
 
-Use the `selection_agent` to get intelligent agent recommendations based on your task:
+Используйте `selection_agent` для получения умных рекомендаций агентов на основе вашей задачи:
 
 ```
 /agent selection_agent
 ```
 
-Or simply select it from the agent dropdown.
+Или просто выберите его из выпадающего списка агентов.
 
-Learn more: [Commands Reference](commands_reference.md)
+Подробнее: [Справочник команд](commands_reference.md)
 
-### 📊 Sidebar Features
+### 📊 Функции боковой панели
 
-The collapsible sidebar (`Ctrl+S`) provides:
+Сворачиваемая боковая панель (`Ctrl+S`) предоставляет:
 
-- **Teams**: One-click team deployment
-- **Queue**: Visual prompt queue management
-- **Stats**: Real-time session statistics and costs
-- **Keys**: Manage API keys for multiple providers
+- **Команды**: Однократное развертывание команд
+- **Очередь**: Визуальное управление очередью промптов
+- **Статистика**: Статистика сессий и затраты в реальном времени
+- **Ключи**: Управление API ключами для нескольких провайдеров
 
-Learn more: [Sidebar Features](sidebar_features.md)
+Подробнее: [Функции боковой панели](sidebar_features.md)
 
-## Documentation Structure
+## Структура документации
 
-### For New Users
-1. [Getting Started](getting_started.md) - First steps and basic usage
-2. [User Interface](user_interface.md) - Understanding the layout
-3. [Keyboard Shortcuts](keyboard_shortcuts.md) - Essential shortcuts
+### Для новых пользователей
+1. [Начало работы](getting_started.md) - Первые шаги и базовое использование
+2. [Пользовательский интерфейс](user_interface.md) - Понимание макета
+3. [Горячие клавиши](keyboard_shortcuts.md) - Основные сочетания клавиш
 
-### For Regular Users
-4. [Commands Reference](commands_reference.md) - Complete command list
-5. [Terminals Management](terminals_management.md) - Working with multiple terminals
-6. [Sidebar Features](sidebar_features.md) - Sidebar tabs and capabilities
+### Для опытных пользователей
+4. [Справочник команд](commands_reference.md) - Полный список команд
+5. [Управление терминалами](terminals_management.md) - Работа с несколькими терминалами
+6. [Функции боковой панели](sidebar_features.md) - Вкладки и возможности боковой панели
 
-### For Advanced Users
-7. [Teams and Parallel Execution](teams_and_parallel_execution.md) - Multi-agent workflows
-8. [Advanced Features](advanced_features.md) - MCP, ICL, and more
+### Для продвинутых пользователей
+7. [Команды и параллельное выполнение](teams_and_parallel_execution.md) - Рабочие процессы с несколькими агентами
+8. [Продвинутые функции](advanced_features.md) - MCP, ICL и другое
 
-### Support Resources
-9. [Troubleshooting](troubleshooting.md) - Common issues and solutions
+### Ресурсы поддержки
+9. [Решение проблем](troubleshooting.md) - Типичные проблемы и решения
 
-## Quick Reference
+## Краткий справочник
 
-### Essential Keyboard Shortcuts
+### Основные горячие клавиши
 
-| Shortcut | Action |
+| Сочетание клавиш | Действие |
 |----------|--------|
-| `Ctrl+S` | Toggle sidebar |
-| `Ctrl+L` | Clear all terminals |
-| `Ctrl+Q` | Exit CAI |
-| `Ctrl+N` / `Ctrl+B` | Navigate terminals |
-| `Ctrl+C` | Cancel current agent |
-| `ESC` | Cancel all agents |
+| `Ctrl+S` | Переключить боковую панель |
+| `Ctrl+L` | Очистить все терминалы |
+| `Ctrl+Q` | Выйти из CAI |
+| `Ctrl+N` / `Ctrl+B` | Навигация по терминалам |
+| `Ctrl+C` | Отменить текущего агента |
+| `ESC` | Отменить всех агентов |
 
-See the complete [Keyboard Shortcuts Reference](keyboard_shortcuts.md) for all shortcuts.
+Смотрите полный [Справочник горячих клавиш](keyboard_shortcuts.md) для всех сочетаний.
 
-### Most Used Commands
+### Наиболее используемые команды
 
-| Command | Description |
+| Команда | Описание |
 |---------|-------------|
-| `/help` | Show help |
-| `/agent list` | List all agents |
-| `/agent <name>` | Switch agent |
-| `/model <name>` | Change model |
-| `/queue` | Show prompt queue |
-| `/cost` | Show costs and tokens |
-| `/save <file>` | Save as `.jsonl` (for `/load`) or `.md` (report) |
-| `/load <file>` | Load conversation JSONL (not `.md` exports) |
+| `/help` | Показать справку |
+| `/agent list` | Список всех агентов |
+| `/agent <name>` | Переключить агента |
+| `/model <name>` | Изменить модель |
+| `/queue` | Показать очередь промптов |
+| `/cost` | Показать затраты и токены |
+| `/save <file>` | Сохранить как `.jsonl` (для `/load`) или `.md` (отчет) |
+| `/load <file>` | Загрузить JSONL беседы (не экспорт `.md`) |
 
-See the complete [Commands Reference](commands_reference.md) for all commands.
+Смотрите полный [Справочник команд](commands_reference.md) для всех команд.
 
-## Architecture
+## Архитектура
 
 ```
 CAI TUI
-├── Core Components
-│   ├── SessionManager - Coordinates all terminals
-│   ├── TerminalRunner - Manages agent execution per terminal
-│   └── AgentExecutor - Handles parallel execution
-├── UI Components
-│   ├── UniversalTerminal - Individual terminal widget
-│   ├── StableTerminalGrid - Layout manager
-│   ├── Sidebar - Navigation and features
-│   └── InfoStatusBar - Real-time status display
-└── Display System
-    ├── DisplayManager - Output routing
-    ├── StreamingDisplay - Real-time streaming
-    └── AgentDisplay - Agent message formatting
+├── Основные компоненты
+│   ├── SessionManager - Координирует все терминалы
+│   ├── TerminalRunner - Управляет выполнением агентов для каждого терминала
+│   └── AgentExecutor - Обрабатывает параллельное выполнение
+├── UI компоненты
+│   ├── UniversalTerminal - Виджет отдельного терминала
+│   ├── StableTerminalGrid - Менеджер макета
+│   ├── Sidebar - Навигация и функции
+│   └── InfoStatusBar - Отображение статуса в реальном времени
+└── Система отображения
+    ├── DisplayManager - Маршрутизация вывода
+    ├── StreamingDisplay - Стриминг в реальном времени
+    └── AgentDisplay - Форматирование сообщений агентов
 ```
 
-For technical details, see the [Architecture Overview](../cai_architecture.md).
+Для технических подробностей смотрите [Обзор архитектуры](../cai_architecture.md).
 
-## Community and Support
+## Сообщество и поддержка
 
-- **Documentation**: [https://docs.aliasrobotics.com](https://docs.aliasrobotics.com)
+- **Документация**: [https://docs.aliasrobotics.com](https://docs.aliasrobotics.com)
 - **GitHub Issues**: [https://github.com/aliasrobotics/cai/issues](https://github.com/aliasrobotics/cai/issues)
-- **Discord**: [Join our community](https://discord.gg/aliasrobotics)
+- **Discord**: [Присоединяйтесь к нашему сообществу](https://discord.gg/aliasrobotics)
 - **Twitter**: [@aliasrobotics](https://twitter.com/aliasrobotics)
 
-## What's Next?
+## Что дальше?
 
-- 📖 [Getting Started Guide](getting_started.md) - Learn the basics
-- 🖥️ [User Interface](user_interface.md) - Understand the layout
-- ⌨️ [Keyboard Shortcuts](keyboard_shortcuts.md) - Boost your productivity
-- 🎯 [Commands Reference](commands_reference.md) - Master the commands
-- 👥 [Teams and Parallel Execution](teams_and_parallel_execution.md) - Advanced workflows
+- 📖 [Руководство по началу работы](getting_started.md) - Изучите основы
+- 🖥️ [Пользовательский интерфейс](user_interface.md) - Поймите макет
+- ⌨️ [Горячие клавиши](keyboard_shortcuts.md) - Повысьте свою продуктивность
+- 🎯 [Справочник команд](commands_reference.md) - Освойте команды
+- 👥 [Команды и параллельное выполнение](teams_and_parallel_execution.md) - Продвинутые рабочие процессы
 
 ---
 
-*Last updated: October 2025 | CAI TUI v0.6+*
-
+*Последнее обновление: Октябрь 2025 | CAI TUI v0.6+*

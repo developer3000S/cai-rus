@@ -1,237 +1,237 @@
-# CAI Mobile User Interface (Mobile UI)
+# Мобильный пользовательский интерфейс CAI (Mobile UI)
 
-> **⚡ CAI-Pro Exclusive Feature**  
-> The Mobile User Interface (Mobile UI) is available exclusively in **CAI-Pro**. Experience the power of CAI on your iOS device.  
-> **[Join the TestFlight Beta](https://testflight.apple.com/join/nXZZD4Z5)** to get early access to the CAI mobile app.
+> **⚡ Эксклюзивная функция CAI-Pro**  
+> Мобильный пользовательский интерфейс (Mobile UI) доступен исключительно в **CAI-Pro**. Оцените мощь CAI на вашем устройстве iOS.  
+> **[Присоединяйтесь к бета-тестированию в TestFlight](https://testflight.apple.com/join/nXZZD4Z5)**, чтобы получить ранний доступ к мобильному приложению CAI.
 
 ---
 
-The CAI Mobile UI brings the full power of CAI to iOS devices, providing a native mobile experience for cybersecurity professionals who need to perform security assessments, respond to incidents, and manage agents on the go.
+CAI Mobile UI переносит все возможности CAI на устройства iOS, предоставляя нативный мобильный опыт для специалистов по кибербезопасности, которым необходимо проводить аудит безопасности, реагировать на инциденты и управлять агентами на ходу.
 
 ![CAI Mobile UI Login](../media/MUI/cai_app_ios_login.png)
 
-## Overview
+## Обзор
 
-The Mobile UI is a native iOS application built with SwiftUI, offering:
+Mobile UI — это нативное приложение для iOS, созданное с помощью SwiftUI, предлагающее:
 
-- **📱 Native iOS Experience**: Optimized for iPhone and iPad with familiar iOS interactions
-- **🔒 Secure Authentication**: Direct pairing with your CAI API server
-- **💬 Real-Time Chat**: Stream responses from multiple agents with native performance
-- **🌐 Network Discovery**: Automatically discover CAI servers on your local network
-- **🛠️ MCP Integration**: Connect to Model Context Protocol tools directly from mobile
-- **🎨 Professional UI**: Custom Alias theme with dark mode support
-- **⚡ Offline Capability**: Continue reading conversations without connectivity
+- **📱 Нативный опыт iOS**: Оптимизация для iPhone и iPad с привычными взаимодействиями iOS
+- **🔒 Безопасная аутентификация**: Прямое сопряжение с вашим сервером CAI API
+- **💬 Чат в реальном времени**: Потоковая передача ответов от нескольких агентов с нативной производительностью
+- **🌐 Сетевое обнаружение**: Автоматический поиск серверов CAI в вашей локальной сети
+- **🛠️ Интеграция MCP**: Подключение к инструментам Model Context Protocol прямо с мобильного устройства
+- **🎨 Профессиональный интерфейс**: Кастомная тема Alias с поддержкой темного режима
+- **⚡ Оффлайн-возможности**: Продолжение чтения переписок без подключения к сети
 
-## When to Use Mobile UI vs TUI vs CLI
+## Когда использовать Mobile UI, TUI или CLI
 
-| Feature | Mobile UI | TUI | CLI |
+| Функция | Mobile UI | TUI | CLI |
 |---------|-----------|-----|-----|
-| **Mobility** | ✅ Full mobile access | ❌ Desktop only | ❌ Desktop only |
-| **Touch Interface** | ✅ Native touch/gesture | ❌ Keyboard only | ❌ Keyboard only |
-| **Visual Experience** | ✅ Native iOS UI | ✅ Rich terminal UI | ⚠️ Basic text |
-| **Multi-Agent** | ✅ Tab-based switching | ✅ Split-screen | ❌ Sequential |
-| **Network Scanning** | ✅ Built-in discovery | ❌ Manual config | ❌ Manual config |
-| **Session Portability** | ✅ Sync across devices | ⚠️ Local only | ⚠️ Local only |
-| **Resource Usage** | ✅ Optimized for mobile | ⚠️ Higher (UI) | ✅ Minimal |
-| **Automation** | ❌ Interactive only | ❌ Interactive only | ✅ Full scripting |
+| **Мобильность** | ✅ Полный мобильный доступ | ❌ Только десктоп | ❌ Только десктоп |
+| **Сенсорный интерфейс** | ✅ Нативные касания/жесты | ❌ Только клавиатура | ❌ Только клавиатура |
+| **Визуальный опыт** | ✅ Нативный UI iOS | ✅ Богатый терминальный UI | ⚠️ Базовый текст |
+| **Мульти-агентность** | ✅ Переключение вкладками | ✅ Разделение экрана | ❌ Последовательно |
+| **Сетевое сканирование** | ✅ Встроенное обнаружение | ❌ Ручная настройка | ❌ Ручная настройка |
+| **Портируемость сессий** | ✅ Синхронизация между устройствами | ⚠️ Только локально | ⚠️ Только локально |
+| **Потребление ресурсов** | ✅ Оптимизировано для мобильных | ⚠️ Выше (UI) | ✅ Минимальное |
+| **Автоматизация** | ❌ Только интерактивно | ❌ Только интерактивно | ✅ Полное скриптование |
 
-**Use Mobile UI for**: On-the-go security testing, incident response, remote agent management, field assessments
+**Используйте Mobile UI для**: тестирования безопасности на ходу, реагирования на инциденты, удаленного управления агентами, полевых выездов.
 
-**Use TUI for**: Desktop-based interactive testing, multi-agent workflows, team collaboration
+**Используйте TUI для**: интерактивного тестирования на десктопе, многоагентных рабочих процессов, командного взаимодействия.
 
-**Use CLI for**: Automation, CI/CD integration, scripting, server deployments
+**Используйте CLI для**: автоматизации, интеграции в CI/CD, написания скриптов, развертывания серверов.
 
-## Quick Start
+## Быстрый старт
 
-### 1. Install the App
+### 1. Установка приложения
 
-1. **Join TestFlight Beta**: [https://testflight.apple.com/join/nXZZD4Z5](https://testflight.apple.com/join/nXZZD4Z5)
-2. Install TestFlight from the App Store if not already installed
-3. Follow the link to install CAI Mobile UI
-4. Launch the app
+1. **Присоединяйтесь к бета-тестированию TestFlight**: [https://testflight.apple.com/join/nXZZD4Z5](https://testflight.apple.com/join/nXZZD4Z5)
+2. Установите TestFlight из App Store, если он еще не установлен
+3. Перейдите по ссылке, чтобы установить CAI Mobile UI
+4. Запустите приложение
 
-### 2. Connect to Your CAI Server
+### 2. Подключение к вашему серверу CAI
 
 ![CAI Mobile UI Chat](../media/MUI/cai_app_ios_chat.png)
 
-**Option A: Network Discovery**
-1. Ensure your iOS device is on the same network as your CAI API server
-2. Tap "Scan Network" on the login screen
-3. Select your server from the discovered list
-4. Enter your API key
+**Вариант А: Сетевое обнаружение**
+1. Убедитесь, что ваше iOS-устройство находится в той же сети, что и ваш сервер CAI API
+2. Нажмите "Scan Network" на экране входа
+3. Выберите ваш сервер из списка обнаруженных
+4. Введите ваш API-ключ
 
-**Option B: Manual Connection**
-1. Enter your CAI API server URL (e.g., `http://192.168.1.100:8000`)
-2. Enter your API key
-3. Tap "Connect"
+**Вариант Б: Ручное подключение**
+1. Введите URL вашего сервера CAI API (например, `http://192.168.1.100:8000`)
+2. Введите ваш API-ключ
+3. Нажмите "Connect"
 
-### 3. Start Using CAI
+### 3. Начало работы с CAI
 
-1. Select an agent from the agent selector
-2. Choose your preferred model (recommended: `alias1`)
-3. Type your security query or command
-4. Swipe between conversations using tabs
+1. Выберите агента в селекторе агентов
+2. Выберите предпочтительную модель (рекомендуется: `alias1`)
+3. Введите ваш запрос по безопасности или команду
+4. Переключайтесь между беседами с помощью вкладок
 
-See the [Getting Started Guide](getting_started.md) for detailed setup instructions.
+Подробные инструкции по настройке см. в [Руководстве по началу работы](getting_started.md).
 
-## System Requirements
+## Системные требования
 
-### Device Requirements
-- **iOS Version**: 15.0 or later
-- **Device**: iPhone 12 or newer, iPad (6th generation) or newer
-- **Storage**: 100MB free space
-- **Network**: Wi-Fi or cellular data connection
+### Требования к устройству
+- **Версия iOS**: 15.0 или новее
+- **Устройство**: iPhone 12 или новее, iPad (6-го поколения) или новее
+- **Память**: 100 МБ свободного места
+- **Сеть**: Подключение по Wi-Fi или сотовым данным
 
-### Server Requirements
-- **CAI API Server**: v0.7.0 or later
-- **API Key**: Valid `ALIAS_API_KEY` from [Alias Robotics](https://aliasrobotics.com)
-- **Network**: Server must be accessible from your iOS device
+### Требования к серверу
+- **CAI API Server**: v0.7.0 или новее
+- **API Key**: Действительный `ALIAS_API_KEY` от [Alias Robotics](https://aliasrobotics.com)
+- **Сеть**: Сервер должен быть доступен с вашего iOS-устройства
 
-## Key Features
+## Ключевые особенности
 
-### 📱 Native iOS Interface
+### 📱 Нативный интерфейс iOS
 
-Experience CAI with a truly native iOS experience:
+Оцените CAI с по-настоящему нативным опытом iOS:
 
 ![CAI Mobile UI Reasoning](../media/MUI/cai_app_ios_reasoning.png)
 
-- **Intuitive Navigation**: Swipe gestures, pull-to-refresh, and familiar iOS patterns
-- **Dark Mode**: Automatic adaptation to system appearance
-- **Dynamic Type**: Support for accessibility text sizes
-- **Haptic Feedback**: Subtle feedback for important actions
-- **Face ID/Touch ID**: Secure your sessions with biometric authentication
+- **Интуитивная навигация**: Жесты смахивания, pull-to-refresh и привычные паттерны iOS
+- **Темный режим**: Автоматическая адаптация к внешнему виду системы
+- **Динамический шрифт**: Поддержка доступных размеров текста
+- **Тактильный отклик**: Едва заметная вибрация для важных действий
+- **Face ID/Touch ID**: Защита сессий с помощью биометрической аутентификации
 
-### 💬 Advanced Chat Interface
+### 💬 Продвинутый интерфейс чата
 
-Interact with agents using a sophisticated chat system:
+Взаимодействуйте с агентами с помощью продуманной системы чата:
 
-- **Real-time Streaming**: See responses as they're generated
-- **Rich Formatting**: Markdown rendering with syntax highlighting
-- **Code Blocks**: Copy code snippets with one tap
-- **Message Actions**: Long-press for copy, share, or save
-- **Conversation History**: Persistent storage with search
+- **Потоковая передача в реальном времени**: Видьте ответы по мере их генерации
+- **Богатое форматирование**: Рендеринг Markdown с подсветкой синтаксиса
+- **Блоки кода**: Копируйте фрагменты кода одним касанием
+- **Действия с сообщениями**: Долгий нажим для копирования, обмена или сохранения
+- **История переписок**: Постоянное хранилище с поиском
 
-### 🌐 Network Discovery & MCP
+### 🌐 Сетевое обнаружение и MCP
 
-Connect to your infrastructure seamlessly:
+Бесшовно подключайтесь к вашей инфраструктуре:
 
-- **Auto-Discovery**: Find CAI servers on your local network
-- **MCP Tools**: Access filesystem, git, and custom tools
-- **Server Profiles**: Save multiple server configurations
-- **Connection Status**: Real-time server health monitoring
+- **Автообнаружение**: Поиск серверов CAI в вашей локальной сети
+- **Инструменты MCP**: Доступ к файловой системе, git и пользовательским инструментам
+- **Профили серверов**: Сохранение нескольких конфигураций серверов
+- **Статус подключения**: Мониторинг состояния сервера в реальном времени
 
-### 🎯 Agent Management
+### 🎯 Управление агентами
 
-Access the full power of CAI agents:
+Используйте всю мощь агентов CAI:
 
-- **Quick Switching**: Swipe or tap to change agents
-- **Agent Info**: View capabilities and documentation
-- **Favorites**: Star frequently used agents
-- **Context Preservation**: Maintain state across sessions
+- **Быстрое переключение**: Смахивание или касание для смены агента
+- **Информация об агенте**: Просмотр возможностей и документации
+- **Избранное**: Отмечайте часто используемых агентов звездочкой
+- **Сохранение контекста**: Поддержание состояния между сессиями
 
-### 📊 Session Management
+### 📊 Управление сессиями
 
-Keep track of your work:
+Следите за своей работой:
 
-- **Session History**: Browse past conversations
-- **Export Options**: Share as text, JSON, or PDF
-- **Cost Tracking**: Monitor token usage and costs
-- **Analytics**: View usage patterns and insights
+- **История сессий**: Просмотр прошлых бесед
+- **Варианты экспорта**: Сохранение в формате текста, JSON или PDF
+- **Отслеживание затрат**: Мониторинг использования токенов и стоимости
+- **Аналитика**: Просмотр паттернов использования и инсайтов
 
-## Documentation Structure
+## Структура документации
 
-### For New Users
-1. [Getting Started](getting_started.md) - Installation and first steps
-2. [User Interface](user_interface.md) - Understanding the mobile layout
-3. [Gestures & Shortcuts](gestures_shortcuts.md) - Essential interactions
+### Для новых пользователей
+1. [Начало работы](getting_started.md) — установка и первые шаги
+2. [Пользовательский интерфейс](user_interface.md) — понимание мобильного макета
+3. [Жесты и горячие клавиши](gestures_shortcuts.md) — основные взаимодействия
 
-### For Regular Users
-4. [Chat Features](chat_features.md) - Advanced messaging capabilities
-5. [Agent Selection](agent_selection.md) - Choosing and managing agents
-6. [Network & MCP](network_mcp.md) - Connectivity and tools
+### Для постоянных пользователей
+4. [Функции чата](chat_features.md) — расширенные возможности обмена сообщениями
+5. [Выбор агента](agent_selection.md) — выбор и управление агентами
+6. [Сеть и MCP](network_mcp.md) — подключение и инструменты
 
-### For Advanced Users
-7. [Session Management](session_management.md) - History and exports
-8. [Security Features](security_features.md) - Authentication and privacy
-9. [Advanced Settings](advanced_settings.md) - Customization options
+### Для продвинутых пользователей
+7. [Управление сессиями](session_management.md) — история и экспорт
+8. [Функции безопасности](security_features.md) — аутентификация и приватность
+9. [Продвинутые настройки](advanced_settings.md) — варианты кастомизации
 
-### Support Resources
-10. [Troubleshooting](troubleshooting.md) - Common issues and solutions
-11. [FAQ](faq.md) - Frequently asked questions
+### Ресурсы поддержки
+10. [Поиск и устранение неисправностей](troubleshooting.md) — частые проблемы и решения
+11. [FAQ](faq.md) — часто задаваемые вопросы
 
-## Quick Reference
+## Быстрая справка
 
-### Essential Gestures
+### Основные жесты
 
-| Gesture | Action |
+| Жест | Действие |
 |---------|--------|
-| Swipe Right | Previous conversation |
-| Swipe Left | Next conversation |
-| Pull Down | Refresh/Cancel |
-| Long Press Message | Show actions |
-| Double Tap Code | Copy to clipboard |
-| Pinch | Zoom text size |
+| Свайп вправо | Предыдущая беседа |
+| Свайп влево | Следующая беседа |
+| Потянуть вниз | Обновить/Отменить |
+| Долгий нажим на сообщение | Показать действия |
+| Двойной тап по коду | Копировать в буфер обмена |
+| Щипок (Pinch) | Изменить размер текста |
 
-### Common Actions
+### Общие действия
 
-| Action | How To |
+| Действие | Как выполнить |
 |--------|--------|
-| Change Agent | Tap agent name in header |
-| Switch Model | Tap model dropdown |
-| New Chat | Tap + button |
-| View History | Tap clock icon |
-| Export Chat | Long press → Share |
-| Cancel Generation | Pull down during response |
+| Сменить агента | Нажать на имя агента в шапке |
+| Сменить модель | Нажать на выпадающий список моделей |
+| Новый чат | Нажать кнопку + |
+| Просмотр истории | Нажать на иконку часов |
+| Экспорт чата | Долгий нажим → Поделиться |
+| Отменить генерацию | Потянуть вниз во время ответа |
 
-## Architecture
+## Архитектура
 
 ```
 CAI Mobile UI
 ├── Core Components
-│   ├── CAIAPIClient - Server communication
-│   ├── AuthManager - Authentication & pairing
-│   └── SessionStore - Local data persistence
+│   ├── CAIAPIClient - Связь с сервером
+│   ├── AuthManager - Аутентификация и сопряжение
+│   └── SessionStore - Локальное хранение данных
 ├── UI Components
-│   ├── ChatView - Main conversation interface
-│   ├── AgentSelector - Agent browsing & selection
-│   ├── NetworkScanner - Local network discovery
-│   └── SettingsView - Configuration management
+│   ├── ChatView - Основной интерфейс беседы
+│   ├── AgentSelector - Просмотр и выбор агентов
+│   ├── NetworkScanner - Обнаружение в локальной сети
+│   └── SettingsView - Управление конфигурацией
 ├── MCP Integration
-│   ├── MCPServer - Tool protocol handling
-│   ├── MCPNetworkStore - Tool discovery
-│   └── MCPToolsView - Tool management UI
+│   ├── MCPServer - Обработка протокола инструментов
+│   ├── MCPNetworkStore - Обнаружение инструментов
+│   └── MCPToolsView - UI управления инструментами
 └── Services
-    ├── ChatLogStore - Conversation storage
-    ├── KeychainHelper - Secure credential storage
-    └── LocalNetworkInfo - Network utilities
+    ├── ChatLogStore - Хранилище истории бесед
+    ├── KeychainHelper - Безопасное хранение учетных данных
+    └── LocalNetworkInfo - Сетевые утилиты
 ```
 
-## Video Demo
+## Видео-демонстрация
 
-Watch CAI Mobile UI in action:
+Посмотрите CAI Mobile UI в действии:
 
-[View Demo Video](../media/MUI/cai_app_0.7_apple_hd.mp4)
+[Смотреть демо-видео](../media/MUI/cai_app_0.7_apple_hd.mp4)
 
-## Community and Support
+## Сообщество и поддержка
 
-- **TestFlight Beta**: [Join Now](https://testflight.apple.com/join/nXZZD4Z5)
-- **Documentation**: [https://docs.aliasrobotics.com](https://docs.aliasrobotics.com)
-- **GitHub Issues**: [Report iOS App Issues](https://github.com/aliasrobotics/cai/issues)
-- **Discord**: [Join our community](https://discord.gg/aliasrobotics)
+- **Бета-тест TestFlight**: [Присоединиться сейчас](https://testflight.apple.com/join/nXZZD4Z5)
+- **Документация**: [https://docs.aliasrobotics.com](https://docs.aliasrobotics.com)
+- **GitHub Issues**: [Сообщить о проблемах iOS приложения](https://github.com/aliasrobotics/cai/issues)
+- **Discord**: [Присоединиться к сообществу](https://discord.gg/aliasrobotics)
 - **Twitter**: [@aliasrobotics](https://twitter.com/aliasrobotics)
 
-## What's Next?
+## Что дальше?
 
-- 📱 [Getting Started Guide](getting_started.md) - Set up your first mobile session
-- 🎯 [User Interface](user_interface.md) - Master the mobile layout
-- 👆 [Gestures & Shortcuts](gestures_shortcuts.md) - Navigate like a pro
-- 💬 [Chat Features](chat_features.md) - Advanced conversation tools
-- 🌐 [Network & MCP](network_mcp.md) - Connect to your infrastructure
-
----
-
-> **Note**: The Terminal User Interface (TUI) is now deprecated in favor of the Mobile UI for CAI-Pro users. While the TUI remains functional for existing users, all new development and features are being added to the Mobile UI. We encourage all CAI-Pro users to transition to the mobile experience for the best performance and latest capabilities.
+- 📱 [Руководство по началу работы](getting_started.md) — настройте свою первую мобильную сессию
+- 🎯 [Пользовательский интерфейс](user_interface.md) — освойте мобильный макет
+- 👆 [Жесты и горячие клавиши](gestures_shortcuts.md) — навигация как профи
+- 💬 [Функции чата](chat_features.md) — продвинутые инструменты беседы
+- 🌐 [Сеть и MCP](network_mcp.md) — подключитесь к вашей инфраструктуре
 
 ---
 
-*CAI Mobile UI v0.7.0+ | Exclusively for CAI-Pro*
+> **Примечание**: Терминальный пользовательский интерфейс (TUI) теперь считается устаревшим по сравнению с Mobile UI для пользователей CAI-Pro. Хотя TUI остается функциональным для существующих пользователей, все новые разработки и функции добавляются в Mobile UI. Мы рекомендуем всем пользователям CAI-Pro перейти на мобильный опыт для достижения наилучшей производительности и доступа к последним возможностям.
+
+---
+
+*CAI Mobile UI v0.7.0+ | Эксклюзивно для CAI-Pro*

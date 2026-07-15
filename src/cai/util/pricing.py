@@ -176,7 +176,7 @@ def _prefetch_remote_pricing_worker() -> None:
             _PRICING_PREFETCH_DATA = data
             _PRICING_PREFETCH_ERROR = None
         else:
-            _PRICING_PREFETCH_ERROR = "pricing data unavailable"
+            _PRICING_PREFETCH_ERROR = "данные о ценах недоступны"
     except Exception as exc:  # pragma: no cover - defensive guard
         _PRICING_PREFETCH_ERROR = str(exc)
     finally:
@@ -380,10 +380,10 @@ class CostTracker:
 
         if logger.hasHandlers():
             logger.warning(message, extra=context)
-            logger.warning("Call stack for unattributed cost:\n%s", stack)
+            logger.warning("Стек вызовов для неатрибутированной стоимости:\n%s", stack)
         else:
-            print(f"[CostTracker] WARNING: {message} | context={context}", flush=True)
-            print(f"[CostTracker] Call stack for unattributed cost:\n{stack}", flush=True)
+            print(f"[CostTracker] ПРЕДУПРЕЖДЕНИЕ: {message} | context={context}", flush=True)
+            print(f"[CostTracker] Стек вызовов для неатрибутированной стоимости:\n{stack}", flush=True)
 
         # Always append to a dedicated log for offline inspection
         try:
@@ -582,7 +582,7 @@ class CostTracker:
         # Skip displaying cost if already shown in the session summary
         if os.environ.get("CAI_COST_DISPLAYED", "").lower() == "true":
             return
-        print(f"\nTotal CAI Session Cost: ${self.session_total_cost:.6f}")
+        print(f"\nОбщая стоимость сессии CAI: ${self.session_total_cost:.6f}")
 
     def get_model_pricing(self, model_name: str, *, allow_async: bool = True) -> tuple:
         """Get and cache pricing information for a model.
@@ -635,7 +635,7 @@ class CostTracker:
                             _pricing_debug_log("GET_MODEL_PRICING: NOT FOUND IN LOCAL FILE", path=str(pricing_path))
         except Exception as e:
             _pricing_debug_log("GET_MODEL_PRICING: LOCAL FILE ERROR", error=str(e))
-            print(f"  WARNING: Error loading local pricing.json files: {str(e)}")
+            print(f"  ПРЕДУПРЕЖДЕНИЕ: Ошибка загрузки локальных файлов pricing.json: {str(e)}")
 
         _pricing_debug_log("GET_MODEL_PRICING: TRYING NATIVE CACHE")
         cached_tuple = _pricing_tuple_from_mapping(_load_native_pricing_cache(), model_name)
@@ -682,7 +682,7 @@ class CostTracker:
                 # Be quiet by default to avoid interfering with CLI/TUI output
                 if os.getenv("CAI_PRICING_VERBOSE", "0").lower() in ("1", "true", "yes"):
                     print(
-                        "  INFO: Pricing fetch still running; using cached/default values until it completes."
+                        "  ИНФО: Получение цен всё ещё выполняется; используются кэшированные/значения по умолчанию до завершения."
                     )
                 self.pricing_fetch_warned = True
 
@@ -892,11 +892,11 @@ class CostTracker:
         normalized_key = self._normalize_agent_key(agent_key, agent_id, agent_name)
         if normalized_key == "unknown":
             if not agent_name:
-                agent_name = "Unattributed"
+                agent_name = "Без атрибуции"
             if not terminal_id:
                 terminal_id = "unassigned"
             self._warn_unattributed(
-                "Tracking cost for interaction without explicit agent metadata; assigning to 'Unattributed'",
+                "Отслеживание стоимости взаимодействия без явных метаданных агента; назначение 'Без атрибуции'",
                 model=model_name,
                 provided_cost=provided_cost,
                 agent_key=agent_key,
@@ -975,11 +975,11 @@ class CostTracker:
         normalized_key = self._normalize_agent_key(agent_key, agent_id, agent_name)
         if normalized_key == "unknown":
             if not agent_name:
-                agent_name = "Unattributed"
+                agent_name = "Без атрибуции"
             if not terminal_id:
                 terminal_id = "unassigned"
             self._warn_unattributed(
-                "Accumulating total cost without agent metadata; assigning to 'Unattributed'",
+                "Накопление общей стоимости без метаданных агента; назначение 'Без атрибуции'",
                 model=model_name,
                 provided_cost=provided_cost,
                 agent_key=agent_key,

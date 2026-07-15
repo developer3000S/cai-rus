@@ -1,20 +1,20 @@
 """
-C99.nl multi-purpose OSINT utility for reconnaissance.
+Универсальная утилита OSINT от C99.nl для разведки.
 
-This module exposes a single tool `c99` that wraps many C99.nl APIs,
-providing a common interface for common recon / OSINT tasks.
+Этот модуль предоставляет инструмент `c99`, который объединяет множество API C99.nl,
+обеспечивая единый интерфейс для типичных задач разведки / OSINT.
 
-Example actions (see C99.nl documentation for full details):
-    - \"subdomain\"      → Subdomain Finder / CloudFlare Resolver
-    - \"firewall\"       → Firewall Technology (WAF) Detector
-    - \"phone_lookup\"   → Phone Lookup
-    - \"ping\"           → Ping host
-    - \"geoip\"          → GeoIP lookup
-    - \"whois\"          → Whois Checker
-    - \"gif\"            → GIF Finder
+Примеры действий (полное описание см. в документации C99.nl):
+    - \"subdomain\"      → Поиск поддоменов / CloudFlare Resolver
+    - \"firewall\"       → Определение технологии файрвола (WAF)
+    - \"phone_lookup\"   → Поиск информации о номере телефона
+    - \"ping\"           → Пинг хоста
+    - \"geoip\"          → GeoIP запрос
+    - \"whois\"          → Whois проверка
+    - \"gif\"            → Поиск GIF
 
-Environment:
-    - Requires C99_API_KEY to be set (or present in .env).
+Окружение:
+    - Требуется переменная C99_API_KEY (или её наличие в .env).
 """
 
 import json
@@ -30,11 +30,11 @@ JSONType = Union[Dict[str, Any], List[Any], str, int, float, bool, None]
 
 
 def _get_c99_api_key() -> str:
-    """Load and return the C99 API key from the environment."""
+    """Загрузить и вернуть API-ключ C99 из переменных окружения."""
     load_dotenv()
     api_key = os.getenv("C99_API_KEY")
     if not api_key:
-        raise ValueError("C99.nl API key (C99_API_KEY) must be set in environment variables.")
+        raise ValueError("API-ключ C99.nl (C99_API_KEY) должен быть задан в переменных окружения.")
     return api_key
 
 
@@ -78,9 +78,9 @@ def _format_subdomain_results(
     data: JSONType,
     only_cloudflare: bool = False,
 ) -> str:
-    """Format results from the subdomain finder / Cloudflare resolver."""
+    """Форматировать результаты поиска поддоменов / Cloudflare resolver."""
     if data is None:
-        return "No subdomains found or API error occurred."
+        return "Поддомены не найдены или произошла ошибка API."
 
     # C99.nl / wrappers commonly return a dict with a `subdomains` key.
     if isinstance(data, dict) and "subdomains" in data:
@@ -128,26 +128,26 @@ def _format_subdomain_results(
 
     if count == 0:
         if only_cloudflare:
-            return "No Cloudflare-fronted subdomains found."
-        return "No subdomains found."
+            return "Поддомены за Cloudflare не найдены."
+        return "Поддомены не найдены."
 
     return formatted_results
 
 
 def _format_firewall_results(data: JSONType, target: str) -> str:
-    """Format results from the firewall / WAF detector."""
+    """Форматировать результаты определения файрвола / WAF."""
     if data is None:
-        return f"No firewall information found for {target} or API error occurred."
+        return f"Информация о файрволе для {target} не найдена или произошла ошибка API."
 
     if isinstance(data, dict):
         # Many wrappers return {success: bool, result: "..."} or similar.
         if not data.get("success", True):
-            reason = data.get("message") or data.get("error") or "Unknown error"
-            return f"Firewall detection failed for {target}: {reason}"
+            reason = data.get("message") or data.get("error") or "Неизвестная ошибка"
+            return f"Обнаружение файрвола не удалось для {target}: {reason}"
 
         result = data.get("result") or data.get("firewall") or data.get("waf")
         if result:
-            return f"Firewall / WAF for {target}: {result}"
+            return f"Файрвол / WAF для {target}: {result}"
 
         # Fallback to JSON dump when shape is unexpected but dict-like.
         return json.dumps(data, indent=2, default=str)
@@ -157,16 +157,16 @@ def _format_firewall_results(data: JSONType, target: str) -> str:
 
 
 def _format_phone_lookup_results(data: JSONType, number: str) -> str:
-    """Format results from the phone lookup API."""
+    """Форматировать результаты поиска информации о номере телефона."""
     if data is None:
-        return f"No phone information found for {number} or API error occurred."
+        return f"Информация о номере {number} не найдена или произошла ошибка API."
 
     if isinstance(data, dict):
         if not data.get("success", True):
-            reason = data.get("message") or data.get("error") or "Unknown error"
-            return f"Phone lookup failed for {number}: {reason}"
+            reason = data.get("message") or data.get("error") or "Неизвестная ошибка"
+            return f"Поиск телефона не удался для {number}: {reason}"
 
-        formatted = f"Phone lookup for {number}:\n"
+        formatted = f"Информация о номере {number}:\n"
         # Highlight commonly useful fields when present.
         common_keys = [
             "international",
@@ -199,9 +199,9 @@ def _format_phone_lookup_results(data: JSONType, number: str) -> str:
 
 
 def _format_generic_results(data: Optional[JSONType]) -> str:
-    """Generic pretty-printer for C99.nl JSON/text responses."""
+    """Универсальный форматировщик для JSON/текстовых ответов C99.nl."""
     if data is None:
-        return "No data returned or API error occurred."
+        return "Данные не возвращены или произошла ошибка API."
 
     if isinstance(data, (dict, list)):
         return json.dumps(data, indent=2, default=str)
@@ -258,61 +258,62 @@ def c99(
     realtime: bool = False,
 ) -> str:
     """
-    Run a C99.nl OSINT action against a target.
+    Выполнить действие OSINT от C99.nl над целью.
 
     Args:
-        action (str): The action to perform. Supported:
-            - \"subdomain\": enumerate subdomains for a domain.
-            - \"cloudflare\": enumerate subdomains; only show Cloudflare-fronted ones.
-            - \"firewall\": detect WAF / firewall technology for a URL.
-            - \"phone_lookup\": lookup information about a phone number.
-            - \"ping\": ping a host.
-            - \"ip_to_host\": resolve an IP to hostname.
-            - \"dns_checker\": advanced DNS check for a domain (param1=type, param2=server).
-            - \"host_to_ip\": resolve a hostname to IP (param2=server).
-            - \"ip2domains\": find domains hosted on an IP.
-            - \"whois\": whois lookup for a domain.
-            - \"screenshot\": create a screenshot for a URL.
-            - \"geoip\": GeoIP lookup for host/IP.
-            - \"up_or_down\": website up/down check.
-            - \"reputation\": site/URL reputation check.
-            - \"headers\": get HTTP headers for a host.
-            - \"link_backup\": make online backup of a URL.
-            - \"random_string\": pick random string from remote text file.
-            - \"dictionary\": dictionary lookup for a word.
-            - \"synonym\": synonym lookup for a word.
-            - \"email_validator\": validate if e-mail exists.
-            - \"disposable_email\": check if e-mail is disposable.
-            - \"ip_validator\": validate IP address format.
-            - \"tor_checker\": check if IP is TOR exit.
-            - \"translate\": translate text (target=text, param1=language code).
-            - \"random_person\": generate random person (target=gender).
-            - \"youtube_details\": get YouTube video details (target=video ID).
-            - \"ip_logger\": manage IP logger (target=action, param1=extra).
-            - \"bitcoin_balance\": check Bitcoin address balance.
-            - \"currency\": convert currency (target=amount, param1=from, param2=to).
-            - \"currency_rates\": get currency rates (target=source currency).
-            - \"weather\": weather lookup (target=location).
-            - \"qr_generator\": generate QR code (target=string, param1=size).
-            - \"proxy_detector\": detect whether IP is a proxy/VPN.
-            - \"password_generator\": generate password
-                (param1=length, param2=include, param3=customlist).
-            - \"random_number\": random number
-                (param1=length or param2=\"min,max\" for between).
-            - \"license_key\": generate license key
-                (target=template, param1=amount).
-            - \"either_or\": get random dilemma.
-            - \"gif\": find GIFs (target=keyword).
-        target (str): Primary target string. Interpretation depends on action,
-            see above.
-        param1 (str, optional): Auxiliary parameter for some actions.
-        param2 (str, optional): Auxiliary parameter for some actions.
-        param3 (str, optional): Auxiliary parameter for some actions.
-        realtime (bool): For subdomain-related actions, request realtime/fresh
-                         results where supported. Ignored for other actions.
+        action (str): Действие для выполнения. Поддерживаемые:
+            - \"subdomain\": перечисление поддоменов для домена.
+            - \"cloudflare\": перечисление поддоменов; показывать только за Cloudflare.
+            - \"firewall\": определение технологии WAF / файрвола для URL.
+            - \"phone_lookup\": поиск информации о номере телефона.
+            - \"ping\": пинг хоста.
+            - \"ip_to_host\": разрешение IP в имя хоста.
+            - \"dns_checker\": расширенная DNS-проверка для домена (param1=тип, param2=сервер).
+            - \"host_to_ip\": разрешение имени хоста в IP (param2=сервер).
+            - \"ip2domains\": поиск доменов, размещённых на IP.
+            - \"whois\": whois-запрос для домена.
+            - \"screenshot\": создание скриншота для URL.
+            - \"geoip\": GeoIP-запрос для хоста/IP.
+            - \"up_or_down\": проверка доступности сайта.
+            - \"reputation\": проверка репутации сайта/URL.
+            - \"headers\": получение HTTP-заголовков для хоста.
+            - \"link_backup\": создание онлайн-резервной копии URL.
+            - \"random_string\": выбор случайной строки из удалённого текстового файла.
+            - \"dictionary\": поиск слова в словаре.
+            - \"synonym\": поиск синонимов для слова.
+            - \"email_validator\": проверка существования электронной почты.
+            - \"disposable_email\": проверка, является ли почта одноразовой.
+            - \"ip_validator\": проверка формата IP-адреса.
+            - \"tor_checker\": проверка, является ли IP выходом TOR.
+            - \"translate\": перевод текста (target=текст, param1=код языка).
+            - \"random_person\": генерация случайного человека (target=пол).
+            - \"youtube_details\": получение деталей видео YouTube (target=ID видео).
+            - \"ip_logger\": управление IP-логгером (target=действие, param1=доп. параметр).
+            - \"bitcoin_balance\": проверка баланса адреса Bitcoin.
+            - \"currency\": конвертация валюты (target=сумма, param1=из, param2=в).
+            - \"currency_rates\": получение курсов валют (target=исходная валюта).
+            - \"weather\": запрос погоды (target=местоположение).
+            - \"qr_generator\": генерация QR-кода (target=строка, param1=размер).
+            - \"proxy_detector\": определение, является ли IP прокси/VPN.
+            - \"password_generator\": генерация пароля
+                (param1=длина, param2=включить, param3=пользовательский список).
+            - \"random_number\": случайное число
+                (param1=длина или param2=\"min,max\" для диапазона).
+            - \"license_key\": генерация лицензионного ключа
+                (target=шаблон, param1=количество).
+            - \"either_or\": получение случайной дилеммы.
+            - \"gif\": поиск GIF (target=ключевое слово).
+        target (str): Основная целевая строка. Интерпретация зависит от действия,
+            см. выше.
+        param1 (str, optional): Вспомогательный параметр для некоторых действий.
+        param2 (str, optional): Вспомогательный параметр для некоторых действий.
+        param3 (str, optional): Вспомогательный параметр для некоторых действий.
+        realtime (bool): Для действий, связанных с поддоменами, запрашивать
+                         результаты в реальном времени, где это поддерживается.
+                         Игнорируется для других действий.
 
     Returns:
-        str: A formatted string describing the results, or an error message.
+        str: Форматированная строка с результатами или сообщение об ошибке.
     """
     normalized = action.lower().strip()
 
@@ -670,7 +671,7 @@ def c99(
         return _format_generic_results(data)
 
     return (
-        "Unsupported C99 action. Supported actions include: subdomain, cloudflare, "
+        "Неподдерживаемое действие C99. Поддерживаемые действия: subdomain, cloudflare, "
         "firewall, phone_lookup, ping, ip_to_host, dns_checker, host_to_ip, "
         "ip2domains, whois, screenshot, geoip, up_or_down, reputation, headers, "
         "link_backup, random_string, dictionary, synonym, email_validator, "

@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 <%
     # This system master document provides a template
     # for constructing system prompts for CAI's agentic

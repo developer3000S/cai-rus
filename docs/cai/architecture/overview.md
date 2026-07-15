@@ -1,20 +1,20 @@
-# Architecture Overview
+# Обзор архитектуры
 
-CAI focuses on making cybersecurity agent **coordination** and **execution** lightweight, highly controllable, and useful for humans. To do so it builds upon 7 pillars: `Agent`s, `Tools`, `Handoffs`, `Patterns`, `Turns`, `Tracing` and `HITL`.
+CAI сфокусирован на том, чтобы сделать **координацию** и **выполнение** агентов кибербезопасности лёгкими, высокоуправляемыми и полезными для людей. Для этого он опирается на 7 столпов: `Агенты`, `Инструменты`, `Передачи`, `Паттерны`, `Ходы`, `Трассировка` и `HITL`.
 
 ```
                   ┌───────────────┐           ┌───────────┐
-                  │      HITL     │◀─────────▶│   Turns   │
+                  │      HITL     │◀─────────▶│   Ходы    │
                   └───────┬───────┘           └───────────┘
                           │
                           ▼
 ┌───────────┐       ┌───────────┐       ┌───────────┐      ┌───────────┐
-│  Patterns │◀─────▶│  Handoffs │◀────▶ │   Agents  │◀────▶│    LLMs   │
+│ Паттерны  │◀─────▶│ Передачи  │◀────▶ │  Агенты   │◀────▶│    LLMs   │
 └───────────┘       └─────┬─────┘       └───────────┘      └───────────┘
                           │                   │
                           │                   ▼
 ┌────────────┐       ┌────┴──────┐       ┌───────────┐
-│ Extensions │◀─────▶│  Tracing  │       │   Tools   │
+│Расширения  │◀─────▶│Трассировка│       │Инструменты│
 └────────────┘       └───────────┘       └───────────┘
                                               │
                           ┌─────────────┬─────┴────┬─────────────┐
@@ -24,26 +24,26 @@ CAI focuses on making cybersecurity agent **coordination** and **execution** lig
                     └───────────┘└───────────┘└────────────┘└───────────┘
 ```
 
-If you want to dive deeper into the code, check the following files as a start point for using CAI:
+Если вы хотите глубже изучить код, начните со следующих файлов для работы с CAI:
 
 ```
 cai
 ├── __init__.py
 │
-├── cli.py                        # entrypoint for CLI
-├── core.py                     # core implementation and agentic flow
-├── types.py                   # main abstractions and classes
-├── util.py                      # utility functions
+├── cli.py                        # точка входа для CLI
+├── core.py                     # базовая реализация и агентный поток
+├── types.py                   # основные абстракции и классы
+├── util.py                      # вспомогательные функции
 │
-├── repl                          # CLI aesthetics and commands
+├── repl                          # эстетика и команды CLI
 │   ├── commands
 │   └── ui
-├── agents                      # agent implementations
-│   ├── one_tool.py      # agent, one agent per file
-│   └── patterns            # agentic patterns, one per file
+├── agents                      # реализации агентов
+│   ├── one_tool.py      # агент, один агент на файл
+│   └── patterns            # агентные паттерны, один на файл
 │
-├── tools                        # agent tools
+├── tools                        # инструменты агентов
 │   ├── common.py
 
-caiextensions                      # out of tree Python extensions
+caiextensions                      # внешние Python-расширения
 ``` 

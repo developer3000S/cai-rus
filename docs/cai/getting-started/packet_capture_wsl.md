@@ -1,46 +1,46 @@
-# Packet capture on WSL2 and evidence artifacts
+# Перехват пакетов на WSL2 и артефакты доказательств
 
-CAI agents capture traffic with `tcpdump`, `tshark`, or `dumpcap`. On **WSL2** (and some locked-down hosts), live capture often fails until the environment grants raw sockets.
+Агенты CAI перехватывают трафик с помощью `tcpdump`, `tshark` или `dumpcap`. На **WSL2** (и некоторых заблокированных хостах) живой перехват часто завершается неудачей, пока окружение не предоставит raw-сокеты.
 
-## Fix capture permissions (WSL2 / Linux)
+## Исправление прав перехвата (WSL2 / Linux)
 
 ```bash
-# One-time: allow dumpcap to capture without root
+# Однократно: разрешить dumpcap захватывать без root
 sudo setcap cap_net_raw+eip "$(command -v dumpcap)"
 
-# Verify
+# Проверка
 getcap "$(command -v dumpcap)"
 ```
 
-If `tcpdump` still fails, retry with `sudo tcpdump ...` when your policy allows it. CAI may prompt for sudo when tool output indicates missing privileges.
+Если `tcpdump` по-прежнему завершается неудачей, повторите с `sudo tcpdump ...` когда ваша политика это позволяет. CAI может запросить sudo, когда вывод инструмента указывает на отсутствие привилегий.
 
-## Prefer CAI Docker (NET_RAW enabled)
+## Рекомендуется CAI Docker (с NET_RAW)
 
-CAI containers are started with `--cap-add=NET_RAW` for capture tools. Run network assessments inside the CAI container when host WSL lacks capabilities.
+Контейнеры CAI запускаются с `--cap-add=NET_RAW` для инструментов перехвата. Выполняйте оценки сети внутри контейнера CAI, когда хост WSL не предоставляет необходимые возможности.
 
-## Evidence types (what to ask the agent for)
+## Типы доказательств (что запрашивать у агента)
 
-| User asks for | Valid artifact | Invalid substitute |
+| Пользователь запрашивает | Допустимый артефакт | Недопустимая замена |
 |---------------|----------------|-------------------|
-| PCAP | `.pcap` / `.pcapng` | `.txt` logs from curl/openssl in `packet_captures/` |
-| Screenshot of traffic | Filtered PCAP or labeled `tshark` export | Text file in `screenshots/` |
-| GUI / Wireshark window | Not available via shell agent | PNG rendered from text |
+| PCAP | `.pcap` / `.pcapng` | `.txt` логи из curl/openssl в `packet_captures/` |
+| Скриншот трафика | Отфильтрованный PCAP или размеченный экспорт `tshark` | Текстовый файл в `screenshots/` |
+| GUI / окно Wireshark | Недоступно через агент оболочки | PNG, отрисованный из текста |
 
-When capture fails, CAI prepends a **PACKET-CAPTURE FAILURE** notice to tool output. The agent should report the blocker and remediation—not fabricate captures.
+При неудачном перехвате CAI добавляет уведомление **PACKET-CAPTURE FAILURE** в начало вывода инструмента. Агент должен сообщать о блокировке и способах устранения — а не fabricated данные перехвата.
 
-## Filtered PCAPs (recommended)
+## Отфильтрованные PCAP (рекомендуется)
 
 ```bash
 tshark -r assessments/full.pcap -Y "http.request" -w assessments/filtered-pcaps/http_only.pcap
 ```
 
-## CSV inventories (e.g. PAsset-XX)
+## Инвентаризации CSV (например, PAsset-XX)
 
-Use the **Risk & Compliance** agent tool `verify_csv_inventory`:
+Используйте инструмент агента **Risk & Compliance** `verify_csv_inventory`:
 
-- Pass the CSV path and your latest assessment text.
-- Require `MISSING from response: none` before closing the task.
+- Передайте путь к CSV и ваш последний текст оценки.
+- Требуйте `MISSING from response: none` перед завершением задачи.
 
-Example user prompt:
+Пример подсказки пользователя:
 
-> List every PAsset-XX in `assets.csv`, assess each, run `verify_csv_inventory`, and do not finish until covered/total is complete.
+> Перечислите каждый PAsset-XX в `assets.csv`, оцените каждый, выполните `verify_csv_inventory` и не завершайте, пока не будет достигнуто покрытие/общее количество.

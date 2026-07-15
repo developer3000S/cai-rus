@@ -1,6 +1,6 @@
 """
-CTR (Cut The Rope) command for security game analysis.
-This command provides access to the Cut The Rope game-theoretic security analysis.
+Команда CTR (Cut The Rope) для анализа безопасности в играх.
+Эта команда предоставляет доступ к теоретико-игровому анализу безопасности Cut The Rope.
 """
 
 import os
@@ -72,25 +72,25 @@ console = Console()
 
 
 class CTRCommand(Command):
-    """CTR command for security game analysis.
+    """Команда CTR для анализа безопасности в играх.
 
-    This command serves as the primary interface between CAI's REPL and the CTR
-    (Cut The Rope) game-theoretic security analysis system. It handles command
-    registration, context gathering, and orchestrates the execution of CTR experiments.
+    Эта команда служит основным интерфейсом между REPL CAI и системой
+    теоретико-игрового анализа безопасности CTR (Cut The Rope). Она обрабатывает
+    регистрацию команд, сбор контекста и координирует выполнение экспериментов CTR.
     """
 
     def __init__(self):
         super().__init__(
             name="/ctr",
-            description="Cut The Rope security game analysis",
+            description="Анализ безопасности Cut The Rope",
         )
         
         # Add subcommands
-        self.add_subcommand("show", "Show defender/attacker strategies and equilibrium", self.handle_show)
-        self.add_subcommand("graph", "Display the attack graph", self.handle_graph)
-        self.add_subcommand("list", "List available CTR runs", self.handle_list)
-        self.add_subcommand("use", "Select a CTR run by index or name", self.handle_use)
-        self.add_subcommand("open", "Open the folder containing CTR runs", self.handle_open)
+        self.add_subcommand("show", "Показать стратегии защитника/атакующего и равновесие", self.handle_show)
+        self.add_subcommand("graph", "Отобразить граф атак", self.handle_graph)
+        self.add_subcommand("list", "Показать доступные запуски CTR", self.handle_list)
+        self.add_subcommand("use", "Выбрать запуск CTR по индексу или имени", self.handle_use)
+        self.add_subcommand("open", "Открыть папку с запусками CTR", self.handle_open)
         
         # Store the last run results
         self.last_results_dir = None
@@ -110,7 +110,7 @@ class CTRCommand(Command):
         3. Experiment invocation via ctr_experiment.run()
         4. Result handling and UI updates
         """
-        console.print(f"[bold {_CAI_GREEN}]Running Cut The Rope analysis...[/bold {_CAI_GREEN}]")
+        console.print(f"[bold {_CAI_GREEN}]Запуск анализа Cut The Rope...[/bold {_CAI_GREEN}]")
 
         # Context Gathering - Priority 1
         # Try to fetch in-memory history from the active agent
@@ -159,7 +159,7 @@ class CTRCommand(Command):
                     console.print(f"[dim]Using most recent log: {log_path}[/dim]")
         
         if not in_memory_history and not log_path:
-            console.print("[red]Error: No conversation history found (in-memory or log).[/red]")
+            console.print("[red]Ошибка: История диалогов не найдена (ни в памяти, ни в журнале).[/red]")
             return False
         
         def _execute_experiment_sync():
@@ -282,7 +282,7 @@ class CTRCommand(Command):
             # Async/Background Execution
             # In TUI or async contexts, CTR runs in a daemon thread to avoid blocking.
             # This allows the UI to remain responsive while CTR analysis proceeds.
-            console.print("[dim]Processing CTR in background...[/dim]\n")
+            console.print("[dim]Обработка CTR в фоновом режиме...[/dim]\n")
 
             def _run_and_report():
                 try:
@@ -293,15 +293,15 @@ class CTRCommand(Command):
                     def _notify_success():
                         if results_dir:
                             console.print(
-                                f"[bold {_CAI_GREEN}]✓ CTR analysis complete. Results saved to:[/bold {_CAI_GREEN}] {results_dir}"
+                                f"[bold {_CAI_GREEN}]✓ Анализ CTR завершён. Результаты сохранены в:[/bold {_CAI_GREEN}] {results_dir}"
                             )
                             console.print(
-                                "[dim]Use '/ctr show' to view results or '/ctr graph' to see the attack graph[/dim]"
+                                "[dim]Используйте '/ctr show' для просмотра результатов или '/ctr graph' для графа атак[/dim]"
                             )
                             # Auto-focus CTR tab and load latest run
                             _focus_ctr_tab_and_load(results_dir)
                         else:
-                            console.print("[red]Error: No results found after analysis[/red]")
+                            console.print("[red]Ошибка: Результаты не найдены после анализа[/red]")
 
                     # If in TUI, marshal back to UI thread when possible
                     # Run UI update; rely on CAITerminal app
@@ -310,7 +310,7 @@ class CTRCommand(Command):
                     import traceback
 
                     def _notify_error():
-                        console.print(f"[red]Error running CTR analysis: {e}[/red]")
+                        console.print(f"[red]Ошибка выполнения анализа CTR: {e}[/red]")
                         console.print(f"[dim]{traceback.format_exc()}[/dim]")
 
                     _notify_error()
@@ -328,20 +328,20 @@ class CTRCommand(Command):
             self.last_results_dir = results_dir
             if results_dir:
                 console.print(
-                    f"[bold {_CAI_GREEN}]✓ CTR analysis complete. Results saved to:[/bold {_CAI_GREEN}] {results_dir}"
+                    f"[bold {_CAI_GREEN}]✓ Анализ CTR завершён. Результаты сохранены в:[/bold {_CAI_GREEN}] {results_dir}"
                 )
                 console.print(
-                    "[dim]Use '/ctr show' to view results or '/ctr graph' to see the attack graph[/dim]"
+                    "[dim]Используйте '/ctr show' для просмотра результатов или '/ctr graph' для графа атак[/dim]"
                 )
                 # If in TUI, auto load CTR tab as well
                 if os.getenv("CAI_TUI_MODE") == "true":
                     _focus_ctr_tab_and_load(results_dir)
                 return True
-            console.print("[red]Error: No results found after analysis[/red]")
+            console.print("[red]Ошибка: Результаты не найдены после анализа[/red]")
             return False
         except Exception as e:  # noqa: BLE001
             import traceback
-            console.print(f"[red]Error running CTR analysis: {e}[/red]")
+            console.print(f"[red]Ошибка выполнения анализа CTR: {e}[/red]")
             console.print(f"[dim]{traceback.format_exc()}[/dim]")
             return False
 
@@ -400,11 +400,11 @@ class CTRCommand(Command):
                         console.print(f"[dim]Loaded data from ctr_baseline.txt[/dim]")
 
             if not nash_data:
-                console.print("[red]Nash equilibrium results not found or analysis failed[/red]")
+                console.print("[red]Результаты равновесия Нэша не найдены или анализ не удался[/red]")
                 return False
 
             if nash_data.get('error') and not nash_data.get('optimal_defense'):
-                console.print(f"[red]CTR analysis error: {nash_data['error']}[/red]")
+                console.print(f"[red]Ошибка анализа CTR: {nash_data['error']}[/red]")
                 return False
 
             # Load attack path sequences if available
@@ -422,7 +422,7 @@ class CTRCommand(Command):
             return True
 
         except Exception as e:
-            console.print(f"[red]Error displaying results: {e}[/red]")
+            console.print(f"[red]Ошибка отображения результатов: {e}[/red]")
             return False
 
     def handle_graph(self, args: Optional[List[str]] = None) -> bool:
@@ -461,21 +461,21 @@ class CTRCommand(Command):
             if os.path.exists(graph_llm_png):
                 graph_to_open = graph_llm_png
                 console.print(
-                    f"[bold {_CAI_GREEN}]✓ LLM attack graph visualization found:[/bold {_CAI_GREEN}] {graph_llm_png}"
+                    f"[bold {_CAI_GREEN}]✓ Визуализация графа атак LLM найдена:[/bold {_CAI_GREEN}] {graph_llm_png}"
                 )
             elif os.path.exists(graph_individual_png):
                 graph_to_open = graph_individual_png
                 console.print(
-                    f"[bold {_CAI_GREEN}]✓ Individual attack graph visualization found:[/bold {_CAI_GREEN}] {graph_individual_png}"
+                    f"[bold {_CAI_GREEN}]✓ Визуализация графа атак найдена:[/bold {_CAI_GREEN}] {graph_individual_png}"
                 )
             elif os.path.exists(graph_cleaned_png):
                 graph_to_open = graph_cleaned_png
                 console.print(
-                    f"[bold {_CAI_GREEN}]✓ Cleaned attack graph visualization found:[/bold {_CAI_GREEN}] {graph_cleaned_png}"
+                    f"[bold {_CAI_GREEN}]✓ Очищенная визуализация графа атак найдена:[/bold {_CAI_GREEN}] {graph_cleaned_png}"
                 )
             
             if graph_to_open:
-                console.print("[dim]Opening the graph visualization...[/dim]")
+                console.print("[dim]Открытие визуализации графа...[/dim]")
                 import platform, subprocess
                 try:
                     if platform.system() == 'Darwin':  # macOS
@@ -500,18 +500,18 @@ class CTRCommand(Command):
                     try:
                         graph_data = json.loads(match.group(1))
                         
-                        console.print(f"\n[bold {_CAI_GREEN}]═══ Attack Graph Structure ═══[/bold {_CAI_GREEN}]")
+                        console.print(f"\n[bold {_CAI_GREEN}]═══ Структура графа атак ═══[/bold {_CAI_GREEN}]")
 
                         # Show nodes
                         nodes = graph_data.get('nodes', [])
-                        console.print(f"\n[bold white]Nodes:[/bold white] {len(nodes)} total")
+                        console.print(f"\n[bold white]Узлы:[/bold white] {len(nodes)} всего")
 
                         node_table = Table(
                             show_header=True, header_style=f"bold {_CAI_GREEN}"
                         )
-                        node_table.add_column("Node ID", style="white")
-                        node_table.add_column("Name", style="dim")
-                        node_table.add_column("Vulnerable", justify="center", style="red")
+                        node_table.add_column("ID узла", style="white")
+                        node_table.add_column("Имя", style="dim")
+                        node_table.add_column("Уязвим", justify="center", style="red")
                         
                         for node in nodes[:10]:  # Show first 10 nodes
                             node_id = node.get('id', '')
@@ -522,17 +522,17 @@ class CTRCommand(Command):
                         console.print(node_table)
                         
                         if len(nodes) > 10:
-                            console.print(f"[dim]... and {len(nodes) - 10} more nodes[/dim]")
+                            console.print(f"[dim]... и ещё {len(nodes) - 10} узлов[/dim]")
                         
                         # Show edges
                         edges = graph_data.get('edges', [])
-                        console.print(f"\n[bold white]Edges:[/bold white] {len(edges)} total")
+                        console.print(f"\n[bold white]Рёбра:[/bold white] {len(edges)} всего")
 
                         edge_table = Table(
                             show_header=True, header_style=f"bold {_CAI_GREEN}"
                         )
-                        edge_table.add_column("Source", style="white")
-                        edge_table.add_column("Target", style="white")
+                        edge_table.add_column("Источник", style="white")
+                        edge_table.add_column("Цель", style="white")
                         
                         for edge in edges[:10]:  # Show first 10 edges
                             source = edge.get('source', '')
@@ -542,14 +542,14 @@ class CTRCommand(Command):
                         console.print(edge_table)
                         
                         if len(edges) > 10:
-                            console.print(f"[dim]... and {len(edges) - 10} more edges[/dim]")
+                            console.print(f"[dim]... и ещё {len(edges) - 10} рёбер[/dim]")
                     except json.JSONDecodeError:
-                        console.print("[dim]Could not parse graph structure data[/dim]")
+                        console.print("[dim]Не удалось разобрать данные структуры графа[/dim]")
             
             return True
 
         except Exception as e:
-            console.print(f"[red]Error displaying graph: {e}[/red]")
+            console.print(f"[red]Ошибка отображения графа: {e}[/red]")
             return False
 
     def handle_list(self, args: Optional[List[str]] = None) -> bool:
@@ -557,11 +557,11 @@ class CTRCommand(Command):
         _ensure_ctr_imports()
         base = get_ctr_output_base_dir()
         if not os.path.isdir(base):
-            console.print("[dim]No CTR output directory found.[/dim]")
+            console.print("[dim]Каталог вывода CTR не найден.[/dim]")
             return False
         runs = _ctr_sorted_run_directories(base)
         if not runs:
-            console.print("[dim]No CTR runs found.[/dim]")
+            console.print("[dim]Запуски CTR не найдены.[/dim]")
             return False
         table = Table(show_header=True, header_style=f"bold {_CAI_GREEN}")
         table.add_column("#", justify="right", style="dim")
@@ -570,7 +570,7 @@ class CTRCommand(Command):
         for idx, path in enumerate(runs, 1):
             name = os.path.basename(path)
             marker = (
-                " (active)"
+                " (активный)"
                 if self.last_results_dir
                 and os.path.exists(self.last_results_dir)
                 and os.path.samefile(self.last_results_dir, path)
@@ -586,7 +586,7 @@ class CTRCommand(Command):
         token = (args or [None])[0]
         base = get_ctr_output_base_dir()
         if not token:
-            console.print("[dim]Usage: /ctr use <index|run_name|path>[/dim]")
+            console.print("[dim]Использование: /ctr use <index|run_name|path>[/dim]")
             return False
         entries = _ctr_sorted_run_directories(base) if os.path.isdir(base) else []
         selected = None
@@ -606,10 +606,10 @@ class CTRCommand(Command):
         if not selected and os.path.isdir(token):
             selected = token
         if not selected:
-            console.print("[red]Run not found. Try '/ctr list' first.[/red]")
+            console.print("[red]Запуск не найден. Сначала попробуйте '/ctr list'.[/red]")
             return False
         self.last_results_dir = selected
-        console.print(f"[bold {_CAI_GREEN}]Active CTR run set to:[/bold {_CAI_GREEN}] {selected}")
+        console.print(f"[bold {_CAI_GREEN}]Активный запуск CTR установлен:[/bold {_CAI_GREEN}] {selected}")
         return True
 
     def handle_open(self, args: Optional[List[str]] = None) -> bool:
@@ -617,7 +617,7 @@ class CTRCommand(Command):
         _ensure_ctr_imports()
         base = get_ctr_output_base_dir()
         if not os.path.isdir(base):
-            console.print("[dim]No CTR output directory found to open.[/dim]")
+            console.print("[dim]Каталог вывода CTR не найден для открытия.[/dim]")
             return False
 
         parent = None
@@ -640,10 +640,10 @@ class CTRCommand(Command):
                 subprocess.run(["xdg-open", parent], check=False)
             elif system == "Windows":
                 os.startfile(parent)  # type: ignore[attr-defined]
-            console.print(f"[bold {_CAI_GREEN}]Opened CTR runs folder:[/bold {_CAI_GREEN}] {parent}")
+            console.print(f"[bold {_CAI_GREEN}]Открыта папка запусков CTR:[/bold {_CAI_GREEN}] {parent}")
             return True
         except Exception as e:
-            console.print(f"[red]Failed to open folder: {e}[/red]")
+            console.print(f"[red]Не удалось открыть папку: {e}[/red]")
             console.print(f"[dim]Path: {parent}[/dim]")
             return False
 

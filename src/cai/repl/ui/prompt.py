@@ -20,7 +20,7 @@ from cai.repl.commands import FuzzyCommandCompleter
 CAI_GREEN = "#00ff9d"
 
 # Headless REPL input placeholder (grey italic when buffer empty; prompt_toolkit CLI only).
-REPL_INPUT_PLACEHOLDER = "? for shortcuts · or type your prompt/command"
+REPL_INPUT_PLACEHOLDER = "? для справки · или введите промпт/команду"
 
 _REPL_STDIN_EXHAUSTED_PENDING = False
 
@@ -145,9 +145,9 @@ def get_user_input(command_completer, key_bindings, history_file, toolbar_func, 
         # ↵ = Enter; Alt+↵ works on more terminals than Shift+↵ (see keybindings).
         hint_parts = [
             ("class:rprompt-hint-keys", "Alt+↵"),
-            ("class:rprompt-hint", " new line · "),
+            ("class:rprompt-hint", " новая строка · "),
             ("class:rprompt-hint-keys", "↵"),
-            ("class:rprompt-hint", " send"),
+            ("class:rprompt-hint", " отправить"),
         ]
         if shadow:
             return FormattedText(

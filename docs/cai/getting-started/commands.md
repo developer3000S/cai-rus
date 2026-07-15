@@ -1,421 +1,421 @@
-# CAI REPL Commands
+# Команды CAI REPL
 
-This document provides documentation for all commands available in the CAI (Context-Aware Interface) REPL system.
+Этот документ содержит документацию по всем командам, доступным в системе CAI (Context-Aware Interface) REPL.
 
-## Base Command System (`base.py`)
+## Базовая система команд (`base.py`)
 
 ---
 
-## Core Commands
+## Основные команды
 
-### **Agent Management (`agent.py`)**
+### **Управление агентами (`agent.py`)**
 
 ### **AgentCommand**
 
-- **Command**: `/agent`
-- **Purpose**: Managing and switching between different AI agents
-- **Features**:
-  - List available agents
-  - Switch between agents
-  - Display agent information
-  - Visualize agent interaction graphs
-- **Defaults**: The CLI default is **`orchestration_agent`** (breadth-first entry with specialist tools: `run_specialist`, `run_dual_approach_contest`, `run_parallel_specialists`). Use **`selection_agent`** for a slimmer handoff-only router. Tune worker budgets and the optional multi-front hint with **`CAI_ORCHESTRATION_WORKER_MAX_TURNS`** and **`CAI_ORCHESTRATION_MAS_HINT`** (see [Environment variables](../../environment_variables.md)).
+- **Команда**: `/agent`
+- **Назначение**: Управление и переключение между различными ИИ-агентами
+- **Возможности**:
+  - Список доступных агентов
+  - Переключение между агентами
+  - Отображение информации об агенте
+  - Визуализация графов взаимодействия агентов
+- **Значения по умолчанию**: По умолчанию в CLI используется **`orchestration_agent`** (вход с поиском в ширину и специализированными инструментами: `run_specialist`, `run_dual_approach_contest`, `run_parallel_specialists`). Используйте **`selection_agent`** для более легкого роутера, предназначенного только для передачи задач. Настройте бюджеты воркеров и опциональную подсказку для многофронтового режима с помощью **`CAI_ORCHESTRATION_WORKER_MAX_TURNS`** и **`CAI_ORCHESTRATION_MAS_HINT`** (см. [Переменные окружения](../../environment_variables.md)).
 
-### **Configuration Management (`config.py`)**
+### **Управление конфигурацией (`config.py`)**
 
 ### **ConfigCommand**
 
-- **Command**: `/config` (alias `/cfg`)
-- **Purpose**: Deprecated; prints a notice to use `/env` instead. Does not change variables.
+- **Команда**: `/config` (алиас `/cfg`)
+- **Назначение**: Устарела; выводит уведомление об использовании `/env` вместо неё. Не изменяет переменные.
 
-### **Environment variables (`env.py`)**
+### **Переменные окружения (`env.py`)**
 
 ### **EnvCommand**
 
-- **Command**: `/env` (alias `/e`)
-- **Purpose**: Inspect and change environment variables for the current REPL process
-- **Features**:
-  - Bare `/env`: table of `CAI_`* and `CTF_`* variables currently set (sensitive values masked)
-  - `/env list`: numbered catalog with defaults and descriptions
-  - `/env get <n|NAME>`: read one catalog entry
-  - `/env set <n|NAME> <value...>`: set by catalog index or full variable name (value may contain spaces; no quotes)
-  - `/env default`: restore every catalog variable to its registered default
+- **Команда**: `/env` (алиас `/e`)
+- **Назначение**: Просмотр и изменение переменных окружения для текущего процесса REPL
+- **Возможности**:
+  - Просто `/env`: таблица установленных переменных `CAI_`* и `CTF_`* (чувствительные значения скрыты)
+  - `/env list`: нумерованный каталог с значениями по умолчанию и описаниями
+  - `/env get <n|NAME>`: чтение одной записи каталога
+  - `/env set <n|NAME> <value...>`: установка по индексу каталога или полному имени переменной (значение может содержать пробелы; кавычки не требуются)
+  - `/env default`: сброс всех переменных каталога к их зарегистрированным значениям по умолчанию
 
-### **Cost Tracking (`cost.py`)**
+### **Отслеживание затрат (`cost.py`)**
 
 ### **CostCommand**
 
-- **Command**: `/cost` (aliases: `/costs`, `/usage`)
-- **Purpose**: View usage costs and statistics (session via `COST_TRACKER`; persisted global totals in `~/.cai/usage.json` when usage tracking is enabled).
-- **Subcommands**:
-  - `/cost` or `/cost summary` — same: session + global summary, top models snippet, hints
-  - `/cost models` — per-model costs
-  - `/cost daily` — last 30 days plus weekly rollup
-  - `/cost sessions` — recent sessions (default 10); `/cost sessions <n>` limits rows
-  - `/cost reset` — clear persisted stats (confirm with `RESET`; backup created first)
-- **Help**: `/h cost` — syntax aligned with the above
+- **Команда**: `/cost` (алиасы: `/costs`, `/usage`)
+- **Назначение**: Просмотр стоимости использования и статистики (сессионные данные через `COST_TRACKER`; глобальные итоги сохраняются в `~/.cai/usage.json`, если отслеживание включено).
+- **Подкоманды**:
+  - `/cost` или `/cost summary` — то же самое: итог сессии + глобальный итог, фрагмент с топовыми моделями, подсказки
+  - `/cost models` — стоимость по каждой модели
+  - `/cost daily` — данные за последние 30 дней плюс еженедельный отчет
+  - `/cost sessions` — последние сессии (по умолчанию 10); `/cost sessions <n>` ограничивает количество строк
+  - `/cost reset` — очистка сохраненной статистики (подтверждение через `RESET`; сначала создается резервная копия)
+- **Помощь**: `/h cost` — синтаксис соответствует вышеуказанному
 
-### **Exit (`exit.py`)**
+### **Выход (`exit.py`)**
 
 ### **ExitCommand**
 
-- **Command**: `/exit` (aliases: `/q`, `/quit`)
-- **Purpose**: Terminate the CAI REPL session with the same orderly shutdown as Ctrl+C at the prompt (including the session summary panel)
-- **Features**:
-  - Clean shutdown of the REPL
-  - Save current session data
-  - Cleanup background processes
+- **Команда**: `/exit` (алиасы: `/q`, `/quit`)
+- **Назначение**: Завершение сессии CAI REPL с таким же корректным выключением, как при Ctrl+C в командной строке (включая панель сводки сессии)
+- **Возможности**:
+  - Чистое завершение работы REPL
+  - Сохранение данных текущей сессии
+  - Очистка фоновых процессов
 
-### **Help System (`help.py`)**
+### **Система помощи (`help.py`)**
 
 ### **HelpCommand**
 
-- **Command**: `/help` or `/?` (aliases include `/h`). Note: **`/?`** is an alias for **`/help`** (leading slash). **`?`** alone (no slash) is a **different** command — see **Input shortcuts** below.
-- **Purpose**: Display help information and command documentation
-- **Features**:
-  - **`/help commands`** (or **`/h commands`**, **`/? commands`**): one bordered help panel (same style as other `/h` topics) listing every registered slash command by category from the live registry
-  - **`/help topics`**: same categories here in the REPL plus short copy on **`/help <topic>`** (detail panels; exceptions include **`/help var`**, **`/help commands`**, **`/help topics`**, **`/help aliases`**, **`/help config`**)
-  - Show command usage
-  - `**/help aliases`** (or `**/h aliases**`): list registered command shortcuts
-  - Provide help for specific commands (e.g. `/help agent`, `/help env`; `/help model`)
-  - **Environment variables:** bare `/help` shows command's guide plus **full environment reference tables** below
-  - **Orchestration:** `/help var CAI_AGENT_TYPE`, `/help var CAI_ORCHESTRATION_WORKER_MAX_TURNS`, `/help var CAI_ORCHESTRATION_MAS_HINT` for the default entry agent and worker tuning
-  - **Onboarding guide:** use **`/quickstart`** (aliases **`/qs`**, **`/quick`**); there is no `/help quick` or `/help quickstart` — if used, CAI prints a short hint to run **`/quickstart`**
+- **Команда**: `/help` или `/?` (включая алиасы `/h`). Примечание: **`/?`** является алиасом для **`/help`** (со слешем в начале). **`?`** без слеша — это **другая** команда, см. **Горячие клавиши ввода** ниже.
+- **Назначение**: Отображение справочной информации и документации по командам
+- **Возможности**:
+  - **`/help commands`** (или **`/h commands`**, **`/? commands`**): одна ограниченная рамкой панель помощи (в том же стиле, что и другие темы `/h`), перечисляющая все зарегистрированные слэш-команды по категориям из живого реестра
+  - **`/help topics`**: те же категории в REPL плюс краткая справка по **`/help <topic>`** (детальные панели; исключения: **`/help var`**, **`/help commands`**, **`/help topics`**, **`/help aliases`**, **`/help config`**)
+  - Показ использования команд
+  - **`/help aliases`** (или **`/h aliases`**): список зарегистрированных сокращений команд
+  - Предоставление помощи по конкретным командам (например, `/help agent`, `/help env`, `/help model`)
+  - **Переменные окружения:** простой вызов `/help` показывает руководство по командам, а ниже — **полные справочные таблицы переменных окружения**
+  - **Оркестрация:** `/help var CAI_AGENT_TYPE`, `/help var CAI_ORCHESTRATION_WORKER_MAX_TURNS`, `/help var CAI_ORCHESTRATION_MAS_HINT` для настройки агента входа и воркеров
+  - **Руководство по началу работы:** используйте **`/quickstart`** (алиасы **`/qs`**, **`/quick`**); команд `/help quick` или `/help quickstart` не существует — при их использовании CAI выведет краткую подсказку запустить **`/quickstart`**
 
-### **Input shortcuts (`shortcuts.py`)**
+### **Горячие клавиши ввода (`shortcuts.py`)**
 
-- **Command**: **`?`** on its own line (CLI headless REPL only; not interpreted as a command in the TUI)
-- **Purpose**: Short table of prefix keys (`/`, `$`) and prompt-toolkit bindings (Tab, Enter, multiline keys, history, Ctrl+L, etc.)
-- **Empty-line hint**: the headless REPL shows a grey italic placeholder (**`? for shortcuts · type your prompt`**) when the line is empty (defined in `prompt.py`).
+- **Команда**: **`?`** на отдельной строке (только для headless REPL в CLI; не интерпретируется как команда в TUI)
+- **Назначение**: Краткая таблица префиксных клавиш (`/`, `$`) и привязок prompt-toolkit (Tab, Enter, многострочные клавиши, история, Ctrl+L и т. д.)
+- **Подсказка в пустой строке**: headless REPL показывает серый курсивный плейсхолдер (**`? for shortcuts · type your prompt`**), когда строка пуста (определено в `prompt.py`).
 
-### **History Management (`history.py`)**
+### **Управление историей (`history.py`)**
 
 ### **HistoryCommand**
 
-- **Command**: `/history`
-- **Purpose**: Display conversation history with agent filtering
-- **Features**:
-  - Show conversation history
-  - Filter by specific agents
-  - Display message tree structure
-- **Note**: `/history export` is removed; use `/save <file>` (see **Save Data**). If you run `/history export`, CAI prints a deprecation hint pointing to `/save`.
+- **Команда**: `/history`
+- **Назначение**: Отображение истории разговора с фильтрацией по агентам
+- **Возможности**:
+  - Показ истории разговора
+  - Фильтрация по конкретным агентам
+  - Отображение древовидной структуры сообщений
+- **Примечание**: `/history export` удалена; используйте `/save <file>` (см. **Сохранение данных**). Если вы запустите `/history export`, CAI выведет уведомление об устаревании команды и укажет на `/save`.
 
 ---
 
-## Data Management Commands
+## Команды управления данными
 
-### **Compact Conversation (`compact.py`)**
+### **Компактное сжатие разговора (`compact.py`)**
 
 ### **CompactCommand**
 
-- **Command**: `/compact`
-- **Purpose**: Compact current conversation and manage model/prompt settings
-- **Features**:
-  - Reduce conversation context size
-  - Change model during compaction
-  - Modify prompt settings
-  - Maintain conversation flow while reducing tokens
+- **Команда**: `/compact`
+- **Назначение**: Сжатие текущего разговора и управление настройками модели/промпта
+- **Возможности**:
+  - Уменьшение размера контекста разговора
+  - Смена модели во время сжатия
+  - Изменение настроек промпта
+  - Поддержание потока разговора при сокращении количества токенов
 
-### **Load Data (`load.py`)**
+### **Загрузка данных (`load.py`)**
 
 ### **LoadCommand**
 
-- **Command**: `/load`
-- **Purpose**: Load JSONL data into the current session context
-- **Features**:
-  - Load conversation history from files
-  - Import external data
-  - Integrate with parallel configurations
-  - Support for various data formats (including JSONL written by `/save` and session logs)
-  - Expands `~/` in file paths when resolving JSONL locations
+- **Команда**: `/load`
+- **Назначение**: Загрузка данных JSONL в контекст текущей сессии
+- **Возможности**:
+  - Загрузка истории разговоров из файлов
+  - Импорт внешних данных
+  - Интеграция с параллельными конфигурациями
+  - Поддержка различных форматов данных (включая JSONL, созданные командой `/save`, и логи сессий)
+  - Развертывание `~/` в путях к файлам при определении местоположения JSONL
 
-### **Save Data (`save.py`)**
+### **Сохранение данных (`save.py`)**
 
 ### **SaveCommand**
 
-- **Command**: `/save`
-- **Purpose**: Write all agent conversation histories to **JSONL** (reload with `/load`) or **Markdown** (readable report)
-- **Features**:
-  - `**.jsonl`**: one JSON object per line (`agent`, `role`, `content`, plus tool fields); same shape as the former `/history export`, loaded by `/load`
-  - `**.md` / `.markdown`**: structured Markdown export (per-agent sections, roles as headings); not consumed by `/load`
-  - Works with isolated parallel histories when applicable
-  - Expands `~/` paths and creates parent directories as needed before writing
+- **Команда**: `/save`
+- **Назначение**: Запись всей истории разговоров агентов в формат **JSONL** (повторная загрузка через `/load`) или **Markdown** (читаемый отчет)
+- **Возможности**:
+  - **`.jsonl`**: один JSON-объект на строку (`agent`, `role`, `content` плюс поля инструментов); такая же структура, как у прежнего `/history export`, загружается через `/load`
+  - **`.md` / `.markdown`**: структурированный экспорт в Markdown (разделы по агентам, роли в качестве заголовков); не поддерживается командой `/load`
+  - Работает с изолированными параллельными историями, где это применимо
+  - Развертывает пути `~/` и создает родительские директории по мере необходимости перед записью
 
-### **Memory management (`/memory`)**
+### **Управление памятью (`/memory`)**
 
 ### **MemoryCommand**
 
-- **Command**: `/memory`
-- **Purpose**: Manage persistent memory storage in `.cai/memory`
-- **Features**:
-  - Store conversation context persistently
-  - Apply memory to current context
-  - Manage memory entries
-  - Persistent storage across sessions
+- **Команда**: `/memory`
+- **Назначение**: Управление постоянным хранилищем памяти в `.cai/memory`
+- **Возможности**:
+  - Постоянное хранение контекста разговора
+  - Применение памяти к текущему контексту
+  - Управление записями памяти
+  - Постоянное хранение между сессиями
 
-### **Flush History (`flush.py`)**
+### **Очистка истории (`flush.py`)**
 
 ### **FlushCommand**
 
-- **Command**: `/flush`
-- **Purpose**: Clear conversation history
-- **Features**:
-  - Clear current conversation
-  - Reset agent contexts
-  - Clean up memory
-  - Start fresh conversation
+- **Команда**: `/flush`
+- **Назначение**: Очистка истории разговора
+- **Возможности**:
+  - Очистка текущего разговора
+  - Сброс контекстов агентов
+  - Очистка памяти
+  - Начало нового разговора
 
 ---
 
-## Model Management Commands
+## Команды управления моделями
 
-### **Model Configuration (`model.py`)**
+### **Конфигурация модели (`model.py`)**
 
 ### **ModelCommand** (`model.py`)
 
-- **Command**: `/model`
-- **Purpose**: View and change the current LLM model; browse the full catalog
-- **Syntax**:
-  - `/model` — short table + current `CAI_MODEL`
-  - `/model show` — full LiteLLM catalog (optional `supported`, search term, or both)
-  - `/model <name>` / `/model <n>` — set model (same numbering as `/model show`)
+- **Команда**: `/model`
+- **Назначение**: Просмотр и изменение текущей LLM-модели; просмотр полного каталога
+- **Синтаксис**:
+  - `/model` — краткая таблица + текущая `CAI_MODEL`
+  - `/model show` — полный каталог LiteLLM (опционально `supported`, поисковый запрос или и то, и другое)
+  - `/model <name>` / `/model <n>` — установка модели (та же нумерация, что и в `/model show`)
 
 ---
 
-## Advanced Features
+## Расширенные возможности
 
-### **Graph Visualization (`graph.py`)**
+### **Визуализация графа (`graph.py`)**
 
 ### **GraphCommand**
 
-- **Command**: `/graph` (alias `/g`)
-- **Purpose**: Visualize conversation flow (user, assistant, tools) as a compact graph or tables
-- **Syntax**:
-  - `/graph` or `/graph show` — multi-agent layout when `CAI_PARALLEL` > 1 or multiple parallel slots exist; otherwise the active agent
-  - `/graph all` — every agent with history
-  - `/graph P<n>` — agent in parallel slot n (e.g. `P1`)
-  - `/graph <agent_name>` — named agent (multi-word names allowed)
-- **Subcommands**:
-  - `timeline` — Rich table of messages per agent (ordered by message index, not wall-clock)
-  - `stats` — per-agent message and tool-call counts
-  - `export <json|dot|mermaid> [filename]` — export all tracked histories to a file
+- **Команда**: `/graph` (алиас `/g`)
+- **Назначение**: Визуализация потока разговора (пользователь, ассистент, инструменты) в виде компактного графа или таблиц
+- **Синтаксис**:
+  - `/graph` или `/graph show` — многоагентная разметка, если `CAI_PARALLEL` > 1 или существуют несколько параллельных слотов; в противном случае — активный агент
+  - `/graph all` — каждый агент с историей
+  - `/graph P<n>` — агент в параллельном слоте n (например, `P1`)
+  - `/graph <agent_name>` — именованный агент (разрешены многословные имена)
+- **Подкоманды**:
+  - `timeline` — Rich-таблица сообщений по агентам (отсортирована по индексу сообщения, а не по времени)
+  - `stats` — количество сообщений и вызовов инструментов для каждого агента
+  - `export <json|dot|mermaid> [filename]` — экспорт всех отслеживаемых историй в файл
 
-### **CTR analysis (`ctr.py`)**
+### **CTR-анализ (`ctr.py`)**
 
 ### **CTRCommand**
 
-- **Command**: `/ctr`
-- **Purpose**: Run Cut-The-Rope-style game-theoretic analysis on the current session (in-memory history, session log, or latest JSONL fallback) and manage saved runs under the CTR output base directory (`CAI_CTR_OUTPUT_DIR` or default temp layout; see `cai.ctr.paths`).
-- **Subcommands**:
-  - `/ctr` — full analysis pipeline (writes a new `run_*` tree)
-  - `/ctr show` — print Nash equilibrium and strategies (Rich tables; same run resolution as below)
-  - `/ctr graph` — open the best available attack-graph PNG when possible; optional node/edge summary from `graph_information.txt`
-  - `/ctr list` — list `run_*` directories (top level or one nested level under the base), newest first; row numbers match `/ctr use <n>`
-  - `/ctr use <n|run_name|path>` — select the active run by list index, folder name under the base, or absolute path to a run directory
-  - `/ctr open` — open the containing folder in the system file manager
-- **Help**: `/h ctr` — syntax aligned with the above
+- **Команда**: `/ctr`
+- **Назначение**: Запуск теоретико-игрового анализа в стиле Cut-The-Rope для текущей сессии (история в памяти, лог сессии или резервный последний JSONL) и управление сохраненными запусками в базовой директории вывода CTR (`CAI_CTR_OUTPUT_DIR` или стандартная временная структура; см. `cai.ctr.paths`).
+- **Подкоманды**:
+  - `/ctr` — полный конвейер анализа (создает новое дерево `run_*`)
+  - `/ctr show` — вывод равновесия Нэша и стратегий (Rich-таблицы; разрешение запуска такое же, как ниже)
+  - `/ctr graph` — открытие лучшего доступного PNG-графа атак, если возможно; опциональная сводка узлов/ребер из `graph_information.txt`
+  - `/ctr list` — список директорий `run_*` (верхний уровень или один вложенный уровень под базой), сначала новые; номера строк соответствуют `/ctr use <n>`
+  - `/ctr use <n|run_name|path>` — выбор активного запуска по индексу списка, имени папки в базе или абсолютному пути к директории запуска
+  - `/ctr open` — открытие содержащей папки в системном файловом менеджере
+- **Помощь**: `/h ctr` — синтаксис соответствует вышеуказанному
 
-### **Parallel Execution (`parallel.py`)**
+### **Параллельное выполнение (`parallel.py`)**
 
 ### **ParallelCommand**
 
-- **Command**: `/parallel`
-- **Purpose**: Configure and run parallel agent workflows with isolated contexts
-- **Features**:
-  - Add/remove/list parallel agents
-  - Queue prompts per agent or broadcast to all agents
-  - Execute queued prompts with `/parallel run`
-  - Merge results back into the main context
-  - Exit parallel mode with or without merge
+- **Команда**: `/parallel`
+- **Назначение**: Конфигурация и запуск параллельных рабочих процессов агентов с изолированными контекстами
+- **Возможности**:
+  - Добавление/удаление/список параллельных агентов
+  - Очередь промптов для конкретного агента или рассылка всем агентам
+  - Выполнение промптов из очереди с помощью `/parallel run`
+  - Слияние результатов обратно в основной контекст
+  - Выход из параллельного режима со слиянием или без него
 
-### **Queue Management (`queue.py`)**
+### **Управление очередью (`queue.py`)**
 
 ### **QueueCommand**
 
-- **Command**: `/queue`
-- **Purpose**: Manage sequential prompt queue independently from parallel mode
-- **Features**:
-  - Add prompts to queue
-  - List queued prompts
-  - Run queued prompts sequentially
-  - Clear queue safely
+- **Команда**: `/queue`
+- **Назначение**: Управление последовательной очередью промптов независимо от параллельного режима
+- **Возможности**:
+  - Добавление промптов в очередь
+  - Список промптов в очереди
+  - Последовательный запуск промптов из очереди
+  - Безопасная очистка очереди
 
-### **Merge Histories (`merge.py`)**
+### **Слияние историй (`merge.py`)**
 
 ### **MergeCommand**
 
-- **Command**: `/merge` (alias `/mrg`)
-- **Purpose**: Merge parallel agent contexts into main context and exit parallel mode
-- **Features**:
-  - Combine histories from multiple agents
-  - Integrate parallel conversation results into the current main thread
-  - Automatically leave parallel mode after successful merge
-  - Tab completion for agent arguments matches `/flush agent` (non-empty histories) and omits agents already listed in the command
+- **Команда**: `/merge` (алиас `/mrg`)
+- **Назначение**: Слияние контекстов параллельных агентов с основным контекстом и выход из параллельного режима
+- **Возможности**:
+  - Объединение историй нескольких агентов
+  - Интеграция результатов параллельного разговора в текущий основной поток
+  - Автоматический выход из параллельного режима после успешного слияния
+  - Автодополнение аргументов агентов соответствует `/flush agent` (непустые истории) и исключает агентов, уже перечисленных в команде
 
 ---
 
-## Integration Commands
+## Команды интеграции
 
-### **MCP Integration (`mcp.py`)**
+### **Интеграция MCP (`mcp.py`)**
 
 ### **MCPCommand**
 
-- **Command**: `/mcp` (alias `/m`)
-- **Purpose**: Manage MCP (Model Context Protocol) servers and their tools
-- **Subcommands** (see also `/mcp help`, `/help mcp`, and `/h mcp`):
-  - `load <url> <name>` — SSE server; `load sse <url> <name>` — legacy SSE form; `load stdio <name> <command> [args…]` — stdio server
-  - `list` — active servers (bare `/mcp` is equivalent)
-  - `add <server_name> <agent_name_or_number>` — **server first**, then agent (name or index)
+- **Команда**: `/mcp` (алиас `/m`)
+- **Назначение**: Управление серверами MCP (Model Context Protocol) и их инструментами
+- **Подкоманды** (см. также `/mcp help`, `/help mcp` и `/h mcp`):
+  - `load <url> <name>` — SSE-сервер; `load sse <url> <name>` — устаревшая форма SSE; `load stdio <name> <command> [args…]` — stdio-сервер
+  - `list` — активные серверы (простой вызов `/mcp` эквивалентен)
+  - `add <server_name> <agent_name_or_number>` — **сначала сервер**, затем агент (имя или индекс)
   - `remove`, `tools`, `status`, `associations`, `test`, `help`
-- **Features**:
-  - Load SSE MCP servers
-  - Load STDIO MCP servers
-  - List active MCP connections
-  - Add MCP tools to agents
-  - Manage MCP server lifecycle
+- **Возможности**:
+  - Загрузка SSE MCP-серверов
+  - Загрузка STDIO MCP-серверов
+  - Список активных MCP-соединений
+  - Добавление инструментов MCP агентам
+  - Управление жизненным циклом MCP-серверов
 
 ---
 
-## System Management Commands
+## Команды системного управления
 
-### **Shell Access (`shell.py`)**
+### **Доступ к оболочке (`shell.py`)**
 
 ### **ShellCommand**
 
-- **Command**: `/shell` (aliases: `/s`, `$` as the first token on the line)
-- **Purpose**: Execute shell commands from within the REPL
-- **Features**:
-  - Run system commands
-  - Access workspace directory
-  - Container workspace support
-  - Signal handling for processes
-- **Note**: To send a signal to a host OS process by PID (similar to the removed dedicated `/kill` command), use the shell’s `kill`, for example `**/shell kill <PID>`** (or `kill -TERM`, `kill -9`, etc., as supported by your shell).
+- **Команда**: `/shell` (алиасы: `/s`, `$` как первый токен в строке)
+- **Назначение**: Выполнение команд оболочки изнутри REPL
+- **Возможности**:
+  - Запуск системных команд
+  - Доступ к директории рабочего пространства
+  - Поддержка рабочего пространства контейнера
+  - Обработка сигналов для процессов
+- **Примечание**: Чтобы отправить сигнал процессу хостовой ОС по PID (аналогично удаленной специализированной команде `/kill`), используйте `kill` оболочки, например `**/shell kill <PID>`** (или `kill -TERM`, `kill -9` и т. д., в зависимости от вашей оболочки).
 
-### **Virtualization (`virtualization` package / `_virtualization_monolith.py`)**
+### **Виртуализация (пакет `virtualization` / `_virtualization_monolith.py`)**
 
 ### **VirtualizationCommand**
 
-- **Command**: `/virtualization` or `/virt`
-- **Purpose**: Manage Docker-based virtualization environments
-- **Subcommands**: `info` (same as no args), `list`, `set <container_id>`, `clear`, `pull <image>`, `run <image_or_id>` — `run` starts a new container from an image unless the token is a **unique** existing container-ID prefix (then it activates); `set <id>` or bare `/virt <id>` also attach.
-- **Features**:
-  - Set up Docker containers
-  - Manage container lifecycle
-  - Workspace virtualization
-  - Environment isolation
+- **Команда**: `/virtualization` или `/virt`
+- **Назначение**: Управление средами виртуализации на базе Docker
+- **Подкоманды**: `info` (то же самое, что без аргументов), `list`, `set <container_id>`, `clear`, `pull <image>`, `run <image_or_id>` — `run` запускает новый контейнер из образа, если только токен не является **уникальным** префиксом существующего ID контейнера (тогда он активируется); `set <id>` или простой вызов `/virt <id>` также подключают контейнер.
+- **Возможности**:
+  - Настройка Docker-контейнеров
+  - Управление жизненным циклом контейнеров
+  - Виртуализация рабочего пространства
+  - Изоляция окружения
 
-### **Workspace Management (`workspace.py`)**
+### **Управление рабочим пространством (`workspace.py`)**
 
 ### **WorkspaceCommand**
 
-- **Command**: `/workspace` or `/ws`
-- **Purpose**: Manage named workspace (`CAI_WORKSPACE`) and paths on host or in an active Docker container
-- **Subcommands**: `set <name>`, `get` (same as no args; there is no `show`), `ls [path]`, `exec <cmd>`, `copy` (requires `CAI_ACTIVE_CONTAINER` and the `container:` prefix on exactly one side)
-- **Features**:
-  - Host workspace dirs under `CAI_WORKSPACE_DIR` (default `~/.cai/workspace`)
-  - When `CAI_ACTIVE_CONTAINER` is set: `ls` and `exec` run in the container workspace path; `copy` uses `docker cp`
-- **REPL help**: `/h workspace` matches these subcommands.
-- **Do not use**: a `show` subcommand (none exists) or `list` as a subcommand name — use `**ls`**.
+- **Команда**: `/workspace` или `/ws`
+- **Назначение**: Управление именованным рабочим пространством (`CAI_WORKSPACE`) и путями на хосте или в активном Docker-контейнере
+- **Подкоманды**: `set <name>`, `get` (то же самое, что без аргументов; команды `show` не существует), `ls [path]`, `exec <cmd>`, `copy` (требует `CAI_ACTIVE_CONTAINER` и префикс `container:` ровно с одной стороны)
+- **Возможности**:
+  - Директории рабочего пространства хоста находятся в `CAI_WORKSPACE_DIR` (по умолчанию `~/.cai/workspace`)
+  - Если установлен `CAI_ACTIVE_CONTAINER`: `ls` и `exec` выполняются в пути рабочего пространства контейнера; `copy` использует `docker cp`
+- **Помощь REPL**: `/h workspace` соответствует этим подкомандам.
+- **Не используйте**: подкоманду `show` (её нет) или `list` в качестве имени подкоманды — используйте **`ls`**.
 
 
-| Invocation                       | Behaviour                                                                                                                                            |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/workspace` or `/workspace get` | Prints workspace name, environment (host vs container), resolved paths, and short hints for subcommands.                                             |
-| `/workspace set <name>`          | Sets `CAI_WORKSPACE` (label: letters, digits, `_`, `-` only). Creates the host folder and, if a **running** container is active, the path inside it. |
-| `/workspace ls` [path]           | Lists files (container workspace when `CAI_ACTIVE_CONTAINER` is usable; else host). Optional path is relative to the workspace root.                 |
-| `/workspace exec <cmd…>`         | Shell in workspace cwd (container when active, else host).                                                                                           |
-| `/workspace copy <src> <dst>`    | `docker cp`; **requires** `CAI_ACTIVE_CONTAINER`; `**container:`** on exactly one path.                                                              |
+| Вызов                       | Поведение                                                                                                                                            |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/workspace` или `/workspace get` | Выводит имя рабочего пространства, окружение (хост или контейнер), разрешенные пути и краткие подсказки по подкомандам.                                             |
+| `/workspace set <name>`      | Устанавливает `CAI_WORKSPACE` (метка: только буквы, цифры, `_`, `-`). Создает папку на хосте и, если активен **запущенный** контейнер, путь внутри него. |
+| `/workspace ls` [path]       | Список файлов (в рабочем пространстве контейнера, если `CAI_ACTIVE_CONTAINER` доступен; иначе на хосте). Опциональный путь относителен корня рабочего пространства. |
+| `/workspace exec <cmd…>`     | Оболочка в текущей рабочей директории (в контейнере, если активен, иначе на хосте).                                                                   |
+| `/workspace copy <src> <dst>`| `docker cp`; **требуется** `CAI_ACTIVE_CONTAINER`; префикс **`container:`** ровно в одном пути.                                                              |
 
 
-To set `CAI_ACTIVE_CONTAINER`, attach a container with `**/virtualization**` or `**/virt**` (see `**/h virtualization**`).
+Чтобы установить `CAI_ACTIVE_CONTAINER`, подключите контейнер с помощью **`/virtualization`** или **`/virt`** (см. **`/h virtualization`**).
 
-### **Quickstart (`quickstart.py`)**
+### **Быстрый старт (`quickstart.py`)**
 
 ### **QuickstartCommand**
 
-- **Command**: `/quickstart` (aliases **`/qs`**, **`/quick`**)
-- **Purpose**: Display setup information for new users
-- **Features**:
-  - Essential setup guidance
-  - Configuration instructions
-  - Getting started tutorial
-  - Auto-runs on first launch
+- **Команда**: `/quickstart` (алиасы **`/qs`**, **`/quick`**)
+- **Назначение**: Отображение информации по настройке для новых пользователей
+- **Возможности**:
+  - Основные рекомендации по настройке
+  - Инструкции по конфигурации
+  - Обучающий вводный курс
+  - Автоматический запуск при первом старте
 
 ---
 
-## Utility Commands
+## Служебные команды
 
-### **Command Completion (`completer.py`)**
+### **Дополнение команд (`completer.py`)**
 
 ### **FuzzyCommandCompleter**
 
-- **Purpose**: Intelligent command completion with fuzzy matching
-- **Features**:
-  - Command auto-completion
-  - Fuzzy matching for typos
-  - Subcommand suggestions
-  - Argument completion
-  - Command shadowing detection
+- **Назначение**: Интеллектуальное дополнение команд с нечетким поиском
+- **Возможности**:
+  - Автодополнение команд
+  - Нечеткий поиск для исправления опечаток
+  - Предложения подкоманд
+  - Дополнение аргументов
+  - Обнаружение перекрытия (shadowing) команд
 
 ---
 
-## Usage Examples
+## Примеры использования
 
-### Basic Workflow
+### Базовый рабочий процесс
 
 ```bash
-# Start CAI REPL
+# Запуск CAI REPL
 cai
 
-# View available agents
+# Просмотр доступных агентов
 /agent list
 
-# Switch to a specific agent
+# Переключение на конкретного агента
 /agent switch <agent_name>
 
-# View conversation history
+# Просмотр истории разговора
 /history
 
-# Change model
+# Смена модели
 /model gpt-4
 
-# Clear conversation
+# Очистка разговора
 /flush
 
-# Exit
+# Выход
 /exit
 ```
 
-### Advanced Features
+### Расширенные возможности
 
 ```bash
-# Set up parallel execution
+# Настройка параллельного выполнения
 /parallel add red_teamer
 /parallel add network_traffic_analyzer
 
-# Add prompts (per agent or all)
+# Добавление промптов (для конкретного агента или для всех)
 /parallel prompt all "Scan 192.168.1.0/24"
 
-# Execute in parallel
+# Параллельное выполнение
 /parallel run
 
-# Merge all parallel contexts into main context and exit parallel mode
+# Слияние всех параллельных контекстов в основной и выход из параллельного режима
 /merge
 
-# Optional: exit without merging contexts
+# Опционально: выход без слияния контекстов
 /parallel clear
 ```
 
-### Integration Examples
+### Примеры интеграции
 
 ```bash
-# Burp Suite MCP (PortSwigger): stdio proxy to the BApp SSE endpoint — replace /path/to with the extracted JAR path
+# Burp Suite MCP (PortSwigger): stdio-прокси к SSE-эндпоинту BApp — замените /path/to на путь к извлеченному JAR-файлу
 /mcp load stdio burp java -jar /path/to/mcp-proxy-all.jar --sse-url http://127.0.0.1:9876
 
-# Add MCP tools to agent (server name first)
+# Добавление инструментов MCP агенту (сначала имя сервера)
 /mcp add burp <agent_name_or_number>
 
-# Set up virtualized environment and a named workspace
+# Настройка виртуализированной среды и именованного рабочего пространства
 /virtualization pull kalilinux/kali-rolling
 /virtualization run kalilinux/kali-rolling
 /virtualization list
@@ -424,55 +424,55 @@ cai
 
 ---
 
-## Command Registration
+## Регистрация команд
 
-All commands are automatically registered when their respective modules are imported through the `__init__.py` file. The command system uses a registry pattern to track all available commands and their aliases.
+Все команды автоматически регистрируются при импорте соответствующих модулей через файл `__init__.py`. Система команд использует паттерн реестра для отслеживания всех доступных команд и их алиасов.
 
 ---
 
-## File Structure
+## Структура файлов
 
 ```
 src/cai/repl/commands/
-├── __init__.py          # Module exports and imports
-├── base.py              # Base command class
-├── agent.py             # Agent management
-├── compact.py           # Conversation compaction
-├── completer.py         # Command completion
-├── config.py            # Configuration management
-├── cost.py              # Cost tracking
-├── env.py               # Environment variables
-├── exit.py              # REPL exit
-├── flush.py             # History clearing
-├── graph.py             # Graph visualization
-├── help.py              # Help system
-├── history.py           # History management
-├── load.py              # Data loading
-├── mcp.py               # MCP integration
-├── memory/              # /memory command (compacted summaries, .cai/memory)
-├── merge.py             # History merging
-├── model.py             # Model management
-├── parallel.py          # Parallel execution
-├── quickstart.py        # User onboarding
-├── run.py               # Parallel execution trigger
-├── shell.py             # Shell access
-├── virtualization/      # Container management (re-exports monolith)
-└── workspace.py         # Workspace management
+├── __init__.py          # Экспорт и импорт модулей
+├── base.py              # Базовый класс команды
+├── agent.py             # Управление агентами
+├── compact.py           # Сжатие разговора
+├── completer.py         # Дополнение команд
+├── config.py            # Управление конфигурацией
+├── cost.py              # Отслеживание затрат
+├── env.py               # Переменные окружения
+├── exit.py              # Выход из REPL
+├── flush.py             # Очистка истории
+├── graph.py             # Визуализация графа
+├── help.py              # Система помощи
+├── history.py           # Управление историей
+├── load.py              # Загрузка данных
+├── mcp.py               # Интеграция MCP
+├── memory/              # Команда /memory (сжатые сводки, .cai/memory)
+├── merge.py             # Слияние историй
+├── model.py             # Управление моделями
+├── parallel.py          # Параллельное выполнение
+├── quickstart.py        # Онбординг пользователя
+├── run.py               # Триггер параллельного выполнения
+├── shell.py             # Доступ к оболочке
+├── virtualization/      # Управление контейнерами (ре-экспорт монолита)
+└── workspace.py         # Управление рабочим пространством
 ```
 
 ---
 
-## Extending the Command System
+## Расширение системы команд
 
-To add new commands:
+Чтобы добавить новые команды:
 
-1. Create a new Python file in `src/cai/repl/commands/`
-2. Import the base `Command` class from `base.py`
-3. Extend the `Command` class with your implementation
-4. Use the `register_command` decorator or function
-5. Add the import to `__init__.py`
+1. Создайте новый Python-файл в `src/cai/repl/commands/`
+2. Импортируйте базовый класс `Command` из `base.py`
+3. Расширьте класс `Command` своей реализацией
+4. Используйте декоратор или функцию `register_command`
+5. Добавьте импорт в `__init__.py`
 
-Example:
+Пример:
 
 ```python
 from cai.repl.commands.base import Command, register_command
@@ -486,9 +486,8 @@ class MyCommand(Command):
         )
     
     def execute(self, args):
-        # Command implementation
+        # Реализация команды
         pass
 
 register_command(MyCommand())
 ```
-

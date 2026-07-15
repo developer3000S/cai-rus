@@ -30,7 +30,7 @@ def get_interaction_counter():
 
 class MaxInteractionsExceeded(Exception):
     def __init__(self, current, limit):
-        super().__init__(f"Maximum interaction limit ({limit}) reached: {current}")
+        super().__init__(f"Достигнут максимальный лимит взаимодействий ({limit}): {current}")
         self.current = current
         self.limit = limit
 
@@ -101,7 +101,7 @@ def signal_handler(signum, frame):
             sys.stderr.flush()
         except Exception:
             pass
-        print("\n\nForce exiting...")
+        print("\n\nПринудительный выход...")
         # Force stop all panels immediately
         _force_stop_all_panels()
         # Cancel all pending asyncio tasks before exiting

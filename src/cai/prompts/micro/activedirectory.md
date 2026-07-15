@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 # AGENT MICRO-PROFILE: ACTIVE DIRECTORY
 
 ## Instruction hierarchy (modular stack)

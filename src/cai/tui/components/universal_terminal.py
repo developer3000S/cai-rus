@@ -586,9 +586,9 @@ class UniversalTerminal(Container):
                 if value:
                     display = f"{value}"
                 else:
-                    display = "container"
+                    display = "контейнер"
             else:
-                display = f"{value} (container)" if value else "container"
+                display = f"{value} (контейнер)" if value else "контейнер"
             select_widget.prompt = display
         except Exception:
             pass
@@ -640,9 +640,9 @@ class UniversalTerminal(Container):
         header_static.tooltip = self._get_terminal_tooltip()
 
         # Dropdown selectors (populated on mount). Use narrow prompts to reduce chrome.
-        agent_select = DeferredSelect([("select agent", "")], id=f"agent-select-{self.terminal_id}", classes="agent-select", prompt="agent")
-        model_select = DeferredSelect([("select model", "")], id=f"model-select-{self.terminal_id}", classes="model-select", prompt="model")
-        container_select = DeferredSelect([("host (no container)", "")], id=f"container-select-{self.terminal_id}", classes="container-select", prompt="container")
+        agent_select = DeferredSelect([("выбрать агента", "")], id=f"agent-select-{self.terminal_id}", classes="agent-select", prompt="агент")
+        model_select = DeferredSelect([("выбрать модель", "")], id=f"model-select-{self.terminal_id}", classes="model-select", prompt="модель")
+        container_select = DeferredSelect([("хост (без контейнера)", "")], id=f"container-select-{self.terminal_id}", classes="container-select", prompt="контейнер")
         
         # Compose a compact header row where selectors occupy the label slots
         # Wrap selectors in a fixed-height row to avoid overflow
@@ -651,7 +651,7 @@ class UniversalTerminal(Container):
         status_dot = Static("●", id=f"status-indicator-{self.terminal_id}", classes="status-indicator")
         close_btn = Static("×", id=f"close-{self.terminal_id}", classes="terminal-close-button")
         try:
-            close_btn.tooltip = "Close terminal"
+            close_btn.tooltip = "Закрыть терминал"
         except Exception:
             pass
         right_cluster = Horizontal(
@@ -785,11 +785,11 @@ class UniversalTerminal(Container):
                         label = f"{cid} | {name or image}"
                         options.append((label, cid))
                 # Fallback option to clear selection
-                options.insert(0, ("host (no container)", ""))
+                options.insert(0, ("хост (без контейнера)", ""))
                 select = self.query_one(f"#container-select-{self.terminal_id}")
                 active_container = self._resolve_active_container_id()
                 if active_container and not any(val == active_container for _, val in options):
-                    options.insert(1, (f"{active_container} (container)", active_container))
+                    options.insert(1, (f"{active_container} (контейнер)", active_container))
                 self._set_select_options_safe(
                     select,
                     options,
@@ -889,11 +889,11 @@ class UniversalTerminal(Container):
                                 image = c.get("Image", "")
                                 label = f"{cid} | {name or image}"
                                 options.append((label, cid))
-                        options.insert(0, ("host (no container)", ""))
+                        options.insert(0, ("хост (без контейнера)", ""))
                         select = self.query_one(f"#container-select-{self.terminal_id}")
                         active_container = self._resolve_active_container_id()
                         if active_container and not any(val == active_container for _, val in options):
-                            options.insert(1, (f"{active_container} (container)", active_container))
+                            options.insert(1, (f"{active_container} (контейнер)", active_container))
                         self._set_select_options_safe(
                             select,
                             options,
@@ -1077,8 +1077,8 @@ class UniversalTerminal(Container):
             "[bold blue]             CCC::::::::::::C             +++++             I::::::::I[/bold blue]",
             "[bold blue]                CCCCCCCCCCCCC               ++              IIIIIIIIII[/bold blue]",
             "",
-            f"[bold blue]                              Cybersecurity AI (CAI), v{version}[/bold blue]",
-            "[white]                                  Bug bounty-ready AI[/white]",
+            f"[bold blue]                              Кибербезопасность AI (CAI), v{version}[/bold blue]",
+            "[white]                                  AI для баг-охоты[/white]",
         ]
 
         # Check if output exists
@@ -1108,7 +1108,7 @@ class UniversalTerminal(Container):
         if self.output:
             self.output.write("")
             self.output.write(
-                f"[dim]Terminal {self.terminal_number} ready - Type /help for commands[/dim]"
+            f"[dim]Терминал {self.terminal_number} готов - Введите /help для команд[/dim]"
             )
             self.output.write("")
 

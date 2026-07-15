@@ -1,9 +1,9 @@
 """
-Resume and sessions commands for CAI REPL.
+Команды resume и sessions для CAI REPL.
 
-This module provides commands for managing and resuming sessions:
-- /resume: Pick or resume a session (replaces former ``cai --resume`` CLI flags)
-- /sessions: List recent sessions
+Этот модуль предоставляет команды для управления и возобновления сессий:
+- /resume: Выбрать или возобновить сессию (заменяет флаги ``cai --resume`` CLI)
+- /sessions: Показать недавние сессии
 """
 
 from pathlib import Path
@@ -39,7 +39,7 @@ class ResumeCommand(Command):
         """Initialize the resume command."""
         super().__init__(
             name="/resume",
-            description="Resume a session: pick from recent logs, last, path, token, or directory",
+            description="Возобновить сессию: выбрать из недавних журналов, последней, по пути, токену или каталогу",
             aliases=["/r"],
         )
 

@@ -1,6 +1,6 @@
 """
-Flush command for CAI REPL.
-This module provides commands for clearing conversation history.
+Команда flush для CAI REPL.
+Этот модуль предоставляет команды для очистки истории диалогов.
 """
 
 import inspect
@@ -379,10 +379,10 @@ def repl_print_unknown_flush_target(user_query: str) -> None:
     list_labels = ordered_nonempty_flush_agent_labels_repl()
     if not list_labels:
         list_labels = sorted(merge_flush_histories().keys())
-    console.print("[red]Error: Unknown agent or history target.[/red]")
+    console.print("[red]Ошибка: Неизвестный агент или цель истории.[/red]")
     console.print(
-        f"[dim]No matching agent for[/dim] [bold]{user_query}[/bold] "
-        f"[dim](use tab completion after /flush, or run /flush with no arguments).[/dim]"
+        f"[dim]Нет совпадающего агента для[/dim] [bold]{user_query}[/bold] "
+        f"[dim](используйте дополнение табуляцией после /flush или выполните /flush без аргументов).[/dim]"
     )
     if list_labels:
         preview = list_labels[:8]
@@ -400,13 +400,13 @@ class FlushCommand(Command):
         """Initialize the flush command."""
         super().__init__(
             name="/flush",
-            description="Clear conversation history (all agents by default, or specific agent)",
+            description="Очистить историю диалогов (все агенты по умолчанию, или конкретный агент)",
             aliases=["/clear"],
         )
 
         # Add subcommands
-        self.add_subcommand("all", "Clear history for all agents", self.handle_all)
-        self.add_subcommand("agent", "Clear history for a specific agent", self.handle_agent)
+        self.add_subcommand("all", "Очистить историю всех агентов", self.handle_all)
+        self.add_subcommand("agent", "Очистить историю конкретного агента", self.handle_agent)
 
     def handle(
         self, args: Optional[List[str]] = None, messages: Optional[List[Dict]] = None
@@ -454,11 +454,11 @@ class FlushCommand(Command):
             app, terminal_number, runner = context or self._get_tui_context()
 
             if not app:
-                console.print("[red]Error: TUI not properly initialized[/red]")
+                console.print("[red]Ошибка: TUI не инициализирован корректно[/red]")
                 return False
 
             if terminal_number is None or runner is None:
-                console.print("[red]Error: Could not determine current terminal[/red]")
+                console.print("[red]Ошибка: Не удалось определить текущий терминал[/red]")
                 return False
 
             if self._is_runner_busy(runner):
@@ -466,7 +466,7 @@ class FlushCommand(Command):
                 return True
 
             if not runner.agent:
-                console.print(f"[red]Error: No agent in terminal {terminal_number}[/red]")
+                console.print(f"[red]Ошибка: Нет агента в терминале {terminal_number}[/red]")
                 return False
 
             agent = runner.agent
@@ -482,8 +482,8 @@ class FlushCommand(Command):
             # Display information
             if initial_length > 0:
                 content = [
-                    f"Conversation history cleared for {agent_name} in Terminal {terminal_number}.",
-                    f"Removed {initial_length} messages.",
+                    f"История диалогов очищена для {agent_name} в Терминале {terminal_number}.",
+                    f"Удалено сообщений: {initial_length}.",
                 ]
                 
                 console.print(
@@ -497,7 +497,7 @@ class FlushCommand(Command):
             else:
                 console.print(
                     Panel(
-                        f"No conversation history to clear for {agent_name} in Terminal {terminal_number}.",
+                        f"Нет истории диалогов для очистки у {agent_name} в Терминале {terminal_number}.",
                         title=f"[bold cyan]Context Flushed - T{terminal_number}[/bold cyan]",
                         border_style="blue",
                         padding=(1, 2),
@@ -507,7 +507,7 @@ class FlushCommand(Command):
             return True
             
         except Exception as e:
-            console.print(f"[red]Error clearing terminal history: {str(e)}[/red]")
+            console.print(f"[red]Ошибка очистки истории терминала: {str(e)}[/red]")
             return False
     
     def handle_current_agent(self) -> bool:
@@ -534,14 +534,14 @@ class FlushCommand(Command):
         # Display information about the cleared messages
         if initial_length > 0:
             content = [
-                f"Conversation history cleared for {current_agent}.",
-                f"Removed {initial_length} messages.",
+                f"История диалогов очищена для {current_agent}.",
+                f"Удалено сообщений: {initial_length}.",
             ]
 
             console.print(
                 Panel(
                     "\n".join(content),
-                    title=f"[bold cyan]Context Flushed - {current_agent}[/bold cyan]",
+                    title=f"[bold cyan]Контекст очищен - {current_agent}[/bold cyan]",
                     border_style="blue",
                     padding=(1, 2),
                 )
@@ -549,7 +549,7 @@ class FlushCommand(Command):
         else:
             console.print(
                 Panel(
-                    f"No conversation history to clear for {current_agent}.",
+                    f"Нет истории диалогов для очистки у {current_agent}.",
                     title=f"[bold cyan]Context Flushed - {current_agent}[/bold cyan]",
                     border_style="blue",
                     padding=(1, 2),
@@ -590,17 +590,17 @@ class FlushCommand(Command):
 
                     # Display information
                     if agent_count > 0:
-                        content = [
-                            f"Cleared history for all {agent_count} terminal agents.",
-                            f"Total messages removed: {total_messages}",
-                            "Sudo credential cache cleared.",
-                            "Sensitive command allowlist cleared.",
-                        ]
-                        
-                        console.print(
-                            Panel(
-                                "\n".join(content),
-                                title="[bold cyan]All Terminal Contexts Flushed[/bold cyan]",
+                    content = [
+                        f"Очищена история для всех {agent_count} агентов терминалов.",
+                        f"Всего удалено сообщений: {total_messages}",
+                        "Кэш учётных данных sudo очищен.",
+                        "Список допустимых чувствительных команд очищен.",
+                    ]
+                    
+                    console.print(
+                        Panel(
+                            "\n".join(content),
+                            title="[bold cyan]Все контексты терминалов очищены[/bold cyan]",
                                 border_style="blue",
                                 padding=(1, 2),
                             )
@@ -608,8 +608,8 @@ class FlushCommand(Command):
                     else:
                         console.print(
                             Panel(
-                                "No terminal agent histories to clear.",
-                                title="[bold cyan]All Terminal Contexts Flushed[/bold cyan]",
+                                "Нет истории агентов терминалов для очистки.",
+                                title="[bold cyan]Все контексты терминалов очищены[/bold cyan]",
                                 border_style="blue",
                                 padding=(1, 2),
                             )
@@ -617,7 +617,7 @@ class FlushCommand(Command):
                     
                     return True
             except Exception as e:
-                console.print(f"[red]Error clearing TUI histories: {str(e)}[/red]")
+                console.print(f"[red]Ошибка очистки истории TUI: {str(e)}[/red]")
                 # Fall back to standard method
                 pass
         
@@ -629,7 +629,7 @@ class FlushCommand(Command):
                 ACTIVE_MODEL_INSTANCES,
             )
         except ImportError:
-            console.print("[red]Error: Could not access conversation history[/red]")
+            console.print("[red]Ошибка: Не удалось получить доступ к истории диалогов[/red]")
             return False
 
         # Get agent count and total messages before clearing
@@ -669,16 +669,16 @@ class FlushCommand(Command):
         # Display information
         if agent_count > 0:
             content = [
-                f"Cleared history for all {agent_count} agents.",
-                f"Total messages removed: {total_messages}",
-                "Sudo credential cache cleared.",
-                "Sensitive command allowlist cleared.",
+                f"Очищена история для всех {agent_count} агентов.",
+                f"Всего удалено сообщений: {total_messages}",
+                "Кэш учётных данных sudo очищен.",
+                "Список допустимых чувствительных команд очищен.",
             ]
 
             console.print(
                 Panel(
                     "\n".join(content),
-                    title="[bold cyan]All Contexts Flushed[/bold cyan]",
+                    title="[bold cyan]Все контексты очищены[/bold cyan]",
                     border_style="blue",
                     padding=(1, 2),
                 )
@@ -686,8 +686,8 @@ class FlushCommand(Command):
         else:
             console.print(
                 Panel(
-                    "No agent histories to clear.",
-                    title="[bold cyan]All Contexts Flushed[/bold cyan]",
+                    "Нет истории агентов для очистки.",
+                    title="[bold cyan]Все контексты очищены[/bold cyan]",
                     border_style="blue",
                     padding=(1, 2),
                 )
@@ -698,8 +698,8 @@ class FlushCommand(Command):
     def handle_agent(self, args: Optional[List[str]] = None) -> bool:
         """Clear history for a specific agent using 'agent' subcommand."""
         if not args:
-            console.print("[red]Error: Agent name required[/red]")
-            console.print("Usage: /flush agent <agent_name>")
+            console.print("[red]Ошибка: Требуется имя агента[/red]")
+            console.print("Использование: /flush agent <agent_name>")
             return False
 
         joined = " ".join(args).strip()
@@ -758,14 +758,14 @@ class FlushCommand(Command):
             # Display information
             if initial_length > 0:
                 content = [
-                    f"Conversation history cleared for {agent_name}.",
-                    f"Removed {initial_length} messages.",
+                    f"История диалогов очищена для {agent_name}.",
+                    f"Удалено сообщений: {initial_length}.",
                 ]
 
                 console.print(
                     Panel(
                         "\n".join(content),
-                        title=f"[bold cyan]Context Flushed - {agent_name}[/bold cyan]",
+                        title=f"[bold cyan]Контекст очищен - {agent_name}[/bold cyan]",
                         border_style="blue",
                         padding=(1, 2),
                     )
@@ -773,7 +773,7 @@ class FlushCommand(Command):
             else:
                 console.print(
                     Panel(
-                        f"No conversation history to clear for {agent_name}.",
+                    f"Нет истории диалогов для очистки у {agent_name}.",
                         title=f"[bold cyan]Context Flushed - {agent_name}[/bold cyan]",
                         border_style="blue",
                         padding=(1, 2),
@@ -909,7 +909,7 @@ class FlushCommand(Command):
     def _notify_runner_busy(self, runner: Any) -> None:
         """Notify the user that the targeted terminal is busy."""
         message = (
-            "[yellow]Agent is busy. Wait for the current task to finish before flushing.[/yellow]"
+            "[yellow]Агент занят. Подождите завершения текущей задачи перед очисткой.[/yellow]"
         )
 
         terminal = getattr(runner, "terminal", None)
@@ -1000,10 +1000,10 @@ class FlushCommand(Command):
         combined_histories = merge_flush_histories()
 
         if not combined_histories:
-            console.print("[yellow]No agents have conversation history to clear[/yellow]")
-            console.print("\n[dim]Usage:[/dim]")
-            console.print("[dim]  /flush <agent_name>  - Clear specific agent's history[/dim]")
-            console.print("[dim]  /flush all           - Clear all agents' histories[/dim]")
+            console.print("[yellow]Нет агентов с историей диалогов для очистки[/yellow]")
+            console.print("\n[dim]Использование:[/dim]")
+            console.print("[dim]  /flush <agent_name>  - Очистить историю конкретного агента[/dim]")
+            console.print("[dim]  /flush all           - Очистить историю всех агентов[/dim]")
             return True
 
         # Get IDs for agents if available
@@ -1040,7 +1040,7 @@ class FlushCommand(Command):
         # Create a panel showing available agents
         from rich.tree import Tree
 
-        tree = Tree("[bold #00ff9d]Flush Command - Available Agents[/bold #00ff9d]")
+        tree = Tree("[bold #00ff9d]Команда flush - Доступные агенты[/bold #00ff9d]")
 
         total_messages = 0
         for agent_name, history in sorted(combined_histories.items()):
@@ -1064,26 +1064,26 @@ class FlushCommand(Command):
 
         console.print(tree)
         console.print(
-            f"\n[#9aa0a6][CAI] Total messages across all agents:[/] "
+            f"\n[#9aa0a6][CAI] Всего сообщений у всех агентов:[/] "
             f"[bold #00ff9d]{total_messages}[/bold #00ff9d]"
         )
 
-        console.print("\n[#9aa0a6][CAI] Usage:[/]")
+        console.print("\n[#9aa0a6][CAI] Использование:[/]")
         console.print(
             "  [#9aa0a6]• [/][bold #00ff9d]/flush <agent_name>[/bold #00ff9d]"
-            "[#9aa0a6] - Clear specific agent's history[/]"
+            "[#9aa0a6] - Очистить историю конкретного агента[/]"
         )
         console.print(
             "  [#9aa0a6]• [/][bold #00ff9d]/flush <ID>[/bold #00ff9d]"
-            "[#9aa0a6] - Clear agent by ID (e.g., /flush P2)[/]"
+            "[#9aa0a6] - Очистить агента по ID (например, /flush P2)[/]"
         )
         console.print(
             "  [#9aa0a6]• [/][bold #00ff9d]/flush all[/bold #00ff9d]"
-            "[#9aa0a6] - Clear all agents' histories[/]"
+            "[#9aa0a6] - Очистить историю всех агентов[/]"
         )
         console.print(
             "  [#9aa0a6]• [/][bold #00ff9d]/flush agent <name>[/bold #00ff9d]"
-            "[#9aa0a6] - Clear specific agent (explicit syntax)[/]"
+            "[#9aa0a6] - Очистить конкретного агента (явный синтаксис)[/]"
         )
 
         # Show example for agents with spaces

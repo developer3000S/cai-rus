@@ -1,6 +1,6 @@
 """
-Compact command for CAI REPL.
-Compacts current conversation and manages model/prompt settings.
+Команда compact для CAI REPL.
+Сжимает текущий диалог и управляет настройками модели/подсказки.
 """
 
 from typing import List, Optional
@@ -54,14 +54,14 @@ class CompactCommand(Command):
         """Initialize the compact command."""
         super().__init__(
             name="/compact",
-            description="Compact current conversation into a memory summary",
+            description="Сжать текущий диалог в резюме памяти",
             aliases=["/cmp"],
         )
 
         # Add subcommands
-        self.add_subcommand("model", "Set model for compaction", self.handle_model)
-        self.add_subcommand("prompt", "Set custom summarization prompt", self.handle_prompt)
-        self.add_subcommand("status", "Show compaction settings", self.handle_status)
+        self.add_subcommand("model", "Установить модель для сжатия", self.handle_model)
+        self.add_subcommand("prompt", "Установить пользовательскую подсказку суммаризации", self.handle_prompt)
+        self.add_subcommand("status", "Показать настройки сжатия", self.handle_status)
 
         # Default model for compaction (None means use current model)
         self.compact_model = None
@@ -98,7 +98,7 @@ class CompactCommand(Command):
                     else:
                         console.print(f"[yellow]Unknown argument: {args[i]}[/yellow]")
                         console.print(
-                            "[dim]Usage: /compact [--model <model>] [--prompt <prompt>][/dim]"
+                            "[dim]Использование: /compact [--model <model>] [--prompt <prompt>][/dim]"
                         )
                         return True
         else:
@@ -126,10 +126,10 @@ class CompactCommand(Command):
         if not args:
             console.print(
                 Panel(
-                    f"Current compact model: [bold green]"
-                    f"{self.compact_model or 'Using current model'}[/bold green]",
+                    f"Текущая модель сжатия: [bold green]"
+                    f"{self.compact_model or 'Используется текущая модель'}[/bold green]",
                     border_style="green",
-                    title="Compact Model Setting",
+                    title="Настройка модели сжатия",
                 )
             )
 
@@ -143,26 +143,26 @@ class CompactCommand(Command):
             ]
 
             model_table = Table(
-                title="Available Models for Compaction",
+                title="Доступные модели для сжатия",
                 show_header=True,
                 header_style="bold yellow",
             )
             model_table.add_column("#", style="bold white", justify="right")
-            model_table.add_column("Model", style="cyan")
-            model_table.add_column("Provider", style="magenta")
-            model_table.add_column("Category", style="blue")
-            model_table.add_column("Input Cost ($/M)", style="green", justify="right")
-            model_table.add_column("Output Cost ($/M)", style="red", justify="right")
-            model_table.add_column("Description", style="white")
+            model_table.add_column("Модель", style="cyan")
+            model_table.add_column("Провайдер", style="magenta")
+            model_table.add_column("Категория", style="blue")
+            model_table.add_column("Стоимость входа ($/M)", style="green", justify="right")
+            model_table.add_column("Стоимость выхода ($/M)", style="red", justify="right")
+            model_table.add_column("Описание", style="white")
 
             for i, model in enumerate(all_predefined, 1):
                 input_cost_str = (
                     f"${model['input_cost']:.2f}"
-                    if model["input_cost"] is not None else "Unknown"
+                    if model["input_cost"] is not None else "Неизвестно"
                 )
                 output_cost_str = (
                     f"${model['output_cost']:.2f}"
-                    if model["output_cost"] is not None else "Unknown"
+                    if model["output_cost"] is not None else "Неизвестно"
                 )
                 model_table.add_row(
                     str(i), model["name"], model["provider"], model["category"],
@@ -182,7 +182,7 @@ class CompactCommand(Command):
                         else:
                             size_gb = size_mb / 1024
                             size_str = f"{size_gb:.1f} GB"
-                    model_description = "Local model"
+                    model_description = "Локальная модель"
                     if size_str:
                         model_description += f" ({size_str})"
                     model_table.add_row(
@@ -192,15 +192,15 @@ class CompactCommand(Command):
 
             console.print(model_table)
 
-            console.print("\n[cyan]Usage:[/cyan]")
+            console.print("\n[cyan]Использование:[/cyan]")
             console.print(
-                "  [bold]/compact model <model_name>[/bold] - Set model by name"
+                "  [bold]/compact model <model_name>[/bold] - Установить модель по имени"
             )
             console.print(
-                "  [bold]/compact model <number>[/bold]     - Set model by number from table"
+                "  [bold]/compact model <number>[/bold]     - Установить модель по номеру из таблицы"
             )
             console.print(
-                "  [bold]/compact model default[/bold]      - Use current agent model"
+                "  [bold]/compact model default[/bold]      - Использовать текущую модель агента"
             )
 
             self.cached_model_numbers = {
@@ -216,17 +216,17 @@ class CompactCommand(Command):
             if model_arg in self.cached_model_numbers:
                 model_name = self.cached_model_numbers[model_arg]
             else:
-                console.print(f"[red]Invalid model number: {model_arg}[/red]")
+                console.print(f"[red]Неверный номер модели: {model_arg}[/red]")
                 return True
         else:
             model_name = model_arg
 
         if model_name.lower() == "default":
             self.compact_model = None
-            console.print("[green]Will use current model for compaction[/green]")
+            console.print("[green]Будет использоваться текущая модель для сжатия[/green]")
         else:
             self.compact_model = model_name
-            console.print(f"[green]Set compact model to: {model_name}[/green]")
+            console.print(f"[green]Модель сжатия установлена: {model_name}[/green]")
 
         return True
 
@@ -234,25 +234,25 @@ class CompactCommand(Command):
         """Set custom summarization prompt."""
         if not args:
             if self.custom_prompt:
-                console.print("[cyan]Current custom prompt:[/cyan]")
+                console.print("[cyan]Текущая пользовательская подсказка:[/cyan]")
                 console.print(self.custom_prompt)
             else:
-                console.print("[yellow]No custom prompt set. Using default prompt.[/yellow]")
+                console.print("[yellow]Пользовательская подсказка не установлена. Используется подсказка по умолчанию.[/yellow]")
 
-            console.print("\nUsage: /compact prompt <prompt_text>")
-            console.print("       /compact prompt reset    - Reset to default prompt")
+            console.print("\nИспользование: /compact prompt <prompt_text>")
+            console.print("       /compact prompt reset    - Сбросить до подсказки по умолчанию")
             console.print(
-                "\nExample: /compact prompt Focus on security findings and vulnerabilities"
+                "\nПример: /compact prompt Сфокусируйся на находках безопасности и уязвимостях"
             )
             return True
 
         if args[0].lower() == "reset":
             self.custom_prompt = None
-            console.print("[green]Reset to default summarization prompt[/green]")
+            console.print("[green]Сброшено до подсказки суммаризации по умолчанию[/green]")
         else:
             # Join all args as the prompt
             self.custom_prompt = " ".join(args)
-            console.print(f"[green]Set custom prompt: {self.custom_prompt}[/green]")
+            console.print(f"[green]Установлена пользовательская подсказка: {self.custom_prompt}[/green]")
 
         return True
 
@@ -260,31 +260,31 @@ class CompactCommand(Command):
         """Show compaction settings."""
         current_model = get_current_active_model()
 
-        console.print("[bold cyan]Compaction Settings[/bold cyan]\n")
+        console.print("[bold cyan]Настройки сжатия[/bold cyan]\n")
 
         # Show model info
-        console.print(f"Compact Model: {self.compact_model or 'Using current model'}")
+        console.print(f"Модель сжатия: {self.compact_model or 'Используется текущая модель'}")
         if current_model:
             console.print(f"Current Model: {current_model.model}")
 
         # Show prompt info
         if self.custom_prompt:
-            console.print(f"\nCustom Prompt: {self.custom_prompt}")
+            console.print(f"\nПользовательская подсказка: {self.custom_prompt}")
         else:
-            console.print("\nCustom Prompt: Not set (using default)")
+            console.print("\nПользовательская подсказка: Не установлена (используется по умолчанию)")
 
         # Show default prompt
-        console.print("\n[dim]Default summarization prompt:[/dim]")
+        console.print("\n[dim]Подсказка суммаризации по умолчанию:[/dim]")
         console.print(
-            "[dim]You are a conversation summarizer. Your task is to create a concise summary that captures:[/dim]"
+            "[dim]Вы — суммаризатор диалогов. Ваша задача — создать краткое резюме, отражающее:[/dim]"
         )
-        console.print("[dim]1. The main objectives and goals discussed[/dim]")
-        console.print("[dim]2. Key findings and important information discovered[/dim]")
-        console.print("[dim]3. Critical tool outputs and results[/dim]")
-        console.print("[dim]4. Current status and next steps[/dim]")
-        console.print("[dim]5. Any flags, credentials, or important data found[/dim]")
+        console.print("[dim]1. Основные цели и задачи[/dim]")
+        console.print("[dim]2. Ключевые находки и важная информация[/dim]")
+        console.print("[dim]3. Критические выводы инструментов и результаты[/dim]")
+        console.print("[dim]4. Текущий статус и следующие шаги[/dim]")
+        console.print("[dim]5. Любые флаги, учётные данные или важные данные[/dim]")
 
-        console.print("\n[yellow]Note: For memory management, use the /memory command[/yellow]")
+        console.print("\n[yellow]Примечание: Для управления памятью используйте команду /memory[/yellow]")
 
         return True
 
@@ -298,43 +298,43 @@ class CompactCommand(Command):
 
         console.print(
             Panel(
-                "[bold #00ff9d]Compact Command - Memory Summarization[/bold #00ff9d]\n\n"
-                f"[#9aa0a6]Current model:[/] [bold white]{model_info}[/bold white]\n"
-                f"[#9aa0a6]Custom prompt:[/] [bold white]{'Set' if self.custom_prompt else 'Using default'}[/bold white]",
+                "[bold #00ff9d]Команда Compact - Суммаризация памяти[/bold #00ff9d]\n\n"
+                f"[#9aa0a6]Текущая модель:[/] [bold white]{model_info}[/bold white]\n"
+                f"[#9aa0a6]Пользовательская подсказка:[/] [bold white]{'Установлена' if self.custom_prompt else 'Используется по умолчанию'}[/bold white]",
                 title="[bold #00ff9d]Compact Settings[/bold #00ff9d]",
                 border_style="#00ff9d",
             )
         )
 
-        console.print("\n[#9aa0a6][CAI] Available commands:[/]")
+        console.print("\n[#9aa0a6][CAI] Доступные команды:[/]")
         console.print(
             "  [#9aa0a6]• [/][bold #00ff9d]/compact[/bold #00ff9d]"
-            "[#9aa0a6] - Summarize current conversation[/]"
+            "[#9aa0a6] - Суммировать текущий диалог[/]"
         )
         console.print(
             "  [#9aa0a6]• [/][bold #00ff9d]/compact model[/bold #00ff9d]"
-            "[#9aa0a6] - Configure model for compaction[/]"
+            "[#9aa0a6] - Настроить модель для сжатия[/]"
         )
         console.print(
             "  [#9aa0a6]• [/][bold #00ff9d]/compact prompt[/bold #00ff9d]"
-            "[#9aa0a6] - Set custom summarization prompt[/]"
+            "[#9aa0a6] - Установить пользовательскую подсказку суммаризации[/]"
         )
         console.print(
             "  [#9aa0a6]• [/][bold #00ff9d]/compact status[/bold #00ff9d]"
-            "[#9aa0a6] - Show current settings[/]"
+            "[#9aa0a6] - Показать текущие настройки[/]"
         )
-        console.print("\n[#9aa0a6][CAI] Quick usage:[/]")
+        console.print("\n[#9aa0a6][CAI] Быстрое использование:[/]")
         console.print(
             "  [#9aa0a6]• [/][bold #00ff9d]/compact --model o3-mini[/bold #00ff9d]"
-            "[#9aa0a6] - Compact with specific model[/]"
+            "[#9aa0a6] - Сжать с указанной моделью[/]"
         )
         console.print(
-            '  [#9aa0a6]• [/][bold #00ff9d]/compact --prompt "Focus on..."[/bold #00ff9d]'
-            "[#9aa0a6] - Compact with custom prompt[/]"
+            '  [#9aa0a6]• [/][bold #00ff9d]/compact --prompt "Фокус на..."[/bold #00ff9d]'
+            "[#9aa0a6] - Сжать с пользовательской подсказкой[/]"
         )
         console.print(
-            "\n[#9aa0a6][CAI] Note: compacted conversations are saved to [/]"
-            "[bold #00ff9d]/memory[/bold #00ff9d][#9aa0a6] for later use.[/]"
+            "\n[#9aa0a6][CAI] Примечание: сжатые диалоги сохраняются в [/]"
+            "[bold #00ff9d]/memory[/bold #00ff9d][#9aa0a6] для дальнейшего использования.[/]"
         )
 
     def _ask_and_perform_compaction(self) -> bool:
@@ -352,7 +352,7 @@ class CompactCommand(Command):
         # Check if we're in TUI mode
         if os.getenv("CAI_TUI_MODE") == "true":
             # In TUI mode, use a completely different approach
-            console.print("\n[cyan]Starting compaction in TUI mode...[/cyan]")
+            console.print("\n[cyan]Запуск сжатия в режиме TUI...[/cyan]")
             
             # Get the current terminal ID to identify which terminal we're in
             from cai.tui.core.terminal_tracking import get_current_terminal_id
@@ -384,7 +384,7 @@ class CompactCommand(Command):
             msg_count = len(history)
             
             if msg_count == 0:
-                console.print("[yellow]No conversation history to compact[/yellow]")
+                console.print("[yellow]Нет истории диалогов для сжатия[/yellow]")
                 return True
             
             # Get the agent name from P-ID mapping
@@ -463,10 +463,10 @@ class CompactCommand(Command):
             if agent_name and agent_name != "Unknown Agent":
                 AGENT_MANAGER._p_id_to_agent_name[p_id] = agent_name
             
-            console.print(f"[cyan]Found {msg_count} messages for agent '{agent_name}' in Terminal {terminal_num}[/cyan]")
+            console.print(f"[cyan]Найдено {msg_count} сообщений для агента '{agent_name}' в Терминале {terminal_num}[/cyan]")
             
             # In TUI, proceed directly without asking
-            console.print(f"\n[cyan]Compacting conversation ({msg_count} messages)...[/cyan]")
+            console.print(f"\n[cyan]Сжатие диалога ({msg_count} сообщений)...[/cyan]")
             
             # Execute compaction in background to avoid blocking TUI
             import threading
@@ -489,23 +489,23 @@ class CompactCommand(Command):
 
                     def handle_success():
                         if result:
-                            console.print("\n[green]✓ Compaction completed successfully[/green]")
-                            console.print("[dim]Memory saved and applied to the active agent[/dim]")
+                            console.print("\n[green]✓ Сжатие выполнено успешно[/green]")
+                            console.print("[dim]Память сохранена и применена к активному агенту[/dim]")
 
                             if p_id in AGENT_MANAGER._message_history:
                                 AGENT_MANAGER._message_history[p_id].clear()
-                                console.print("[green]✓ Terminal history cleared[/green]")
+                                console.print("[green]✓ История терминала очищена[/green]")
 
                             os.environ["CAI_COMPACTED_MEMORY"] = "true"
                             self._apply_memory_to_tui_agent(terminal_num, agent_name)
                         else:
-                            console.print("\n[red]✗ Error during compaction[/red]")
+                            console.print("\n[red]✗ Ошибка при сжатии[/red]")
 
                     self._dispatch_to_ui(handle_success)
 
                 except Exception as e:
                     def handle_error():
-                        console.print(f"\n[red]✗ Error: {str(e)}[/red]")
+                        console.print(f"\n[red]✗ Ошибка: {str(e)}[/red]")
                         if os.getenv("CAI_DEBUG") == "1":
                             import traceback
                             console.print(f"[dim]{traceback.format_exc()}[/dim]")
@@ -520,7 +520,7 @@ class CompactCommand(Command):
                     self._dispatch_to_ui(handle_cleanup)
 
             # Start compaction in background
-            console.print("[dim]Processing in background. The terminal will stay locked until completion...[/dim]")
+            console.print("[dim]Обработка в фоновом режиме. Терминал будет заблокирован до завершения...[/dim]")
             compaction_thread = threading.Thread(target=run_compaction_async, daemon=True)
             compaction_thread.start()
 
@@ -569,18 +569,18 @@ class CompactCommand(Command):
 
         # In non-TUI mode, ask for confirmation
         console.print(
-            f"\n[#9aa0a6][CAI] Compact current conversation? [/]"
-            f"[bold white]({msg_count} messages)[/bold white]"
+            f"\n[#9aa0a6][CAI] Сжать текущий диалог? [/]"
+            f"[bold white]({msg_count} сообщений)[/bold white]"
         )
         confirm = console.input(
-            "[#9aa0a6][CAI] Compact conversation? [/][bold #00ff9d](y/N): [/]"
+            "[#9aa0a6][CAI] Сжать диалог? [/][bold #00ff9d](y/N): [/]"
         )
 
         if confirm.lower() == "y":
             # Pass the detected agent name to _perform_compaction
             return self._perform_compaction(None, None, agent_name=agent_name)
         else:
-            console.print("[dim]Compaction cancelled[/dim]")
+            console.print("[dim]Сжатие отменено[/dim]")
             return True
 
     def _perform_parallel_compaction(self) -> bool:
@@ -593,10 +593,10 @@ class CompactCommand(Command):
         from cai.agents.patterns import get_pattern
 
         if not PARALLEL_CONFIGS:
-            console.print("[yellow]No parallel agents configured[/yellow]")
+            console.print("[yellow]Параллельные агенты не настроены[/yellow]")
             return True
 
-        console.print("[bold cyan]Compacting all parallel agents automatically...[/bold cyan]\n")
+        console.print("[bold cyan]Автоматическое сжатие всех параллельных агентов...[/bold cyan]\n")
 
         success_count = 0
         total_count = 0
@@ -631,7 +631,7 @@ class CompactCommand(Command):
 
                 if not history or len(history) == 0:
                     console.print(
-                        f"[yellow]{config.agent_name} [{agent_id}]: No messages to compact[/yellow]"
+                        f"[yellow]{config.agent_name} [{agent_id}]: Нет сообщений для сжатия[/yellow]"
                     )
                     continue
 
@@ -648,7 +648,7 @@ class CompactCommand(Command):
                     display_name = getattr(agent, "name", config.agent_name)
 
             console.print(
-                f"[cyan]Compacting {display_name} [{agent_id}] ({len(history)} messages)...[/cyan]"
+                f"[cyan]Сжатие {display_name} [{agent_id}] ({len(history)} сообщений)...[/cyan]"
             )
 
             # Create a temporary agent instance for this compaction
@@ -679,13 +679,13 @@ class CompactCommand(Command):
                 if self._perform_compaction(agent_name=display_name):
                     success_count += 1
                     console.print(
-                        f"[green]✓ {display_name} [{agent_id}] compacted successfully[/green]\n"
+                        f"[green]✓ {display_name} [{agent_id}] сжат успешно[/green]\n"
                     )
 
                     # Clear the isolated history after successful compaction
                     PARALLEL_ISOLATION.replace_isolated_history(agent_id, [])
                 else:
-                    console.print(f"[red]✗ Failed to compact {display_name} [{agent_id}][/red]\n")
+                    console.print(f"[red]✗ Ошибка сжатия {display_name} [{agent_id}][/red]\n")
 
                 # Restore the previous active agent
                 if old_active:
@@ -695,7 +695,7 @@ class CompactCommand(Command):
                     AGENT_MANAGER._active_agent_name = None
 
             except Exception as e:
-                console.print(f"[red]Error compacting {display_name}: {str(e)}[/red]\n")
+                console.print(f"[red]Ошибка сжатия {display_name}: {str(e)}[/red]\n")
                 if os.getenv("CAI_DEBUG", "1") == "2":
                     import traceback
 
@@ -703,12 +703,12 @@ class CompactCommand(Command):
 
         # Summary
         console.print(
-            f"\n[bold]Parallel compaction complete: {success_count}/{total_count} agents processed[/bold]"
+            f"\n[bold]Параллельное сжатие завершено: обработано {success_count}/{total_count} агентов[/bold]"
         )
 
         if success_count > 0:
-            console.print("[dim]Use '/memory list' to see all saved memories[/dim]")
-            console.print("[dim]All agent histories have been cleared after compaction[/dim]")
+            console.print("[dim]Используйте '/memory list' для просмотра всех сохранённых воспоминаний[/dim]")
+            console.print("[dim]История всех агентов очищена после сжатия[/dim]")
 
         return True
 
@@ -772,7 +772,7 @@ class CompactCommand(Command):
                     agent_name = getattr(agent, "name", agent_type)
 
             if not agent_name:
-                console.print("[red]Could not determine agent name[/red]")
+                console.print("[red]Не удалось определить имя агента[/red]")
                 return False
 
         # Try to get the actual agent object if we don't have it
@@ -827,11 +827,11 @@ class CompactCommand(Command):
 
         if model_override:
             self.compact_model = model_override
-            console.print(f"[dim]Using model override: {model_override}[/dim]")
+            console.print(f"[dim]Используется переопределение модели: {model_override}[/dim]")
 
         if prompt_override:
             self.custom_prompt = prompt_override
-            console.print(f"[dim]Using custom prompt: {prompt_override[:50]}...[/dim]")
+            console.print(f"[dim]Используется пользовательская подсказка: {prompt_override[:50]}...[/dim]")
 
         try:
             # Generate memory name
@@ -840,7 +840,7 @@ class CompactCommand(Command):
             clean_agent_name = agent_name.replace(' ', '_').replace('#', '').replace('(', '').replace(')', '')
             memory_name = f"compact_{clean_agent_name}_{timestamp}"
 
-            console.print(f"\n[cyan]Compacting conversation for {agent_name}...[/cyan]")
+            console.print(f"\n[cyan]Сжатие диалога для {agent_name}...[/cyan]")
             
             if os.getenv("CAI_DEBUG") == "1":
                 console.print(f"[dim]Debug: Passing agent_name to handle_save: {agent_name}[/dim]")
@@ -861,13 +861,13 @@ class CompactCommand(Command):
                 result = MEMORY_COMMAND_INSTANCE.handle_save([memory_name, agent_name], preserve_history=False)
 
             if result:
-                console.print(f"\n[green]✓ Conversation compacted successfully![/green]")
-                console.print("[dim]The memory has been saved and applied to the agent[/dim]")
-                console.print("[dim]Use '/memory list' to see all saved memories[/dim]")
+                console.print(f"\n[green]✓ Диалог сжат успешно![/green]")
+                console.print("[dim]Память сохранена и применена к агенту[/dim]")
+                console.print("[dim]Используйте '/memory list' для просмотра всех сохранённых воспоминаний[/dim]")
 
                 # IMPORTANT: Explicitly clear the history after compaction
                 # The handle_save with preserve_history=False doesn't always clear properly
-                console.print("\n[cyan]Clearing conversation history...[/cyan]")
+                console.print("\n[cyan]Очистка истории диалогов...[/cyan]")
 
                 # In TUI mode, we need to clear the terminal runner's history
                 if os.getenv("CAI_TUI_MODE") == "true" and agent_name:
@@ -929,7 +929,7 @@ class CompactCommand(Command):
 
                 # Reset context usage since we cleared the history
                 os.environ["CAI_CONTEXT_USAGE"] = "0.0"
-                console.print("[green]✓ Conversation history cleared[/green]")
+                    console.print("[green]✓ История диалогов очищена[/green]")
 
                 # Debug: Verify histories are actually cleared
                 if os.getenv("CAI_DEBUG", "1") == "2":
@@ -1056,7 +1056,7 @@ class CompactCommand(Command):
                     "[yellow]Compacting conversation. This terminal is temporarily locked.[/yellow]"
                 )
             else:
-                terminal.write("[dim]Compaction finished. Terminal unlocked.[/dim]")
+                terminal.write("[dim]Сжатие завершено. Терминал разблокирован.[/dim]")
         except Exception:
             pass
 
@@ -1065,7 +1065,7 @@ class CompactCommand(Command):
         runner = self._get_tui_runner(terminal_number)
         if not runner or not getattr(runner, "agent", None):
             console.print(
-                f"[dim]No active agent found for Terminal {terminal_number} to receive memory[/dim]"
+                f"[dim]Активный агент для Терминала {terminal_number} не найден для получения памяти[/dim]"
             )
             return
 
@@ -1081,11 +1081,11 @@ class CompactCommand(Command):
                 if runner.terminal and hasattr(runner.terminal, "_update_header"):
                     runner.terminal._update_header()
                 console.print(
-                    f"[green]✓ Reloaded {base_agent_name} with compacted memory in Terminal {terminal_number}[/green]"
+                    f"[green]✓ Перезагружен {base_agent_name} с сжатой памятью в Терминале {terminal_number}[/green]"
                 )
             except Exception as exc:
                 console.print(
-                    f"[yellow]Warning: Unable to refresh agent with compacted memory ({exc})[/yellow]"
+                    f"[yellow]Предупреждение: Не удалось обновить агента с сжатой памятью ({exc})[/yellow]"
                 )
 
         self._dispatch_to_ui(refresh_agent)

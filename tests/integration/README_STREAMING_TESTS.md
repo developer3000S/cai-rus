@@ -1,192 +1,192 @@
-# CAI TUI Streaming Integration Tests
+# Интеграционные тесты потоковой передачи (Streaming) в CAI TUI
 
-This directory contains comprehensive integration tests for the CAI TUI streaming functionality. These tests ensure that the streaming implementation works correctly across all parts of the system.
+В этом каталоге содержатся комплексные интеграционные тесты для функциональности потоковой передачи в CAI TUI. Эти тесты гарантируют, что реализация потоковой передачи корректно работает во всех частях системы.
 
-## Test Files
+## Тестовые файлы
 
 ### 1. `test_tui_streaming_integration.py`
-Tests the core streaming functionality with different CAI components:
-- **Agent Text Streaming**: Verifies streaming of agent responses
-- **Thinking Display**: Tests streaming of reasoning/thinking content
-- **Tool Execution**: Validates tool output streaming
-- **Error Handling**: Ensures errors are displayed correctly during streaming
-- **Multi-turn Conversations**: Tests streaming across multiple interaction turns
-- **Parallel Agents**: Verifies concurrent streaming from multiple agents
-- **Special Characters**: Tests handling of Unicode, ANSI codes, and formatting
-- **Interruption Handling**: Simulates Ctrl+C during streaming
-- **Performance**: Basic performance validation
-- **Agent-specific Features**: Tests streaming with different agent types
+Тестирует основные функции потоковой передачи с различными компонентами CAI:
+- **Потоковая передача текста агента**: Проверка потоковой передачи ответов агента
+- **Отображение размышлений**: Тестирование потоковой передачи контента рассуждений/размышлений
+- **Выполнение инструментов**: Валидация потоковой передачи вывода инструментов
+- **Обработка ошибок**: Проверка корректного отображения ошибок во время потоковой передачи
+- **Многоходовые диалоги**: Тестирование потоковой передачи в течение нескольких циклов взаимодействия
+- **Параллельные агенты**: Проверка одновременной потоковой передачи от нескольких агентов
+- **Специальные символы**: Тестирование обработки Unicode, ANSI-кодов и форматирования
+- **Обработка прерываний**: Симуляция Ctrl+C во время потоковой передачи
+- **Производительность**: Базовая валидация производительности
+- **Специфичные функции агентов**: Тестирование потоковой передачи для различных типов агентов
 
 ### 2. `test_streaming_agent_execution.py`
-Tests streaming during actual agent execution flows:
-- **Single Agent Execution**: Full agent run with streaming
-- **Multi-tool Execution**: Multiple tool calls in sequence
-- **Interruption During Execution**: Handling KeyboardInterrupt
-- **Parallel Agent Execution**: Multiple agents running concurrently
-- **Context Preservation**: Maintaining state across turns
-- **Mock Agent Framework**: Simulates real agent behavior
+Тестирует потоковую передачу в реальных рабочих процессах выполнения агентов:
+- **Выполнение одного агента**: Полный запуск агента с потоковой передачей
+- **Выполнение нескольких инструментов**: Последовательные вызовы нескольких инструментов
+- **Прерывание во время выполнения**: Обработка KeyboardInterrupt
+- **Параллельное выполнение агентов**: Одновременный запуск нескольких агентов
+- **Сохранение контекста**: Поддержание состояния между ходами
+- **Фреймворк мок-агентов**: Симуляция поведения реальных агентов
 
 ### 3. `test_streaming_backward_compatibility.py`
-Ensures the streaming implementation doesn't break existing functionality:
-- **Non-streaming Mode**: Verifies CAI_STREAM=false still works
-- **Legacy Display Methods**: Direct panel creation compatibility
-- **Display Manager Routing**: Event routing validation
-- **Panel Formatter**: All panel types remain functional
-- **Mixed Mode**: Streaming and non-streaming together
-- **Context History**: Output history preservation
-- **Terminal Methods**: Both write() and print() support
-- **Graceful Fallbacks**: Missing streaming API handling
-- **Deduplication**: Existing deduplication logic preserved
-- **Error Handling**: Graceful error handling maintained
-- **Token Statistics**: All stats display correctly
+Гарантирует, что реализация потоковой передачи не нарушает существующий функционал:
+- **Непотоковый режим**: Проверка того, что `CAI_STREAM=false` по-прежнему работает
+- **Устаревшие методы отображения**: Совместимость с прямым созданием панелей
+- **Маршрутизация диспетчера отображения**: Валидация маршрутизации событий
+- **Форматировщик панелей**: Сохранение функциональности всех типов панелей
+- **Смешанный режим**: Совместная работа потокового и непотокового режимов
+- **История контекста**: Сохранение истории вывода
+- **Методы терминала**: Поддержка как `write()`, так и `print()`
+- **Грациозный откат (Fallback)**: Обработка отсутствующего API потоковой передачи
+- **Дедупликация**: Сохранение существующей логики дедупликации
+- **Обработка ошибок**: Сохранение механизмов грациозной обработки ошибок
+- **Статистика токенов**: Корректное отображение всей статистики
 
 ### 4. `test_streaming_performance.py`
-Performance testing to ensure streaming doesn't introduce regressions:
-- **Latency Testing**: Measures operation latencies
-- **Concurrent Streams**: Performance with multiple streams
-- **Rapid Updates**: Handling high-frequency updates
-- **Memory Leak Prevention**: Validates no memory leaks
-- **Responsiveness Under Load**: UI remains responsive
-- **Large Content**: Streaming large amounts of data
-- **Throughput Testing**: Measures data throughput
+Тестирование производительности, чтобы убедиться, что потоковая передача не вызывает регрессий:
+- **Тестирование задержки**: Измерение задержек операций
+- **Конкурентные потоки**: Производительность при наличии нескольких потоков
+- **Частые обновления**: Обработка высокочастотных обновлений
+- **Предотвращение утечек памяти**: Валидация отсутствия утечек памяти
+- **Отклик под нагрузкой**: Сохранение отзывчивости UI
+- **Большой объем контента**: Потоковая передача больших объемов данных
+- **Тестирование пропускной способности**: Измерение пропускной способности данных
 
-## Running the Tests
+## Запуск тестов
 
-### Run All Integration Tests
+### Запуск всех интеграционных тестов
 ```bash
-# From project root
+# Из корня проекта
 python -m pytest tests/integration/test_*streaming*.py -v
 ```
 
-### Run Individual Test Files
+### Запуск отдельных тестовых файлов
 ```bash
-# Core functionality tests
+# Тесты основного функционала
 python tests/integration/test_tui_streaming_integration.py
 
-# Agent execution tests
+# Тесты выполнения агентов
 python tests/integration/test_streaming_agent_execution.py
 
-# Backward compatibility tests
+# Тесты обратной совместимости
 python tests/integration/test_streaming_backward_compatibility.py
 
-# Performance tests
+# Тесты производительности
 python tests/integration/test_streaming_performance.py
 ```
 
-### Run Specific Test Methods
+### Запуск конкретных методов тестирования
 ```bash
-# Run a specific test
+# Запуск конкретного теста
 python -m pytest tests/integration/test_tui_streaming_integration.py::TestTUIStreamingIntegrationSync::test_agent_text_streaming_sync -v
 
-# Run tests matching a pattern
+# Запуск тестов по шаблону
 python -m pytest tests/integration -k "parallel" -v
 ```
 
-## Test Coverage
+## Покрытие тестами
 
-The integration tests cover:
+Интеграционные тесты охватывают:
 
-1. **Display Components**
+1. **Компоненты отображения**
    - StreamingDisplay
    - ToolDisplay
    - AgentDisplay
    - DisplayManager
    - PanelFormatter
 
-2. **Agent Types**
-   - Bug Bounter (security testing)
-   - Red Teamer (penetration testing)
-   - Code Agent (code analysis)
+2. **Типы агентов**
+   - Bug Bounter (тестирование безопасности)
+   - Red Teamer (тестирование на проникновение)
+   - Code Agent (анализ кода)
    - Network Analyzer
-   - Generic agents
+   - Общие агенты
 
-3. **Tool Types**
+3. **Типы инструментов**
    - generic_linux_command
    - web_search
    - read_file
    - execute_code
-   - Custom tools
+   - Пользовательские инструменты
 
-4. **Content Types**
-   - Text streaming
-   - Thinking/reasoning
-   - Tool output
-   - Error messages
-   - Code display
+4. **Типы контента**
+   - Потоковый текст
+   - Размышления/рассуждения
+   - Вывод инструментов
+   - Сообщения об ошибках
+   - Отображение кода
 
-5. **Edge Cases**
-   - Empty content
-   - Very long content
-   - Special characters
-   - Unicode text
-   - ANSI escape codes
-   - Markdown formatting
-   - Rapid updates
-   - Interruptions
+5. **Граничные случаи**
+   - Пустой контент
+   - Очень длинный контент
+   - Специальные символы
+   - Текст Unicode
+   - ANSI-escape коды
+   - Форматирование Markdown
+   - Частые обновления
+   - Прерывания
 
-## Performance Benchmarks
+## Бенчмарки производительности
 
-Expected performance characteristics:
-- **Update Latency**: < 5ms average, < 10ms p95
-- **Concurrent Streams**: > 100 updates/second with 10 streams
-- **Rapid Updates**: > 1000 updates/second single stream
-- **Memory Growth**: < 10MB for 100 streams
-- **Responsiveness**: < 50ms max latency under load
-- **Throughput**: > 1MB/s for large content
+Ожидаемые характеристики производительности:
+- **Задержка обновления**: в среднем < 5 мс, p95 < 10 мс
+- **Конкурентные потоки**: > 100 обновлений/сек при 10 потоках
+- **Частые обновления**: > 1000 обновлений/сек для одного потока
+- **Рост памяти**: < 10 МБ для 100 потоков
+- **Отзывчивость**: максимальная задержка < 50 мс под нагрузкой
+- **Пропускная способность**: > 1 МБ/с для большого объема контента
 
-## Debugging Failed Tests
+## Отладка упавших тестов
 
-If tests fail, check:
+Если тесты падают, проверьте:
 
-1. **Environment Variables**
+1. **Переменные окружения**
    ```bash
    export CAI_TELEMETRY=false
    export CAI_TRACING=false
-   export CAI_STREAM=true  # or false for non-streaming tests
+   export CAI_STREAM=true  # или false для непотоковых тестов
    ```
 
-2. **Mock Terminal Output**
-   - Tests use mock terminals that simulate the real UniversalTerminal
-   - Check that streaming API methods are called correctly
+2. **Мок-вывод терминала**
+   - Тесты используют мок-терминалы, которые симулируют реальный UniversalTerminal
+   - Убедитесь, что методы API потоковой передачи вызываются корректно
 
-3. **Async Execution**
-   - Some tests use asyncio for concurrent testing
-   - Ensure event loop is properly configured
+3. **Асинхронное выполнение**
+   - Некоторые тесты используют asyncio для конкурентного тестирования
+   - Убедитесь, что event loop правильно настроен
 
-4. **Performance Requirements**
-   - Performance tests may fail on slower systems
-   - Adjust thresholds if needed for CI/CD environments
+4. **Требования к производительности**
+   - Тесты производительности могут падать на медленных системах
+   - При необходимости скорректируйте пороги для сред CI/CD
 
-## Adding New Tests
+## Добавление новых тестов
 
-When adding new integration tests:
+При добавлении новых интеграционных тестов:
 
-1. **Use Consistent Patterns**
-   - Create DisplayContext for each test
-   - Mock terminal output appropriately
-   - Test both streaming start/update/finish lifecycle
+1. **Используйте последовательные паттерны**
+   - Создавайте DisplayContext для каждого теста
+   - Соответственно мокайте вывод терминала
+   - Тестируйте весь жизненный цикл потока: старт/обновление/завершение
 
-2. **Test Real Scenarios**
-   - Base tests on actual CAI usage patterns
-   - Include multi-turn conversations
-   - Test error conditions
+2. **Тестируйте реальные сценарии**
+   - Базируйте тесты на реальных паттернах использования CAI
+   - Включайте многоходовые диалоги
+   - Тестируйте ошибочные состояния
 
-3. **Verify Output**
-   - Check that content is displayed correctly
-   - Verify streaming lines are created and finished
-   - Ensure panels are formatted properly
+3. **Проверяйте вывод**
+   - Убедитесь, что контент отображается корректно
+   - Проверяйте, что строки потока создаются и завершаются
+   - Убедитесь, что панели отформатированы правильно
 
-4. **Clean Up Resources**
-   - Stop any background threads
-   - Clear mock state between tests
-   - Restore environment variables
+4. **Очищайте ресурсы**
+   - Останавливайте любые фоновые потоки
+   - Сбрасывайте состояние моков между тестами
+   - Восстанавливайте переменные окружения
 
-## CI/CD Integration
+## Интеграция в CI/CD
 
-These tests should be run in CI/CD pipelines:
+Эти тесты должны запускаться в пайплайнах CI/CD:
 
 ```yaml
-# Example GitHub Actions workflow
+# Пример воркфлоу GitHub Actions
 - name: Run Streaming Integration Tests
   run: |
     python -m pytest tests/integration/test_*streaming*.py \
@@ -195,8 +195,8 @@ These tests should be run in CI/CD pipelines:
       --cov-report=xml
 ```
 
-## Related Documentation
+## Связанная документация
 
-- [Streaming Architecture](../../SINGLE_LINE_STREAMING_IMPLEMENTATION.md)
-- [TUI Architecture](../../TUI_ARCHITECTURE_ANALYSIS.md)
-- [Streaming Fix Summary](../../FINAL_STREAMING_FIX_SUMMARY.md)
+- [Архитектура потоковой передачи](../../SINGLE_LINE_STREAMING_IMPLEMENTATION.md)
+- [Архитектура TUI](../../TUI_ARCHITECTURE_ANALYSIS.md)
+- [Сводка исправлений потоковой передачи](../../FINAL_STREAMING_FIX_SUMMARY.md)

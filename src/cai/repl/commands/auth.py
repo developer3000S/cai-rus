@@ -1,18 +1,18 @@
 """
-Auth command for CAI REPL.
+Команда авторизации для CAI REPL.
 
-This command allows adding users and devices to the persistent
-authentication database used by the CAI API (`AuthManager`).
+Эта команда позволяет добавлять пользователей и устройства в постоянную
+базу данных аутентификации, используемую API CAI (`AuthManager`).
 
-Typical usage:
+Типичное использование:
 
     /auth add-user <username> <password>
-        Create a new user in the shared auth DB.
+        Создать нового пользователя в общей БД аутентификации.
 
     /auth add-ip <device_ip[:port]>
-        Create a random user and session token for the given device IP
-        and push the credentials to a TCP listener on the device
-        (e.g. the iOS app) via a simple JSON handshake.
+        Создать случайного пользователя и токен сессии для указанного IP-адреса устройства
+        и передать учётные данные на TCP-слушатель на устройстве
+        (например, iOS-приложение) через простое JSON-рукопожатие.
 """
 
 from __future__ import annotations
@@ -32,22 +32,22 @@ console = Console()
 
 
 class AuthCommand(Command):
-    """Command for managing API users and device pairing."""
+    """Команда для управления пользователями API и сопряжения устройств."""
 
     def __init__(self) -> None:
         super().__init__(
             name="/auth",
-            description="Manage API auth users and pair devices with the CAI server",
+            description="Управление пользователями API-аутентификации и сопряжение устройств с сервером CAI",
             aliases=[],
         )
         self.add_subcommand(
             "add-user",
-            "Add a user to the auth database: /auth add-user <username> <password>",
+            "Добавить пользователя в БД аутентификации: /auth add-user <username> <password>",
             self.handle_add_user,
         )
         self.add_subcommand(
             "add-ip",
-            "Pair a device by IP and push credentials over TCP: /auth add-ip <ip[:port]>",
+            "Сопрячь устройство по IP и передать учётные данные по TCP: /auth add-ip <ip[:port]>",
             self.handle_add_ip,
         )
 
@@ -55,7 +55,7 @@ class AuthCommand(Command):
     def handle_add_user(self, args: Optional[List[str]] = None) -> bool:
         if not args or len(args) < 2:
             console.print(
-                "[red]Usage:[/red] /auth add-user <username> <password>",
+                "[red]Использование:[/red] /auth add-user <username> <password>",
             )
             return False
 
@@ -64,13 +64,13 @@ class AuthCommand(Command):
         try:
             user = manager.create_user(username, password)
         except Exception as exc:  # pragma: no cover - defensive
-            console.print(f"[red]Failed to create user:[/red] {exc}")
+            console.print(f"[red]Не удалось создать пользователя:[/red] {exc}")
             return False
 
         console.print(
             Panel(
-                f"User [bold]{user.username}[/bold] added to auth database.",
-                title="Auth",
+                f"Пользователь [bold]{user.username}[/bold] добавлен в базу данных аутентификации.",
+                title="Аутентификация",
                 border_style="green",
             )
         )
@@ -79,8 +79,8 @@ class AuthCommand(Command):
     # /auth add-ip <ip[:port]>
     def handle_add_ip(self, args: Optional[List[str]] = None) -> bool:
         if not args or not args[0]:
-            console.print("[red]Usage:[/red] /auth add-ip <ip[:port]>")
-            console.print("Example: /auth add-ip 192.168.1.50 or /auth add-ip 192.168.1.50:10101")
+            console.print("[red]Использование:[/red] /auth add-ip <ip[:port]>")
+            console.print("Пример: /auth add-ip 192.168.1.50 или /auth add-ip 192.168.1.50:10101")
             return False
 
         target = args[0]
@@ -89,7 +89,7 @@ class AuthCommand(Command):
             try:
                 port = int(port_str)
             except ValueError:
-                console.print(f"[red]Invalid port in {target}[/red]")
+                console.print(f"[red]Неверный порт в {target}[/red]")
                 return False
         else:
             host = target
@@ -147,24 +147,24 @@ class AuthCommand(Command):
             console.print(
                 Panel(
                     f"Failed to connect to device at {host}:{port}\n\n{exc}",
-                    title="Auth pairing failed",
+                    title="Ошибка сопряжения",
                     border_style="red",
                 )
             )
             console.print(
-                "[yellow]Make sure the device is listening (e.g. the iOS app in "
-                '"Connect server" mode) and reachable on the network.[/yellow]'
+                "[yellow]Убедитесь, что устройство слушает (например, iOS-приложение в "
+                'режиме "Подключить сервер") и доступно в сети.[/yellow]'
             )
             return False
 
         console.print(
             Panel(
-                "[green]Device pairing request sent successfully.[/green]\n\n"
-                f"Assigned username: [bold]{user.username}[/bold]\n"
-                f"Random password: [bold]{plain_password}[/bold]\n"
-                f"Session token: [dim](hidden, stored in server auth DB)[/dim]\n\n"
-                f"API base URL for the device: [bold]{base_url}[/bold]",
-                title="Auth pairing",
+                "[green]Запрос на сопряжение устройства отправлен успешно.[/green]\n\n"
+                f"Назначенный логин: [bold]{user.username}[/bold]\n"
+                f"Случайный пароль: [bold]{plain_password}[/bold]\n"
+                f"Токен сессии: [dim](скрыт, хранится в БД аутентификации сервера)[/dim]\n\n"
+                f"Базовый URL API для устройства: [bold]{base_url}[/bold]",
+                title="Сопряжение устройства",
                 border_style="green",
             )
         )

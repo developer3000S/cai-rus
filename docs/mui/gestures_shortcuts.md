@@ -1,216 +1,216 @@
-# Gestures & Shortcuts - CAI Mobile UI
+# Жесты и сочетания клавиш - Мобильный интерфейс CAI
 
-> **⚡ CAI-Pro Exclusive**  
-> Master touch gestures and keyboard shortcuts for efficient mobile security testing.
+> **⚡ Эксклюзивная функция CAI-Pro**  
+> Освойте.touch-жесты и сочетания клавиш для эффективного мобильного тестирования безопасности.
 
-## Touch Gestures
+## Touch-жесты
 
-### Basic Navigation
+### Базовая навигация
 
-| Gesture | Action | Context |
+| Жест | Действие | Контекст |
 |---------|--------|---------|
-| **Tap** | Select/Activate | Any interactive element |
-| **Swipe Right** | Previous conversation | Chat screen |
-| **Swipe Left** | Next conversation | Chat screen |
-| **Pull Down** | Refresh/Cancel | During agent response |
-| **Pinch Out** | Increase text size | Chat messages |
-| **Pinch In** | Decrease text size | Chat messages |
+| **Нажатие** | Выбор/Активация | Любой интерактивный элемент |
+| **Свайп вправо** | Предыдущая беседа | Экран чата |
+| **Свайп влево** | Следующая беседа | Экран чата |
+| **Провести вниз** | Обновление/Отмена | Во время ответа агента |
+| **Разделить пальцами** | Увеличить размер текста | Сообщения чата |
+| **Собрать пальцы** | Уменьшить размер текста | Сообщения чата |
 
-### Message Interactions
+### Взаимодействия с сообщениями
 
-| Gesture | Action | Result |
+| Жест | Действие | Результат |
 |---------|--------|--------|
-| **Long Press Message** | Show actions | Copy/Share/Save menu |
-| **Double Tap Code** | Quick copy | Copies code to clipboard |
-| **Swipe Left on Message** | Show options | Retry/Delete buttons |
-| **3D Touch/Haptic Touch** | Preview | Preview without opening |
+| **Длительное нажатие на сообщение** | Показать действия | Меню Копировать/Поделиться/Сохранить |
+| **Двойное нажатие на код** | Быстрое копирование | Копирует код в буфер обмена |
+| **Свайп влево по сообщению** | Показать опции | Кнопки Повторить/Удалить |
+| **3D Touch/Haptic Touch** | Предварительный просмотр | Просмотр без открытия |
 
-### Advanced Gestures
+### Продвинутые жесты
 
-| Gesture | Action | Where |
+| Жест | Действие | Где |
 |---------|--------|-------|
-| **Two-Finger Swipe Up** | Jump to top | Chat view |
-| **Two-Finger Swipe Down** | Jump to bottom | Chat view |
-| **Three-Finger Swipe** | Switch apps | Anywhere |
-| **Shake Device** | Undo/Report | After action |
+| **Двухпальцевый свайп вверх** | Переход наверх | Вид чата |
+| **Двухпальцевый свайп вниз** | Переход вниз | Вид чата |
+| **Трехпальцевый свайп** | Переключение приложений | Везде |
+| **Тряска устройства** | Отмена/Отчет | После действия |
 
-## iPad Keyboard Shortcuts
+## Горячие клавиши iPad
 
-### Navigation
+### Навигация
 
-| Shortcut | Action |
+| Сочетание клавиш | Действие |
 |----------|--------|
-| `⌘ + 1-9` | Jump to conversation 1-9 |
-| `⌘ + ←` | Previous conversation |
-| `⌘ + →` | Next conversation |
-| `⌘ + ↑` | Scroll to top |
-| `⌘ + ↓` | Scroll to bottom |
+| `⌘ + 1-9` | Переход к беседе 1-9 |
+| `⌘ + ←` | Предыдущая беседа |
+| `⌘ + →` | Следующая беседа |
+| `⌘ + ↑` | Прокрутка наверх |
+| `⌘ + ↓` | Прокрутка вниз |
 
-### Conversation Management
+### Управление беседами
 
-| Shortcut | Action |
+| Сочетание клавиш | Действие |
 |----------|--------|
-| `⌘ + N` | New conversation |
-| `⌘ + W` | Close current conversation |
-| `⌘ + D` | Duplicate conversation |
-| `⌘ + S` | Save/Export conversation |
-| `⌘ + P` | Print conversation |
+| `⌘ + N` | Новая беседа |
+| `⌘ + W` | Закрыть текущую беседу |
+| `⌘ + D` | Дублировать беседу |
+| `⌘ + S` | Сохранить/Экспортировать беседу |
+| `⌘ + P` | Печать беседы |
 
-### Text Editing
+### Редактирование текста
 
-| Shortcut | Action |
+| Сочетание клавиш | Действие |
 |----------|--------|
-| `⌘ + /` | Focus message input |
-| `⌘ + Return` | Send message |
-| `⌘ + Shift + Return` | New line |
-| `⌘ + A` | Select all |
-| `⌘ + Z` | Undo |
-| `⌘ + Shift + Z` | Redo |
+| `⌘ + /` | Фокус на ввод сообщения |
+| `⌘ + Return` | Отправить сообщение |
+| `⌘ + Shift + Return` | Новая строка |
+| `⌘ + A` | Выбрать все |
+| `⌘ + Z` | Отменить |
+| `⌘ + Shift + Z` | Повторить |
 
-### Agent & Model Control
+### Управление агентами и моделями
 
-| Shortcut | Action |
+| Сочетание клавиш | Действие |
 |----------|--------|
-| `⌘ + K` | Quick agent switch |
-| `⌘ + M` | Quick model switch |
-| `⌘ + .` | Cancel current generation |
-| `⌘ + R` | Retry last message |
+| `⌘ + K` | Быстрое переключение агентов |
+| `⌘ + M` | Быстрое переключение моделей |
+| `⌘ + .` | Отменить текущую генерацию |
+| `⌘ + R` | Повторить последнее сообщение |
 
-### View Control
+### Управление видом
 
-| Shortcut | Action |
+| Сочетание клавиш | Действие |
 |----------|--------|
-| `⌘ + +` | Increase text size |
-| `⌘ + -` | Decrease text size |
-| `⌘ + 0` | Reset text size |
-| `⌘ + L` | Clear conversation |
-| `⌘ + F` | Find in conversation |
+| `⌘ + +` | Увеличить размер текста |
+| `⌘ + -` | Уменьшить размер текста |
+| `⌘ + 0` | Сбросить размер текста |
+| `⌘ + L` | Очистить беседу |
+| `⌘ + F` | Найти в беседе |
 
-## Quick Actions
+## Быстрые действия
 
-### From Lock Screen
+### С экрана блокировки
 
-- **Notification Actions**: Reply directly from notifications
-- **Widget Actions**: Quick launch with specific agent
-- **Siri Shortcuts**: "Start CAI security scan"
+- **Действия уведомлений**: Ответ прямо из уведомлений
+- **Действия виджетов**: Быстрый запуск с конкретным агентом
+- **Сочетания клавиш Siri**: "Запустить сканирование безопасности CAI"
 
-### From Home Screen
+### С главного экрана
 
-**3D Touch Menu**:
-- New Conversation
-- Continue Last Session
-- Quick Scan Network
-- View Recent Chats
+**3D Touch меню**:
+- Новый разговор
+- Продолжить последнюю сессию
+- Быстрое сканирование сети
+- Просмотр недавних чатов
 
-### Control Center
+### Центр управления
 
-Add CAI controls:
-- Quick Connect/Disconnect
-- Agent Status Toggle
-- Cost Tracker Widget
+Добавьте элементы управления CAI:
+- Быстрое подключение/отключение
+- Переключение статуса агента
+- Виджет отслеживания стоимости
 
-## Gesture Customization
+## Настройка жестов
 
-### Settings → Gestures
+### Настройки → Жесты
 
-**Swipe Sensitivity**
-- Light: 100pt minimum
-- Normal: 75pt minimum (default)
-- Heavy: 50pt minimum
+**Чувствительность свайпов**
+- Легкая: Минимум 100pt
+- Обычная: Минимум 75pt (по умолчанию)
+- Тяжелая: Минимум 50pt
 
-**Long Press Duration**
-- Fast: 0.3 seconds
-- Normal: 0.5 seconds (default)
-- Slow: 0.7 seconds
+**Длительность длительного нажатия**
+- Быстрая: 0,3 секунды
+- Обычная: 0,5 секунды (по умолчанию)
+- Медленная: 0,7 секунды
 
-**Haptic Feedback**
-- Off: No vibration
-- Light: Subtle taps
-- Medium: Standard feedback (default)
-- Heavy: Strong vibration
+**Тактильная обратная связь**
+- Выкл: Без вибрации
+- Легкая: Мягкие нажатия
+- Средняя: Стандартная обратная связь (по умолчанию)
+- Тяжелая: Сильная вибрация
 
-## Accessibility Shortcuts
+## Горячие клавиши специальных возможностей
 
-### VoiceOver Gestures
+### Жесты VoiceOver
 
-| Gesture | Action |
+| Жест | Действие |
 |---------|--------|
-| **Two-Finger Tap** | Pause/Resume reading |
-| **Three-Finger Tap** | Show item chooser |
-| **Two-Finger Rotate** | Access rotor |
-| **One-Finger Swipe** | Navigate items |
+| **Двухпальцевое нажатие** | Пауза/Возобновление чтения |
+| **Трехпальцевое нажатие** | Показать выбор элемента |
+| **Двухпальцевое вращение** | Доступ к ротору |
+| **Однопальцевый свайп** | Навигация по элементам |
 
-### Voice Control Commands
+### Команды Voice Control
 
-| Command | Action |
+| Команда | Действие |
 |---------|--------|
-| "Show numbers" | Display tap targets |
-| "Show grid" | Show screen grid |
-| "Tap [element]" | Activate element |
-| "Scroll down/up" | Navigate content |
+| "Показать числа" | Отобразить цели нажатий |
+| "Показать сетку" | Показать сетку экрана |
+| "Нажать [элемент]" | Активировать элемент |
+| "Прокрутить вниз/вверх" | Навигация по содержимому |
 
-## Pro Tips
+## Советы профессионалов
 
-### Speed Techniques
+### Техники ускорения
 
-1. **Quick Agent Switch**: Swipe down from agent name
-2. **Instant Copy**: Triple-tap any text
-3. **Fast Scroll**: Tap status bar to jump to top
-4. **Batch Actions**: Select multiple messages with two-finger tap
+1. **Быстрое переключение агентов**: Проведите вниз от имени агента
+2. **Мгновенное копирование**: Тройное нажатие на любой текст
+3. **Быстрая прокрутка**: Нажмите на строку состояния для перехода наверх
+4. **Групповые действия**: Выбор нескольких сообщений двухпальцевым нажатием
 
-### Hidden Features
+### Скрытые функции
 
-1. **Debug Menu**: Five-tap on version number
-2. **FPS Counter**: Settings → Developer → Show FPS
-3. **Network Logger**: Shake device while in settings
-4. **Export Raw JSON**: Long press export button
+1. **Меню отладки**: Пять нажатий на номер версии
+2. **Счетчик FPS**: Настройки → Разработчик → Показать FPS
+3. **Журнал сети**: Тряска устройства в настройках
+4. **Экспорт сырого JSON**: Длительное нажатие на кнопку экспорта
 
-### Gesture Combinations
+### Комбинации жестов
 
-1. **Cancel + Clear**: Pull down + shake
-2. **Quick Share**: Long press + swipe up
-3. **Multi-Select**: Two-finger tap + drag
-4. **Focus Mode**: Triple-tap navigation bar
+1. **Отмена + Очистка**: Провести вниз + тряска
+2. **Быстрый шаринг**: Длительное нажатие + свайп вверх
+3. **Множественный выбор**: Двухпальцевое нажатие + перетаскивание
+4. **Режим фокуса**: Тройное нажатие на панель навигации
 
-## Troubleshooting Gestures
+## Решение проблем с жестами
 
-### Common Issues
+### Типичные проблемы
 
-**Gestures not working:**
-- Check Settings → Accessibility → Touch
-- Disable any conflicting accessibility features
-- Reset gesture settings to defaults
+**Жесты не работают:**
+- Проверьте Настройки → Специальные возможности → Touch
+- Отключите конфликтующие функции специальных возможностей
+- Сбросьте настройки жестов на значения по умолчанию
 
-**Accidental triggers:**
-- Increase swipe sensitivity
-- Enable gesture confirmation
-- Adjust long press duration
+**Случайные срабатывания:**
+- Увеличьте чувствительность свайпов
+- Включите подтверждение жестов
+- Настройте длительность длительного нажатия
 
-**iPad keyboard issues:**
-- Ensure external keyboard connected
-- Check Settings → Keyboard → Shortcuts
-- Update to latest iOS version
+**Проблемы с клавиатурой iPad:**
+- Убедитесь, что внешняя клавиатура подключена
+- Проверьте Настройки → Клавиатура → Сочетания клавиш
+- Обновите до последней версии iOS
 
-## Platform-Specific Features
+## Функции для конкретных платформ
 
-### iPhone-Only Gestures
+### Жесты только для iPhone
 
-- **Reachability**: Swipe down on bottom edge
-- **Back Gesture**: Swipe from left edge
-- **App Switcher**: Swipe up and hold
+- **Reachability**: Свайп вниз от нижнего края
+- **Жест "Назад"**: Свайп от левого края
+- **Переключатель приложений**: Свайп вверх и удержание
 
-### iPad-Only Features
+### Функции только для iPad
 
-- **Split View**: Drag from dock
-- **Slide Over**: Swipe from right edge
-- **Picture in Picture**: Pinch video
+- **Разделенный вид**: Перетаскивание из дока
+- **Slide Over**: Свайп от правого края
+- **Картинка в картинке**: Разделение пальцами видео
 
-## Next Steps
+## Следующие шаги
 
-- 💬 [Master Chat Features](chat_features.md)
-- 🎯 [Learn Agent Selection](agent_selection.md)
-- 🛠️ [Configure Network & MCP](network_mcp.md)
+- 💬 [Освойте функции чата](chat_features.md)
+- 🎯 [Изучите выбор агентов](agent_selection.md)
+- 🛠️ [Настройте сеть и MCP](network_mcp.md)
 
 ---
 
-*Efficient gestures lead to faster security testing*
+*Эффективные жесты ведут к более быстрому тестированию безопасности*

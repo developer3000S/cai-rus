@@ -1,79 +1,79 @@
-# Cyber Range Benchmarks
+# Бенчмарки Cyber Range
 
-Cyber Range exercises provide realistic training environments with complex multi-system scenarios involving incident response, network defense, and operational security decision-making.
-
----
-
-## 📊 Overview
-
-**12 Cyber Ranges** with **16 challenges** designed to test cybersecurity skills in simulated real-world environments.
-
-- **Difficulty**: 🚩🚩 Easy to 🚩🚩🚩🚩 Hard
-- **Focus**: Realistic scenarios beyond isolated CTF challenges
-- **Scope**: Multi-host networks, incident handling, policy decisions, operational context
+Упражнения Cyber Range предоставляют реалистичные тренировочные среды со сложными многосистемными сценариями, включающими реагирование на инциденты, сетевую защиту и принятие решений в области операционной безопасности.
 
 ---
 
-## 🎯 Cyber Range Categories
+## 📊 Обзор
 
-### Incident Response Scenarios
-Realistic security incidents requiring detection, analysis, and remediation:
-- Malware outbreak investigation
-- Insider threat detection
-- Data breach response
-- Ransomware attacks
-- APT (Advanced Persistent Threat) campaigns
+**12 Cyber Ranges** с **16 заданиями**, разработанными для проверки навыков кибербезопасности в симулированных реальных условиях.
 
-### Network Defense Operations
-Defending enterprise networks against ongoing attacks:
-- Firewall configuration and tuning
-- IDS/IPS rule management
-- Network segmentation
-- Traffic analysis and monitoring
-- Security policy enforcement
-
-### Operational Security Exercises
-Making security decisions in complex environments:
-- Risk assessment and prioritization
-- Business continuity planning
-- Compliance and regulatory requirements
-- Security architecture decisions
-- Resource allocation under constraints
+- **Сложность**: от 🚩🚩 Легко до 🚩🚩🚩🚩 Сложно
+- **Фокус**: Реалистичные сценарии, выходящие за рамки изолированных CTF-заданий
+- **Область**: Многоузловые сети, обработка инцидентов, политические решения, операционный контекст
 
 ---
 
-## 🏆 alias1 Performance in Cyber Ranges
+## 🎯 Категории Cyber Range
 
-!!! success "Real-world Environment Excellence"
-    **`alias1` excels in complex cyber range scenarios** that require:
+### Сценарии реагирования на инциденты
+Реалистичные инциденты безопасности, требующие обнаружения, анализа и устранения:
+- Расследование вспышки вредоносного ПО
+- Обнаружение внутренних угроз
+- Реагирование на утечку данных
+- Атаки программ-вымогателей
+- Кампании APT (Advanced Persistent Threat — сложные устойчивые угрозы)
 
-    - 🥇 **Multi-system coordination** - Managing security across interconnected environments
-    - 🥇 **Contextual decision-making** - Understanding business impact and priorities
-    - 🥇 **Incident response** - Rapid detection, analysis, and remediation
-    - 🥇 **Operational awareness** - Balancing security with service availability
-    - 🥇 **Strategic thinking** - Long-term security posture improvements
+### Операции по сетевой защите
+Защита корпоративных сетей от текущих атак:
+- Конфигурация и настройка межсетевых экранов (Firewall)
+- Управление правилами IDS/IPS
+- Сегментация сети
+- Анализ и мониторинг трафика
+- Обеспечение соблюдения политик безопасности
 
-    **General-purpose models struggle with**:
-    - ❌ Complex multi-step scenarios requiring coordination
-    - ❌ Understanding operational context and business priorities
-    - ❌ Making trade-offs between security and functionality
-    - ❌ Sustained engagement over long scenarios
-
-**[Get alias1 with CAI PRO →](../cai_pro.md)**
+### Операционные упражнения по безопасности
+Принятие решений по безопасности в сложных средах:
+- Оценка и приоритизация рисков
+- Планирование непрерывности бизнеса
+- Соответствие нормативным требованиям
+- Решения по архитектуре безопасности
+- Распределение ресурсов в условиях ограничений
 
 ---
 
-## 🏗️ Cyber Range Architecture
+## 🏆 Эффективность alias1 в Cyber Ranges
 
-### Typical Range Components
+!!! success "Превосходство в реальных условиях"
+    **`alias1` демонстрирует отличные результаты в сложных сценариях cyber range**, которые требуют:
+
+    - 🥇 **Координации нескольких систем** — управление безопасностью в взаимосвязанных средах
+    - 🥇 **Принятия контекстных решений** — понимание влияния на бизнес и приоритетов
+    - 🥇 **Реагирования на инциденты** — быстрое обнаружение, анализ и устранение
+    - 🥇 **Операционной осведомленности** — баланс между безопасностью и доступностью сервисов
+    - 🥇 **Стратегического мышления** — долгосрочное улучшение состояния безопасности
+
+    **Модели общего назначения испытывают трудности с**:
+    - ❌ Сложными многоэтапными сценариями, требующими координации
+    - ❌ Пониманием операционного контекста и бизнес-приоритетов
+    - ❌ Поиском компромисса между безопасностью и функциональностью
+    - ❌ Длительным взаимодействием в рамках продолжительных сценариев
+
+**[Получите alias1 с CAI PRO →](../cai_pro.md)**
+
+---
+
+## 🏗️ Архитектура Cyber Range
+
+### Типичные компоненты полигона
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    Cyber Range Environment              │
+│                    Среда Cyber Range                    │
 │                                                         │
 │  ┌──────────────┐    ┌──────────────┐    ┌──────────┐ │
-│  │  Corporate   │────│   Firewall   │────│ Internet │ │
-│  │   Network    │    │              │    │   (DMZ)  │ │
+│  │ Корпоративная│────│  Межсетевой │────│ Интернет │ │
+│  │     сеть     │    │   экран     │    │   (DMZ)  │ │
 │  └──────┬───────┘    └──────────────┘    └──────────┘ │
 │         │                                               │
 │    ┌────┴────┐                                         │
@@ -83,146 +83,146 @@ Making security decisions in complex environments:
 │  └────┘   └────┘   └──────┘   └──────┘   └────────┘  │
 │                                                         │
 │  ┌─────────┐   ┌─────────┐   ┌─────────┐             │
-│  │ Workst. │   │ Workst. │   │ Workst. │   (Users)   │
+│  │ Рабоч.ст │   │ Рабоч.ст │   │ Рабоч.ст │   (Пользователи) │
 │  └─────────┘   └─────────┘   └─────────┘             │
 └─────────────────────────────────────────────────────────┘
 ```
 
-### Docker-based Isolation
+### Изоляция на базе Docker
 
-Each cyber range runs in isolated Docker containers:
-- Multiple networked hosts
-- Realistic services and applications
-- Pre-configured vulnerabilities
-- Monitoring and logging infrastructure
-- Scoring and validation mechanisms
-
----
-
-## 🎮 Challenge Types
-
-### 1. Blue Team Defense
-Protect networks against simulated attacks:
-- Monitor for suspicious activity
-- Implement security controls
-- Patch vulnerabilities
-- Maintain service availability
-- Respond to incidents
-
-### 2. Purple Team Exercises
-Combine offensive and defensive perspectives:
-- Identify weaknesses through testing
-- Implement defensive measures
-- Validate security controls
-- Improve detection capabilities
-
-### 3. Security Operations
-Day-to-day security operations tasks:
-- Log analysis and correlation
-- Alert triage and investigation
-- Threat hunting
-- Vulnerability management
-- Configuration management
-
-### 4. Incident Investigation
-Forensic analysis and incident response:
-- Evidence collection and preservation
-- Timeline reconstruction
-- Root cause analysis
-- Impact assessment
-- Remediation recommendations
+Каждый cyber range запускается в изолированных Docker-контейнерах:
+- Несколько сетевых узлов
+- Реалистичные сервисы и приложения
+- Преконфигурированные уязвимости
+- Инфраструктура мониторинга и логирования
+- Механизмы подсчета очков и валидации
 
 ---
 
-## 📊 Scoring and Evaluation
+## 🎮 Типы заданий
 
-Cyber range performance is evaluated across multiple dimensions:
+### 1. Защита Blue Team
+Защита сетей от симулированных атак:
+- Мониторинг подозрительной активности
+- Внедрение средств контроля безопасности
+- Исправление уязвимостей (патчинг)
+- Поддержание доступности сервисов
+- Реагирование на инциденты
 
-### Technical Metrics
-- Threats detected and blocked
-- Vulnerabilities patched
-- Services maintained (uptime)
-- Incident response time
-- Correct configuration changes
+### 2. Упражнения Purple Team
+Сочетание наступательных и оборонительных перспектив:
+- Выявление слабых мест через тестирование
+- Внедрение мер защиты
+- Валидация средств контроля безопасности
+- Улучшение возможностей обнаружения
 
-### Operational Metrics
-- Decision quality and rationale
-- Resource allocation efficiency
-- Business impact minimization
-- Compliance adherence
-- Documentation quality
+### 3. Операции по безопасности (SecOps)
+Ежедневные задачи по обеспечению безопасности:
+- Анализ и корреляция логов
+- Сортировка и расследование алертов
+- Поиск угроз (Threat hunting)
+- Управление уязвимостями
+- Управление конфигурациями
 
-### Strategic Metrics
-- Security posture improvement
-- Risk reduction achieved
-- Cost-effectiveness
-- Long-term sustainability
+### 4. Расследование инцидентов
+Криминалистический анализ и реагирование:
+- Сбор и сохранение доказательств
+- Реконструкция временной шкалы (timeline)
+- Анализ корневых причин (root cause analysis)
+- Оценка ущерба
+- Рекомендации по устранению
 
 ---
 
-## 🚀 Running Cyber Range Benchmarks
+## 📊 Подсчет очков и оценка
 
-!!! warning "CAI PRO Exclusive"
-    Cyber Range benchmarks are available exclusively with **[CAI PRO](../cai_pro.md)** subscriptions.
+Эффективность в cyber range оценивается по нескольким измерениям:
 
-    General users can access:
-    - [Knowledge benchmarks](knowledge_benchmarks.md)
-    - [Privacy benchmarks](privacy_benchmarks.md)
+### Технические метрики
+- Обнаруженные и заблокированные угрозы
+- Исправленные уязвимости
+- Поддерживаемые сервисы (uptime)
+- Время реагирования на инцидент
+- Корректность изменений конфигурации
 
-### For CAI PRO Subscribers
+### Операционные метрики
+- Качество решений и их обоснование
+- Эффективность распределения ресурсов
+- Минимизация влияния на бизнес
+- Соблюдение комплаенса
+- Качество документации
+
+### Стратегические метрики
+- Улучшение общего состояния безопасности
+- Достигнутое снижение рисков
+- Экономическая эффективность
+- Долгосрочная устойчивость
+
+---
+
+## 🚀 Запуск бенчмарков Cyber Range
+
+!!! warning "Эксклюзивно для CAI PRO"
+    Бенчмарки Cyber Range доступны исключительно по подписке **[CAI PRO](../cai_pro.md)**.
+
+    Общим пользователям доступны:
+    - [Бенчмарки знаний](knowledge_benchmarks.md)
+    - [Бенчмарки приватности](privacy_benchmarks.md)
+
+### Для подписчиков CAI PRO
 
 ```bash
-# Launch cyber range environment
+# Запуск среды cyber range
 python benchmarks/eval_cyberrange.py --range range-01 --model alias1
 
-# Run full cyber range benchmark suite
+# Запуск полного набора бенчмарков cyber range
 python benchmarks/eval_cyberrange.py --benchmark all --model alias1
 ```
 
-Contact research@aliasrobotics.com for detailed setup instructions and access.
+Для получения подробных инструкций по настройке и доступа свяжитесь с research@aliasrobotics.com.
 
 ---
 
-## 🎓 Why Cyber Ranges Matter
+## 🎓 Почему Cyber Ranges важны
 
-Cyber ranges provide the most comprehensive evaluation of cybersecurity AI because:
+Cyber ranges обеспечивают наиболее комплексную оценку ИИ в сфере кибербезопасности, потому что:
 
-1. **Realism** - Simulates actual enterprise environments and scenarios
-2. **Complexity** - Tests ability to handle interconnected systems and dependencies
-3. **Context** - Requires understanding business priorities and operational constraints
-4. **Sustained Engagement** - Multi-hour or multi-day scenarios test endurance
-5. **Decision Quality** - Evaluates strategic thinking beyond technical skills
+1. **Реализм** — симулируют реальные корпоративные среды и сценарии.
+2. **Сложность** — проверяют способность работать с взаимосвязанными системами и зависимостями.
+3. **Контекст** — требуют понимания бизнес-приоритетов и операционных ограничений.
+4. **Длительное взаимодействие** — многочасовые или многодневные сценарии проверяют выносливость.
+5. **Качество решений** — оценивают стратегическое мышление помимо технических навыков.
 
-Unlike isolated CTF challenges, cyber ranges assess **complete security operations capabilities** including:
-- Technical skills (exploitation, hardening, monitoring)
-- Operational thinking (prioritization, trade-offs, risk management)
-- Strategic planning (long-term improvements, architecture decisions)
+В отличие от изолированных CTF-заданий, cyber ranges оценивают **полные возможности по обеспечению безопасности**, включая:
+- Технические навыки (эксплуатация, укрепление защиты, мониторинг).
+- Операционное мышление (приоритизация, компромиссы, управление рисками).
+- Стратегическое планирование (долгосрочные улучшения, архитектурные решения).
 
-This makes cyber ranges the gold standard for evaluating production-ready cybersecurity AI for SOC and security engineering roles.
+Это делает cyber ranges «золотым стандартом» оценки готового к промышленному применению ИИ для ролей в SOC и в сфере проектирования безопасности.
 
 ---
 
-## 📚 Research Papers
+## 📚 Научные статьи
 
 - 📊 [**CAIBench: Cybersecurity AI Benchmark**](https://arxiv.org/pdf/2510.24317) (2025)
-  Includes cyber range evaluation methodology and results.
+  Включает методологию оценки и результаты cyber range.
 
 - 🚀 [**Cybersecurity AI (CAI) Framework**](https://arxiv.org/pdf/2504.06017) (2025)
-  Demonstrates multi-system coordination capabilities.
+  Демонстрирует возможности координации нескольких систем.
 
 - 🤖 [**Automation vs Autonomy**](https://www.arxiv.org/pdf/2506.23592) (2025)
-  6-level taxonomy applicable to cyber range operations.
+  Таксономия из 6 уровней, применимая к операциям в cyber range.
 
-**[View all research →](https://aliasrobotics.com/research-security.php#papers)**
-
----
-
-## 🔗 Related Benchmarks
-
-- **[Jeopardy CTFs](jeopardy_ctfs.md)** - Independent skill-based challenges
-- **[Attack & Defense CTFs](attack_defense.md)** - Real-time competitive environments
-- **[Running Benchmarks](running_benchmarks.md)** - Setup and usage guide
+**[Посмотреть все исследования →](https://aliasrobotics.com/research-security.php#papers)**
 
 ---
 
-🚀 **[Upgrade to CAI PRO for access to Cyber Range benchmarks →](../cai_pro.md)**
+## 🔗 Связанные бенчмарки
+
+- **[Jeopardy CTFs](jeopardy_ctfs.md)** — независимые задания на проверку навыков.
+- **[Attack & Defense CTFs](attack_defense.md)** — конкурентные среды в реальном времени.
+- **[Запуск бенчмарков](running_benchmarks.md)** — руководство по настройке и использованию.
+
+---
+
+🚀 **[Перейдите на CAI PRO для доступа к бенчмаркам Cyber Range →](../cai_pro.md)**

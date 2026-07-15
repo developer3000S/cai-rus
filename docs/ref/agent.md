@@ -1,3 +1,3 @@
-# `Agents`
+# `Агенты`
 
 ::: cai.sdk.agents.agent

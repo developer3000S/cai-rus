@@ -1,6 +1,6 @@
 """
-History command for CAI REPL.
-This module provides commands for displaying conversation history with agent-based filtering.
+Команда history для CAI REPL.
+Этот модуль предоставляет команды для отображения истории диалогов с фильтрацией по агентам.
 """
 
 import json
@@ -23,16 +23,16 @@ class HistoryCommand(Command):
         """Initialize the history command."""
         super().__init__(
             name="/history",
-            description="Display conversation history (optionally filtered by agent name)",
+            description="Отобразить историю диалогов (опционально фильтрованную по имени агента)",
             aliases=["/his"],
         )
 
         # Add subcommands
-        self.add_subcommand("all", "Show history from all agents", self.handle_all)
-        self.add_subcommand("agent", "Show history for a specific agent", self.handle_agent)
-        self.add_subcommand("search", "Search messages across all agents", self.handle_search)
+        self.add_subcommand("all", "Показать историю всех агентов", self.handle_all)
+        self.add_subcommand("agent", "Показать историю конкретного агента", self.handle_agent)
+        self.add_subcommand("search", "Поиск сообщений среди всех агентов", self.handle_search)
         self.add_subcommand(
-            "index", "Show message by index and optionally filter by role", self.handle_index
+            "index", "Показать сообщение по индексу и опционально фильтровать по роли", self.handle_index
         )
 
     def handle(self, args: Optional[List[str]] = None) -> bool:
@@ -52,9 +52,9 @@ class HistoryCommand(Command):
             rest = args[1:] if len(args) > 1 else []
             path_hint = f" Example: [bold]/save {' '.join(rest)}[/bold]" if rest else ""
             console.print(
-                "[yellow]Deprecated: /history export has been removed. "
-                "Use [bold]/save <file>[/bold] for conversation JSONL "
-                f"(compatible with [bold]/load[/bold]).{path_hint}[/yellow]"
+                "[yellow]Устарело: /history export удалён. "
+                "Используйте [bold]/save <file>[/bold] для JSONL диалогов "
+                f"(совместимо с [bold]/load[/bold]).{path_hint}[/yellow]"
             )
             return False
 
@@ -82,7 +82,7 @@ class HistoryCommand(Command):
             from cai.agents import get_available_agents
             import os
         except ImportError:
-            console.print("[red]Error: Could not access conversation history[/red]")
+            console.print("[red]Ошибка: Не удалось получить доступ к истории диалогов[/red]")
             return False
 
         # Get all histories from AGENT_MANAGER
@@ -247,12 +247,12 @@ class HistoryCommand(Command):
                         AGENT_MANAGER._agent_registry[agent_name] = DEFAULT_SESSION_AGENT_ID
 
         if not agents_to_show:
-            console.print("[yellow]No agents configured[/yellow]")
-            console.print("[dim]Start a conversation or configure agents to see history[/dim]")
+            console.print("[yellow]Агенты не настроены[/yellow]")
+            console.print("[dim]Начните диалог или настройте агентов для просмотра истории[/dim]")
             return True
 
         # Create a tree view showing all agents
-        tree = Tree("[bold #00ff9d]Agent History Control Panel[/bold #00ff9d]")
+        tree = Tree("[bold #00ff9d]Панель управления историей агентов[/bold #00ff9d]")
 
         total_messages = 0
 
@@ -401,17 +401,17 @@ class HistoryCommand(Command):
 
         console.print(tree)
         console.print(
-            f"\n[#9aa0a6][CAI] Total messages across all agents:[/] [bold #00ff9d]{total_messages}[/bold #00ff9d]"
+            f"\n[#9aa0a6][CAI] Всего сообщений у всех агентов:[/] [bold #00ff9d]{total_messages}[/bold #00ff9d]"
         )
 
         # Show usage hints
-        console.print("\n[#9aa0a6][CAI] Commands:[/]")
+        console.print("\n[#9aa0a6][CAI] Команды:[/]")
         console.print(
-            "[#9aa0a6]  • [/][bold #00ff9d]/history <ID>[/bold #00ff9d][#9aa0a6] - View specific agent by ID (e.g., P1)[/]"
+            "[#9aa0a6]  • [/][bold #00ff9d]/history <ID>[/bold #00ff9d][#9aa0a6] - Просмотр агента по ID (например, P1)[/]"
         )
-        console.print("[#9aa0a6]  • [/][bold #00ff9d]/history agent <name>[/bold #00ff9d][#9aa0a6] - View by agent name[/]")
-        console.print("[#9aa0a6]  • [/][bold #00ff9d]/history search <term>[/bold #00ff9d][#9aa0a6] - Search across all agents[/]")
-        console.print("[#9aa0a6]  • [/][bold #00ff9d]/history index <ID> <num>[/bold #00ff9d][#9aa0a6] - View specific message by index[/]")
+        console.print("[#9aa0a6]  • [/][bold #00ff9d]/history agent <name>[/bold #00ff9d][#9aa0a6] - Просмотр по имени агента[/]")
+        console.print("[#9aa0a6]  • [/][bold #00ff9d]/history search <term>[/bold #00ff9d][#9aa0a6] - Поиск среди всех агентов[/]")
+        console.print("[#9aa0a6]  • [/][bold #00ff9d]/history index <ID> <num>[/bold #00ff9d][#9aa0a6] - Просмотр сообщения по индексу[/]")
 
         return True
 
@@ -434,7 +434,7 @@ class HistoryCommand(Command):
                 all_messages.append(msg_copy)
 
         # Display in a table
-        table = Table(title="All Agent Conversations", show_header=True, header_style="bold yellow")
+        table = Table(title="Все диалоги агентов", show_header=True, header_style="bold yellow")
         table.add_column("#", style="dim")
         table.add_column("Agent", style="magenta")
         table.add_column("Role", style="cyan")
@@ -472,8 +472,8 @@ class HistoryCommand(Command):
     def handle_agent(self, args: Optional[List[str]] = None) -> bool:
         """Show history for a specific agent."""
         if not args:
-            console.print("[red]Error: Agent name or ID required[/red]")
-            console.print("Usage: /history agent <agent_name>")
+            console.print("[red]Ошибка: Требуется имя или ID агента[/red]")
+            console.print("Использование: /history agent <agent_name>")
             console.print("       /history <ID>")
             return False
 
@@ -574,7 +574,7 @@ class HistoryCommand(Command):
 
                                 if not history:
                                     console.print(
-                                        f"[yellow]No agent found with ID '{agent_id}'[/yellow]"
+                                        f"[yellow]Агент с ID '{agent_id}' не найден[/yellow]"
                                     )
                                     return True
                         else:
@@ -608,7 +608,7 @@ class HistoryCommand(Command):
                         break
 
         if not agent_name:
-            console.print(f"[yellow]No agent found matching '{agent_identifier}'[/yellow]")
+            console.print(f"[yellow]Агент, соответствующий '{agent_identifier}', не найден[/yellow]")
             return True
 
         # Always try to get history from AGENT_MANAGER to ensure consistency
@@ -625,7 +625,7 @@ class HistoryCommand(Command):
 
             console.print(
                 Panel(
-                    f"[yellow]No conversation history yet[/yellow]",
+                    f"[yellow]История диалогов пока отсутствует[/yellow]",
                     title=f"[cyan]{agent_name} [{agent_id}][/cyan]",
                     border_style="blue",
                 )
@@ -638,7 +638,7 @@ class HistoryCommand(Command):
 
         # Create a table for the history
         table = Table(
-            title=f"Conversation History: {agent_name} [{agent_id}]",
+            title=f"История диалогов: {agent_name} [{agent_id}]",
             show_header=True,
             header_style="bold yellow",
         )
@@ -684,7 +684,7 @@ class HistoryCommand(Command):
                 table.add_row(str(idx), f"[{role_style}]{role}[/{role_style}]", formatted_content)
             except Exception as e:
                 # Log error but continue with next message
-                console.print(f"[red]Error displaying message {idx}: {e}[/red]")
+                console.print(f"[red]Ошибка отображения сообщения {idx}: {e}[/red]")
                 continue
 
         console.print(table)
@@ -693,8 +693,8 @@ class HistoryCommand(Command):
     def handle_search(self, args: Optional[List[str]] = None) -> bool:
         """Search for messages containing specific terms across all agents."""
         if not args:
-            console.print("[red]Error: Search term required[/red]")
-            console.print("Usage: /history search <search_term>")
+            console.print("[red]Ошибка: Требуется поисковый запрос[/red]")
+            console.print("Использование: /history search <search_term>")
             return False
 
         search_term = " ".join(args).lower()
@@ -731,12 +731,12 @@ class HistoryCommand(Command):
                             break
 
         if not found_messages:
-            console.print(f"[yellow]No messages found containing '{search_term}'[/yellow]")
+            console.print(f"[yellow]Сообщения, содержащие '{search_term}', не найдены[/yellow]")
             return True
 
         # Display search results
         console.print(
-            f"\n[bold green]Found {len(found_messages)} messages containing '{search_term}':[/bold green]\n"
+            f"\n[bold green]Найдено {len(found_messages)} сообщений, содержащих '{search_term}':[/bold green]\n"
         )
 
         for agent_name, msg_idx, msg in found_messages:
@@ -850,10 +850,10 @@ class HistoryCommand(Command):
         Usage: /history index <agent_name> <index> [role]
         """
         if not args or len(args) < 2:
-            console.print("[red]Error: Agent name and index required[/red]")
-            console.print("Usage: /history index <agent_name> <index> [role]")
-            console.print("Example: /history index red_teamer 5")
-            console.print('Example: /history index "Bug Bounter #1" 5 user')
+            console.print("[red]Ошибка: Требуется имя агента и индекс[/red]")
+            console.print("Использование: /history index <agent_name> <index> [role]")
+            console.print("Пример: /history index red_teamer 5")
+            console.print('Пример: /history index "Bug Bounter #1" 5 user')
             return False
 
         # Find where the index is (it should be a number)
@@ -864,7 +864,7 @@ class HistoryCommand(Command):
                 break
 
         if index_pos < 1:  # Need at least one arg before the index for agent name
-            console.print("[red]Error: Could not parse agent name and index[/red]")
+            console.print("[red]Ошибка: Не удалось разобрать имя агента и индекс[/red]")
             return False
 
         # Agent name is everything before the index
@@ -873,10 +873,10 @@ class HistoryCommand(Command):
         try:
             index = int(args[index_pos]) - 1  # Convert to 0-based index
             if index < 0:
-                console.print("[red]Error: Index must be positive[/red]")
+                console.print("[red]Ошибка: Индекс должен быть положительным[/red]")
                 return False
         except ValueError:
-            console.print("[red]Error: Invalid index number[/red]")
+            console.print("[red]Ошибка: Неверный номер индекса[/red]")
             return False
 
         role_filter = args[index_pos + 1].lower() if len(args) > index_pos + 1 else None
@@ -896,7 +896,7 @@ class HistoryCommand(Command):
         history = AGENT_MANAGER.get_message_history(agent_name)
 
         if not history:
-            console.print(f"[yellow]No conversation history for agent '{agent_name}'[/yellow]")
+            console.print(f"[yellow]История диалогов для агента '{agent_name}' не найдена[/yellow]")
             return True
 
         # Filter by role if specified
@@ -907,7 +907,7 @@ class HistoryCommand(Command):
                 if msg.get("role", "").lower() == role_filter
             ]
             if not filtered_messages:
-                console.print(f"[yellow]No messages with role '{role_filter}' found[/yellow]")
+                console.print(f"[yellow]Сообщения с ролью '{role_filter}' не найдены[/yellow]")
                 return True
 
             # Check if index is valid for filtered messages

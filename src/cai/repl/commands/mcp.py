@@ -109,28 +109,28 @@ def mcp_help_panel_markup() -> str:
     """Rich markup for ``/mcp help``, ``/help mcp``, and ``/h mcp`` (single source)."""
     z = _CAI_GREEN
     return (
-        "[white]MCP: connect external tool servers and bind their tools to agents.[/white]\n\n"
-        f"[bold {z}]Subcommands[/bold {z}]\n"
-        f"• [bold {z}]/mcp load <url> <name>[/bold {z}] — SSE server\n"
-        f"• [bold {z}]/mcp load sse <url> <name>[/bold {z}] — [dim]legacy SSE form[/dim]\n"
-        f"• [bold {z}]/mcp load stdio <name> <command>[/bold {z}] [dim][args…][/dim] — stdio server\n"
-        f"• [bold {z}]/mcp list[/bold {z}] — [dim]active servers ([/dim][bold {z}]/mcp[/bold {z}]"
-        f"[dim] with no args is the same)[/dim]\n"
-        f"• [bold {z}]/mcp add <server> <agent>[/bold {z}] — [dim]server name first, then agent name or #[/dim]\n"
+        "[white]MCP: подключение внешних серверов инструментов и привязка их инструментов к агентам.[/white]\n\n"
+        f"[bold {z}]Подкоманды[/bold {z}]\n"
+        f"• [bold {z}]/mcp load <url> <name>[/bold {z}] — SSE сервер\n"
+        f"• [bold {z}]/mcp load sse <url> <name>[/bold {z}] — [dim]устаревший формат SSE[/dim]\n"
+        f"• [bold {z}]/mcp load stdio <name> <command>[/bold {z}] [dim][args…][/dim] — stdio сервер\n"
+        f"• [bold {z}]/mcp list[/bold {z}] — [dim]активные серверы ([/dim][bold {z}]/mcp[/bold {z}]"
+        f"[dim] без аргументов — то же самое)[/dim]\n"
+        f"• [bold {z}]/mcp add <server> <agent>[/bold {z}] — [dim]сначала имя сервера, затем имя агента или #[/dim]\n"
         f"• [bold {z}]/mcp remove <server>[/bold {z}]\n"
         f"• [bold {z}]/mcp tools <server>[/bold {z}]\n"
         f"• [bold {z}]/mcp status[/bold {z}]\n"
         f"• [bold {z}]/mcp associations[/bold {z}]\n"
         f"• [bold {z}]/mcp test <server>[/bold {z}]\n"
-        f"• [bold {z}]/mcp help[/bold {z}] [dim](same as /help mcp, /h mcp)[/dim]\n\n"
-        f"[bold {z}]Examples[/bold {z}]\n"
+        f"• [bold {z}]/mcp help[/bold {z}] [dim](то же, что /help mcp, /h mcp)[/dim]\n\n"
+        f"[bold {z}]Примеры[/bold {z}]\n"
         f"• [bold {z}]/mcp load stdio burp java -jar /path/to/mcp-proxy-all.jar --sse-url http://127.0.0.1:9876[/bold {z}]\n"
-        f"  [dim]# Burp Suite MCP (PortSwigger): stdio proxy to the BApp SSE port; extract mcp-proxy-all.jar from the extension[/dim]\n"
+        f"  [dim]# Burp Suite MCP (PortSwigger): stdio прокси к порту BApp SSE; извлеките mcp-proxy-all.jar из расширения[/dim]\n"
         f"• [bold {z}]/mcp load http://127.0.0.1:8000/sse myserver[/bold {z}]\n"
-        f"  [dim]# Direct SSE only for servers that return Content-Type: text/event-stream (many need stdio instead)[/dim]\n"
+        f"  [dim]# Прямой SSE только для серверов, возвращающих Content-Type: text/event-stream (многие требуют stdio)[/dim]\n"
         f"• [bold {z}]/mcp tools burp[/bold {z}]\n"
         f"• [bold {z}]/mcp add burp redteam_agent[/bold {z}]\n\n"
-        "[dim]Alias: /m[/dim]"
+        "[dim]Алиас: /m[/dim]"
     )
 
 
@@ -540,21 +540,21 @@ class MCPCommand(Command):
         """Initialize the MCP command."""
         super().__init__(
             name="/mcp",
-            description="Manage MCP servers and add their tools to agents",
+            description="Управление серверами MCP и добавление их инструментов к агентам",
             aliases=["/m"],
         )
 
         # Add subcommands manually
         self._subcommands = {
-            "load": "Load an MCP server (SSE or stdio)",
-            "list": "List active MCP connections",
-            "add": "Add MCP tools to an agent",
-            "remove": "Remove an MCP server connection",
-            "tools": "List tools from an MCP server",
-            "status": "Check MCP server connection status",
-            "associations": "Show agent-MCP associations",
-            "test": "Test MCP server connectivity",
-            "help": "Show MCP command usage",
+            "load": "Загрузка сервера MCP (SSE или stdio)",
+            "list": "Список активных подключений MCP",
+            "add": "Добавление инструментов MCP к агенту",
+            "remove": "Удаление подключения сервера MCP",
+            "tools": "Список инструментов сервера MCP",
+            "status": "Проверка состояния подключения сервера MCP",
+            "associations": "Показать ассоциации агент-MCP",
+            "test": "Проверка доступности сервера MCP",
+            "help": "Показать справку по командам MCP",
         }
 
     def get_subcommands(self) -> List[str]:
@@ -595,8 +595,8 @@ class MCPCommand(Command):
                 return handler(args[1:] if len(args) > 1 else None)
 
         _mcp_emit_panel(
-            f"[red bold]Unknown subcommand[/red bold] [white]{escape(subcommand)}[/white]\n\n"
-            f"[#9aa0a6]Supported commands are listed under[/] [bold {_CAI_GREEN}]/mcp help[/bold {_CAI_GREEN}]"
+            f"[red bold]Неизвестная подкоманда[/red bold] [white]{escape(subcommand)}[/white]\n\n"
+            f"[#9aa0a6]Поддерживаемые команды перечислены в[/] [bold {_CAI_GREEN}]/mcp help[/bold {_CAI_GREEN}]"
             f"[#9aa0a6].[/]",
             title="MCP",
             border_style=_MCP_PANEL_ERROR_BORDER,
@@ -693,14 +693,14 @@ class MCPCommand(Command):
         """
         if not args or len(args) < 2:
             _mcp_emit_panel(
-                "[red bold]Invalid arguments for[/red bold] [bold]/mcp load[/bold]\n\n"
-                "[white]SSE (default)[/white]\n"
+                "[red bold]Неверные аргументы для[/red bold] [bold]/mcp load[/bold]\n\n"
+                "[white]SSE (по умолчанию)[/white]\n"
                 f"[bold {_CAI_GREEN}]/mcp load <url> <name>[/bold {_CAI_GREEN}]\n\n"
-                "[white]SSE (legacy)[/white]\n"
+                "[white]SSE (устаревший)[/white]\n"
                 f"[bold {_CAI_GREEN}]/mcp load sse <url> <name>[/bold {_CAI_GREEN}]\n\n"
                 "[white]stdio[/white]\n"
                 f"[bold {_CAI_GREEN}]/mcp load stdio <name> <command>[/bold {_CAI_GREEN}] [dim][args…][/dim]",
-                title="MCP — load",
+                title="MCP — загрузка",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             return False
@@ -709,9 +709,9 @@ class MCPCommand(Command):
         if args[0] == "stdio":
             if len(args) < 3:
                 _mcp_emit_panel(
-                    "[red bold]stdio load needs a server name and a command[/red bold]\n\n"
+                    "[red bold]Для загрузки stdio необходимо указать имя сервера и команду[/red bold]\n\n"
                     f"[bold {_CAI_GREEN}]/mcp load stdio <name> <command>[/bold {_CAI_GREEN}] [dim][args…][/dim]",
-                    title="MCP — load",
+                    title="MCP — загрузка",
                     border_style=_MCP_PANEL_ERROR_BORDER,
                 )
                 return False
@@ -729,9 +729,9 @@ class MCPCommand(Command):
             if args[0] == "sse":
                 if len(args) < 3:
                     _mcp_emit_panel(
-                        "[red bold]Missing URL or server name[/red bold]\n\n"
+                        "[red bold]Отсутствует URL или имя сервера[/red bold]\n\n"
                         f"[bold {_CAI_GREEN}]/mcp load sse <url> <name>[/bold {_CAI_GREEN}]",
-                        title="MCP — load",
+                        title="MCP — загрузка",
                         border_style=_MCP_PANEL_ERROR_BORDER,
                     )
                     return False
@@ -741,9 +741,9 @@ class MCPCommand(Command):
                 url = args[0]
                 if len(args) < 2:
                     _mcp_emit_panel(
-                        "[red bold]Missing local server name[/red bold]\n\n"
+                        "[red bold]Отсутствует локальное имя сервера[/red bold]\n\n"
                         f"[bold {_CAI_GREEN}]/mcp load <url> <name>[/bold {_CAI_GREEN}]",
-                        title="MCP — load",
+                        title="MCP — загрузка",
                         border_style=_MCP_PANEL_ERROR_BORDER,
                     )
                     return False
@@ -763,17 +763,17 @@ class MCPCommand(Command):
         """
         if name in _GLOBAL_MCP_SERVERS:
             _mcp_emit_panel(
-                f"[{_MCP_COL_MUTED}]Server[/] [bold {_CAI_GREEN}]{escape(name)}[/bold {_CAI_GREEN}] "
-                f"[{_MCP_COL_MUTED}]is already loaded.[/]\n\n"
-                f"[white]To reload, remove it first:[/white] [bold {_CAI_GREEN}]/mcp remove "
+                f"[{_MCP_COL_MUTED}]Сервер[/] [bold {_CAI_GREEN}]{escape(name)}[/bold {_CAI_GREEN}] "
+                f"[{_MCP_COL_MUTED}]уже загружен.[/]\n\n"
+                f"[white]Для перезагрузки сначала удалите его:[/white] [bold {_CAI_GREEN}]/mcp remove "
                 f"{escape(name)}[/bold {_CAI_GREEN}]",
-                title="MCP — load",
+                title="MCP — загрузка",
                 border_style=_MCP_PANEL_WARN_BORDER,
             )
             return True
 
         console.print(
-            f"[{_MCP_COL_MUTED}]Connecting to SSE[/] [bold {_CAI_GREEN}]{escape(url)}[/bold {_CAI_GREEN}]"
+            f"[{_MCP_COL_MUTED}]Подключение к SSE[/] [bold {_CAI_GREEN}]{escape(url)}[/bold {_CAI_GREEN}]"
             f"[{_MCP_COL_MUTED}]…[/]"
         )
 
@@ -795,18 +795,18 @@ class MCPCommand(Command):
                     ka = resp.headers.get("Connection", "")
                     if "text/event-stream" not in ct:
                         console.print(
-                            f"[{_MCP_PANEL_WARN_BORDER}][CAI] Warning:[/] "
-                            f"[{_MCP_COL_MUTED}]Content-Type is not text/event-stream.[/]"
+                            f"[{_MCP_PANEL_WARN_BORDER}][CAI] Предупреждение:[/] "
+                            f"[{_MCP_COL_MUTED}]Content-Type не является text/event-stream.[/]"
                         )
                     if "no-cache" not in cc.lower():
                         console.print(
-                            f"[{_MCP_PANEL_WARN_BORDER}][CAI] Warning:[/] "
-                            f"[{_MCP_COL_MUTED}]Missing Cache-Control: no-cache.[/]"
+                            f"[{_MCP_PANEL_WARN_BORDER}][CAI] Предупреждение:[/] "
+                            f"[{_MCP_COL_MUTED}]Отсутствует Cache-Control: no-cache.[/]"
                         )
                     if "keep-alive" not in ka.lower():
                         console.print(
-                            f"[{_MCP_PANEL_WARN_BORDER}][CAI] Warning:[/] "
-                            f"[{_MCP_COL_MUTED}]Missing Connection: keep-alive.[/]"
+                            f"[{_MCP_PANEL_WARN_BORDER}][CAI] Предупреждение:[/] "
+                            f"[{_MCP_COL_MUTED}]Отсутствует Connection: keep-alive.[/]"
                         )
 
                     # Read a small portion to validate SSE framing
@@ -866,14 +866,14 @@ class MCPCommand(Command):
                 "data: {\"jsonrpc\":\"2.0\", \"id\":\"1\", \"method\":\"server.ready\", \"params\":{}}\n\n"
             )
             _mcp_emit_panel(
-                "[red bold]SSE preflight failed[/red bold]\n\n"
-                "[#9aa0a6]The endpoint may be up, but it is not serving a valid MCP SSE stream yet.[/]\n"
-                "[#9aa0a6]Required: text/event-stream headers and JSON-RPC 2.0 event payloads.[/]\n\n"
-                "[white]Example [bold]data:[/bold] line[/white]\n"
+                "[red bold]Предварительная проверка SSE не пройдена[/red bold]\n\n"
+                "[#9aa0a6]Эндпоинт может работать, но пока не предоставляет валидный поток MCP SSE.[/]\n"
+                "[#9aa0a6]Требуется: заголовки text/event-stream и полезные нагрузки событий JSON-RPC 2.0.[/]\n\n"
+                "[white]Пример строки [bold]data:[/bold][/white]\n"
                 f"[dim]{escape(example)}[/dim]\n\n"
-                "[#9aa0a6]Headers: Content-Type: text/event-stream, Cache-Control: no-cache, "
+                "[#9aa0a6]Заголовки: Content-Type: text/event-stream, Cache-Control: no-cache, "
                 "Connection: keep-alive[/]",
-                title="MCP — load (SSE)",
+                title="MCP — загрузка (SSE)",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             # Continue anyway; the lower-level client may handle it or produce a clearer error
@@ -939,28 +939,28 @@ class MCPCommand(Command):
             _GLOBAL_MCP_SERVERS[name] = server
 
             console.print(
-                f"[green][CAI] Connected to SSE server [/][bold #00ff9d]{name}[/bold #00ff9d]"
-                f"[green] at [/][bold white]{url}[/bold white]"
+                f"[green][CAI] Подключено к SSE серверу [/][bold #00ff9d]{name}[/bold #00ff9d]"
+                f"[green] по адресу [/][bold white]{url}[/bold white]"
             )
             console.print(
-                f"[#9aa0a6][CAI] Available tools:[/] [bold #00ff9d]{len(tools)}[/bold #00ff9d]"
+                f"[#9aa0a6][CAI] Доступные инструменты:[/] [bold #00ff9d]{len(tools)}[/bold #00ff9d]"
             )
 
             # Show some tool names if available
             if tools:
                 tool_names = [tool.name for tool in tools[:5]]
                 if len(tools) > 5:
-                    tool_names.append(f"... and {len(tools) - 5} more")
-                console.print(f"[#9aa0a6][CAI] Tools:[/] [white]{', '.join(tool_names)}[/white]")
+                    tool_names.append(f"... и ещё {len(tools) - 5}")
+                console.print(f"[#9aa0a6][CAI] Инструменты:[/] [white]{', '.join(tool_names)}[/white]")
 
             return True
 
         except Exception as e:
             _mcp_emit_panel(
-                "[red bold]Could not connect to the SSE server[/red bold]\n\n"
+                "[red bold]Не удалось подключиться к SSE серверу[/red bold]\n\n"
                 f"[white]{escape(str(e))}[/white]\n\n"
-                "[#9aa0a6]If the service is running, confirm it speaks MCP over SSE (not plain HTML).[/]",
-                title="MCP — load (SSE)",
+                "[#9aa0a6]Если служба запущена, убедитесь, что она поддерживает MCP через SSE (а не простой HTML).[/]",
+                title="MCP — загрузка (SSE)",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             # Clean up if connection failed
@@ -981,20 +981,20 @@ class MCPCommand(Command):
         """
         if name in _GLOBAL_MCP_SERVERS:
             _mcp_emit_panel(
-                f"[{_MCP_COL_MUTED}]Server[/] [bold {_CAI_GREEN}]{escape(name)}[/bold {_CAI_GREEN}] "
-                f"[{_MCP_COL_MUTED}]is already loaded.[/]\n\n"
-                f"[white]To reload, remove it first:[/white] [bold {_CAI_GREEN}]/mcp remove "
+                f"[{_MCP_COL_MUTED}]Сервер[/] [bold {_CAI_GREEN}]{escape(name)}[/bold {_CAI_GREEN}] "
+                f"[{_MCP_COL_MUTED}]уже загружен.[/]\n\n"
+                f"[white]Для перезагрузки сначала удалите его:[/white] [bold {_CAI_GREEN}]/mcp remove "
                 f"{escape(name)}[/bold {_CAI_GREEN}]",
-                title="MCP — load",
+                title="MCP — загрузка",
                 border_style=_MCP_PANEL_WARN_BORDER,
             )
             return True
 
         cmd_preview = escape(f"{command} {' '.join(cmd_args)}".strip())
         _mcp_emit_panel(
-            f"[white]Starting stdio server[/white] [bold {_CAI_GREEN}]{escape(name)}[/bold {_CAI_GREEN}]\n"
+            f"[white]Запуск stdio сервера[/white] [bold {_CAI_GREEN}]{escape(name)}[/bold {_CAI_GREEN}]\n"
             f"[dim]{cmd_preview}[/dim]",
-            title="MCP — load (stdio)",
+            title="MCP — загрузка (stdio)",
             padding=(0, 1),
         )
 
@@ -1024,24 +1024,24 @@ class MCPCommand(Command):
             # Store the server globally
             _GLOBAL_MCP_SERVERS[name] = server
 
-            console.print(f"[green]✓ Started stdio server '{name}'[/green]")
-            console.print(f"Available tools: {len(tools)}")
+            console.print(f"[green]✓ Stdio сервер '{name}' запущен[/green]")
+            console.print(f"Доступные инструменты: {len(tools)}")
 
             # Show some tool names if available
             if tools:
                 tool_names = [tool.name for tool in tools[:5]]
                 if len(tools) > 5:
-                    tool_names.append(f"... and {len(tools) - 5} more")
-                console.print(f"Tools: {', '.join(tool_names)}")
+                    tool_names.append(f"... и ещё {len(tools) - 5}")
+                console.print(f"Инструменты: {', '.join(tool_names)}")
 
             return True
 
         except Exception as e:
             _mcp_emit_panel(
-                "[red bold]Could not start the stdio server[/red bold]\n\n"
+                "[red bold]Не удалось запустить stdio сервер[/red bold]\n\n"
                 f"[white]{escape(str(e))}[/white]\n\n"
-                "[#9aa0a6]Check the command, PATH, and that the MCP binary is installed.[/]",
-                title="MCP — load (stdio)",
+                "[#9aa0a6]Проверьте команду, PATH и установлен ли бинарный файл MCP.[/]",
+                title="MCP — загрузка (stdio)",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             # Clean up if connection failed
@@ -1060,20 +1060,20 @@ class MCPCommand(Command):
         """
         if not _GLOBAL_MCP_SERVERS:
             _mcp_emit_panel(
-                "[#9aa0a6]No MCP servers are loaded in this session.[/]\n\n"
-                f"[white]Load one with[/white] [bold {_CAI_GREEN}]/mcp load <url> <name>[/bold {_CAI_GREEN}] "
-                f"[white]or[/white] [bold {_CAI_GREEN}]/mcp load stdio <name> <cmd>[/bold {_CAI_GREEN}] "
+                "[#9aa0a6]В этой сессии не загружено ни одного сервера MCP.[/]\n\n"
+                f"[white]Загрузите сервер командой[/white] [bold {_CAI_GREEN}]/mcp load <url> <name>[/bold {_CAI_GREEN}] "
+                f"[white]или[/white] [bold {_CAI_GREEN}]/mcp load stdio <name> <cmd>[/bold {_CAI_GREEN}] "
                 f"[dim][args…][/dim]\n"
-                f"[white]Full syntax:[/white] [bold {_CAI_GREEN}]/mcp help[/bold {_CAI_GREEN}]",
-                title="MCP — list",
+                f"[white]Полный синтаксис:[/white] [bold {_CAI_GREEN}]/mcp help[/bold {_CAI_GREEN}]",
+                title="MCP — список",
             )
             return True
 
         table = _mcp_table_embedded()
-        table.add_column("Name", style=_MCP_TABLE_HEADER)
-        table.add_column("Type", style=_MCP_COL_MUTED)
-        table.add_column("Details", style=_MCP_COL_BODY)
-        table.add_column("Tools", style=_MCP_COL_MUTED)
+        table.add_column("Имя", style=_MCP_TABLE_HEADER)
+        table.add_column("Тип", style=_MCP_COL_MUTED)
+        table.add_column("Подробности", style=_MCP_COL_BODY)
+        table.add_column("Инструменты", style=_MCP_COL_MUTED)
 
         for name, server in _GLOBAL_MCP_SERVERS.items():
             server_type = type(server).__name__.replace("MCPServer", "")
@@ -1086,7 +1086,7 @@ class MCPCommand(Command):
                 args = " ".join(server.params.args)
                 details = f"{cmd} {args}".strip()
             else:
-                details = "Unknown"
+                details = "Неизвестно"
 
             # Get tool count
             try:
@@ -1097,11 +1097,11 @@ class MCPCommand(Command):
                 tools = self._run_async(get_tools())
                 tool_count = str(len(tools))
             except Exception:
-                tool_count = "Error"
+                tool_count = "Ошибка"
 
             table.add_row(name, server_type, details, tool_count)
 
-        _mcp_emit_panel_table(table, title="Active MCP connections")
+        _mcp_emit_panel_table(table, title="Активные подключения MCP")
         return True
 
     def handle_add(self, args: Optional[List[str]] = None) -> bool:
@@ -1117,9 +1117,9 @@ class MCPCommand(Command):
         """
         if not args or len(args) < 2:
             _mcp_emit_panel(
-                "[red bold]Invalid arguments for[/red bold] [bold]/mcp add[/bold]\n\n"
+                "[red bold]Неверные аргументы для[/red bold] [bold]/mcp add[/bold]\n\n"
                 f"[bold {_CAI_GREEN}]/mcp add <server_name> <agent_name_or_number>[/bold {_CAI_GREEN}]",
-                title="MCP — add",
+                title="MCP — добавление",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             return False
@@ -1130,10 +1130,10 @@ class MCPCommand(Command):
         # Check if server exists
         if server_name not in _GLOBAL_MCP_SERVERS:
             _mcp_emit_panel(
-                f"[red bold]Unknown server[/red bold] [white]{escape(server_name)}[/white]\n\n"
-                f"[#9aa0a6]Load the server first, then list loaded names with[/] "
+                f"[red bold]Неизвестный сервер[/red bold] [white]{escape(server_name)}[/white]\n\n"
+                f"[#9aa0a6]Сначала загрузите сервер, затем список загруженных имён через[/] "
                 f"[bold {_CAI_GREEN}]/mcp list[/bold {_CAI_GREEN}][#9aa0a6].[/]",
-                title="MCP — add",
+                title="MCP — добавление",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             return False
@@ -1159,10 +1159,10 @@ class MCPCommand(Command):
                     raise ValueError("Not found")
             except Exception:
                 _mcp_emit_panel(
-                    f"[red bold]Agent not found[/red bold] [white]{escape(agent_identifier)}[/white]\n\n"
-                    f"[white]Pick a name from[/white] [bold {_CAI_GREEN}]/agent list[/bold {_CAI_GREEN}] "
-                    f"[white]or an index from that list.[/white]",
-                    title="MCP — add",
+                    f"[red bold]Агент не найден[/red bold] [white]{escape(agent_identifier)}[/white]\n\n"
+                    f"[white]Выберите имя из[/white] [bold {_CAI_GREEN}]/agent list[/bold {_CAI_GREEN}] "
+                    f"[white]или индекс из этого списка.[/white]",
+                    title="MCP — добавление",
                     border_style=_MCP_PANEL_ERROR_BORDER,
                 )
                 return False
@@ -1171,10 +1171,10 @@ class MCPCommand(Command):
         server = _GLOBAL_MCP_SERVERS[server_name]
 
         _mcp_emit_panel(
-            f"[{_MCP_COL_MUTED}]Adding tools from[/] [bold {_CAI_GREEN}]{escape(server_name)}[/bold {_CAI_GREEN}] "
+            f"[{_MCP_COL_MUTED}]Добавление инструментов из[/] [bold {_CAI_GREEN}]{escape(server_name)}[/bold {_CAI_GREEN}] "
             f"[{_MCP_COL_MUTED}]→[/] [bold {_CAI_GREEN}]{escape(agent_display_name)}[/bold {_CAI_GREEN}]"
             f"[{_MCP_COL_MUTED}] …[/]",
-            title="MCP — add",
+            title="MCP — добавление",
             padding=(0, 1),
         )
 
@@ -1188,13 +1188,13 @@ class MCPCommand(Command):
                     return tools
                 except Exception:
                     console.print(
-                        f"[{_MCP_PANEL_WARN_BORDER}]Connection lost; reconnecting…[/]"
+                        f"[{_MCP_PANEL_WARN_BORDER}]Соединение потеряно; переподключение…[/]"
                     )
                     # Try to reconnect
                     await server.connect()
                     tools = await server.list_tools()
                     console.print(
-                        f"[green]✓ Reconnected to[/] [bold {_CAI_GREEN}]{escape(server_name)}[/bold {_CAI_GREEN}]"
+                        f"[green]✓ Переподключено к[/] [bold {_CAI_GREEN}]{escape(server_name)}[/bold {_CAI_GREEN}]"
                     )
                     return tools
 
@@ -1203,11 +1203,11 @@ class MCPCommand(Command):
 
         except Exception as e:
             _mcp_emit_panel(
-                f"[red bold]Cannot reach server[/red bold] [white]{escape(server_name)}[/white]\n\n"
+                f"[red bold]Не удалось подключиться к серверу[/red bold] [white]{escape(server_name)}[/white]\n\n"
                 f"[white]{escape(str(e))}[/white]\n\n"
-                "[#9aa0a6]Try[/] [bold]/mcp remove[/bold] [#9aa0a6]and load again, or[/] [bold]/mcp status[/bold]"
+                "[#9aa0a6]Попробуйте[/] [bold]/mcp remove[/bold] [#9aa0a6]и загрузите снова, или[/] [bold]/mcp status[/bold]"
                 "[#9aa0a6].[/]",
-                title="MCP — add",
+                title="MCP — добавление",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             return False
@@ -1231,7 +1231,7 @@ class MCPCommand(Command):
                 table.add_row(tool.name, "Added", f"Available as: {tool.name}")
 
             _mcp_emit_panel_table(
-                table, title=f"Tools added → {escape(str(agent_display_name))}"
+                table, title=f"Инструменты добавлены → {escape(str(agent_display_name))}"
             )
 
             # Add tools directly to agent.tools
@@ -1290,25 +1290,25 @@ class MCPCommand(Command):
             regular_tools_count = len(agent.tools) if hasattr(agent, "tools") else 0
 
             console.print(
-                f"[{_MCP_COL_MUTED}]Agent now has {regular_tools_count} tools total[/]"
+                f"[{_MCP_COL_MUTED}]Агент теперь имеет {regular_tools_count} инструментов[/]"
             )
 
             # Test a simple tool invocation to make sure everything works
-            console.print(f"[{_MCP_COL_MUTED}]Testing MCP tool connectivity...[/]")
+            console.print(f"[{_MCP_COL_MUTED}]Проверка доступности инструментов MCP...[/]")
             try:
                 if tools:
-                    console.print("[green]✓ MCP tools are ready for use![/green]")
+                    console.print("[green]✓ Инструменты MCP готовы к использованию![/green]")
                 else:
-                    console.print("[yellow]Warning: No tools available from server[/yellow]")
+                    console.print("[yellow]Предупреждение: Сервер не предоставил инструменты[/yellow]")
             except Exception as e:
-                console.print(f"[yellow]Warning: Tool connectivity test failed: {e}[/yellow]")
+                console.print(f"[yellow]Предупреждение: Ошибка проверки доступности: {e}[/yellow]")
 
             return True
 
         except Exception as e:
             _mcp_emit_panel(
-                f"[red bold]Could not add MCP tools[/red bold]\n\n[white]{escape(str(e))}[/white]",
-                title="MCP — add",
+                f"[red bold]Не удалось добавить инструменты MCP[/red bold]\n\n[white]{escape(str(e))}[/white]",
+                title="MCP — добавление",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             return False
@@ -1324,9 +1324,9 @@ class MCPCommand(Command):
         """
         if not args:
             _mcp_emit_panel(
-                "[red bold]Missing server name[/red bold]\n\n"
+                "[red bold]Отсутствует имя сервера[/red bold]\n\n"
                 f"[bold {_CAI_GREEN}]/mcp remove <server_name>[/bold {_CAI_GREEN}]",
-                title="MCP — remove",
+                title="MCP — удаление",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             return False
@@ -1335,9 +1335,9 @@ class MCPCommand(Command):
 
         if server_name not in _GLOBAL_MCP_SERVERS:
             _mcp_emit_panel(
-                f"[red bold]Unknown server[/red bold] [white]{escape(server_name)}[/white]\n\n"
-                f"[#9aa0a6]Loaded servers:[/] [bold {_CAI_GREEN}]/mcp list[/bold {_CAI_GREEN}]",
-                title="MCP — remove",
+                f"[red bold]Неизвестный сервер[/red bold] [white]{escape(server_name)}[/white]\n\n"
+                f"[#9aa0a6]Загруженные серверы:[/] [bold {_CAI_GREEN}]/mcp list[/bold {_CAI_GREEN}]",
+                title="MCP — удаление",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             return False
@@ -1360,12 +1360,12 @@ class MCPCommand(Command):
             self._run_async(cleanup_server())
             del _GLOBAL_MCP_SERVERS[server_name]
             _SERVER_INVOCATION_LOCKS.pop(server_name, None)
-            console.print(f"[green]✓ Removed MCP server '{server_name}'[/green]")
+            console.print(f"[green]✓ Сервер MCP '{server_name}' удалён[/green]")
             return True
         except Exception as e:
             _mcp_emit_panel(
-                f"[red bold]Remove failed[/red bold]\n\n[white]{escape(str(e))}[/white]",
-                title="MCP — remove",
+                f"[red bold]Ошибка удаления[/red bold]\n\n[white]{escape(str(e))}[/white]",
+                title="MCP — удаление",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             # Remove from list anyway
@@ -1385,25 +1385,25 @@ class MCPCommand(Command):
         """
         if not _GLOBAL_MCP_SERVERS:
             _mcp_emit_panel(
-                "[#9aa0a6]No MCP servers are loaded — nothing to check.[/]\n\n"
-                f"[bold {_CAI_GREEN}]/mcp load …[/bold {_CAI_GREEN}] [#9aa0a6]then re-run[/] "
+                "[#9aa0a6]Нет загруженных серверов MCP — проверять нечего.[/]\n\n"
+                f"[bold {_CAI_GREEN}]/mcp load …[/bold {_CAI_GREEN}] [#9aa0a6]затем повторите[/] "
                 f"[bold {_CAI_GREEN}]/mcp status[/bold {_CAI_GREEN}]",
-                title="MCP — status",
+                title="MCP — состояние",
             )
             return True
 
         _mcp_emit_panel(
-            f"[{_MCP_COL_MUTED}]Checking connections for {len(_GLOBAL_MCP_SERVERS)} server(s)…[/]",
-            title="MCP — status",
+            f"[{_MCP_COL_MUTED}]Проверка подключений для {len(_GLOBAL_MCP_SERVERS)} сервер(ов)…[/]",
+            title="MCP — состояние",
             padding=(0, 1),
         )
 
         table = _mcp_table_embedded()
-        table.add_column("Name", style=_MCP_TABLE_HEADER)
-        table.add_column("Type", style=_MCP_COL_MUTED)
-        table.add_column("Status", style=_MCP_COL_BODY)
-        table.add_column("Tools", style=_MCP_COL_MUTED)
-        table.add_column("Details", style="dim")
+        table.add_column("Имя", style=_MCP_TABLE_HEADER)
+        table.add_column("Тип", style=_MCP_COL_MUTED)
+        table.add_column("Статус", style=_MCP_COL_BODY)
+        table.add_column("Инструменты", style=_MCP_COL_MUTED)
+        table.add_column("Подробности", style="dim")
 
         healthy_count = 0
 
@@ -1418,20 +1418,20 @@ class MCPCommand(Command):
                     return len(tools), None
 
                 tools_count, error = self._run_async(test_connection())
-                status = "[green]✓ Healthy[/green]"
+                status = "[green]✓ Работает[/green]"
                 tools_str = str(tools_count)
-                details = "Connection active"
+                details = "Соединение активно"
                 healthy_count += 1
 
             except Exception as e:
-                status = "[red]✗ Error[/red]"
+                status = "[red]✗ Ошибка[/red]"
                 tools_str = "N/A"
-                details = f"Error: {str(e)[:50]}..."
+                details = f"Ошибка: {str(e)[:50]}..."
 
                 # Try to reconnect
                 try:
                     console.print(
-                        f"[{_MCP_PANEL_WARN_BORDER}]Reconnecting[/] "
+                        f"[{_MCP_PANEL_WARN_BORDER}]Переподключение[/] "
                         f"[bold {_CAI_GREEN}]{escape(name)}[/bold {_CAI_GREEN}]"
                         f"[{_MCP_PANEL_WARN_BORDER}]…[/]"
                     )
@@ -1442,34 +1442,34 @@ class MCPCommand(Command):
                         return len(tools)
 
                     tools_count = self._run_async(reconnect())
-                    status = "[green]✓ Reconnected[/green]"
+                    status = "[green]✓ Переподключено[/green]"
                     tools_str = str(tools_count)
-                    details = "Reconnected successfully"
+                    details = "Переподключение успешно"
                     healthy_count += 1
 
                 except Exception as reconnect_error:
-                    status = "[red]✗ Failed[/red]"
-                    details = f"Reconnect failed: {str(reconnect_error)[:30]}..."
+                    status = "[red]✗ Ошибка[/red]"
+                    details = f"Ошибка переподключения: {str(reconnect_error)[:30]}..."
 
             table.add_row(name, server_type, status, tools_str, details)
 
-        _mcp_emit_panel_table(table, title="MCP server status")
+        _mcp_emit_panel_table(table, title="Состояние серверов MCP")
 
         # Summary
         total_servers = len(_GLOBAL_MCP_SERVERS)
         if healthy_count == total_servers:
             _mcp_emit_panel(
-                f"[green bold]All {total_servers} server(s) healthy[/green bold]",
-                title="MCP — status",
+                f"[green bold]Все {total_servers} сервер(ов) работают[/green bold]",
+                title="MCP — состояние",
                 border_style=_CAI_GREEN,
                 padding=(0, 1),
             )
         else:
             failed_count = total_servers - healthy_count
             _mcp_emit_panel(
-                f"[{_MCP_COL_MUTED}]{healthy_count}/{total_servers} healthy[/]"
-                f"[white]; {failed_count} need attention[/white]",
-                title="MCP — status",
+                f"[{_MCP_COL_MUTED}]{healthy_count}/{total_servers} работают[/]"
+                f"[white]; {failed_count} требуют внимания[/white]",
+                title="MCP — состояние",
                 border_style=_MCP_PANEL_WARN_BORDER,
                 padding=(0, 1),
             )
@@ -1487,9 +1487,9 @@ class MCPCommand(Command):
         """
         if not args:
             _mcp_emit_panel(
-                "[red bold]Missing server name[/red bold]\n\n"
+                "[red bold]Отсутствует имя сервера[/red bold]\n\n"
                 f"[bold {_CAI_GREEN}]/mcp tools <server_name>[/bold {_CAI_GREEN}]",
-                title="MCP — tools",
+                title="MCP — инструменты",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             return False
@@ -1498,9 +1498,9 @@ class MCPCommand(Command):
 
         if server_name not in _GLOBAL_MCP_SERVERS:
             _mcp_emit_panel(
-                f"[red bold]Unknown server[/red bold] [white]{escape(server_name)}[/white]\n\n"
-                f"[#9aa0a6]See[/] [bold {_CAI_GREEN}]/mcp list[/bold {_CAI_GREEN}]",
-                title="MCP — tools",
+                f"[red bold]Неизвестный сервер[/red bold] [white]{escape(server_name)}[/white]\n\n"
+                f"[#9aa0a6]См.[/] [bold {_CAI_GREEN}]/mcp list[/bold {_CAI_GREEN}]",
+                title="MCP — инструменты",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             return False
@@ -1516,31 +1516,31 @@ class MCPCommand(Command):
 
             if not tools:
                 _mcp_emit_panel(
-                    f"[{_MCP_COL_MUTED}]Server[/] [bold {_CAI_GREEN}]{escape(server_name)}[/bold {_CAI_GREEN}] "
-                    f"[{_MCP_COL_MUTED}]returned no tools (empty catalog or handshake issue).[/]",
-                    title="MCP — tools",
+                    f"[{_MCP_COL_MUTED}]Сервер[/] [bold {_CAI_GREEN}]{escape(server_name)}[/bold {_CAI_GREEN}] "
+                    f"[{_MCP_COL_MUTED}]не вернул инструментов (пустой каталог или проблема с хэндшейком).[/]",
+                    title="MCP — инструменты",
                     border_style=_MCP_PANEL_WARN_BORDER,
                 )
                 return True
 
             table = _mcp_table_embedded()
             table.add_column("#", style="dim")
-            table.add_column("Name", style=_MCP_TABLE_HEADER)
-            table.add_column("Description", style=_MCP_COL_BODY)
+            table.add_column("Имя", style=_MCP_TABLE_HEADER)
+            table.add_column("Описание", style=_MCP_COL_BODY)
 
             for idx, tool in enumerate(tools, 1):
-                description = tool.description or "No description"
+                description = tool.description or "Без описания"
                 if len(description) > 60:
                     description = description[:57] + "..."
                 table.add_row(str(idx), tool.name, description)
 
-            _mcp_emit_panel_table(table, title=f"Tools — {escape(server_name)}")
+            _mcp_emit_panel_table(table, title=f"Инструменты — {escape(server_name)}")
             return True
 
         except Exception as e:
             _mcp_emit_panel(
-                f"[red bold]Could not list tools[/red bold]\n\n[white]{escape(str(e))}[/white]",
-                title="MCP — tools",
+                f"[red bold]Не удалось получить список инструментов[/red bold]\n\n[white]{escape(str(e))}[/white]",
+                title="MCP — инструменты",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             return False
@@ -1556,17 +1556,17 @@ class MCPCommand(Command):
         """
         if not _AGENT_MCP_ASSOCIATIONS:
             _mcp_emit_panel(
-                "[#9aa0a6]No agent–MCP associations are recorded yet.[/]\n\n"
-                f"[white]After[/white] [bold {_CAI_GREEN}]/mcp load …[/bold {_CAI_GREEN}][white], attach tools with[/white]\n"
+                "[#9aa0a6]Ассоциации агент–MCP пока не записаны.[/]\n\n"
+                f"[white]После[/white] [bold {_CAI_GREEN}]/mcp load …[/bold {_CAI_GREEN}][white] привяжите инструменты командой[/white]\n"
                 f"[bold {_CAI_GREEN}]/mcp add <server> <agent>[/bold {_CAI_GREEN}]",
-                title="MCP — associations",
+                title="MCP — ассоциации",
             )
             return True
 
         table = _mcp_table_embedded()
-        table.add_column("Agent", style=_MCP_TABLE_HEADER)
-        table.add_column("MCP Servers", style=_MCP_COL_MUTED)
-        table.add_column("Total Tools", style=_MCP_COL_BODY)
+        table.add_column("Агент", style=_MCP_TABLE_HEADER)
+        table.add_column("Серверы MCP", style=_MCP_COL_MUTED)
+        table.add_column("Всего инструментов", style=_MCP_COL_BODY)
 
         for agent_name, server_names in _AGENT_MCP_ASSOCIATIONS.items():
             if server_names:
@@ -1589,7 +1589,7 @@ class MCPCommand(Command):
                 servers_str = ", ".join(server_names)
                 table.add_row(agent_name, servers_str, str(total_tools))
 
-        _mcp_emit_panel_table(table, title="Agent–MCP associations")
+        _mcp_emit_panel_table(table, title="Ассоциации агент–MCP")
         return True
 
     def handle_test(self, args: Optional[List[str]] = None) -> bool:
@@ -1603,9 +1603,9 @@ class MCPCommand(Command):
         """
         if not args:
             _mcp_emit_panel(
-                "[red bold]Missing server name[/red bold]\n\n"
+                "[red bold]Отсутствует имя сервера[/red bold]\n\n"
                 f"[bold {_CAI_GREEN}]/mcp test <server_name>[/bold {_CAI_GREEN}]",
-                title="MCP — test",
+                title="MCP — тест",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             return False
@@ -1614,9 +1614,9 @@ class MCPCommand(Command):
 
         if server_name not in _GLOBAL_MCP_SERVERS:
             _mcp_emit_panel(
-                f"[red bold]Unknown server[/red bold] [white]{escape(server_name)}[/white]\n\n"
-                f"[#9aa0a6]Loaded servers:[/] [bold {_CAI_GREEN}]/mcp list[/bold {_CAI_GREEN}]",
-                title="MCP — test",
+                f"[red bold]Неизвестный сервер[/red bold] [white]{escape(server_name)}[/white]\n\n"
+                f"[#9aa0a6]Загруженные серверы:[/] [bold {_CAI_GREEN}]/mcp list[/bold {_CAI_GREEN}]",
+                title="MCP — тест",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             return False
@@ -1624,9 +1624,9 @@ class MCPCommand(Command):
         server = _GLOBAL_MCP_SERVERS[server_name]
 
         _mcp_emit_panel(
-            f"[{_MCP_COL_MUTED}]Running connectivity checks on[/] "
+            f"[{_MCP_COL_MUTED}]Запуск проверок доступности для[/] "
             f"[bold {_CAI_GREEN}]{escape(server_name)}[/bold {_CAI_GREEN}][{_MCP_COL_MUTED}]…[/]",
-            title="MCP — test",
+            title="MCP — тест",
             padding=(0, 1),
         )
 
@@ -1634,17 +1634,17 @@ class MCPCommand(Command):
 
             async def test_server():
                 # Test 1: List tools
-                console.print(f"[{_MCP_COL_MUTED}]1. Listing tools…[/]")
+                console.print(f"[{_MCP_COL_MUTED}]1. Получение списка инструментов…[/]")
                 tools = await server.list_tools()
                 console.print(
-                    f"[green]✓[/] [{_MCP_COL_MUTED}]Found[/] [bold {_CAI_GREEN}]{len(tools)}[/bold {_CAI_GREEN}]"
+                    f"[green]✓[/] [{_MCP_COL_MUTED}]Найдено[/] [bold {_CAI_GREEN}]{len(tools)}[/bold {_CAI_GREEN}]"
                 )
 
                 # Test 2: Test a simple tool if available
                 if tools:
                     test_tool = tools[0]
                     console.print(
-                        f"[{_MCP_COL_MUTED}]2. Invoking sample tool[/] "
+                        f"[{_MCP_COL_MUTED}]2. Вызов пробного инструмента[/] "
                         f"[bold {_CAI_GREEN}]{escape(test_tool.name)}[/bold {_CAI_GREEN}]"
                         f"[{_MCP_COL_MUTED}]…[/]"
                     )
@@ -1653,35 +1653,35 @@ class MCPCommand(Command):
                     try:
                         # Use empty input for testing
                         result = await server.call_tool(test_tool.name, {})
-                        console.print(f"[green]✓ Tool invocation successful[/green]")
+                        console.print(f"[green]✓ Вызов инструмента выполнен успешно[/green]")
                         if result and result.content:
                             console.print(
-                                f"[dim]Result preview: {str(result.content[0])[:100]}...[/dim]"
+                                f"[dim]Предварительный просмотр результата: {str(result.content[0])[:100]}...[/dim]"
                             )
                     except Exception as tool_error:
                         console.print(
-                            f"[{_MCP_PANEL_WARN_BORDER}]⚠ Tool call skipped or failed[/] "
-                            f"[{_MCP_COL_MUTED}](often normal if the tool needs input).[/]"
+                            f"[{_MCP_PANEL_WARN_BORDER}]⚠ Вызов инструмента пропущен или не удался[/] "
+                            f"[{_MCP_COL_MUTED}](часто нормально, если инструмент требует входных данных).[/]"
                         )
                         console.print(
                             f"[dim]{escape(str(tool_error)[:100])}[/dim]"
                         )
 
                 # Test 3: Test reconnection
-                console.print(f"[{_MCP_COL_MUTED}]3. Reconnecting transport…[/]")
+                console.print(f"[{_MCP_COL_MUTED}]3. Переподключение транспорта…[/]")
                 if hasattr(server, "session"):
                     old_session = server.session
                     server.session = None
                 await server.connect()
-                console.print("[green]✓ Reconnection successful[/green]")
+                console.print("[green]✓ Переподключение успешно[/green]")
 
                 return True
 
             self._run_async(test_server())
             _mcp_emit_panel(
-                f"[green bold]All checks passed[/green bold] [white]for[/white] "
+                f"[green bold]Все проверки пройдены[/green bold] [white]для[/white] "
                 f"[bold {_CAI_GREEN}]{escape(server_name)}[/bold {_CAI_GREEN}]",
-                title="MCP — test",
+                title="MCP — тест",
                 border_style=_CAI_GREEN,
                 padding=(0, 1),
             )
@@ -1689,9 +1689,9 @@ class MCPCommand(Command):
 
         except Exception as e:
             _mcp_emit_panel(
-                f"[red bold]Test run failed[/red bold]\n\n"
+                f"[red bold]Ошибка выполнения теста[/red bold]\n\n"
                 f"[white]{escape(type(e).__name__)}:[/white] {escape(str(e))}",
-                title="MCP — test",
+                title="MCP — тест",
                 border_style=_MCP_PANEL_ERROR_BORDER,
             )
             return False

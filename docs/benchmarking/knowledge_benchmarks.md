@@ -1,88 +1,88 @@
-# Knowledge Benchmarks
+# Бенчмарки знаний
 
-Knowledge benchmarks evaluate AI models' understanding of cybersecurity concepts, threat intelligence, vulnerability analysis, and security best practices through question-answering and knowledge extraction tasks.
+Бенчмарки знаний оценивают понимание ИИ-моделями концепций кибербезопасности, разведки угроз, анализа уязвимостей и лучших практик безопасности с помощью задач по ответам на вопросы и извлечению знаний.
 
 ---
 
-## 📊 Available Benchmarks
+## 📊 Доступные бенчмарки
 
 ### SecEval
-Benchmark designed to evaluate LLMs on security-related tasks including phishing email analysis, vulnerability classification, and response generation.
+Бенчмарк, предназначенный для оценки LLM в задачах, связанных с безопасностью, включая анализ фишинговых писем, классификацию уязвимостей и генерацию ответов.
 
-- **Type**: Multiple choice and open-ended questions
-- **Coverage**: Phishing detection, malware analysis, vulnerability assessment, security policy
-- **Dataset**: Real-world security scenarios
-- **Source**: [SecEval Repository](https://github.com/XuanwuAI/SecEval)
+- **Тип**: Вопросы с множественным выбором и открытые вопросы
+- **Охват**: Обнаружение фишинга, анализ вредоносного ПО, оценка уязвимостей, политика безопасности
+- **Датасет**: Реальные сценарии безопасности
+- **Источник**: [SecEval Repository](https://github.com/XuanwuAI/SecEval)
 
 ### CyberMetric
-Framework focusing on measuring AI performance in cybersecurity-specific question answering, knowledge extraction, and contextual understanding.
+Фреймворк, ориентированный на измерение производительности ИИ в специфических для кибербезопасности задачах ответов на вопросы, извлечения знаний и контекстуального понимания.
 
-- **Type**: Question-answering with contextual reasoning
-- **Coverage**: Security concepts, best practices, incident response, threat modeling
-- **Emphasis**: Domain knowledge and reasoning ability
-- **Source**: [CyberMetric Repository](https://github.com/CyberMetric)
+- **Тип**: Ответы на вопросы с контекстным рассуждением
+- **Охват**: Концепции безопасности, лучшие практики, реагирование на инциденты, моделирование угроз
+- **Акцент**: Доменные знания и способность к рассуждению
+- **Источник**: [CyberMetric Repository](https://github.com/CyberMetric)
 
 ### CTIBench
-Benchmark focused on evaluating LLM capabilities in understanding and processing Cyber Threat Intelligence (CTI) information.
+Бенчмарк, сфокусированный на оценке возможностей LLM в понимании и обработке информации разведки о киберугрозах (Cyber Threat Intelligence, CTI).
 
-- **Type**: Multiple choice questions and attribute extraction
-- **Coverage**: Threat actor analysis, malware attribution, IOC extraction, MITRE ATT&CK mapping
-- **Dataset**: CTI-MCQ (multiple choice) and CTI-ATE (attribute extraction)
-- **Source**: [CTIBench Repository](https://github.com/xashru/cti-bench)
-
----
-
-## 🎯 What Knowledge Benchmarks Measure
-
-### Security Concept Understanding
-- Vulnerability types and classifications
-- Attack vectors and techniques
-- Defense mechanisms and controls
-- Security principles and best practices
-
-### Threat Intelligence
-- Threat actor capabilities and motivations
-- Malware families and characteristics
-- Indicators of Compromise (IOCs)
-- Tactics, Techniques, and Procedures (TTPs)
-
-### Incident Response
-- Incident detection and classification
-- Response procedures and priorities
-- Forensic analysis techniques
-- Recovery and remediation strategies
-
-### Risk Assessment
-- Threat modeling methodologies
-- Vulnerability scoring (CVSS)
-- Risk prioritization frameworks
-- Security architecture evaluation
+- **Тип**: Вопросы с множественным выбором и извлечение атрибутов
+- **Охват**: Анализ субъектов угроз, атрибуция вредоносного ПО, извлечение IOC, маппинг на MITRE ATT&CK
+- **Датасет**: CTI-MCQ (множественный выбор) и CTI-ATE (извлечение атрибутов)
+- **Источник**: [CTIBench Repository](https://github.com/xashru/cti-bench)
 
 ---
 
-## 🏆 alias1 Knowledge Performance
+## 🎯 Что измеряют бенчмарки знаний
 
-!!! success "Superior Knowledge Capabilities"
-    **`alias1` demonstrates exceptional performance** on cybersecurity knowledge benchmarks:
+### Понимание концепций безопасности
+- Типы и классификации уязвимостей
+- Векторы и техники атак
+- Механизмы защиты и средства контроля
+- Принципы безопасности и лучшие практики
 
-    - 🥇 **Highest accuracy** across all three major knowledge benchmarks
-    - 🥇 **Contextual understanding** - Correctly interprets complex security scenarios
-    - 🥇 **Zero refusals** - Provides comprehensive answers for all security questions
-    - 🥇 **Technical depth** - Detailed explanations with practical examples
+### Разведка угроз (Threat Intelligence)
+- Возможности и мотивация субъектов угроз
+- Семейства и характеристики вредоносного ПО
+- Индикаторы компрометации (IOCs)
+- Тактики, техники и процедуры (TTPs)
 
-    **General-purpose models show**:
-    - ❌ Lower accuracy on specialized security concepts
-    - ❌ Oversimplified or generic responses
-    - ❌ Refusals on sensitive security topics
-    - ❌ Missing contextual nuances in CTI analysis
+### Реагирование на инциденты
+- Обнаружение и классификация инцидентов
+- Процедуры реагирования и приоритеты
+- Методы форензики (криминалистического анализа)
+- Стратегии восстановления и устранения последствий
 
-**[Get alias1 with CAI PRO →](../cai_pro.md)**
+### Оценка рисков
+- Методологии моделирования угроз
+- Скоринг уязвимостей (CVSS)
+- Фреймворки приоритизации рисков
+- Оценка архитектуры безопасности
 
 ---
 
-## 🚀 Running Knowledge Benchmarks
+## 🏆 Производительность знаний alias1
 
-### Prerequisites
+!!! success "Превосходные возможности знаний"
+    **`alias1` демонстрирует исключительные результаты** в бенчмарках знаний по кибербезопасности:
+
+    - 🥇 **Наивысшая точность** во всех трех основных бенчмарках знаний
+    - 🥇 **Контекстуальное понимание** — корректно интерпретирует сложные сценарии безопасности
+    - 🥇 **Ноль отказов** — предоставляет исчерпывающие ответы на все вопросы по безопасности
+    - 🥇 **Техническая глубина** — детальные объяснения с практическими примерами
+
+    **Модели общего назначения показывают**:
+    - ❌ Более низкую точность в специализированных концепциях безопасности
+    - ❌ Слишком упрощенные или общие ответы
+    - ❌ Отказы отвечать на чувствительные темы безопасности
+    - ❌ Отсутствие контекстуальных нюансов в анализе CTI
+
+**[Получить alias1 с CAI PRO →](../cai_pro.md)**
+
+---
+
+## 🚀 Запуск бенчмарков знаний
+
+### Предварительные требования
 
 ```bash
 # Install dependencies
@@ -95,7 +95,7 @@ ANTHROPIC_API_KEY="sk-ant-..."      # For Anthropic models
 OLLAMA_API_BASE="http://localhost:11434/v1"  # For local models
 ```
 
-### CyberMetric Evaluation
+### Оценка CyberMetric
 
 ```bash
 # Using alias1 (recommended)
@@ -120,7 +120,7 @@ python benchmarks/eval.py \
     --backend openai
 ```
 
-### SecEval Evaluation
+### Оценка SecEval
 
 ```bash
 # Using alias1
@@ -138,7 +138,7 @@ python benchmarks/eval.py \
     --backend anthropic
 ```
 
-### CTIBench Evaluation
+### Оценка CTIBench
 
 ```bash
 # Multiple choice questions
@@ -165,19 +165,19 @@ python benchmarks/eval.py \
 
 ---
 
-## 📁 Output Structure
+## 📁 Структура вывода
 
-Results are saved to structured directories:
+Результаты сохраняются в структурированные директории:
 
 ```
 outputs/
-└── cybermetric/  (or seceval, cti_bench)
+└── cybermetric/  (или seceval, cti_bench)
     └── alias1_20250115_abc123/
-        ├── answers.json       # Complete test with responses
-        └── information.txt    # Performance metrics
+        ├── answers.json       # Полный тест с ответами
+        └── information.txt    # Метрики производительности
 ```
 
-### Example information.txt
+### Пример information.txt
 
 ```
 Model: alias1
@@ -193,68 +193,68 @@ Backend: alias
 
 ---
 
-## 📊 Evaluation Metrics
+## 📊 Метрики оценки
 
-### Accuracy
-Percentage of correctly answered questions:
+### Точность (Accuracy)
+Процент правильно отвеченных вопросов:
 ```
 Accuracy = (Correct Answers / Total Questions) × 100%
 ```
 
-### Category Performance
-Breakdown by question category:
-- Vulnerability analysis: 95%
-- Threat intelligence: 90%
-- Incident response: 88%
-- Security architecture: 92%
+### Производительность по категориям
+Разбивка по категориям вопросов:
+- Анализ уязвимостей: 95%
+- Разведка угроз: 90%
+- Реагирование на инциденты: 88%
+- Архитектура безопасности: 92%
 
-### Response Quality
-Qualitative assessment of answer quality:
-- Correctness
-- Completeness
-- Technical depth
-- Practical applicability
-
----
-
-## 🎓 Why Knowledge Benchmarks Matter
-
-Knowledge benchmarks are essential for evaluating cybersecurity AI because:
-
-1. **Foundation Skills** - Tests understanding of core security concepts
-2. **Decision Making** - Evaluates ability to make informed security judgments
-3. **Contextual Reasoning** - Assesses comprehension beyond memorization
-4. **Practical Application** - Measures ability to apply knowledge to scenarios
-5. **Domain Expertise** - Validates specialized cybersecurity understanding
-
-Unlike hands-on CTF challenges, knowledge benchmarks assess the **theoretical foundation** that enables effective security analysis and decision-making.
+### Качество ответов
+Качественная оценка ответов:
+- Правильность
+- Полнота
+- Техническая глубина
+- Практическая применимость
 
 ---
 
-## 📚 Research Papers
+## 🎓 Почему бенчмарки знаний важны
+
+Бенчмарки знаний имеют решающее значение для оценки ИИ в сфере кибербезопасности, потому что:
+
+1. **Базовые навыки** — проверяют понимание основных концепций безопасности.
+2. **Принятие решений** — оценивают способность делать обоснованные суждения по вопросам безопасности.
+3. **Контекстуальное рассуждение** — оценивают понимание, выходящее за рамки простого запоминания.
+4. **Практическое применение** — измеряют способность применять знания к конкретным сценариям.
+5. **Доменная экспертиза** — подтверждают специализированные знания в области кибербезопасности.
+
+В отличие от практических соревнований CTF, бенчмарки знаний оценивают **теоретическую базу**, которая позволяет эффективно проводить анализ безопасности и принимать решения.
+
+---
+
+## 📚 Научные статьи
 
 - 📊 [**CAIBench: Cybersecurity AI Benchmark**](https://arxiv.org/pdf/2510.24317) (2025)
-  Includes knowledge benchmark evaluation methodology.
+  Включает методологию оценки бенчмарков знаний.
 
 - 🚀 [**Cybersecurity AI (CAI) Framework**](https://arxiv.org/pdf/2504.06017) (2025)
-  Demonstrates knowledge-driven security operations.
+  Демонстрирует операции безопасности на основе знаний.
 
-**[View all research →](https://aliasrobotics.com/research-security.php#papers)**
-
----
-
-## 🔗 Related Benchmarks
-
-- **[Privacy Benchmarks](privacy_benchmarks.md)** - PII handling evaluation
-- **[Jeopardy CTFs](jeopardy_ctfs.md)** - Practical skill assessment
-- **[Running Benchmarks](running_benchmarks.md)** - Setup and usage guide
+**[Посмотреть все исследования →](https://aliasrobotics.com/research-security.php#papers)**
 
 ---
 
-## 🚀 Get Started
+## 🔗 Связанные бенчмарки
 
-Knowledge benchmarks are **freely available** to all CAI users.
+- **[Бенчмарки приватности](privacy_benchmarks.md)** — оценка обработки PII
+- **[Jeopardy CTFs](jeopardy_ctfs.md)** — оценка практических навыков
+- **[Запуск бенчмарков](running_benchmarks.md)** — руководство по настройке и использованию
 
-**[Download CAI and start benchmarking →](../cai_installation.md)**
+---
 
-For best performance, **[upgrade to CAI PRO for alias1 →](../cai_pro.md)**
+## 🚀 С чего начать
+
+Бенчмарки знаний **свободно доступны** для всех пользователей CAI.
+
+**[Скачать CAI и начать тестирование →](../cai_installation.md)**
+
+Для достижения наилучших результатов **[перейдите на CAI PRO для использования alias1 →](../cai_pro.md)**

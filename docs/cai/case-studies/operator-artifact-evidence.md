@@ -1,45 +1,45 @@
-# Case study: Network evidence and compliance inventories (field operator feedback)
+# Кейс: Инвентаризация сетевых доказательств и соответствия (отзывы операторов)
 
-This case study summarizes feedback from field use of CAI on **WSL2 / Linux** for SCM assessments by a partner certification body: PCAP capture, “screenshots” of traffic, and CSV privacy-asset reviews. It is written for operators and support — not as marketing material.
+В данном кейсе обобщены отзывы о практическом использовании CAI на **WSL2 / Linux** для проведения оценок SCM органом по сертификации-партнером: захват PCAP, «скриншоты» трафика и проверка конфиденциальных активов в CSV. Документ предназначен для операторов и службы поддержки, а не для маркетинговых целей.
 
-## Scenario
+## Сценарий
 
-| Goal | What went wrong (v1.1.x) | Root cause |
+| Цель | Что пошло не так (v1.1.x) | Первопричина |
 |------|--------------------------|------------|
-| PCAP per service/port | `.txt` files under `packet_captures/` | `CAP_NET_RAW` failure → model substituted openssl/curl logs |
-| Screenshots of notable frames | `.txt` in `screenshots/`, later PNG from text | Shell agents have no Wireshark GUI; model improvised |
-| Assess all PAsset-XX in CSV | Partial lists over multiple turns | LLM batching + long context; no deterministic checklist |
+| PCAP по сервису/порту | `.txt` файлы в `packet_captures/` | Ошибка `CAP_NET_RAW` $\rightarrow$ модель заменила их логами openssl/curl |
+| Скриншоты значимых фреймов | `.txt` в `screenshots/`, позже PNG из текста | У shell-агентов нет GUI Wireshark; модель импровизировала |
+| Оценка всех PAsset-XX в CSV | Частичные списки в течение нескольких итераций | Батчинг LLM + длинный контекст; отсутствие детерминированного чек-листа |
 
-## What CAI 1.1.0 improves (artifact evidence update)
+## Что улучшено в CAI 1.1.0 (обновление доказательств артефактов)
 
-1. **Prompt + tool contract** — Only `.pcap`/`.pcapng` count as packet captures; screenshot wording reserved for real GUI capture or user-approved diagrams.
-2. **Capture failure banner** — Tool output includes remediation (`setcap`, Docker `NET_RAW`) and forbids text substitutes.
-3. **`verify_csv_inventory`** — Compliance agent can compare CSV IDs vs assessment text before closing.
-4. **Bounded capture prompts** — Documentation stresses `timeout` and `-c` so `tcpdump` does not run indefinitely.
+1. **Промпт + контракт инструмента** — только `.pcap`/`.pcapng` считаются захватами пакетов; формулировка «скриншот» зарезервирована для реального захвата GUI или утвержденных пользователем диаграмм.
+2. **Баннер об ошибке захвата** — вывод инструмента теперь включает способы устранения (`setcap`, Docker `NET_RAW`) и запрещает текстовые заменители.
+3. **`verify_csv_inventory`** — агент по комплаенсу может сравнить ID из CSV с текстом оценки перед завершением работы.
+4. **Ограниченные промпты захвата** — в документации сделан акцент на `timeout` и `-c`, чтобы `tcpdump` не работал бесконечно.
 
-## Operator playbook (recommended prompts)
+## Руководство оператора (рекомендуемые промпты)
 
-### Live PCAP (one host / port)
+### Живой PCAP (один хост / порт)
 
 ```text
 Capture HTTPS to <TARGET_IP>: use timeout 15 tcpdump -i <IFACE> -c 200 -s 0 -w assessments/<name>.pcap "host <TARGET_IP> and port 443", then ls -lh and file that pcap. Do not leave tcpdump running indefinitely. If capture fails, report CAP_NET_RAW remediation — do not create .txt substitutes.
 ```
 
-Generate traffic during the window: `curl -vk https://<TARGET_IP>/`
+Генерация трафика во время окна: `curl -vk https://<TARGET_IP>/`
 
-### Filtered PCAP instead of “screenshot”
+### Фильтрованный PCAP вместо «скриншота»
 
 ```text
 From assessments/<full>.pcap, write filtered PCAPs under assessments/filtered-pcaps/ for TLS Client Hello and HTTP GET only (tshark -r … -Y … -w …). Do not render text as PNG screenshots.
 ```
 
-### Full CSV inventory (PAsset-XX)
+### Полная инвентаризация CSV (PAsset-XX)
 
 ```text
 Assess every PAsset-XX in <file>.csv. Before finishing, run verify_csv_inventory with that file and your full assessment in response_text. Report covered/total; list any missing IDs and complete them.
 ```
 
-## One-time host setup (WSL2 / Linux)
+## Разовая настройка хоста (WSL2 / Linux)
 
 ```bash
 sudo setcap cap_net_raw+eip "$(command -v dumpcap)"
@@ -47,21 +47,21 @@ sudo setcap cap_net_raw+eip "$(command -v tcpdump)"
 getcap "$(command -v tcpdump)"
 ```
 
-Use CAI Docker with `NET_RAW` when host `setcap` is not allowed by policy.
+Используйте CAI Docker с `NET_RAW`, если политика безопасности запрещает `setcap` на хосте.
 
-## What CAI still cannot do
+## Что CAI всё еще не умеет
 
-See [Platform limitations](../troubleshooting/platform_limitations.md). Summary:
+См. [Platform limitations](../troubleshooting/platform_limitations.md). Резюме:
 
-- **Wireshark GUI screenshots** via shell agents.
-- **Guaranteed all-in-one-pass** review of very large CSVs without chunking + `verify_csv_inventory`.
-- **Grant CAP_NET_RAW** without operator or IT action on the host.
+- **Скриншоты GUI Wireshark** через shell-агентов.
+- **Гарантированный полный обзор** очень больших CSV за один проход без чанкинга и `verify_csv_inventory`.
+- **Предоставление CAP_NET_RAW** без действий оператора или ИТ-специалиста на хосте.
 
-## Verification
+## Верификация
 
-- Regression tests: `tests/tools/test_capture_notice.py`, `test_evidence_inventory_check.py`
-- Manual: [Operator feedback reproduction](../troubleshooting/operator_feedback_reproduction.md)
+- Регрессионные тесты: `tests/tools/test_capture_notice.py`, `test_evidence_inventory_check.py`
+- Ручная проверка: [Operator feedback reproduction](../troubleshooting/operator_feedback_reproduction.md)
 
-## References
+## Ссылки
 
-- Session logs: `nopcap-onlytxt.zip`, `txt-to-png.zip` (May 2026, WSL2, alias1 model, Network / Compliance agents).
+- Логи сессий: `nopcap-onlytxt.zip`, `txt-to-png.zip` (май 2026, WSL2, модель alias1, агенты Network / Compliance).

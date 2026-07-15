@@ -1,30 +1,30 @@
-# Financial Research Agent Example
+# Пример финансового исследовательского агента
 
-This example shows how you might compose a richer financial research agent using the Agents SDK. The pattern is similar to the `research_bot` example, but with more specialized sub‑agents and a verification step.
+Этот пример показывает, как можно создать более сложного финансового исследовательского агента с помощью Agents SDK. Паттерн похож на пример `research_bot`, но с более специализированными подагентами и шагом проверки.
 
-The flow is:
+Процесс:
 
-1. **Planning**: A planner agent turns the end user’s request into a list of search terms relevant to financial analysis – recent news, earnings calls, corporate filings, industry commentary, etc.
-2. **Search**: A search agent uses the built‑in `WebSearchTool` to retrieve terse summaries for each search term. (You could also add `FileSearchTool` if you have indexed PDFs or 10‑Ks.)
-3. **Sub‑analysts**: Additional agents (e.g. a fundamentals analyst and a risk analyst) are exposed as tools so the writer can call them inline and incorporate their outputs.
-4. **Writing**: A senior writer agent brings together the search snippets and any sub‑analyst summaries into a long‑form markdown report plus a short executive summary.
-5. **Verification**: A final verifier agent audits the report for obvious inconsistencies or missing sourcing.
+1. **Планирование**: Агент планировщик превращает запрос конечного пользователя в список поисковых терминов, относящихся к финансовому анализу — последние новости, звонки по результатам квартала, корпоративные документы, отраслевые комментарии и т.д.
+2. **Поиск**: Агент поиска использует встроенный `WebSearchTool` для получения кратких сводок по каждому поисковому термину. (Вы также можете добавить `FileSearchTool`, если у вас есть индексированные PDF или 10-K отчеты.)
+3. **Субаналитики**: Дополнительные агенты (например, аналитик фундаментальных показателей и аналитик рисков) предоставляются как инструменты, чтобы автор мог вызывать их напрямую и включать их выводы.
+4. **Написание**: Старший авторский агент объединяет поисковые фрагменты и сводки субаналитиков в длинный отчет в формате markdown с кратким резюме для руководства.
+5. **Проверка**: Финальный агент-верификатор проверяет отчет на наличие явных несоответствий или отсутствующих источников.
 
-You can run the example with:
+Вы можете запустить пример с помощью:
 
 ```bash
 python -m examples.financial_research_agent.main
 ```
 
-and enter a query like:
+и ввести запрос, например:
 
 ```
 Write up an analysis of Apple Inc.'s most recent quarter.
 ```
 
-### Starter prompt
+### Начальный промпт
 
-The writer agent is seeded with instructions similar to:
+Агенту автора передаются инструкции, подобные следующим:
 
 ```
 You are a senior financial analyst. You will be provided with the original query
@@ -35,4 +35,4 @@ summary. You also have access to tools like `fundamentals_analysis` and
 Add a few follow‑up questions for further research.
 ```
 
-You can tweak these prompts and sub‑agents to suit your own data sources and preferred report structure.
+Вы можете изменить эти промпты и подагентов в соответствии с вашими источниками данных и предпочтительной структурой отчета.

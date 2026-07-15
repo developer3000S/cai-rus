@@ -38,6 +38,7 @@ from typing import Any, Dict, Optional
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 from cai.util import get_config_dir
+from cai.auth_types import Role, Edition
 
 
 @dataclass
@@ -49,6 +50,7 @@ class UserRecord:
     password_hash: str
     salt: str
     created_at: str
+    role: str = "user"
 
 
 @dataclass
@@ -209,6 +211,7 @@ class AuthManager:
                     password_hash=str(entry["password_hash"]),
                     salt=str(entry["salt"]),
                     created_at=str(entry.get("created_at", "")),
+                    role=entry.get("role", "user"),
                 )
             except KeyError:
                 continue
@@ -270,6 +273,10 @@ class AuthManager:
         password = secrets.token_urlsafe(16)
         try:
             user = self.create_user(username, password)
+            # The first default user created is granted ADMIN role
+            user.role = Role.ADMIN.value
+            self._users_by_username[user.username] = user
+            self._save_to_disk_locked()
         except Exception:
             # If something goes wrong, silently continue with an empty DB.
             return
@@ -278,6 +285,7 @@ class AuthManager:
             "[CAI API][auth] Default login created for this installation:\n"
             f"  username: {user.username}\n"
             f"  password: {password}\n"
+            f"  role: {user.role}\n"
             "  (These credentials are stored in the local auth database and "
             "will remain valid across API restarts.)",
         )

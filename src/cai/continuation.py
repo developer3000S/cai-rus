@@ -1,7 +1,7 @@
 """
-Module for handling continuous agent execution with automatic continuation prompts.
+Модуль для обработки непрерывного выполнения агента с автоматическими подсказками продолжения.
 
-Uses CAIConfig singleton for model/key configuration instead of os.getenv() calls [S].
+Использует синглтон CAIConfig для конфигурации модели/ключа вместо вызовов os.getenv() [S].
 """
 
 import logging
@@ -21,38 +21,38 @@ async def generate_continuation_advice(
     console: Optional[Console] = None
 ) -> str:
     """
-    Generate intelligent continuation advice based on the current conversation context
-    using the model to analyze the situation and provide contextual advice.
+    Сгенерировать умную подсказку продолжения на основе текущего контекста беседы,
+    используя модель для анализа ситуации и предоставления контекстных рекомендаций.
     
-    Args:
-        agent_name: Name of the current agent
-        message_history: List of previous messages in the conversation
-        console: Optional Rich console for output
+    Аргументы:
+        agent_name: Имя текущего агента
+        message_history: Список предыдущих сообщений в беседе
+        console: Опциональная консоль Rich для вывода
     
-    Returns:
-        A continuation prompt string to keep the agent working
+    Возвращает:
+        Строка подсказки продолжения для поддержания работы агента
     """
-    # Get the model from CAIConfig singleton [S]
+    # Получить модель из синглтона CAIConfig [S]
     cfg = get_config()
     model_name = cfg.model
     
-    # Check if we should use a fallback model for local testing [S]
-    # This allows the continuation feature to work even without alias1 credentials
+    # Проверить, следует ли использовать модель-запасной вариант для локального тестирования [S]
+    # Это позволяет функции продолжения работать даже без учётных данных alias1
     fallback = cfg.continuation_fallback_model
     if model_name == "alias1" and fallback:
         model_name = fallback
     
-    # Find the original user request (first user message)
+    # Найти исходный запрос пользователя (первое сообщение пользователя)
     original_request = None
     for msg in message_history:
         if msg.get("role") == "user" and msg.get("content"):
             original_request = msg.get("content")
             break
     
-    # Get recent context for analysis (last 10 messages)
+    # Получить недавний контекст для анализа (последние 10 сообщений)
     recent_messages = message_history[-10:] if len(message_history) > 10 else message_history
     
-    # Analyze recent activity
+    # Анализ недавней активности
     last_assistant_message = None
     last_tool_output = None
     recent_tool_calls = []
@@ -70,80 +70,80 @@ async def generate_continuation_advice(
                 
         elif role == "tool" and last_tool_output is None:
             last_tool_output = msg.get("content", "")
-            # Check for errors in tool output
+            # Проверка ошибок в выводе инструмента
             if "error" in str(last_tool_output).lower():
                 errors_found.append(last_tool_output)
     
-    # Build a more detailed context for better continuation advice
-    # Include more message history for context
+    # Построить более подробный контекст для лучших подсказок продолжения
+    # Включить больше истории сообщений для контекста
     conversation_summary = []
     for msg in recent_messages:
         role = msg.get("role", "")
         content = msg.get("content", "")
         if role == "user" and content:
-            conversation_summary.append(f"User: {content[:100]}..." if len(content) > 100 else f"User: {content}")
+            conversation_summary.append(f"Пользователь: {content[:100]}..." if len(content) > 100 else f"Пользователь: {content}")
         elif role == "assistant" and content:
-            conversation_summary.append(f"Agent: {content[:100]}..." if len(content) > 100 else f"Agent: {content}")
+            conversation_summary.append(f"Агент: {content[:100]}..." if len(content) > 100 else f"Агент: {content}")
         elif role == "tool":
-            conversation_summary.append(f"Tool Output: {content[:50]}..." if len(content) > 50 else f"Tool Output: {content}")
+            conversation_summary.append(f"Вывод инструмента: {content[:50]}..." if len(content) > 50 else f"Вывод инструмента: {content}")
     
-    context_summary = f"""You are an AI assistant helping a cybersecurity agent continue its work. Based on the conversation history, generate a specific continuation prompt.
+    context_summary = f"""Вы — ИИ-ассистент, помогающий агенту по кибербезопасности продолжить свою работу. На основе истории беседы сгенерируйте конкретную подсказку продолжения.
 
-ORIGINAL TASK: {original_request or "Not specified"}
+ИСХОДНАЯ ЗАДАЧА: {original_request or "Не указана"}
 
-CONVERSATION FLOW:
+ХОД БЕСЕДЫ:
 {chr(10).join(conversation_summary[-5:])}
 
-CURRENT STATUS:
-- Last action: {last_assistant_message[:150] + "..." if last_assistant_message and len(last_assistant_message) > 150 else last_assistant_message or "No recent action"}
-- Tools used: {', '.join(recent_tool_calls) if recent_tool_calls else "None"}
-- Errors: {'Yes - ' + str(errors_found[0])[:50] if errors_found else 'No'}
+ТЕКУЩИЙ СТАТУС:
+- Последнее действие: {last_assistant_message[:150] + "..." if last_assistant_message and len(last_assistant_message) > 150 else last_assistant_message or "Нет недавних действий"}
+- Использованные инструменты: {', '.join(recent_tool_calls) if recent_tool_calls else "Нет"}
+- Ошибки: {'Да - ' + str(errors_found[0])[:50] if errors_found else 'Нет'}
 
-Generate a specific, actionable continuation prompt that:
-1. Directly addresses what should happen next
-2. Is relevant to the current context
-3. Helps achieve the original task
-4. Is concise (one sentence)
+Сгенерируйте конкретную, применимую подсказку продолжения, которая:
+1. Напрямую указывает, что должно произойти далее
+2. Релевантна текущему контексту
+3. Помогает достичь исходной задачи
+4. Лаконична (одно предложение)
 
-IMPORTANT: Respond with ONLY the continuation prompt. No explanations, no "Here's a prompt:", just the direct instruction."""
+ВАЖНО: Отвечайте ТОЛЬКО подсказкой продолжения. Без объяснений, без «Вот подсказка:», только прямая инструкция."""
 
     try:
-        # Use litellm directly, which is how the rest of the codebase handles API calls
+        # Использовать litellm напрямую, как это делает остальная кодовая база для вызовов API
         import litellm
         
-        # Enable debug logging for litellm if in debug mode
+        # Включить отладочное логирование для litellm если в режиме отладки
         if logger.isEnabledFor(logging.DEBUG):
-            logger.debug(f"Generating continuation advice with model: {model_name}")
-            logger.debug(f"Context length: {len(context_summary)} chars")
+            logger.debug(f"Генерация подсказки продолжения с моделью: {model_name}")
+            logger.debug(f"Длина контекста: {len(context_summary)} символов")
         
-        # Prepare kwargs for litellm based on model type
+        # Подготовить kwargs для litellm в зависимости от типа модели
         kwargs = {
             "model": model_name,
             "messages": [{"role": "user", "content": context_summary}],
-            "temperature": 0.3,  # Override default (0.7) - lower temperature for focused continuation
-            "max_tokens": 150,  # Slightly more tokens for complete thoughts
+            "temperature": 0.3,  # Переопределение по умолчанию (0.7) — более низкая температура для сфокусированного продолжения
+            "max_tokens": 150,  # Чуть больше токенов для полных мыслей
             "stream": False
         }
         
-        # Configure for alias2-mini (compact Alias model; same API gateway as other alias models)
+        # Настройка для alias2-mini (компактная модель Alias; тот же API-шлюз что и у других моделей alias)
         if model_name.lower() == "alias2-mini":
             kwargs["api_base"] = "https://api.aliasrobotics.com:666/"
             kwargs["custom_llm_provider"] = "openai"
             kwargs["api_key"] = (cfg.alias_api_key or "sk-alias-1234567890").strip()
-        # Configure for alias models (following the pattern in openai_chatcompletions.py) [S]
+        # Настройка для моделей alias (следуя паттерну в openai_chatcompletions.py) [S]
         elif "alias" in model_name.lower() and "alias0.5" not in model_name.lower():
             kwargs["api_base"] = "https://api.aliasrobotics.com:666/"
             kwargs["custom_llm_provider"] = "openai"
             kwargs["api_key"] = (cfg.alias_api_key or "sk-alias-1234567890").strip()
         
-        # Make the API call
-        logger.debug(f"Making API call with kwargs: {kwargs.get('model')}, provider: {kwargs.get('custom_llm_provider', 'default')}")
+        # Вызов API
+        logger.debug(f"Вызов API с kwargs: {kwargs.get('model')}, провайдер: {kwargs.get('custom_llm_provider', 'по умолчанию')}")
         response = await litellm.acompletion(**kwargs)
         
-        # Extract content safely
+        # Безопасное извлечение содержимого
         continuation_prompt = None
         if response:
-            logger.debug(f"Got response: {response}")
+            logger.debug(f"Получен ответ: {response}")
             if hasattr(response, 'choices') and response.choices:
                 if hasattr(response.choices[0], 'message') and response.choices[0].message:
                     content = response.choices[0].message.content
@@ -153,10 +153,13 @@ IMPORTANT: Respond with ONLY the continuation prompt. No explanations, no "Here'
                     elif reasoning_content:
                         content = reasoning_content
                     continuation_prompt = content.strip() if content else None
-                    logger.debug(f"Extracted prompt: {continuation_prompt}")
+                    logger.debug(f"Извлечённая подсказка: {continuation_prompt}")
         
-        # Check for generic responses that should trigger better fallbacks
+        # Проверка на_genericные ответы, для которых стоит использовать лучший запасной вариант
         generic_responses = [
+            "продолжить работу над задачей",
+            "перейти к следующему шагу",
+            "продолжать",
             "continue working on the task",
             "proceed with the next step",
             "keep going",
@@ -168,84 +171,84 @@ IMPORTANT: Respond with ONLY the continuation prompt. No explanations, no "Here'
             for generic in generic_responses
         ) and len(continuation_prompt) < 50
         
-        # Fallback if the response is empty, too short, or too generic
+        # Запасной вариант если ответ пустой, слишком короткий или слишком genericный
         if not continuation_prompt or len(continuation_prompt) < 10 or is_generic:
-            logger.debug(f"Response too generic or short, using contextual fallback")
+            logger.debug(f"Ответ слишком genericный или короткий, используется контекстный запасной вариант")
             raise ValueError("Generic response - using fallback")
         
     except Exception as e:
-        # Log the error but don't expose authentication details to the user
+        # Логировать ошибку, но не раскрывать пользователю данные аутентификации
         if "AuthenticationError" in str(type(e)):
-            logger.debug(f"Model authentication error: {str(e)}")
+            logger.debug(f"Ошибка аутентификации модели: {str(e)}")
         else:
-            logger.error(f"Error generating continuation advice: {str(e)}")
+            logger.error(f"Ошибка генерации подсказки продолжения: {str(e)}")
         
-        # Provide much more specific fallback based on detailed context analysis
-        logger.debug(f"Using fallback logic. Errors: {bool(errors_found)}, Tools: {recent_tool_calls}, Last msg: {last_assistant_message[:50] if last_assistant_message else 'None'}")
+        # Предоставить более конкретный запасной вариант на основе подробного анализа контекста
+        logger.debug(f"Использование запасной логики. Ошибки: {bool(errors_found)}, Инструменты: {recent_tool_calls}, Посл. сообщение: {last_assistant_message[:50] if last_assistant_message else 'Нет'}")
         
         if errors_found:
             error_text = str(errors_found[0]).lower()
             if "not found" in error_text or "does not exist" in error_text:
-                continuation_prompt = "Search for the correct file path or create the missing resource."
+                continuation_prompt = "Поищите правильный путь к файлу или создайте отсутствующий ресурс."
             elif "permission" in error_text or "denied" in error_text:
-                continuation_prompt = "Check permissions and try accessing the resource with appropriate credentials."
+                continuation_prompt = "Проверьте права доступа и попробуйте обратиться к ресурсу с соответствующими учётными данными."
             elif "syntax" in error_text or "parse" in error_text:
-                continuation_prompt = "Fix the syntax error and retry the operation."
+                continuation_prompt = "Исправьте синтаксическую ошибку и повторите операцию."
             else:
-                continuation_prompt = "Analyze the specific error message and implement a solution."
+                continuation_prompt = "Проанализируйте конкретное сообщение об ошибке и реализуйте решение."
                 
         elif recent_tool_calls:
-            # Much more specific based on tool combinations and context
+            # Гораздо более конкретные на основе комбинаций инструментов и контекста
             tool_str = ' '.join(recent_tool_calls).lower()
             
             if "grep" in tool_str or "search" in tool_str:
                 if last_tool_output and "found" in str(last_tool_output).lower():
-                    continuation_prompt = "Examine the search results in detail and investigate the most relevant findings."
+                    continuation_prompt = "Подробно изучите результаты поиска и исследуйте наиболее релевантные находки."
                 else:
-                    continuation_prompt = "Broaden the search parameters or try different search terms."
+                    continuation_prompt = "Расширьте параметры поиска или попробуйте другие поисковые запросы."
                     
             elif "read" in tool_str or "file" in tool_str:
                 if last_assistant_message and "security" in original_request.lower():
-                    continuation_prompt = "Analyze the code for security vulnerabilities like injection flaws or authentication issues."
+                    continuation_prompt = "Проанализируйте код на уязвимости безопасности, такие как проблемы инъекций или аутентификации."
                 else:
-                    continuation_prompt = "Process the file contents and extract the relevant information."
+                    continuation_prompt = "Обработайте содержимое файла и извлеките соответствующую информацию."
                     
             elif "write" in tool_str or "edit" in tool_str:
-                continuation_prompt = "Verify the changes were applied correctly and test the modified code."
+                continuation_prompt = "Проверьте корректность внесённых изменений и протестируйте изменённый код."
                 
             elif "bash" in tool_str or "shell" in tool_str:
-                continuation_prompt = "Check the command output and proceed based on the results."
+                continuation_prompt = "Проверьте вывод команды и действуйте на основе результатов."
                 
             else:
-                continuation_prompt = "Build on the tool results to progress toward the goal."
+                continuation_prompt = "Используйте результаты инструментов для продвижения к цели."
                 
         elif last_assistant_message:
-            # Analyze the last message for better context
+            # Анализ последнего сообщения для лучшего контекста
             last_msg_lower = last_assistant_message.lower()
             
             if "joke" in original_request.lower() or "joke" in last_msg_lower:
-                continuation_prompt = "Tell another cybersecurity joke or pun."
+                continuation_prompt = "Расскажите ещё одну шутку или каламбур о кибербезопасности."
             elif "found" in last_msg_lower or "discovered" in last_msg_lower:
-                continuation_prompt = "Investigate these findings in greater detail."
+                continuation_prompt = "Исследуйте эти находки более подробно."
             elif "analyzing" in last_msg_lower or "checking" in last_msg_lower:
-                continuation_prompt = "Complete the analysis and summarize the results."
+                continuation_prompt = "Завершите анализ и подведите итоги."
             elif "error" in last_msg_lower or "issue" in last_msg_lower:
-                continuation_prompt = "Resolve the identified issue and continue."
+                continuation_prompt = "Устраните выявленную проблему и продолжайте."
             else:
-                # Task-specific fallbacks based on original request
+                # Запасной вариант на основе исходного запроса
                 if "security" in original_request.lower() or "vulnerabilit" in original_request.lower():
-                    continuation_prompt = "Continue the security assessment by checking for additional vulnerabilities."
+                    continuation_prompt = "Продолжите оценку безопасности, проверив наличие дополнительных уязвимостей."
                 elif "analyze" in original_request.lower() or "review" in original_request.lower():
-                    continuation_prompt = "Deepen the analysis by examining more files or aspects."
+                    continuation_prompt = "Углубите анализ, изучив больше файлов или аспектов."
                 elif "test" in original_request.lower():
-                    continuation_prompt = "Run additional tests to ensure comprehensive coverage."
+                    continuation_prompt = "Запустите дополнительные тесты для обеспечения полного покрытия."
                 else:
-                    continuation_prompt = "Take the next logical step toward completing the original task."
+                    continuation_prompt = "Сделайте следующий логический шаг для выполнения исходной задачи."
         else:
-            continuation_prompt = "Begin working on the task by taking the first concrete action."
+            continuation_prompt = "Начните работу над задачей, выполнив первое конкретное действие."
     
     if console:
-        console.print(f"\n[cyan]🤖 Auto-continuing with:[/cyan] {continuation_prompt}")
+        console.print(f"\n[cyan]🤖 Автопродолжение с:[/cyan] {continuation_prompt}")
     
     return continuation_prompt
 
@@ -255,14 +258,14 @@ def should_continue_automatically(
     force_continue: bool = False
 ) -> bool:
     """
-    Determine if the agent should automatically continue based on conversation state.
+    Определить, должен ли агент автоматически продолжать на основе состояния беседы.
     
-    Args:
-        message_history: List of previous messages
-        force_continue: Force continuation regardless of state
+    Аргументы:
+        message_history: Список предыдущих сообщений
+        force_continue: Принудительное продолжение независимо от состояния
         
-    Returns:
-        Boolean indicating whether to continue automatically
+    Возвращает:
+        Логическое значение, указывающее, следует ли продолжать автоматически
     """
     if force_continue:
         return True
@@ -270,16 +273,16 @@ def should_continue_automatically(
     if not message_history:
         return False
     
-    # Get the last few messages
+    # Получить последние несколько сообщений
     recent_messages = message_history[-5:]
     
-    # Check if agent is actively working (recent tool usage)
+    # Проверить, активно ли работает агент (недавнее использование инструментов)
     has_recent_tools = any(
         msg.get("role") == "assistant" and msg.get("tool_calls")
         for msg in recent_messages
     )
     
-    # Check if agent explicitly said it's done or completed
+    # Проверить, заявил ли агент явно о завершении
     last_assistant_msg = None
     for msg in reversed(recent_messages):
         if msg.get("role") == "assistant" and msg.get("content"):
@@ -290,11 +293,12 @@ def should_continue_automatically(
         completion_indicators = [
             "completed", "finished", "done", "accomplished",
             "achieved", "succeeded", "concluded", "no further",
-            "that's all", "nothing more"
+            "that's all", "nothing more",
+            "завершено", "выполнено", "готово", "сделано",
         ]
         
         if any(indicator in last_assistant_msg for indicator in completion_indicators):
             return False
     
-    # Continue if agent is actively using tools or investigating
+    # Продолжать если агент активно использует инструменты или проводит расследование
     return has_recent_tools

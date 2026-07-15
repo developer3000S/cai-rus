@@ -1,26 +1,26 @@
-# MCP Git Example
+# Пример MCP Git
 
-This example uses the [git MCP server](https://github.com/modelcontextprotocol/servers/tree/main/src/git), running locally via `uvx`.
+Этот пример использует [MCP сервер git](https://github.com/modelcontextprotocol/servers/tree/main/src/git), запущенный локально через `uvx`.
 
-Run it via:
+Запуск:
 
 ```
 uv run python examples/mcp/git_example/main.py
 ```
 
-## Details
+## Детали
 
-The example uses `MCPServerStdio` from `agents.mcp` (see `main.py`; parallel types live under `cai.sdk.agents.mcp` in the framework), with the command:
+Пример использует `MCPServerStdio` из `agents.mcp` (см. `main.py`; параллельные типы находятся в `cai.sdk.agents.mcp` в рамках фреймворка) с командой:
 
 ```bash
 uvx mcp-server-git
 ```
 
-Prior to running the agent, the user is prompted to provide a local directory path to their git repo. Using that, the Agent can invoke Git MCP tools like `git_log` to inspect the git commit log.
+Перед запуском агента пользователя просят указать локальный путь к директории git репозитория. Используя его, Агент может вызывать Git MCP инструменты, такие как `git_log`, для проверки журнала коммитов git.
 
-Under the hood:
+Внутри:
 
-1. The server is spun up in a subprocess, and exposes a bunch of tools like `git_log()`
-2. We add the server instance to the Agent via `mcp_servers=[...]`.
-3. Each time the agent runs, we call out to the MCP server to fetch the list of tools via `server.list_tools()`. The result can be cached when configured.
-4. If the LLM chooses to use an MCP tool, the runtime calls the server via `server.call_tool()`.
+1. Сервер запускается в дочернем процессе и предоставляет набор инструментов, таких как `git_log()`.
+2. Мы добавляем экземпляр сервера в Агент через `mcp_servers=[...]`.
+3. Каждый раз при запуске агента мы обращаемся к MCP серверу для получения списка инструментов через `server.list_tools()`. Результат можно кэшировать при настройке.
+4. Если LLM выбирает использование MCP инструмента, среда выполнения вызывает сервер через `server.call_tool()`.

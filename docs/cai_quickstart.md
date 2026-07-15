@@ -1,10 +1,10 @@
-# Quickstart
+# Быстрый старт
 
-!!! tip "🚀 Upgrade to CAI PRO"
-    Get access to unrestricted `alias1` model, Terminal UI with parallel agents, and professional support. Perfect for security professionals and teams.
-    **[Explore CAI PRO features →](cai_pro.md)**
+!!! tip "🚀 Обновитесь до CAI PRO"
+    Получите доступ к неограниченной модели `alias1`, Terminal UI с параллельными агентами и профессиональной поддержкой. Идеально для специалистов по безопасности и команд.
+    **[Изучить возможности CAI PRO →](cai_pro.md)**
 
-To start CAI after installing it, just type `cai` in the CLI:
+Для запуска CAI после установки просто введите `cai` в CLI:
 
 ```bash
 └─# cai
@@ -32,92 +32,91 @@ To start CAI after installing it, just type `cai` in the CLI:
 CAI>
 ```
 
-That should initialize CAI and provide a prompt to execute any security task you want to perform. The navigation bar at the bottom displays important system information. This information helps you understand your environment while working with CAI.
+Это должно инициализировать CAI и предоставить подсказку для выполнения любой задачи безопасности, которую вы хотите выполнить. Навигационная панель внизу отображает важную информацию о системе. Эта информация помогает понять ваше окружение при работе с CAI.
 
-Here's a quick [demo video](https://asciinema.org/a/zm7wS5DA2o0S9pu1Tb44pnlvy) to help you get started with CAI. We'll walk through the basic steps — from launching the tool to running your first AI-powered task in the terminal. Whether you're a beginner or just curious, this guide will show you how easy it is to begin using CAI.
+Вот короткое [демо-видео](https://asciinema.org/a/zm7wS5DA2o0S9pu1Tb44pnlvy), которое поможет вам начать работу с CAI. Мы пройдём основные шаги — от запуска инструмента до выполнения первой задачи с ИИ в терминале. Независимо от того, новичок вы или просто любопытны, это руководство покажет, как легко начать использовать CAI.
 
-### Autonomous Mode with --continue
+### Автономный режим с --continue
 
-CAI can run autonomously using the `--continue` flag, which makes agents automatically continue their work without waiting for user input:
+CAI может работать автономно с помощью флага `--continue`, который заставляет агентов автоматически продолжать свою работу без ожидания ввода пользователя:
 
 ```bash
-# Have CAI tell security jokes continuously
+# Попросить CAI рассказывать шутки о безопасности
 cai --continue --prompt "tell me a joke about security"
 
-# Run autonomous security audit
+# Запустить автономный аудит безопасности
 cai --continue --prompt "perform security audit of authentication system"
 
-# Hunt for vulnerabilities automatically
+# Автоматически искать уязвимости
 cai --continue --prompt "find SQL injection vulnerabilities"
 ```
 
-With `--continue`, CAI will:
+С `--continue` CAI будет:
 
-- Analyze the conversation context after each turn
-- Generate intelligent continuation prompts
-- Keep working until the task is complete or interrupted
+- Анализировать контекст диалога после каждого хода
+- Генерировать умные промпты продолжения
+- Продолжать работу до завершения задачи или прерывания
 
-See the [Continue Mode Guide](continue_mode.md) for detailed information.
+Подробнее см. в [Руководстве по режиму продолжения](continue_mode.md).
 
-From here on, type on `CAI` and start your security exercise. Best way to learn is by example:
+Далее вводите команды в `CAI` и начните упражнение по безопасности. Лучший способ учиться — на примерах:
 
-### Environment Variables
+### Переменные окружения
 
-??? "List of Environment Variables"
+??? "Список переменных окружения"
 
 ```
-| Variable | Description |
+| Переменная | Описание |
 |----------|-------------|
-| CTF_NAME | Name of the CTF challenge to run (e.g. "picoctf_static_flag") |
-| CTF_CHALLENGE | Specific sub challenge name within the CTF to test (e.g. CTF_NAME="kiddoctf" contains 4 subchallenges. For running one of them: "01 linux i") |
-| CTF_SUBNET | Network subnet for the CTF container |
-| CTF_IP | IP address for the CTF container |
-| CTF_INSIDE | Whether to conquer the CTF from within container |
-| CAI_MODEL | Model to use for agents |
-| ⚠️ CAI_DEBUG | Set debug output level (0: Only tool outputs, 1: Verbose debug output, 2: CLI debug output) |
-| ⚠️ CAI_BRIEF | Enable/disable brief output mode |
-| CAI_MAX_TURNS | Maximum number of turns for agent interactions |
-| ⚠️ CAI_TRACING | Enable/disable OpenTelemetry tracing |
-| CAI_AGENT_TYPE | Specify the agents to use (e.g. "boot2root") |
-| CAI_PRICE_LIMIT | Price limit for the conversation in dollars |
-| CAI_WORKSPACE | Defines the name of the workspace |
-| CAI_GUARDRAILS | Enable/disable guardrails for prompt injection protection (default: true) |
+| CTF_NAME | Название задачи CTF для запуска (например, "picoctf_static_flag") |
+| CTF_CHALLENGE | Конкретное название подзадачи в CTF для тестирования (например, CTF_NAME="kiddoctf" содержит 4 подзадачи. Для запуска одной из них: "01 linux i") |
+| CTF_SUBNET | Сетевая подсеть для контейнера CTF |
+| CTF_IP | IP-адрес для контейнера CTF |
+| CTF_INSIDE | Завоёвывать ли CTF изнутри контейнера |
+| CAI_MODEL | Модель для использования агентами |
+| ⚠️ CAI_DEBUG | Уровень вывода отладки (0: Только вывод инструментов, 1: Подробный вывод отладки, 2: Вывод отладки CLI) |
+| ⚠️ CAI_BRIEF | Включить/отключить режим краткого вывода |
+| CAI_MAX_TURNS | Максимальное количество ходов для взаимодействий агентов |
+| ⚠️ CAI_TRACING | Включить/отключить трассировку OpenTelemetry |
+| CAI_AGENT_TYPE | Указать используемых агентов (например, "boot2root") |
+| CAI_PRICE_LIMIT | Лимит стоимости диалога в долларах |
+| CAI_WORKSPACE | Определяет название рабочего пространства |
+| CAI_GUARDRAILS | Включить/отключить ограничители для защиты от инъекций промптов (по умолчанию: true) |
 ```
 
-## Setting Environment Variables
+## Настройка переменных окружения
 
-There are several ways to configure environment variables for CAI:
+Существует несколько способов настройки переменных окружения для CAI:
 
 ---
 
-#### 1. Using the `.env` file
+#### 1. Использование файла `.env`
 
 ```
-# Add any env variable to your .env file
+# Добавьте любую переменную окружения в ваш файл .env
 CAI_PRICE_LIMIT="0.004"
 CAI_MODEL="qwen2.5:72b"
 ```
 
-#### 2. Command-line parameters
+#### 2. Параметры командной строки
 
-Pass variables directly when launching CAI
+Передайте переменные напрямую при запуске CAI
 
 ```
 CAI_PRICE_LIMIT="0.004" CAI_MODEL="qwen2.5:72b" cai
 ```
 
-#### 3. Runtime configuration
+#### 3. Конфигурация во время выполнения
 
-After running CAI, use `/env list` for the numbered catalog (current values and indices), or bare `/env` for `CAI_*` / `CTF_*` in the session.
+После запуска CAI используйте `/env list` для нумерованного каталога (текущие значения и индексы) или просто `/env` для `CAI_*` / `CTF_*` в текущей сессии.
 
 ```
-  /env set <number> <value>   # configure a catalog variable; see `env.py` or type `/help`
+  /env set <номер> <значение>   # настройте переменную каталога; см. `env.py` или введите `/help`
 
 ```
 
 ```
   cai
-  /env list   # numbered table: pick the # column for /env set
-  /env set <number> 0.004   # example: set CAI_PRICE_LIMIT after matching its row number
+  /env list   # нумерованная таблица: выберите столбец # для /env set
+  /env set <номер> 0.004   # пример: установите CAI_PRICE_LIMIT после соответствия его номера строки
 ```
-

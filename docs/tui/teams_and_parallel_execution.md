@@ -1,211 +1,209 @@
-# Teams and Parallel Execution
+# Команды и параллельное выполнение
 
-> **⚡ CAI-Pro Exclusive Feature**  
-> The Terminal User Interface (TUI) is available exclusively in **CAI-Pro**. To access this feature and unlock advanced multi-agent workflows, visit [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) for more information.
-
----
-
-Teams in CAI enable efficient parallel execution across multiple terminals, allowing you to coordinate specialized agents for complex security workflows.
+> **⚡ Эксклюзивная функция CAI-Pro**  
+> Терминальный пользовательский интерфейс (TUI) доступен исключительно в **CAI-Pro**. Для получения доступа к этой функции и расблокировки продвинутых рабочих процессов с несколькими агентами посетите [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) для получения дополнительной информации.
 
 ---
 
-## Quick Start with Teams
-
-1. **Navigate to Teams tab** in the sidebar
-2. **Click any team button** to configure all four terminals instantly
-3. **Send prompts** to individual terminals or broadcast to all
-4. **Switch teams** anytime to change your workflow strategy
+Команды в CAI обеспечивают эффективное параллельное выполнение на нескольких терминалах, позволяя координировать специализированных агентов для сложных рабочих процессов безопасности.
 
 ---
 
-## Parallel Execution Patterns
+## Быстрый старт с командами
 
-### Pattern 1: Divide and Conquer
+1. **Перейдите на вкладку Команды** в боковой панели
+2. **Нажмите любую кнопку команды** для мгновенной настройки всех четырех терминалов
+3. **Отправляйте промпты** отдельным терминалам или транслируйте на все
+4. **Переключайте команды** в любое время для изменения стратегии рабочего процесса
 
-Distribute different aspects of a target across terminals:
+---
 
-```
-Terminal 1 (redteam): Web application testing
-Terminal 2 (redteam): API endpoint enumeration
-Terminal 3 (bug_bounter): Authentication bypass attempts
-Terminal 4 (bug_bounter): Input validation testing
-```
+## Шаблоны параллельного выполнения
 
-**Example with Team 1** (2 Red + 2 Bug):
+### Шаблон 1: Разделяй и властвуй
 
-```
-T1: Scan example.com for OWASP Top 10 vulnerabilities
-T2: Enumerate subdomains and check for takeover
-T3: Test for SQL injection in login forms
-T4: Analyze JWT token security
-```
-
-### Pattern 2: Phased Workflow
-
-Execute sequential phases across terminals:
+Распределите различные аспекты цели по терминалам:
 
 ```
-Phase 1: Reconnaissance (all terminals)
-Phase 2: Vulnerability discovery (terminals 1-2)
-Phase 3: Exploitation (terminals 3-4)
-Phase 4: Validation (switch to retester agents)
+Терминал 1 (redteam): Тестирование веб-приложений
+Терминал 2 (redteam): Перечисление API эндпоинтов
+Терминал 3 (bug_bounter): Попытки обхода аутентификации
+Терминал 4 (bug_bounter): Тестирование валидации ввода
 ```
 
-**Example with Team 5** (Red + Blue + Retester + Bug):
+**Пример с Командой 1** (2 Red + 2 Bug):
 
 ```
-T1: Initial reconnaissance and enumeration
-T2: Defensive posture analysis
-T3: Retest previously found vulnerabilities
-T4: Hunt for new bug bounty targets
+T1: Просканируй example.com на уязвимости OWASP Top 10
+T2: Перечисли поддомены и проверь захват
+T3: Протестируй SQL-инъекции в формах входа
+T4: Проанализируй безопасность JWT токенов
 ```
 
-### Pattern 3: Simultaneous Validation
+### Шаблон 2: Поэтапный рабочий процесс
 
-Test and validate in parallel:
-
-```
-Terminal 1-2: Discover vulnerabilities
-Terminal 3-4: Immediately validate findings
-```
-
-**Example with Team 6** (2 Red + 2 Retester):
+Выполнение последовательных этапов на разных терминалах:
 
 ```
-T1: Find SQL injection points
-T2: Identify XSS vectors
-T3: Validate SQLi exploitability
-T4: Confirm XSS impact
+Этап 1: Разведка (все терминалы)
+Этап 2: Обнаружение уязвимостей (терминалы 1-2)
+Этап 3: Эксплуатация (терминалы 3-4)
+Этап 4: Валидация (переключение на агентов повторного тестирования)
+```
+
+**Пример с Командой 5** (Red + Blue + Retester + Bug):
+
+```
+T1: Первоначальная разведка и перечисление
+T2: Анализ защитной позиции
+T3: Повторное тестирование ранее найденных уязвимостей
+T4: Поиск новых целей для bug bounty
+```
+
+### Шаблон 3: Одновременная валидация
+
+Тестирование и валидация параллельно:
+
+```
+Терминалы 1-2: Обнаружение уязвимостей
+Терминалы 3-4: Немедленная валидация находок
+```
+
+**Пример с Командой 6** (2 Red + 2 Retester):
+
+```
+T1: Поиск точек SQL-инъекций
+T2: Определение векторов XSS
+T3: Валидация эксплуатируемости SQLi
+T4: Подтверждение влияния XSS
 ```
 
 ---
 
-## Broadcasting Commands
+## Трансляция команд
 
-Send the same command to all terminals simultaneously:
+Отправка одной команды на все терминалы одновременно:
 
-**Method 1: Add "all" flag**
-1. Type your command in the input area
-2. Add `all` at the end of your prompt
-3. Command executes on all four terminals in parallel
+**Способ 1: Добавьте флаг "all"**
+1. Введите команду в области ввода
+2. Добавьте `all` в конце промпта
+3. Команда выполняется на всех четырех терминалах параллельно
 
-**Example use cases**:
-- Broadcast reconnaissance: `Enumerate subdomains of example.com all`
-- Parallel vulnerability scan: `Scan target.com for SQL injection all`
-- Coordinated testing: `Test authentication mechanisms all`
-
----
-
-## Team Selection Strategies
-
-### For Penetration Testing
-- **Team 1** (2 Red + 2 Bug): Comprehensive offensive testing
-- **Team 8** (4 Red): Maximum offensive coverage
-
-### For Bug Bounty Hunting
-- **Team 10** (4 Bug): Intensive vulnerability research
-- **Team 1** (2 Red + 2 Bug): Red team + bug bounty combination
-
-### For Defense Analysis
-- **Team 9** (4 Blue): Complete defensive posture review
-- **Team 3** (2 Red + 2 Blue): Offense/defense balance
-
-### For Validation Workflows
-- **Team 6** (2 Red + 2 Retester): Offensive + validation
-- **Team 11** (4 Retester): Comprehensive retest coverage
-
-### For Comprehensive Assessments
-- **Team 5** (Red + Blue + Retester + Bug): All-in-one workflow
+**Примеры использования**:
+- Трансляция разведки: `Перечисли поддомены example.com all`
+- Параллельное сканирование уязвимостей: `Просканируй target.com на SQL-инъекции all`
+- Координированное тестирование: `Протестируй механизмы аутентификации all`
 
 ---
 
-## Coordination Tips
+## Стратегии выбора команд
 
-### Context Sharing
+### Для пентестинга
+- **Команда 1** (2 Red + 2 Bug): Комплексное наступательное тестирование
+- **Команда 8** (4 Red): Максимальное наступательное покрытие
 
-Share findings between terminals:
+### Для охоты за наградами за ошибки
+- **Команда 10** (4 Bug): Интенсивное исследование уязвимостей
+- **Команда 1** (2 Red + 2 Bug): Комбинация красной команды и bug bounty
+
+### Для анализа защиты
+- **Команда 9** (4 Blue): Полный обзор защитной позиции
+- **Команда 3** (2 Red + 2 Blue): Баланс наступления/защиты
+
+### Для рабочих процессов валидации
+- **Команда 6** (2 Red + 2 Retester): Наступление + валидация
+- **Команда 11** (4 Retester): Комплексное покрытие повторного тестирования
+
+### Для комплексных оценок
+- **Команда 5** (Red + Blue + Retester + Bug): Рабочий процесс "все-в-одном"
+
+---
+
+## Советы по координации
+
+### Обмен контекстом
+
+Поделитесь находками между терминалами:
 
 ```
-T1: discovered SQL injection in /api/users
-T2: /load T1 context and exploit the SQL injection
+T1: обнаружена SQL-инъекция в /api/users
+T2: загрузи контекст T1 и эксплуатируй SQL-инъекцию
 ```
 
-### Progressive Refinement
+### Постепенное уточнение
 
-Build on previous results:
+Наращивайте результаты предыдущих шагов:
 
 ```
-T1: enumerate subdomains
-T2: scan the subdomains found by T1
-T3: test authentication on discovered services
-T4: validate exploitability of findings
+T1: перечисли поддомены
+T2: просканируй поддомены, найденные T1
+T3: протестируй аутентификацию на обнаруженных сервисах
+T4: валидируй эксплуатируемость находок
 ```
 
-### Role Specialization
+### Специализация ролей
 
-Assign specific roles to terminals:
-- **Scout**: Terminal 1 does reconnaissance
-- **Attacker**: Terminals 2-3 exploit findings
-- **Validator**: Terminal 4 confirms results
-
----
-
-## Performance Optimization
-
-### Terminal Distribution
-- **Don't overload one terminal**: Distribute prompts evenly
-- **Monitor the queue**: Check Queue tab for bottlenecks
-- **Use available terminals**: Switch to idle terminals instead of queuing
-
-### Model Selection
-- **Fast models for reconnaissance**: Use `alias0-fast` or `alias1` for enumeration
-- **Powerful models for exploitation**: Use `alias1` for complex tasks
-- **Mix models strategically**: Different models for different terminal roles
-
-### Cost Management
-- **Track stats**: Monitor usage in Stats tab
-- **Optimize prompts**: Be concise to reduce token consumption
-- **Use efficient teams**: Don't use 4 terminals if 2 suffice
+Назначьте конкретные роли терминалам:
+- **Разведчик**: Терминал 1 выполняет разведку
+- **Атакующий**: Терминалы 2-3 эксплуатируют находки
+- **Валидатор**: Терминал 4 подтверждает результаты
 
 ---
 
-## Advanced Patterns
+## Оптимизация производительности
 
-### Split Context Analysis
+### Распределение терминалов
+- **Не перегружайте один терминал**: Распределяйте промпты равномерно
+- **Мониторьте очередь**: Проверяйте вкладку Очередь на наличие узких мест
+- **Используйте доступные терминалы**: Переключайтесь на простаивающие терминалы вместо постановки в очередь
 
-Analyze scenarios from independent perspectives:
-- Each terminal maintains isolated context
-- Compare different approaches to the same problem
-- Identify blind spots through diverse analysis
+### Выбор модели
+- **Быстрые модели для разведки**: Используйте `alias0-fast` или `alias1` для перечисления
+- **Мощные модели для эксплуатации**: Используйте `alias1` для сложных задач
+- **Стратегически комбинируйте модели**: Разные модели для разных ролей терминалов
 
-### Progressive Refinement
-
-Build comprehensive understanding through iterative analysis:
-- Terminal 1 identifies initial findings
-- Terminal 2 validates and expands on findings
-- Terminal 3 explores alternative approaches
-- Terminal 4 consolidates and refines results
-
-### Parallel Hypothesis Testing
-
-Test multiple theories simultaneously:
-- Each terminal investigates a different hypothesis
-- Compare results to identify the most viable approach
-- Accelerate discovery through parallel exploration
+### Управление стоимостью
+- **Отслеживайте статистику**: Мониторьте использование на вкладке Статистика
+- **Оптимизируйте промпты**: Будьте лаконичны для снижения потребления токенов
+- **Используйте эффективные команды**: Не используйте 4 терминала, если достаточно 2
 
 ---
 
-## Related Documentation
+## Продвинутые шаблоны
 
-- [Sidebar Features](sidebar_features.md) - Team configuration and management
-- [Terminals Management](terminals_management.md) - Multi-terminal control
-- [Commands Reference](commands_reference.md) - Terminal-specific commands
-- [User Interface](user_interface.md) - TUI layout and components
+### Анализ с разделенным контекстом
+
+Анализ сценариев с независимых перспектив:
+- Каждый терминал ведет изолированный контекст
+- Сравнение различных подходов к одной проблеме
+- Выявление слепых зон через разнообразный анализ
+
+### Постепенное уточнение
+
+Формирование комплексного понимания через итеративный анализ:
+- Терминал 1 определяет первоначальные находки
+- Терминал 2 валидирует и расширяет находки
+- Терминал 3 исследует альтернативные подходы
+- Терминал 4 консолидирует и уточняет результаты
+
+### Параллельная проверка гипотез
+
+Одновременная проверка нескольких теорий:
+- Каждый терминал исследует разную гипотезу
+- Сравнение результатов для определения наиболее жизнеспособного подхода
+- Ускорение обнаружения через параллельное исследование
 
 ---
 
-*Last updated: October 2025 | CAI TUI v0.6+*
+## Связанная документация
 
-**Quick Reference**: Press `F1` or type `/help teams` for team-specific help.
+- [Функции боковой панели](sidebar_features.md) - Конфигурация и управление командами
+- [Управление терминалами](terminals_management.md) - Управление несколькими терминалами
+- [Справочник команд](commands_reference.md) - Команды для конкретных терминалов
+- [Пользовательский интерфейс](user_interface.md) - Макет и компоненты TUI
 
+---
 
+*Последнее обновление: Октябрь 2025 | CAI TUI v0.6+*
+
+**Краткий справочник**: Нажмите `F1` или введите `/help teams` для получения справки по командам.

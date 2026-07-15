@@ -220,9 +220,9 @@ class AgentDisplay(BaseDisplay):
         # Create a table or formatted display
         table = Table(show_header=True, header_style="bold magenta", expand=True)
         table.add_column("#", style="dim", width=3)
-        table.add_column("Time", style="cyan", width=10)
-        table.add_column("Role", style="blue", width=10)
-        table.add_column("Content", width=80)
+        table.add_column("Время", style="cyan", width=10)
+        table.add_column("Роль", style="blue", width=10)
+        table.add_column("Содержимое", width=80)
 
         for i, msg in enumerate(history):
             # Truncate content for table display
@@ -234,7 +234,7 @@ class AgentDisplay(BaseDisplay):
 
         panel = Panel(
             table,
-            title=f"[bold]Message History - {context.agent_name}[/bold]",
+            title=f"[bold]История сообщений - {context.agent_name}[/bold]",
             border_style="magenta",
             box=ROUNDED,
             expand=False,

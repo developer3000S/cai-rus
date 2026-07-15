@@ -15,49 +15,49 @@ def capture_remote_traffic(
     ip, username, password, interface, capture_filter="", port=22, timeout=10
 ):
     """
-    Captures network traffic from a remote VM and returns a pipe that can be read by tshark.
+    Захватывает сетевой трафик с удалённой виртуальной машины и возвращает канал, который может быть прочитан tshark.
 
     Args:
-        ip (str): IP address of the remote VM
-        username (str): SSH username for the remote VM
-        password (str): SSH password for the remote VM
-        interface (str): Network interface to capture on (e.g., eth0)
-        capture_filter (str, optional): tcpdump filter expression
-        port (int, optional): SSH port (default: 22)
-        timeout (int, optional): Connection timeout in seconds (default: 10)
+        ip (str): IP-адрес удалённой виртуальной машины
+        username (str): SSH имя пользователя для удалённой виртуальной машины
+        password (str): SSH пароль для удалённой виртуальной машины
+        interface (str): Сетевой интерфейс для захвата (например, eth0)
+        capture_filter (str, optional): Фильтр tcpdump
+        port (int, optional): SSH порт (по умолчанию: 22)
+        timeout (int, optional): Тайм-аут подключения в секундах (по умолчанию: 10)
 
     Returns:
-        subprocess.Popen: A process with stdout that can be read by tshark
+        subprocess.Popen: Процесс с stdout, который может быть прочитан tshark
 
     Raises:
-        ConnectionError: If connection to the remote VM fails
-        RuntimeError: If traffic capture fails to start
+        ConnectionError: Если подключение к удалённой виртуальной машине не удалось
+        RuntimeError: Если запуск захвата трафика не удался
     """
     try:
         # Create SSH client and connect to remote VM
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-        print(f"Connecting to {ip}:{port} as {username}...")
+        print(f"Подключение к {ip}:{port} как {username}...")
         client.connect(ip, port=port, username=username, password=password, timeout=timeout)
 
         # Verify interface exists
         _, stdout, stderr = client.exec_command(f"ip link show {interface}")
         if stdout.channel.recv_exit_status() != 0:
             error = stderr.read().decode().strip()
-            raise RuntimeError(f"Interface {interface} not found: {error}")
+            raise RuntimeError(f"Интерфейс {interface} не найден: {error}")
 
         # Check if we have necessary permissions
         _, stdout, stderr = client.exec_command("which tcpdump")
         if stdout.channel.recv_exit_status() != 0:
-            raise RuntimeError("tcpdump not found on remote system")
+            raise RuntimeError("tcpdump не найден в удалённой системе")
 
         # Build tcpdump command with filter if provided
         tcpdump_cmd = f"tcpdump -U -i {interface} -w - "
         if capture_filter:
             tcpdump_cmd += f"'{capture_filter}'"
 
-        print(f"Starting capture on {ip}:{interface}...")
+        print(f"Запуск захвата на {ip}:{interface}...")
 
         # Start tcpdump process on remote machine and get its output
         stdin, stdout, stderr = client.exec_command(tcpdump_cmd)
@@ -66,7 +66,7 @@ def capture_remote_traffic(
         time.sleep(1)
         if stdout.channel.exit_status_ready():
             error = stderr.read().decode().strip()
-            raise RuntimeError(f"Failed to start tcpdump: {error}")
+            raise RuntimeError(f"Не удалось запустить tcpdump: {error}")
 
         # Create a named pipe (FIFO) for tshark to read from
         fifo_path = tempfile.mktemp()
@@ -83,17 +83,17 @@ def capture_remote_traffic(
                         fifo.write(data)
                         fifo.flush()
             except (BrokenPipeError, OSError) as e:
-                print(f"Error in pipe_ssh_to_fifo: {str(e)}")
+                print(f"Ошибка в pipe_ssh_to_fifo: {str(e)}")
             finally:
-                print("Closing FIFO due to error or completion.")
+                print("Закрытие FIFO из-за ошибки или завершения.")
 
         import threading
 
         thread = threading.Thread(target=pipe_ssh_to_fifo, daemon=True)
         thread.start()
 
-        print(f"Capture running. Data available at: {fifo_path}")
-        print(f"You can now use: tshark -r {fifo_path} -c 100 [options]")
+        print(f"Захват запущен. Данные доступны по адресу: {fifo_path}")
+        print(f"Теперь вы можете использовать: tshark -r {fifo_path} -c 100 [опции]")
 
         # Example usage in the context manager
         subprocess.run(["tshark", "-r", fifo_path, "-c", "100"])
@@ -101,24 +101,24 @@ def capture_remote_traffic(
         return fifo_path
 
     except paramiko.AuthenticationException:
-        raise ConnectionError("Authentication failed. Check username and password.")
+        raise ConnectionError("Аутентификация не удалась. Проверьте имя пользователя и пароль.")
     except paramiko.SSHException as e:
-        raise ConnectionError(f"SSH connection error: {str(e)}")
+        raise ConnectionError(f"Ошибка SSH подключения: {str(e)}")
     except socket.timeout:
-        raise ConnectionError(f"Connection timed out after {timeout} seconds")
+        raise ConnectionError(f"Подключение превысило тайм-аут после {timeout} секунд")
     except Exception as e:
-        raise RuntimeError(f"Unexpected error: {str(e)}")
+        raise RuntimeError(f"Непредвиденная ошибка: {str(e)}")
 
 
 @function_tool  # TODO: not ideal to decorete this context manager.
 @contextmanager
 def remote_capture_session(ip, username, password, interface, capture_filter="", port=22):
     """
-    Context manager for remote traffic capture that automatically cleans up resources.
+    Менеджер контекста для удалённого захвата трафика с автоматической очисткой ресурсов.
 
-    Usage:
+    Использование:
         with remote_capture_session("192.168.1.100", "admin", "password", "eth0") as fifo_path:
-            # Run tshark to read from the FIFO
+            # Запуск tshark для чтения из FIFO
             subprocess.run(["tshark", "-r", fifo_path, "-T", "fields", "-e", "ip.src"])
     """
     fifo_path = None
@@ -140,7 +140,7 @@ def remote_capture_session(ip, username, password, interface, capture_filter="",
 if __name__ == "__main__":
     # Example usage
     if len(sys.argv) < 5:
-        print("Usage: capture_traffic.py <ip> <username> <password> <interface> [filter]")
+        print("Использование: capture_traffic.py <ip> <username> <password> <interface> [фильтр]")
         sys.exit(1)
 
     ip = sys.argv[1]
@@ -152,13 +152,13 @@ if __name__ == "__main__":
     try:
         with remote_capture_session(ip, username, password, interface, capture_filter) as fifo_path:
             # Keep the script running until interrupted
-            print("Press Ctrl+C to stop the capture")
+            print("Нажмите Ctrl+C для остановки захвата")
             while True:
                 time.sleep(1)
     except KeyboardInterrupt:
-        print("\nCapture stopped")
+        print("\nЗахват остановлен")
     except Exception as e:
-        print(f"Error: {str(e)}")
+        print(f"Ошибка: {str(e)}")
         sys.exit(1)
 
 

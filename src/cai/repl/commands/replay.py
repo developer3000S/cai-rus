@@ -1,8 +1,8 @@
 """
-Replay command for CAI REPL/TUI.
+Команда replay для CAI REPL/TUI.
 
-This command replays a JSONL conversation file inside the TUI output, similar to
-the standalone `cai-replay` CLI tool.
+Эта команда воспроизводит JSONL-файл диалога в выводе TUI, аналогично
+автономному CLI-инструменту `cai-replay`.
 """
 
 from __future__ import annotations
@@ -26,7 +26,7 @@ class ReplayCommand(Command):
     def __init__(self) -> None:
         super().__init__(
             name="/replay",
-            description="Replay a JSONL conversation (like cai-replay)",
+            description="Воспроизвести JSONL-диалог (аналог cai-replay)",
             aliases=[],
         )
 

@@ -1,5 +1,5 @@
 """
-Here are the CLI tools for executing commands.
+Инструменты CLI для выполнения команд.
 """
 
 from cai.tools.common import run_command  # pylint: disable=E0401
@@ -9,14 +9,14 @@ from cai.sdk.agents import function_tool
 @function_tool
 def list_dir(path: str, args: str = "", ctf=None) -> str:
     """
-    List the contents of a directory.
-    by def .
+    Вывод содержимого директории.
+    по умолчанию .
     Args:
-        path: The directory path to list contents from
-        args: Additional arguments to pass to the ls command
+        path: Путь к директории для вывода содержимого
+        args: Дополнительные аргументы для команды ls
 
     Returns:
-        str: The output of running the ls command
+        str: Вывод выполнения команды ls
     """
     command = f"ls {path} {args}"
     return run_command(command, ctf=ctf)
@@ -25,14 +25,14 @@ def list_dir(path: str, args: str = "", ctf=None) -> str:
 @function_tool
 def cat_file(file_path: str, args: str = "", ctf=None) -> str:
     """
-    Display the contents of a file.
+    Вывод содержимого файла.
 
     Args:
-        args: Additional arguments to pass to the cat command
-        file_path: Path to the file to display contents of
+        args: Дополнительные аргументы для команды cat
+        file_path: Путь к файлу для вывода содержимого
 
     Returns:
-        str: The output of running the cat command
+        str: Вывод выполнения команды cat
     """
     command = f"cat {args} {file_path} "
     return run_command(command, ctf=ctf)
@@ -51,10 +51,10 @@ def cat_file(file_path: str, args: str = "", ctf=None) -> str:
 @function_tool
 def pwd_command(ctf=None) -> str:
     """
-    Retrieve the current working directory.
+    Получение текущей рабочей директории.
 
     Returns:
-        str: The absolute path of the current working directory
+        str: Абсолютный путь текущей рабочей директории
     """
     command = "pwd"
     return run_command(command, ctf=ctf)
@@ -63,7 +63,7 @@ def pwd_command(ctf=None) -> str:
 @function_tool
 def find_file(file_path: str, args: str = "", ctf=None) -> str:
     """
-    Find a file in the filesystem.
+    Поиск файла в файловой системе.
     """
     command = f"find {file_path} {args}"
     return run_command(command, ctf=ctf)

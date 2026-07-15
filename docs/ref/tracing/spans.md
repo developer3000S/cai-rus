@@ -1,4 +1,4 @@
-# `Spans`
+# `Спаны`
 
 ::: cai.sdk.agents.tracing.spans
 

@@ -1,7 +1,7 @@
 """
-Reasoning tools module for tracking thoughts, findings and analysis
-Provides utilities for recording and retrieving key information discovered
-during CTF progression.
+Модуль инструментов рассуждений для отслеживания мыслей, находок и анализа
+Предоставляет утилиты для записи и получения ключевой информации, обнаруженной
+в ходе прохождения CTF.
 """
 
 from cai.sdk.agents import function_tool
@@ -17,17 +17,17 @@ def thought(
     ctf=None,
 ) -> str:  # pylint: disable=unused-argument  # noqa: E501
     """
-    Tool used to express detailed thoughts and analysis during boot2root CTF.
+    Инструмент для выражения детальных мыслей и анализа во время boot2root CTF.
 
     Args:
-        breakdowns: Detailed breakdown of current situation/findings
-        reflection: Reflections on progress and insights gained
-        action: Current or planned actions
-        next_step: Next steps to take
-        key_clues: Important clues or hints discovered
-        ctf: CTF object to use for context
+        breakdowns: Детальный разбор текущей ситуации/находок
+        reflection: Размышления о прогрессе и полученных выводах
+        action: Текущие или запланированные действия
+        next_step: Следующие шаги
+        key_clues: Важные улики или подсказки
+        ctf: Объект CTF для использования в контексте
     Returns:
-        str: Formatted string containing the provided thoughts and analysis
+        str: Форматированная строка, содержащая указанные мысли и анализ
     """
     output = []
     if breakdowns:
@@ -46,66 +46,66 @@ def thought(
 @function_tool
 def write_key_findings(findings: str) -> str:
     """
-    Write key findings to a state.txt file to track important CTF details.
-    Only records critical information like:
-    - Discovered credentials
-    - Found vulnerabilities
-    - Privilege escalation vectors
-    - Important system access details
-    - Other key findings needed for progression
+    Запись ключевых находок в файл state.txt для отслеживания важных деталей CTF.
+    Записывает только критическую информацию, такую как:
+    - Обнаруженные учетные данные
+    - Найденные уязвимости
+    - Векторы повышения привилегий
+    - Важные детали доступа к системе
+    - Другие ключевые находки, необходимые для прогресса
 
     Args:
-        findings: String containing the key findings to append to state.txt
+        findings: Строка, содержащая ключевые находки для добавления в state.txt
 
     Returns:
-        String confirming the findings were written
+        Строка, подтверждающая запись находок
     """
     try:
         with open("state.txt", "a", encoding="utf-8") as f:
             f.write("\n" + findings + "\n")
-        return f"Successfully wrote findings to state.txt:\n{findings}"
+        return f"Успешная запись находок в state.txt:\n{findings}"
     except OSError as e:
-        return f"Error writing to state.txt: {str(e)}"
+        return f"Ошибка записи в state.txt: {str(e)}"
 
 
 @function_tool
 def read_key_findings() -> str:
     """
-    Read key findings from the state.txt file to retrieve important data
-    Retrieves critical information like:
-    - Discovered credentials
-    - Found vulnerabilities
-    - Privilege escalation vectors
-    - Important system access details
-    - Other key findings needed for progression
+    Чтение ключевых находок из файла state.txt для получения важных данных
+    Получает критическую информацию, такую как:
+    - Обнаруженные учетные данные
+    - Найденные уязвимости
+    - Векторы повышения привилегий
+    - Важные детали доступа к системе
+    - Другие ключевые находки, необходимые для прогресса
 
     Returns:
-        String containing all findings from state.txt, or error message
-        if file not found
+        Строка, содержащая все находки из state.txt, или сообщение об ошибке,
+        если файл не найден
     """
     try:
         with open("state.txt", encoding="utf-8") as f:
             findings = f.read()
-        return findings or "Not finding"
+        return findings or "Нет находок"
     except FileNotFoundError:
-        return "state.txt file not found. No findings have been recorded."
+        return "Файл state.txt не найден. Никакие находки не были записаны."
     except OSError as e:
-        return f"Error reading state.txt: {str(e)}"
+        return f"Ошибка чтения state.txt: {str(e)}"
 
 
 @function_tool
 def think(thought: str) -> str:  # pylint: disable=unused-argument
     """
-    Use the tool to think about something.
+    Используйте инструмент для размышления о чем-либо.
 
-    It will not obtain new information or change the database, but just append
-    the thought to the log. Use it when complex reasoning or some cache memory
-    is needed.
+    Он не получит новую информацию и не изменит базу данных, а лишь добавит
+    мысль в журнал. Используйте, когда необходимы сложные рассуждения или
+    кэширование памяти.
 
     Args:
-        thought: A thought to think about.
+        thought: Мысль для размышления.
     Returns:
-        str: The thought that was processed
+        str: Обработанная мысль
     """
     return f"{thought}"
 

@@ -1,3 +1,3 @@
-# `Usage`
+# `Использование`
 
 ::: cai.sdk.agents.usage

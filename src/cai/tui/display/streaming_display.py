@@ -106,7 +106,7 @@ class StreamingDisplay(BaseDisplay):
 
         # Check concurrency limits
         if CONCURRENCY_MANAGER.is_at_capacity():
-            raise RuntimeError("Maximum concurrent streams reached")
+            raise RuntimeError("Достигнут максимум параллельных потоков")
 
         with CONCURRENCY_MANAGER.acquire_stream(stream_id):
             if content_type == "thinking":
@@ -206,7 +206,7 @@ class StreamingDisplay(BaseDisplay):
         header.append(f"[{context.interaction_counter}]", style="bold cyan")
         header.append(f" {agent_name}", style="bold blue")
         header.append(" >> ", style="yellow")
-        header.append("⚡ Streaming...", style="yellow")
+        header.append("⚡ Стриминг...", style="yellow")
         if model:
             header.append(f" ({model})", style="bold magenta")
 
@@ -362,7 +362,7 @@ class StreamingDisplay(BaseDisplay):
                 border_style="blue",
                 box=ROUNDED,
                 padding=(0, 1),
-                title="Stream",
+            title="Поток",
                 title_align="left",
                 expand=True,
             )
@@ -552,7 +552,7 @@ class StreamingDisplay(BaseDisplay):
                 border_style="green",
                 box=ROUNDED,
                 padding=(0, 1),
-                title="Stream Complete",
+                title="Поток завершён",
                 title_align="left",
                 expand=True,
             )

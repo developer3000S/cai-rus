@@ -1,8 +1,8 @@
 """
-Agent Discovery Tool for Selection Agent
+Инструмент обнаружения агентов для Selection Agent
 
-This tool allows the selection agent to dynamically discover and analyze
-all available agents in the CAI system to make informed recommendations.
+Этот инструмент позволяет агенту выбора динамически обнаруживать и анализировать
+все доступные агенты в системе CAI для формирования обоснованных рекомендаций.
 """
 
 import importlib
@@ -16,16 +16,16 @@ from cai.sdk.agents import Agent, function_tool
 @lru_cache(maxsize=1)
 def _check_available_agents() -> Dict[str, Any]:
     """
-    Check all available agents in the CAI system and return their detailed information.
+    Проверяет все доступные агенты в системе CAI и возвращает их подробную информацию.
 
-    Cached with ``lru_cache(maxsize=1)``: the agent catalogue is static for the
-    lifetime of a session (no hot-reloading of agent modules), so paying the
-    full ``pkgutil.iter_modules`` + ``importlib.import_module`` walk on every
-    LLM tool call (orchestrator routing, ``_get_agent_number`` lookups, etc.)
-    is wasteful. Callers must treat the returned dict as read-only.
+    Кэшируется с помощью ``lru_cache(maxsize=1)``: каталог агентов статичен на
+    протяжении всей сессии (без горячей перезагрузки модулей агентов), поэтому
+    полный обход ``pkgutil.iter_modules`` + ``importlib.import_module`` при каждом
+    вызове инструмента LLM (маршрутизация оркестратора, поиск ``_get_agent_number`` и т.д.)
+    является избыточным. Вызывающие функции должны обрабатывать возвращаемый словарь как доступный только для чтения.
 
     Returns:
-        Dict containing comprehensive information about all available agents
+        Dict с полной информацией о всех доступных агентах
     """
     agents_info = {}
     
@@ -46,7 +46,7 @@ def _check_available_agents() -> Dict[str, Any]:
                 if isinstance(attr, Agent):
                     agent_info = {
                         "name": attr.name,
-                        "description": getattr(attr, "description", "No description available"),
+                        "description": getattr(attr, "description", "Описание отсутствует"),
                         "module": name,
                         "variable_name": attr_name,
                         "tools": [],
@@ -84,7 +84,7 @@ def _check_available_agents() -> Dict[str, Any]:
                     if isinstance(attr, Agent):
                         agent_info = {
                             "name": attr.name,
-                            "description": getattr(attr, "description", "No description available"),
+                            "description": getattr(attr, "description", "Описание отсутствует"),
                             "module": name,
                             "variable_name": attr_name,
                             "type": "pattern",
@@ -119,55 +119,73 @@ def _check_available_agents() -> Dict[str, Any]:
 
 def _analyze_task_requirements(task_description: str) -> Dict[str, Any]:
     """
-    Analyze a user's task description to extract key requirements and characteristics.
+    Анализирует описание задачи пользователя для извлечения ключевых требований и характеристик.
     
     Args:
-        task_description: The user's description of what they want to accomplish
+        task_description: Описание пользователя того, чего он хочет достичь
         
     Returns:
-        Dict containing analysis of the task requirements
+        Dict с анализом требований задачи
     """
     task_lower = task_description.lower()
     
     # Define task categories and keywords
     task_categories = {
         "penetration_testing": [
-            "pentest", "penetration test", "security assessment", "vulnerability assessment",
+            "пентест", "пентестинг", "тестирование на проникновение", "оценка безопасности",
+            "уязвимость", "атака", "взлом", "проникновение", "красная команда", "pentest", "penetration test", "security assessment", "vulnerability assessment",
             "exploit", "attack", "breach", "hack", "infiltration", "red team"
         ],
         "bug_bounty": [
+            "багбаунти", "поиск уязвимостей", "веб-безопасность", "тестирование API",
+            "ответственное раскрытие", "безопасность", "охота за уязвимостями",
             "bug bounty", "vulnerability discovery", "web security", "api testing",
             "responsible disclosure", "security bug", "vulnerability hunting"
         ],
         "blue_team": [
+            "защита", "оборона", "синяя команда", "мониторинг", "обнаружение",
+            "реагирование на инциденты", "контроль безопасности", "поиск угроз",
             "defense", "defensive", "blue team", "monitoring", "detection",
             "incident response", "security monitoring", "threat hunting", "soc"
         ],
         "forensics": [
+            "форензика", "DFIR", "реагирование на инциденты", "цифровая форензика",
+            "расследование", "доказательства", "анализ вредоносного ПО", "расследование взлома",
             "forensics", "dfir", "incident response", "digital forensics",
             "investigation", "evidence", "malware analysis", "breach investigation"
         ],
         "reverse_engineering": [
+            "реверс-инжиниринг", "анализ бинарников", "анализ прошивок",
+            "дассемблирование", "декомпиляция", "анализ вредоносного ПО", "анализ кода",
             "reverse engineering", "binary analysis", "firmware analysis",
             "disassembly", "decompilation", "malware analysis", "code analysis"
         ],
         "network_security": [
+            "сеть", "анализ трафика", "захват пакетов", "мониторинг сети",
+            "анализ протоколов", "сетевая форензика",
             "network", "traffic analysis", "packet capture", "network monitoring",
             "protocol analysis", "wireshark", "tcpdump", "network forensics"
         ],
         "wireless_security": [
-            "wifi", "wireless", "bluetooth", "radio", "rf", "802.11",
-            "wireless security", "wifi hacking", "wireless penetration"
+            "wifi", "беспроводная сеть", "bluetooth", "радио", "rf", "802.11",
+            "безопасность беспроводных сетей", "взлом wifi", "пентест беспроводных сетей",
+            "wireless", "wireless security", "wifi hacking", "wireless penetration"
         ],
         "memory_analysis": [
+            "анализ памяти", "форензика памяти", "анализ процессов",
+            "анализ среды выполнения", "дамп памяти", "анализ кучи",
             "memory analysis", "memory forensics", "process analysis",
             "runtime analysis", "memory dump", "heap analysis"
         ],
         "ctf": [
-            "ctf", "capture the flag", "challenge", "flag", "competition",
+            "ctf", "захват флага", "соревнование", "задача", "конкурс",
+            "безопасностное соревнование", "хакерское задание",
+            "capture the flag", "challenge", "flag", "competition",
             "security challenge", "hacking challenge"
         ],
         "reporting": [
+            "отчёт", "документация", "сводка", "результаты", "аналитический отчёт",
+            "отчёт по безопасности", "резюме для руководства",
             "report", "documentation", "summary", "findings", "analysis report",
             "security report", "executive summary"
         ]
@@ -185,9 +203,9 @@ def _analyze_task_requirements(task_description: str) -> Dict[str, Any]:
     
     # Determine complexity and scope
     complexity_indicators = {
-        "simple": ["simple", "basic", "quick", "fast", "easy"],
-        "medium": ["comprehensive", "detailed", "thorough", "complete"],
-        "complex": ["advanced", "deep", "extensive", "sophisticated", "complex"]
+        "simple": ["простая", "базовая", "быстрая", "лёгкая", "simple", "basic", "quick", "fast", "easy"],
+        "medium": ["подробная", "детальная", "тщательная", "полная", "comprehensive", "detailed", "thorough", "complete"],
+        "complex": ["продвинутая", "углублённая", "расширенная", "сложная", "complex", "advanced", "deep", "extensive", "sophisticated"]
     }
     
     complexity = "medium"  # default
@@ -198,6 +216,8 @@ def _analyze_task_requirements(task_description: str) -> Dict[str, Any]:
     
     # Determine if multiple agents might be needed
     multi_agent_indicators = [
+        "комплексная", "полная", "завершённая", "полный цикл", "несколько",
+        "оба", "все", "различные", "разные перспективы",
         "comprehensive", "full", "complete", "end-to-end", "multiple",
         "both", "all", "various", "different perspectives"
     ]
@@ -216,7 +236,7 @@ def _analyze_task_requirements(task_description: str) -> Dict[str, Any]:
 
 
 def _extract_specialization(name: str, description: str) -> str:
-    """Extract the main specialization from agent name and description"""
+    """Извлекает основную специализацию из имени и описания агента"""
     specializations = {
         "red team": ["red team", "penetration", "exploit", "attack"],
         "blue team": ["blue team", "defense", "monitoring", "protection"],
@@ -244,20 +264,20 @@ def _extract_specialization(name: str, description: str) -> str:
 
 
 def _extract_use_cases(description: str) -> List[str]:
-    """Extract potential use cases from agent description"""
+    """Извлекает потенциальные варианты использования из описания агента"""
     use_cases = []
     
     use_case_patterns = {
-        "Penetration Testing": ["penetration", "pentest", "security assessment"],
-        "Vulnerability Assessment": ["vulnerability", "security testing", "weakness"],
-        "Network Analysis": ["network", "traffic", "protocol"],
-        "Web Security": ["web", "api", "application"],
-        "System Analysis": ["system", "host", "server"],
-        "Malware Analysis": ["malware", "binary", "reverse"],
-        "Incident Response": ["incident", "response", "investigation"],
-        "Compliance": ["compliance", "audit", "standard"],
-        "CTF Challenges": ["ctf", "challenge", "flag"],
-        "Reporting": ["report", "documentation", "findings"]
+        "Тестирование на проникновение": ["penetration", "pentest", "security assessment"],
+        "Оценка уязвимостей": ["vulnerability", "security testing", "weakness"],
+        "Анализ сети": ["network", "traffic", "protocol"],
+        "Веб-безопасность": ["web", "api", "application"],
+        "Анализ системы": ["system", "host", "server"],
+        "Анализ вредоносного ПО": ["malware", "binary", "reverse"],
+        "Реагирование на инциденты": ["incident", "response", "investigation"],
+        "Соответствие требованиям": ["compliance", "audit", "standard"],
+        "CTF-задачи": ["ctf", "challenge", "flag"],
+        "Отчётность": ["report", "documentation", "findings"]
     }
     
     # Handle None values safely
@@ -272,7 +292,7 @@ def _extract_use_cases(description: str) -> List[str]:
 
 
 def _categorize_agents(agents_info: Dict[str, Any]) -> Dict[str, List[str]]:
-    """Categorize agents by their specialization"""
+    """Категоризирует агентов по их специализации"""
     categories = {}
     
     for agent_name, info in agents_info.items():
@@ -285,54 +305,54 @@ def _categorize_agents(agents_info: Dict[str, Any]) -> Dict[str, List[str]]:
 
 
 def _generate_initial_recommendations(categories: List[str], complexity: str, needs_multiple: bool) -> List[str]:
-    """Generate initial recommendations based on task analysis"""
+    """Генерирует начальные рекомендации на основе анализа задачи"""
     recommendations = []
     
     if "penetration_testing" in categories:
-        recommendations.append("Consider redteam_agent for comprehensive penetration testing")
+        recommendations.append("Рассмотрите redteam_agent для комплексного тестирования на проникновение")
     
     if "bug_bounty" in categories:
-        recommendations.append("Consider bug_bounter_agent for vulnerability discovery")
+        recommendations.append("Рассмотрите bug_bounter_agent для поиска уязвимостей")
     
     if "blue_team" in categories:
-        recommendations.append("Consider blueteam_agent for defensive security analysis")
+        recommendations.append("Рассмотрите blueteam_agent для анализа защитной безопасности")
     
     if "forensics" in categories:
-        recommendations.append("Consider dfir_agent for digital forensics and incident response")
+        recommendations.append("Рассмотрите dfir_agent для цифровой форензики и реагирования на инциденты")
     
     if "network_security" in categories:
-        recommendations.append("Consider network_security_analyzer_agent for network analysis")
+        recommendations.append("Рассмотрите network_security_analyzer_agent для анализа сети")
     
     if "wireless_security" in categories:
-        recommendations.append("Consider wifi_security_agent for wireless security testing")
+        recommendations.append("Рассмотрите wifi_security_agent для тестирования безопасности беспроводных сетей")
     
     if "reverse_engineering" in categories:
-        recommendations.append("Consider reverse_engineering_agent for binary analysis")
+        recommendations.append("Рассмотрите reverse_engineering_agent для анализа бинарников")
     
     if "memory_analysis" in categories:
-        recommendations.append("Consider memory_analysis_agent for runtime analysis")
+        recommendations.append("Рассмотрите memory_analysis_agent для анализа среды выполнения")
     
     if "reporting" in categories:
-        recommendations.append("Consider reporting_agent for generating reports")
+        recommendations.append("Рассмотрите reporting_agent для формирования отчётов")
     
     if needs_multiple:
-        recommendations.append("Consider using multiple agents or a pattern for comprehensive coverage")
+        recommendations.append("Рассмотрите использование нескольких агентов или шаблона для комплексного покрытия")
     
     if complexity == "complex":
-        recommendations.append("Complex tasks may benefit from hierarchical or swarm patterns")
+        recommendations.append("Для сложных задач могут быть полезны иерархические шаблоны или шаблоны роя")
     
     return recommendations
 
 
 def _get_agent_number(agent_name: str) -> Dict[str, Any]:
     """
-    Get the numerical index of a specific agent for easy command reference.
+    Получает числовой индекс конкретного агента для удобной ссылки в команде.
     
     Args:
-        agent_name: The name/key of the agent to find
+        agent_name: Имя/ключ агента для поиска
         
     Returns:
-        Dict containing agent number, command, and details
+        Dict с номером агента, командой и подробностями
     """
     # Get all agents
     agents_data = _check_available_agents()
@@ -349,12 +369,12 @@ def _get_agent_number(agent_name: str) -> Dict[str, Any]:
                 "command": f"/agent {number}",
                 "alt_command": f"/agent {agent_data['key']}",
                 "found": True,
-                "description": agent_info.get("description", "No description available")
+                "description": agent_info.get("description", "Описание отсутствует")
             }
     
     return {
         "found": False,
-        "message": f"Agent '{agent_name}' not found",
+        "message": f"Агент '{agent_name}' не найден",
         "total_agents": agents_data.get("total_agents", 0)
     }
 

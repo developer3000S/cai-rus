@@ -1,4 +1,4 @@
-# Agents module
+# Модуль агентов
 
 ::: cai.sdk.agents
 

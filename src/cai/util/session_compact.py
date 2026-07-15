@@ -58,7 +58,7 @@ def get_keep_recent_messages() -> int:
 def _truncate_for_env(text: str, limit: int = MAX_ENV_CHARS) -> str:
     if len(text) <= limit:
         return text
-    return text[: limit - 80] + "\n\n[...truncated for CAI_SESSION_COMPACT_SUMMARY env...]"
+    return text[: limit - 80] + "\n\n[...обрезано для переменной CAI_SESSION_COMPACT_SUMMARY...]"
 
 
 def extract_compact_block(system_instructions: str | None) -> str | None:
@@ -212,30 +212,30 @@ def prepare_agent_handoff(
 
     parts = [
         "<agent_handoff>",
-        f"Previous agent: {from_agent_name}",
+        f"Предыдущий агент: {from_agent_name}",
     ]
     if to_agent_name:
-        parts.append(f"Active agent: {to_agent_name}")
+        parts.append(f"Текущий агент: {to_agent_name}")
     parts.append(
-        "Continue the same engagement. Do not claim there is no prior history — "
-        "use the compacted context and recent findings below."
+        "Продолжайте тот же сценарий. Не утверждайте, что предыстория отсутствует — "
+        "используйте сжатый контекст и недавние результаты ниже."
     )
 
     if compact:
         parts.append("\n<compacted_context>\n" + compact + "\n</compacted_context>")
     else:
         parts.append(
-            "\n(No compacted_context block yet — use SHARED SESSION CONTEXT and recent messages.)"
+            "\n(Блок compacted_context ещё не создан — используйте ОБЩИЙ КОНТЕКСТ СЕАНСА и недавние сообщения.)"
         )
 
     if findings:
-        parts.append("\n## Recent findings (last exchanges)\n")
+        parts.append("\n## Недавние результаты (последние обмены)\n")
         for f in findings:
             parts.append(f"- {f}")
 
     env_findings = get_session_recent_findings()
     if env_findings and env_findings not in "\n".join(findings):
-        parts.append("\n## Session findings snapshot\n" + env_findings)
+        parts.append("\n## Снимок результатов сеанса\n" + env_findings)
 
     parts.append("</agent_handoff>")
     handoff = "\n".join(parts)
@@ -263,4 +263,4 @@ def shared_context_supplement() -> str:
     session = get_session_compact_summary()
     if not session:
         return ""
-    return "\n## SESSION COMPACT SUMMARY (all agents)\n" + session[:12000]
+    return "\n## СВОДКА СЖАТОГО СЕАНСА (все агенты)\n" + session[:12000]

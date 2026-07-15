@@ -1,8 +1,8 @@
-# Core API Reference
+# Справочник по основному API
 
 ## Agent
 
-The `Agent` class is the main abstraction for implementing AI agents in CAI.
+Класс `Agent` является основной абстракцией для реализации ИИ-агентов в CAI.
 
 ```python
 from cai import Agent
@@ -17,16 +17,16 @@ class MyAgent(Agent):
         pass
 ```
 
-### Key Methods
+### Основные методы
 
-- `__init__()`: Initialize the agent
-- `run(input_data)`: Main execution method
-- `add_tool(tool)`: Add a tool to the agent
-- `remove_tool(tool_name)`: Remove a tool from the agent
+- `__init__()`: Инициализация агента
+- `run(input_data)`: Основной метод выполнения
+- `add_tool(tool)`: Добавление инструмента агенту
+- `remove_tool(tool_name)`: Удаление инструмента из агента
 
 ## Tools
 
-Tools are the building blocks that agents use to interact with the world.
+Инструменты (Tools) — это строительные блоки, которые агенты используют для взаимодействия с внешним миром.
 
 ```python
 from cai import Tool
@@ -43,16 +43,16 @@ class MyTool(Tool):
         pass
 ```
 
-### Built-in Tools
+### Встроенные инструменты
 
-- `LinuxCmd`: Execute Linux commands
-- `WebSearch`: Perform web searches
-- `Code`: Execute code
-- `SSHTunnel`: Create SSH tunnels
+- `LinuxCmd`: Выполнение команд Linux
+- `WebSearch`: Выполнение веб-поиска
+- `Code`: Выполнение кода
+- `SSHTunnel`: Создание SSH-туннелей
 
 ## Patterns
 
-Patterns are reusable agent behaviors that can be composed together.
+Паттерны (Patterns) — это переиспользуемые модели поведения агентов, которые можно комбинировать между собой.
 
 ```python
 from cai import Pattern
@@ -68,7 +68,7 @@ class MyPattern(Pattern):
 
 ## Handoffs
 
-Handoffs allow agents to transfer control to other agents or human operators.
+Передачи управления (Handoffs) позволяют агентам передавать контроль другим агентам или операторам-людям.
 
 ```python
 from cai import Handoff
@@ -84,7 +84,7 @@ class MyHandoff(Handoff):
 
 ## Tracing
 
-Tracing provides visibility into agent execution.
+Трассировка (Tracing) обеспечивает видимость процесса выполнения агента.
 
 ```python
 from cai import Tracer
@@ -97,7 +97,7 @@ tracer.end_trace()
 
 ## HITL (Human In The Loop)
 
-HITL allows human operators to interact with agents during execution.
+HITL позволяет операторам-людям взаимодействовать с агентами в процессе выполнения.
 
 ```python
 from cai import HITL
@@ -109,4 +109,4 @@ class MyHITL(HITL):
     async def execute(self, context):
         # Implement HITL logic here
         pass
-``` 
+```

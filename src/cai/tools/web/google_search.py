@@ -1,9 +1,9 @@
 """
-Google search utility for regular searches and Google dorking.
+Утилита поиска Google для обычных поисковых запросов и Google Dorking.
 
-This module provides functions to perform Google searches in two modes:
-1. Regular search - Returns URLs from standard Google search results
-2. Google dorking - Returns URLs from searches using advanced Google search operators
+Этот модуль предоставляет функции для выполнения поисковых запросов Google в двух режимах:
+1. Обычный поиск - возвращает URL из стандартных результатов поиска Google
+2. Google Dorking - возвращает URL из поисков с использованием продвинутых операторов Google
 """
 
 import os
@@ -15,15 +15,15 @@ from cai.sdk.agents import function_tool
 
 def google_search(query: str, num_results: int = 10) -> str:
     """
-    Perform a regular Google search and return a formatted string with results.
+    Выполняет обычный поиск Google и возвращает форматированную строку с результатами.
 
     Args:
-        query (str): The search query.
-        num_results (int): Maximum number of results to return. Default is 10.
+        query (str): Поисковый запрос.
+        num_results (int): Максимальное количество результатов. По умолчанию 10.
 
     Returns:
-        str: A formatted string containing URLs, titles, and snippets from
-        the search results.
+        str: Форматированная строка, содержащая URL, заголовки и фрагменты
+        результатов поиска.
     """
     results = _perform_search(query, num_results, is_dork=False)
     formatted_results = ""
@@ -38,17 +38,17 @@ def google_search(query: str, num_results: int = 10) -> str:
 
 def google_dork_search(dork_query: str, num_results: int = 100) -> str:
     """
-    Perform a Google dork search and return a formatted string with URLs.
+    Выполняет поиск Google Dork и возвращает форматированную строку с URL.
 
-    Google dorking uses advanced search operators to find specific information.
-    Examples of operators: site:, filetype:, inurl:, intitle:, etc.
+    Google Dorking использует продвинутые операторы поиска для поиска конкретной информации.
+    Примеры операторов: site:, filetype:, inurl:, intitle: и т.д.
 
     Args:
-        dork_query (str): The Google dork query with operators.
-        num_results (int): Maximum number of results to return. Default is 10.
+        dork_query (str): Запрос Google Dork с операторами.
+        num_results (int): Максимальное количество результатов. По умолчанию 10.
 
     Returns:
-        str: A formatted string containing URLs from the dork search results.
+        str: Форматированная строка, содержащая URL из результатов поиска Dork.
     """
     results = _perform_search(dork_query, num_results, is_dork=True)
     formatted_results = ""
@@ -63,17 +63,17 @@ def _perform_search(
     query: str, num_results: int = 10, is_dork: bool = False
 ) -> List[Dict[str, str]]:
     """
-    Helper function to perform Google searches.
+    Вспомогательная функция для выполнения поисковых запросов Google.
 
     Args:
-        query (str): The search query.
-        num_results (int): Maximum number of results to return.
-        is_dork (bool): Whether this is a dork search.
+        query (str): Поисковый запрос.
+        num_results (int): Максимальное количество результатов.
+        is_dork (bool): Является ли это поиском Dork.
 
     Returns:
-        List[Dict[str, str]]: For regular searches, returns a list of dictionaries
-        with URLs, titles, and snippets. For dork searches, returns a list of
-        dictionaries with only URLs.
+        List[Dict[str, str]]: Для обычных поисков возвращает список словарей
+        с URL, заголовками и фрагментами. Для поисков Dork возвращает список
+        словарей только с URL.
     """
     load_dotenv()
     api_key = os.getenv("GOOGLE_SEARCH_API_KEY")
@@ -81,8 +81,8 @@ def _perform_search(
 
     if not api_key or not cx:
         raise ValueError(
-            "Google Search API key (GOOGLE_SEARCH_API_KEY) and Custom Search "
-            "Engine ID (GOOGLE_SEARCH_CX) must be set in environment variables."
+            "Ключ API Google Search (GOOGLE_SEARCH_API_KEY) и ID пользовательского "
+            "поискового движка (GOOGLE_SEARCH_CX) должны быть установлены в переменных окружения."
         )
 
     base_url = "https://www.googleapis.com/customsearch/v1"

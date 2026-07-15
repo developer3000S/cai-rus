@@ -1,6 +1,6 @@
-# Custom LLM providers
+# Пользовательские LLM провайдеры
 
-The examples in this directory demonstrate how you might use a non-OpenAI LLM provider. To run them, first set a base URL, API key and model.
+Примеры в этой директории демонстрируют, как можно использовать не-OpenAI LLM провайдер. Для их запуска сначала установите базовый URL, API ключ и модель.
 
 ```bash
 export EXAMPLE_BASE_URL="..."
@@ -8,7 +8,7 @@ export EXAMPLE_API_KEY="..."
 export EXAMPLE_MODEL_NAME"..."
 ```
 
-Then run the examples, e.g.:
+Затем запустите примеры, например:
 
 ```
 python examples/model_providers/custom_example_provider.py
@@ -19,20 +19,20 @@ Depth without ending.
 ```
 
 
-## LiteLLM Proxy Server integration
+## Интеграция с LiteLLM Proxy Server
 
-LiteLLM integration helps out switch between models easily and rapidly. This is easy to integrate via `AsyncOpenAI`:
+Интеграция LiteLLM помогает легко и быстро переключаться между моделями. Это легко интегрировать через `AsyncOpenAI`:
 
 ```bash
-# launch server proxy with your configuration
+# запустите сервер прокси с вашей конфигурацией
 litellm --config examples/model_providers/litellm_config.yaml
 
-# then use the proxy via the SDK
+# затем используйте прокси через SDK
 python3 examples/model_providers/litellm.py
 ```
 
-### Testing the proxy server
-Testing some basic models against proxy to verify it's operational:
+### Тестирование сервера прокси
+Тестирование некоторых базовых моделей через прокси для проверки его работоспособности:
 ```bash
 # qwen2.5:14b
 curl -s http://localhost:4000/v1/chat/completions -H "Content-Type: application/json" -d '{"model": "qwen2.5:14b", "messages": [{"role": "user", "content": "Say hi"}], "max_tokens": 10}' | jq
@@ -44,7 +44,7 @@ curl -s http://localhost:4000/v1/chat/completions -H "Content-Type: application/
 curl -s http://localhost:4000/v1/chat/completions -H "Content-Type: application/json" -d '{"model": "gpt-4o", "messages": [{"role": "user", "content": "Say hi"}], "max_tokens": 10}' | jq
 ```
 
-When using virtual keys:
+При использовании виртуальных ключей:
 ```bash
 curl -s http://localhost:4000/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer sk-pNCn8ZA0SCtWMpkZNUWe5g" -d '{"model": "gpt-4o-mini", "messages": [{"role": "user", "content": "Say hi"}], "max_tokens": 10}' | jq
 ```

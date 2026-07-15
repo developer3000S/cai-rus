@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 # AGENT MICRO-PROFILE: APT CAMPAIGN SIMULATION
 
 ## Instruction hierarchy (modular stack)

@@ -1,7 +1,7 @@
 """
-Agent "command" for CAI CLI abstraction
+Команда "агент" для абстракции CAI CLI
 
-Provides commands for managing and switching between agents.
+Предоставляет команды для управления и переключения между агентами.
 """
 
 # Standard library imports
@@ -55,22 +55,22 @@ def _resolve_alias_model_name(model_name: str | None) -> str:
 
 
 class AgentCommand(Command):
-    """Command for managing and switching between agents."""
+    """Команда для управления и переключения между агентами."""
 
     def __init__(self):
         """Initialize the agent command."""
         # Initialize with basic parameters
         super().__init__(
-            name="/agent", description="Manage and switch between agents", aliases=["/a"]
+            name="/agent", description="Управление и переключение между агентами", aliases=["/a"]
         )
 
         # Add subcommands manually
         self._subcommands = {
-            "list": "List available agents",
-            "select": "Select an agent by name or number",
-            "info": "Show information about an agent",
-            "current": "Show current agent configuration",
-            "new": "Create a new agent interactively",
+            "list": "Показать доступные агенты",
+            "select": "Выбрать агента по имени или номеру",
+            "info": "Показать информацию об агенте",
+            "current": "Показать текущую конфигурацию агента",
+            "new": "Создать нового агента интерактивно",
         }
 
     def _get_model_display(self, agent_name: str, agent: Agent) -> str:
@@ -120,7 +120,7 @@ class AgentCommand(Command):
         ctf_model = os.getenv("CTF_MODEL")
         if ctf_model and agent.model == ctf_model:
             # Show "Default CTF Model" in info
-            return "Default CTF Model"
+            return "Модель CTF по умолчанию"
 
         # Show the model from environment variable if available
         env_var_name = f"CAI_{agent_name.upper()}_MODEL"
@@ -186,10 +186,10 @@ class AgentCommand(Command):
         # Agents table: same chrome as ``/env list`` (catalog tables).
         agents_table = Table(**HELP_REFERENCE_MATCH_TABLE_KWARGS)
         agents_table.add_column("#", style=GREY_TEXT, justify="right", width=3)
-        agents_table.add_column("Name", style=f"bold {CAI_GREEN}")
-        agents_table.add_column("Key", style=f"italic {GREY_TEXT}")
-        agents_table.add_column("Module", style=GREY_TEXT)
-        agents_table.add_column("Description", style="white")
+        agents_table.add_column("Имя", style=f"bold {CAI_GREEN}")
+        agents_table.add_column("Ключ", style=f"italic {GREY_TEXT}")
+        agents_table.add_column("Модуль", style=GREY_TEXT)
+        agents_table.add_column("Описание", style="white")
 
         # Retrieve all registered agents
         agents_to_display = get_available_agents()
@@ -233,7 +233,7 @@ class AgentCommand(Command):
         console.print(
             Panel(
                 agents_table,
-                title=_quick_guide_subpanel_title("Available agents"),
+                    title=_quick_guide_subpanel_title("Доступные агенты"),
                 title_align="left",
                 border_style=_CAI_GREEN,
                 padding=(1, 1),
@@ -258,11 +258,11 @@ class AgentCommand(Command):
         if parallel_patterns:
             patterns_table = Table(**HELP_REFERENCE_MATCH_TABLE_KWARGS)
             patterns_table.add_column("#", style=GREY_TEXT, justify="right", width=3)
-            patterns_table.add_column("Name", style=f"bold {CAI_GREEN}")
-            patterns_table.add_column("Type", style="bold white")
-            patterns_table.add_column("Key", style=f"italic {GREY_TEXT}")
-            patterns_table.add_column("Module", style=GREY_TEXT)
-            patterns_table.add_column("Description", style="white")
+            patterns_table.add_column("Имя", style=f"bold {CAI_GREEN}")
+            patterns_table.add_column("Тип", style="bold white")
+            patterns_table.add_column("Ключ", style=f"italic {GREY_TEXT}")
+            patterns_table.add_column("Модуль", style=GREY_TEXT)
+            patterns_table.add_column("Описание", style="white")
 
             # Start numbering after regular agents - use actual_idx which tracks displayed agents
             pattern_start_idx = actual_idx
@@ -308,14 +308,14 @@ class AgentCommand(Command):
             console.print(
                 Panel(
                     patterns_table,
-                    title=_quick_guide_subpanel_title("Parallel patterns"),
+                    title=_quick_guide_subpanel_title("Параллельные шаблоны"),
                     title_align="left",
                     border_style=_CAI_GREEN,
                     padding=(1, 1),
                 )
             )
             console.print(
-                "\n[dim]Use '/agent <#>' or '/agent <pattern_name>' to load a pattern[/dim]"
+                "\n[dim]Используйте '/agent <#>' или '/agent <pattern_name>' для загрузки шаблона[/dim]"
             )
 
         return True
@@ -330,8 +330,8 @@ class AgentCommand(Command):
             True if the command was handled successfully, False otherwise
         """
         if not args:
-            console.print("[red]Error: No agent specified[/red]")
-            console.print("Usage: /agent select <agent_key|number|pattern>")
+            console.print("[red]Ошибка: Агент не указан[/red]")
+            console.print("Использование: /agent select <agent_key|number|pattern>")
             return False
 
         agent_id = args[0]
@@ -378,9 +378,9 @@ class AgentCommand(Command):
                 agent_name = getattr(selected_agent, "name", selected_agent_key)
                 agent = selected_agent
             else:
-                console.print(f"[red]Error: Invalid agent number: {agent_id}[/red]")
+                console.print(f"[red]Ошибка: Неверный номер агента: {agent_id}[/red]")
                 console.print(
-                    f"[dim]Valid range: 1-{total_regular} for agents, {total_regular + 1}-{total_regular + len(parallel_patterns)} for patterns[/dim]"
+                    f"[dim]Допустимый диапазон: 1-{total_regular} для агентов, {total_regular + 1}-{total_regular + len(parallel_patterns)} для шаблонов[/dim]"
                 )
                 return False
         else:
@@ -535,10 +535,10 @@ class AgentCommand(Command):
                             os.environ["CAI_PATTERN_DESCRIPTION"] = pattern.description or ""
 
                             console.print(
-                                f"[green]Loaded parallel pattern: {pattern.description}[/green]"
+                                f"[green]Загружен параллельный шаблон: {pattern.description}[/green]"
                             )
                             console.print(
-                                f"[cyan]{len(PARALLEL_CONFIGS)} agents configured in parallel mode[/cyan]"
+                                f"[cyan]Настроено {len(PARALLEL_CONFIGS)} агентов в параллельном режиме[/cyan]"
                             )
 
                             # Show configured agents
@@ -549,7 +549,7 @@ class AgentCommand(Command):
                             return True
                         except (TypeError, AttributeError) as e:
                             # Pattern configs is not iterable or has issues
-                            console.print(f"[red]Error loading parallel pattern: {str(e)}[/red]")
+                            console.print(f"[red]Ошибка загрузки параллельного шаблона: {str(e)}[/red]")
                             import traceback
 
                             console.print(f"[dim]{traceback.format_exc()}[/dim]")
@@ -582,14 +582,14 @@ class AgentCommand(Command):
                             os.environ["CAI_AGENT_ROUTE_MODE"] = (
                                 "auto" if agent_key in _AUTO_ROUTE_AGENT_TYPES else "pinned"
                             )
-                            console.print(f"[green]Loaded swarm pattern: {pattern.name}[/green]")
-                            console.print(
-                                f"[cyan]Entry agent: {getattr(entry_agent, 'name', agent_key)}[/cyan]"
-                            )
+                            console.print(f"[green]Загружен шаблон роя: {pattern.name}[/green]")
+                                console.print(
+                                    f"[cyan]Точка входа: {getattr(entry_agent, 'name', agent_key)}[/cyan]"
+                                )
 
-                            # Show agents in the swarm
-                            if hasattr(pattern, "agents") and pattern.agents:
-                                console.print("\n[bold]Agents in swarm:[/bold]")
+                                # Show agents in the swarm
+                                if hasattr(pattern, "agents") and pattern.agents:
+                                    console.print("\n[bold]Агенты в рое:[/bold]")
                                 for ag in pattern.agents:
                                     ag_name = getattr(ag, "name", str(ag))
                                     console.print(f"  • {ag_name}")
@@ -601,17 +601,17 @@ class AgentCommand(Command):
                             agent_type_to_set = selected_agent_key
                         else:
                             console.print(
-                                f"[red]Error: Could not find entry agent for swarm pattern[/red]"
+                                f"[red]Ошибка: Не удалось найти точку входа для шаблона роя[/red]"
                             )
                             return False
                     else:
-                        console.print(f"[red]Error: Swarm pattern has no entry agent defined[/red]")
+                        console.print(f"[red]Ошибка: В шаблоне роя не определена точка входа[/red]")
                         return False
 
                 else:
                     # Other pattern types not yet supported for direct loading
                     console.print(
-                        f"[yellow]Pattern type '{pattern_type_str}' is not yet supported for direct loading[/yellow]"
+                        f"[yellow]Тип шаблона '{pattern_type_str}' пока не поддерживается для прямой загрузки[/yellow]"
                     )
                     console.print(f"[dim]Pattern: {pattern.name} - {pattern.description}[/dim]")
                     return False
@@ -814,12 +814,12 @@ class AgentCommand(Command):
                 agents_to_display[selected_agent_key], "name", selected_agent_key
             )
 
-        console.print(
-            f"[bold {CAI_GREEN}]Switched to agent:[/bold {CAI_GREEN}] [white]{final_agent_name}[/white]",
-            end="",
-        )
-        console.print(
-            f" [dim {GREY_TEXT}](Parallel mode disabled)[/]"
+                    console.print(
+                        f"[bold {CAI_GREEN}]Переключено на агента:[/bold {CAI_GREEN}] [white]{final_agent_name}[/white]",
+                        end="",
+                    )
+                    console.print(
+                        f" [dim {GREY_TEXT}](Параллельный режим отключён)[/]"
             if len(PARALLEL_CONFIGS) == 0
             else ""
         )
@@ -836,7 +836,7 @@ class AgentCommand(Command):
         _sync_tui_agent_selection(agent_key_to_sync)
 
         # Display the system prompt
-        console.print(f"\n[bold {CAI_GREEN}]System Prompt:[/bold {CAI_GREEN}]")
+        console.print(f"\n[bold {CAI_GREEN}]Системная подсказка:[/bold {CAI_GREEN}]")
         instructions = agent.instructions
         if callable(instructions):
             instructions = instructions()
@@ -845,7 +845,7 @@ class AgentCommand(Command):
         if len(instructions) > 500:
             console.print(f"[dim {GREY_TEXT}]{instructions[:500]}...[/]")
             console.print(
-                f"[dim {GREY_TEXT}](Truncated for display — full prompt used by agent)[/]"
+                f"[dim {GREY_TEXT}](Обрезано для отображения — полная подсказка используется агентом)[/]"
             )
         else:
             console.print(f"[white]{instructions}[/white]")

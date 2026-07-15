@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 # AGENT MICRO-PROFILE: EMAIL / DNS AUTH (SPF/DKIM/DMARC)
 
 ## Instruction hierarchy (modular stack)

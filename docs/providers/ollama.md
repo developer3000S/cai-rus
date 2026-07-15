@@ -1,38 +1,38 @@
-# Ollama Configuration
+# Конфигурация Ollama
 
-## Ollama Local (Self-hosted)
+## Ollama Локально (Самостоятельный хостинг)
 
-#### [Ollama Integration](https://ollama.com/)
-For local models using Ollama, add the following to your .env:
+#### [Интеграция Ollama](https://ollama.com/)
+Для локальных моделей с использованием Ollama добавьте следующее в ваш .env:
 
 ```bash
 CAI_MODEL=qwen2.5:72b
-OLLAMA_API_BASE=http://localhost:8000/v1 # note, maybe you have a different endpoint
+OLLAMA_API_BASE=http://localhost:8000/v1 # обратите внимание, возможно, у вас другой эндпоинт
 ```
 
-Make sure that the Ollama server is running and accessible at the specified base URL. You can swap the model with any other supported by your local Ollama instance.
+Убедитесь, что сервер Ollama запущен и доступен по указанному базовому URL. Вы можете заменить модель на любую другую, поддерживаемую вашим локальным экземпляром Ollama.
 
 ## Ollama Cloud
 
-For cloud models using Ollama Cloud (no GPU required), add the following to your .env:
+Для облачных моделей с использованием Ollama Cloud (GPU не требуется), добавьте следующее в ваш .env:
 
 ```bash
-# API Key from ollama.com
+# API ключ от ollama.com
 OLLAMA_API_KEY=your_api_key_here
 OLLAMA_API_BASE=https://ollama.com
 
-# Cloud model (note the ollama_cloud/ prefix)
+# Облачная модель (обратите внимание на префикс ollama_cloud/)
 CAI_MODEL=ollama_cloud/gpt-oss:120b
 ```
 
-**Requirements:**
-1. Create an account at [ollama.com](https://ollama.com)
-2. Generate an API key from your profile
-3. Use models with `ollama_cloud/` prefix (e.g., `ollama_cloud/gpt-oss:120b`)
+**Требования:**
+1. Создайте аккаунт на [ollama.com](https://ollama.com)
+2. Сгенерируйте API ключ в вашем профиле
+3. Используйте модели с префиксом `ollama_cloud/` (например, `ollama_cloud/gpt-oss:120b`)
 
-**Key differences:**
-- Prefix: `ollama_cloud/` (cloud) vs `ollama/` (local)
-- API Key: Required for cloud, not needed for local
-- Endpoint: `https://ollama.com/v1` (cloud) vs `http://localhost:8000/v1` (local)
+**Ключевые различия:**
+- Префикс: `ollama_cloud/` (облако) vs `ollama/` (локально)
+- API ключ: Требуется для облака, не нужен для локального
+- Эндпоинт: `https://ollama.com/v1` (облако) vs `http://localhost:8000/v1` (локально)
 
-See [Ollama Cloud documentation](ollama_cloud.md) for detailed setup instructions.
+Смотрите [Документацию Ollama Cloud](ollama_cloud.md) для подробных инструкций по настройке.

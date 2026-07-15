@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Attempt to induce litellm.Timeout by sending many large concurrent requests.
+Попытка вызвать litellm.Timeout отправкой множества больших параллельных запросов.
 """
 
 import warnings
@@ -14,7 +14,7 @@ from rich.console import Console
 from rich.panel import Panel
 import time
 
-# Load environment variables
+# Загрузка переменных окружения
 load_dotenv()
 
 console = Console()
@@ -27,14 +27,14 @@ API_BASE = "https://api.aliasrobotics.com:666/"
 API_KEY = os.getenv("ALIAS_API_KEY", "").strip()
 MODEL = os.getenv("CAI_MODEL", "alias1")
 
-# Generate a large prompt to increase processing time
+# Генерация большого промпта для увеличения времени обработки
 LARGE_PROMPT = """
-Please analyze the following complex scenario and provide a detailed response:
+Пожалуйста, проанализируйте следующий сложный сценарий и предоставьте подробный ответ:
 
-""" + "\n".join([f"Point {i}: " + "x" * 100 for i in range(50)])
+""" + "\n".join([f"Точка {i}: " + "x" * 100 for i in range(50)])
 
 async def make_heavy_request(request_id: int, timeout: float = 5.0):
-    """Make a heavy request with large prompt and short timeout."""
+    """Выполнение тяжелого запроса с большим промптом и коротким тайм-аутом."""
     start_time = time.time()
     try:
         response = await litellm.acompletion(
@@ -43,9 +43,9 @@ async def make_heavy_request(request_id: int, timeout: float = 5.0):
             api_base=API_BASE,
             api_key=API_KEY,
             custom_llm_provider="openai",
-            max_tokens=1000,  # Request many tokens
+            max_tokens=1000,  # Запрос большого количества токенов
             temperature=0.7,
-            timeout=timeout  # Short timeout
+            timeout=timeout  # Короткий тайм-аут
         )
         return {
             "id": request_id,
@@ -53,8 +53,8 @@ async def make_heavy_request(request_id: int, timeout: float = 5.0):
             "duration": time.time() - start_time
         }
     except litellm.exceptions.Timeout as e:
-        console.print(f"\n[bold red]⏱️  TIMEOUT![/bold red] Request {request_id} timed out after {time.time() - start_time:.2f}s")
-        console.print(f"[red]Error: {str(e)}[/red]")
+        console.print(f"\n[bold red]⏱️  ТАЙМАУТ![/bold red] Запрос {request_id} превысил лимит времени после {time.time() - start_time:.2f}s")
+        console.print(f"[red]Ошибка: {str(e)}[/red]")
         return {
             "id": request_id,
             "status": "timeout",
@@ -78,21 +78,21 @@ async def make_heavy_request(request_id: int, timeout: float = 5.0):
 
 async def main():
     console.print(Panel(
-        "[bold cyan]Timeout Induction Test[/bold cyan]\n\n"
-        f"Model: {MODEL}\n"
-        f"Strategy: Large prompts + short timeouts + concurrent requests\n"
-        f"Goal: Reproduce litellm.Timeout exceptions",
-        title="🚀 Starting Test"
+        "[bold cyan]Тест на вызов тайм-аута[/bold cyan]\n\n"
+        f"Модель: {MODEL}\n"
+        f"Стратегия: Большие промпты + короткие тайм-ауты + параллельные запросы\n"
+        f"Цель: Воспроизвести исключения litellm.Timeout",
+        title="🚀 Запуск теста"
     ))
     
-    # Test 1: Single request with very short timeout
-    console.print("\n[yellow]Test 1: Single request with 2 second timeout...[/yellow]")
+    # Тест 1: Один запрос с очень коротким тайм-аутом
+    console.print("\n[yellow]Тест 1: Один запрос с тайм-аутом 2 секунды...[/yellow]")
     result = await make_heavy_request(1, timeout=2.0)
     if result["status"] == "timeout":
-        console.print("[green]✓ Successfully induced timeout![/green]")
+        console.print("[green]✓ Тайм-аут успешно вызван![/green]")
     
-    # Test 2: Multiple concurrent requests with short timeouts
-    console.print("\n[yellow]Test 2: 20 concurrent heavy requests with 5 second timeout...[/yellow]")
+    # Тест 2: Несколько параллельных тяжелых запросов с короткими тайм-аутами
+    console.print("\n[yellow]Тест 2: 20 параллельных тяжелых запросов с тайм-аутом 5 секунд...[/yellow]")
     tasks = []
     for i in range(20):
         task = make_heavy_request(i + 1, timeout=5.0)
@@ -102,34 +102,34 @@ async def main():
     results = await asyncio.gather(*tasks)
     duration = time.time() - start_time
     
-    # Count results
+    # Подсчитываем результаты
     timeouts = sum(1 for r in results if r["status"] == "timeout")
     successes = sum(1 for r in results if r["status"] == "success")
     rate_limits = sum(1 for r in results if r["status"] == "rate_limit")
     errors = sum(1 for r in results if r["status"] == "error")
     
-    console.print(f"\n[bold]Results:[/bold]")
-    console.print(f"Duration: {duration:.2f}s")
-    console.print(f"⏱️  Timeouts: {timeouts}")
-    console.print(f"✅ Successes: {successes}")
-    console.print(f"⚠️  Rate Limits: {rate_limits}")
-    console.print(f"❌ Errors: {errors}")
+    console.print(f"\n[bold]Результаты:[/bold]")
+    console.print(f"Длительность: {duration:.2f}s")
+    console.print(f"⏱️  Тайм-ауты: {timeouts}")
+    console.print(f"✅ Успешные: {successes}")
+    console.print(f"⚠️  Лимиты скорости: {rate_limits}")
+    console.print(f"❌ Ошибки: {errors}")
     
     if timeouts > 0:
         console.print(Panel(
-            f"[bold green]✓ Successfully reproduced litellm.Timeout![/bold green]\n\n"
-            f"Got {timeouts} timeout exceptions out of {len(results)} requests.\n"
-            f"This confirms we can reproduce the timeout behavior.",
-            title="Timeout Reproduced",
+            f"[bold green]✓ litellm.Timeout успешно воспроизведен![/bold green]\n\n"
+            f"Получено {timeouts} исключений тайм-аута из {len(results)} запросов.\n"
+            f"Это подтверждает, что мы можем воспроизвести поведение тайм-аута.",
+            title="Тайм-аут воспроизведен",
             border_style="green"
         ))
         
-        # Show a timeout error
+        # Показываем пример ошибки тайм-аута
         timeout_result = next(r for r in results if r["status"] == "timeout")
-        console.print(f"\n[yellow]Timeout error example:[/yellow]")
+        console.print(f"\n[yellow]Пример ошибки тайм-аута:[/yellow]")
         console.print(f"{timeout_result['error']}")
     else:
-        console.print("\n[red]No timeouts induced. The infrastructure may be handling the load well.[/red]")
+        console.print("\n[red]Тайм-ауты не вызваны. Инфраструктура может хорошо справляться с нагрузкой.[/red]")
 
 if __name__ == "__main__":
     asyncio.run(main())

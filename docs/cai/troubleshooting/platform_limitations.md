@@ -1,47 +1,47 @@
-# Platform limitations (customer-facing)
+# Ограничения платформы (для заказчика)
 
-Items CAI **mitigates** (prompts, tool notices, `verify_csv_inventory`) but **cannot fully eliminate**.
+Пункты, которые CAI **смягчает** (промпты, уведомления инструментов, `verify_csv_inventory`), но **не может полностью устранить**.
 
-## Desktop / Wireshark screenshots
+## Скриншоты Desktop / Wireshark
 
-**What users expect:** PNG of the Wireshark GUI (packet list, decode panes).
+**Что ожидают пользователи:** PNG интерфейса Wireshark (список пакетов, панели декодирования).
 
-**What shell agents have:** `generic_linux_command`, optional `execute_code`—no display server, no `computer_screenshot` tool on CTF/network/compliance agents.
+**Что есть у агентов оболочки:** `generic_linux_command`, опционально `execute_code` — нет display-сервера, нет инструмента `computer_screenshot` у агентов CTF/сети/compliance.
 
-**What CAI can do:** Filtered PCAPs, `tshark` field exports, markdown summaries, optional text-rendered diagrams (clearly labeled).
+**Что может CAI:** Отфильтрованные PCAP, экспорт полей `tshark`, саммари в markdown, опциональные текстовые диаграммы (чётко размеченные).
 
-**What to tell the operator:** Ask for *filtered PCAPs* or *tshark export of frames X–Y*, not GUI screenshots, unless you run a separate desktop automation stack.
+**Что сообщить оператору:** Просить *отфильтрованные PCAP* или *экспорт кадров X–Y через tshark*, а не скриншоты GUI, если только вы не запускаете отдельный стек автоматизации рабочего стола.
 
-## 100% LLM rule compliance
+## 100% соответствие правилам LLM
 
-Prompts and tool banners reduce wrong substitutions; models may still occasionally ignore them under long contexts or repeated interruptions.
+Промпты и баннеры инструментов уменьшают неправильные замены; модели всё ещё могут время от времени игнорировать их при длинных контекстах или повторных прерываниях.
 
-**Mitigation:** Short, explicit tasks; verify artifacts on disk (`file *.pcap`, `verify_csv_inventory`).
+**Смягчение:** Короткие, явные задачи; проверка артефактов на диске (`file *.pcap`, `verify_csv_inventory`).
 
-**Not a bug:** Residual hallucination risk is inherent to LLM agents.
+**Не баг:** Резidualный риск галлюцинаций является неотъемлемой частью агентов LLM.
 
-## CAP_NET_RAW on WSL2
+## CAP_NET_RAW на WSL2
 
-**Cause:** Linux capability not granted to `dumpcap`/`tcpdump` in the WSL VM.
+**Причина:** Возможность Linux не предоставлена `dumpcap`/`tcpdump` в виртуальной машине WSL.
 
-**What CAI does:** Detect failure, suggest `setcap`, sudo, or Docker; trigger sudo prompt when TTY allows.
+**Что делает CAI:** Обнаруживает ошибку, предлагает `setcap`, sudo или Docker; запускает запрос sudo, когда TTY позволяет.
 
-**What CAI cannot do:** Grant kernel capabilities without the user (or installer) configuring the host.
+**Что CAI не может:** Предоставить.kernel-возможности без настройки хоста пользователем (или установщиком).
 
-**Action for the operator:** `sudo setcap cap_net_raw+eip $(which dumpcap)` or use CAI Docker with `NET_RAW`.
+**Действие оператора:** `sudo setcap cap_net_raw+eip $(which dumpcap)` или используйте CAI Docker с `NET_RAW`.
 
-## Very large CSV inventories
+## Очень большие инвентаризации CSV
 
-**Cause:** Context limits; model may stop after partial batches even with good prompts.
+**Причина:** Ограничения контекста; модель может остановиться после частичных пакетов даже при хороших промптах.
 
-**What CAI added:** `verify_csv_inventory` tool on Compliance agent—deterministic missing-ID list.
+**Что добавил CAI:** Инструмент `verify_csv_inventory` у агента Compliance — детерминированный список отсутствующих ID.
 
-**What still helps:** Split CSV by chapter; run verify after each batch; merge results.
+**Что всё ещё помогает:** Разделить CSV по главам; запускать verify после каждого пакета; объединять результаты.
 
-**Not solved by prompts alone** for multi-thousand-row sheets without chunking.
+**Не решается только промптами** для таблиц с тысячами строк без разбиения на части.
 
-## Agent interruption (`SYSTEM CONTEXT NOTE`)
+## Прерывание агента (`SYSTEM CONTEXT NOTE`)
 
-When the user switches agents or tasks, CAI injects a note to prioritize the new request. Earlier work may stop mid-flight.
+Когда пользователь переключает агентов или задач, CAI вставляет примечание для приоритизации нового запроса. Предыдущая работа может остановиться на полпути.
 
-**Not the PCAP bug**—by design. Use “resume previous task” if continuation is intended.
+**Не баг PCAP** — это задумано так. Используйте «продолжить предыдущую задачу», если предполагается продолжение.

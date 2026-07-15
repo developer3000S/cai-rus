@@ -14,24 +14,24 @@ def scripting_tool(
     args: str = "",
     ctf=None,  # pylint: disable=unused-argument
 ) -> str:
-    """Scripting tool for executing Python code directly in memory.
-    IMPORTANT: Use with caution - executes Python code directly.
-    IMPORTANT: Remember to import all the modules and libraries you need.
+    """Инструмент скриптов для выполнения Python-кода непосредственно в памяти.
+    ВАЖНО: Используйте с осторожностью - выполняет Python-код напрямую.
+    ВАЖНО: Не забудьте импортировать все необходимые модули и библиотеки.
 
     Args:
-        command: Python code, with or without markdown format. Can handle:
-            - Raw Python code
-            - Markdown formatted code (```python\\ncode)
-            - Code with leading/trailing whitespace
-        args: Additional command line arguments
-        ctf: CTF context object (unused but required for tool interface)
+        command: Python-код, с форматированием markdown или без. Обрабатывает:
+            - Сырой Python-код
+            - Код с форматированием markdown (```python\\ncode)
+            - Код с пробелами в начале/конце
+        args: Дополнительные аргументы командной строки
+        ctf: Объект контекста CTF (не используется, но требуется для интерфейса инструмента)
 
     Returns:
-        str: Output from the executed Python code
+        str: Вывод выполненного Python-кода
 
     Raises:
-        ValueError: If the command is empty or invalid
-        SecurityError: If potentially dangerous operations are detected
+        ValueError: Если команда пуста или недопустима
+        SecurityError: Если обнаружены потенциально опасные операции
     """
     # pylint: disable=import-outside-toplevel
     import re
@@ -40,7 +40,7 @@ def scripting_tool(
     import ast
 
     if not command or not isinstance(command, str):
-        raise ValueError("Command must be a non-empty string")
+        raise ValueError("Команда должна быть непустой строкой")
 
     command = command.strip()
 
@@ -59,7 +59,7 @@ def scripting_tool(
 
     script = script.strip()
     if not script:
-        raise ValueError("No valid Python code found in command")
+        raise ValueError("Не найден допустимый Python-код в команде")
 
     try:
         tree = ast.parse(script)
@@ -69,11 +69,11 @@ def scripting_tool(
             ):  # Check for potentially dangerous operations
                 module = node.names[0].name.split(".")[0]
                 if module in ["os", "sys", "subprocess", "shutil"]:
-                    raise SecurityError(f"Importing potentially dangerous module: {module}")
+                    raise SecurityError(f"Импорт потенциально опасного модуля: {module}")
     except SyntaxError as e:
-        return f"Python syntax error: {str(e)}"
+        return f"Синтаксическая ошибка Python: {str(e)}"
     except SecurityError as e:
-        return f"Security check failed: {str(e)}"
+        return f"Проверка безопасности не пройдена: {str(e)}"
 
     # Capture stdout
     old_stdout = sys.stdout
@@ -149,13 +149,13 @@ def scripting_tool(
             # pylint: disable=eval-used
             eval(compiled_code, restricted_globals)  # nosec B307
         except Exception as e:  # pylint: disable=broad-exception-caught
-            return f"Error executing script: {str(e)}"
+            return f"Ошибка выполнения скрипта: {str(e)}"
 
         # Get the output
         output = redirected_output.getvalue()
-        return output if output else "Code executed successfully (no output)"
+        return output if output else "Код выполнен успешно (нет вывода)"
     except Exception as e:  # pylint: disable=broad-exception-caught
-        return f"Error during execution: {str(e)}"
+        return f"Ошибка во время выполнения: {str(e)}"
     finally:
         sys.stdout = old_stdout  # restore
 

@@ -46,8 +46,8 @@ input_guardrails, output_guardrails = get_security_guardrails()
 
 selection_agent = Agent(
     name="Selection Agent",
-    description="""Orchestrator: routes cybersecurity work to the best CAI specialist via handoffs,
-or answers pure meta-questions about which agent to use.""",
+    description="""Оркестратор: направляет работу по кибербезопасности лучшему специалисту CAI через передачи (handoffs),
+или отвечает на чисто мета-вопросы о том, какой агент использовать.""",
     instructions=create_system_prompt_renderer(
         selection_agent_system_prompt,
         cyber_micro_profile_key="selection",

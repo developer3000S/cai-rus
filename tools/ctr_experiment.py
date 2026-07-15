@@ -1,25 +1,25 @@
 #!/usr/bin/env python3
 """
-CTR Experiment Runner - Command line interface for CAI-CTR integration.
+Запуск эксперимента CTR - Интерфейс командной строки для интеграции CAI-CTR.
 
-This thin wrapper delegates to `cai.ctr.experiment.main()` which exposes
-an argparse-powered interface. It supports processing a single JSONL log
-file or a directory of JSONL logs, plus optional flags for CTF mode and
-attack/defense rate grids.
+Эта оболочка делегирует `cai.ctr.experiment.main()`, который предоставляет
+интерфейс на базе argparse. Он поддерживает обработку одного JSONL журнала
+или директории JSONL журналов, а также необязательные флаги для режима CTF и
+сеток скоростей атаки/защиты.
 
-Examples
-========
-Run CTR over one log file:
+Примеры
+=======
+Запуск CTR над одним файлом журнала:
     cai-ctr --input_log ~/.cai/logs/session_2025-09-04.jsonl
 
-Run CTR over all logs in a folder:
+Запуск CTR над всеми журналами в папке:
     cai-ctr --input_log ~/.cai/logs/
 
-Specify rates and output directory:
+Указание скоростей и директории вывода:
     cai-ctr --input_log ./logs --attack_rate 1,2,3 --defense_rate 0,1 \
             --output_dir /tmp/cai/ctr
 
-Show help:
+Показ справки:
     cai-ctr -h
 """
 
@@ -27,14 +27,14 @@ import sys
 import os
 import asyncio
 
-# Add src directory to Python path for editable installs and direct runs
+# Добавление директории src в путь Python для редактируемых установок и прямых запусков
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'src'))
 
 from cai.ctr.experiment import main as experiment_main
 
 
 def main() -> None:
-    """Synchronous entrypoint for the `cai-ctr` console script."""
+    """Синхронная точка входа для консольного скрипта `cai-ctr`."""
     asyncio.run(experiment_main())
 
 

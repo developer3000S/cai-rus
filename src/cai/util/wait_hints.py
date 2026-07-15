@@ -25,34 +25,34 @@ from cai.util.hint_renderables import build_wait_hint_renderable, pipe_frame
 # --- Message pools (model long-wait; shared with retry trailer) -----------------
 
 MODEL_DELAY_MESSAGES: tuple[str, ...] = (
-    "The service looks busy right now—thanks for waiting.",
-    "Still no reply; large context or tools often slow things down.",
-    "Taking longer than usual—the provider may be under load.",
-    "Hang tight; we're still waiting on the model.",
-    "Slower than expected—cold starts and big prompts add delay.",
-    "Nothing wrong on your side yet; the request is still in flight.",
-    "Queue or capacity upstream may be causing the delay.",
-    "Patience appreciated—some runs need more than a minute.",
-    "If this repeats often, check provider status or your plan limits.",
-    "We haven't timed out—we'll keep waiting until we get an answer.",
+    "Сервис сейчас загружен — спасибо за ожидание.",
+    "Ответа всё ещё нет; большой контекст или инструменты часто замедляют работу.",
+    "Дольше, чем обычно — возможно, у поставщика высокая нагрузка.",
+    "Подождите немного — мы всё ещё ждём ответа модели.",
+    "Медленнее, чем ожидалось — холодный старт и большие промпты добавляют задержку.",
+    "С вашей стороны всё в порядке; запрос всё ещё в обработке.",
+    "Очередь или нехватка ресурсов у поставщика могут вызывать задержку.",
+    "Цените ваше терпение — некоторые запуски занимают больше минуты.",
+    "Если это повторяется часто, проверьте статус поставщика или лимиты вашего плана.",
+    "Тайм-аута не было — мы продолжаем ждать до получения ответа.",
 )
 
 TOOL_DELAY_MESSAGES: tuple[str, ...] = (
-    "The tool is still running—large output or slow I/O can take a while.",
-    "Waiting on the subprocess; disk or network may be the bottleneck.",
-    "No tool result yet—commands can queue behind heavier work on the host.",
-    "Still executing; downloads or streaming output extend this phase.",
-    "The machine may be busy; the tool hasn't returned yet.",
-    "Long shell jobs stay here until they exit cleanly.",
-    "Heavy filesystem work can keep this visible for quite some time.",
-    "Remote calls inside the tool may be waiting on another service.",
-    "If this hangs, the command might be blocked on input (not supported).",
-    "We're still collecting stdout/stderr from the tool process.",
+    "Инструмент всё ещё выполняется — большой вывод или медленный ввод/вывод могут занять время.",
+    "Ожидаем подпроцесс; узким местом может быть диск или сеть.",
+    "Результата инструмента пока нет — команды могут стоять в очереди за более тяжёлыми задачами на хосте.",
+    "Всё ещё выполняется; загрузки или потоковый вывод продлевают этот этап.",
+    "Возможно, машина занята; инструмент ещё не вернул результат.",
+    "Долгие shell-задачи остаются здесь до завершения.",
+    "Тяжёлая работа с файловой системой может держать это сообщение довольно долго.",
+    "Удалённые вызовы внутри инструмента могут ожидать ответа от другого сервиса.",
+    "Если зависание, команда может ждать ввода (не поддерживается).",
+    "Мы всё ещё собираем stdout/stderr от процесса инструмента.",
 )
 
 RETRY_TRAILER = (
-    "Heavy context or API load may be slowing the response. "
-    "If this persists, contact support and consider upgrading your plan."
+    "Большой контекст или нагрузка на API могут замедлять ответ. "
+    "Если это продолжается, обратитесь в поддержку и рассмотрите обновление вашего плана."
 )
 
 _PIPE_SPIN_INTERVAL = 0.25
@@ -271,19 +271,19 @@ def summarize_tool_arguments(raw: str | None, max_len: int = 100) -> str:
     s = raw.replace("\n", " ").strip()
     if len(s) > max_len:
         return s[: max_len - 1] + "…"
-    return s or "(args)"
+    return s or "(аргументы)"
 
 
 def _tool_batch_label_and_summary(
     names: List[str], summaries: List[str]
 ) -> tuple[str, str]:
     if not names:
-        return "tools", "…"
+        return "инструменты", "…"
     if len(names) == 1:
         return names[0], summaries[0] if summaries else "…"
     joined = ", ".join(names[:3])
     if len(names) > 3:
-        joined += f" (+{len(names) - 3} more)"
+        joined += f" (+{len(names) - 3} ещё)"
     summary = summaries[0] if summaries else joined
     return joined, summary
 
@@ -299,14 +299,14 @@ def _model_body(elapsed: float, state: dict[str, Any]) -> str:
             state["m_pick"] = random.choice(MODEL_DELAY_MESSAGES)
         return state["m_pick"]
     if elapsed >= 60.0:
-        return "Planning the next move…"
+        return "Планируем следующий шаг…"
     if elapsed >= 30.0:
-        return "Analyzing and optimizing information…"
+        return "Анализируем и оптимизируем информацию…"
     if elapsed >= 10.0:
-        return "Gathering context and reviewing sources…"
+        return "Собираем контекст и изучаем источники…"
     if elapsed >= 5.0:
-        return "Thinking…"
-    return "Preparing context and calling the model"
+        return "Думаем…"
+    return "Подготавливаем контекст и вызываем модель"
 
 
 def _tool_body(
@@ -319,16 +319,16 @@ def _tool_body(
             state["t_pick"] = random.choice(TOOL_DELAY_MESSAGES)
         return state["t_pick"]
     if elapsed >= 90.0:
-        return "Waiting for the tool; the model will process this right after."
+        return "Ожидаем инструмент; модель обработает результат сразу после."
     if elapsed >= 60.0:
-        return "Waiting for tool output before sending it to the model."
+        return "Ожидаем вывод инструмента перед отправкой модели."
     if elapsed >= 30.0:
-        return "This command is heavy; it may need more time…"
+        return "Эта команда тяжёлая; может потребоваться больше времени…"
     if elapsed >= 10.0:
-        return "Processing the command—please wait."
+        return "Обрабатываем команду — пожалуйста, подождите."
     if elapsed >= 3.0:
-        return f"Executing: {exec_summary}"
-    return f"Preparing tool {tool_label} for execution"
+        return f"Выполняем: {exec_summary}"
+    return f"Подготавливаем инструмент {tool_label} к выполнению"
 
 
 class _WaitHintLoop:

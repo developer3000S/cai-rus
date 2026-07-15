@@ -251,7 +251,7 @@ class ContentValidator:
             try:
                 content = str(content)
             except Exception:
-                return "[Error: Unable to convert content to string]"
+                return "[Ошибка: Не удалось преобразовать содержимое в строку]"
         
         # Handle empty content
         if not content:
@@ -273,7 +273,7 @@ class ContentValidator:
         for line in lines:
             if len(line) > cls.MAX_LINE_LENGTH:
                 # Truncate and add indicator
-                line = line[:cls.MAX_LINE_LENGTH] + "... [truncated]"
+                line = line[:cls.MAX_LINE_LENGTH] + "... [обрезано]"
             sanitized_lines.append(line)
         
         return '\n'.join(sanitized_lines)
@@ -282,7 +282,7 @@ class ContentValidator:
     def validate_stream_data(cls, data: Dict[str, Any]) -> Dict[str, Any]:
         """Validate and clean stream data"""
         if not isinstance(data, dict):
-            return {"content": "", "error": "Invalid data type"}
+            return {"content": "", "error": "Недопустимый тип данных"}
         
         # Sanitize content field
         if "content" in data:
@@ -391,7 +391,7 @@ class ConcurrencyManager:
                     self._active_streams.add(stream_id)
                 yield
             else:
-                raise RuntimeError(f"Too many concurrent streams (max: {self.max_concurrent})")
+                raise RuntimeError(f"Слишком много параллельных потоков (макс: {self.max_concurrent})")
         finally:
             if acquired:
                 with self._lock:
@@ -438,7 +438,7 @@ def safe_write_to_terminal(terminal_output: Any, content: str, fallback: Callabl
             fallback(content)
         else:
             # Last resort - write to stderr
-            print(f"[TUI Error] No valid output: {content[:100]}", file=sys.stderr)
+            print(f"[Ошибка TUI] Нет допустимого вывода: {content[:100]}", file=sys.stderr)
     except Exception as e:
         logger.error(f"Error writing to terminal: {e}")
         if fallback:

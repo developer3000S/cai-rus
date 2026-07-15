@@ -1,387 +1,386 @@
-# CAI Mobile UI - User Interface Guide
+# Мобильный интерфейс CAI - Руководство по пользовательскому интерфейсу
 
-> **⚡ CAI-Pro Exclusive**  
-> Master the CAI Mobile UI interface for efficient security testing on the go.
+> **⚡ Эксклюзивная функция CAI-Pro**  
+> Освойте интерфейс Мобильного интерфейса CAI для эффективного тестирования безопасности на ходу.
 
-This guide provides a comprehensive overview of the CAI Mobile UI interface elements, layouts, and visual design.
+Это руководство предоставляет исчерпывающий обзор элементов интерфейса, макетов и визуального дизайна Мобильного интерфейса CAI.
 
-![CAI Mobile UI Main Interface](../media/MUI/cai_app_ios_chat.png)
+![Основной интерфейс Мобильного интерфейса CAI](../media/MUI/cai_app_ios_chat.png)
 
-## Interface Overview
+## Обзор интерфейса
 
-The CAI Mobile UI is organized into five main areas:
+Мобильный интерфейс CAI организован в пять основных областей:
 
 ```
 ┌─────────────────────────────┐
-│      Navigation Bar         │  ← Agent/Model Selection
+│      Панель навигации       │  ← Выбор агента/модели
 ├─────────────────────────────┤
 │                             │
 │                             │
-│      Chat Display           │  ← Conversation Area
+│      Отображение чата       │  ← Область беседы
 │                             │
 │                             │
 ├─────────────────────────────┤
-│    Message Input Bar        │  ← Text Input
+│    Панель ввода сообщений   │  ← Текстовый ввод
 ├─────────────────────────────┤
-│       Tab Bar               │  ← Navigation
+│       Панель вкладок        │  ← Навигация
 └─────────────────────────────┘
 ```
 
-## Navigation Bar
+## Панель навигации
 
-The top navigation bar provides quick access to core functions:
+Верхняя панель навигации обеспечивает быстрый доступ к основным функциям:
 
-### Left Side
-- **Menu Button** (☰): Access sidebar menu
-  - Settings
-  - Session History
-  - Export Options
-  - Help & Documentation
+### Левая сторона
+- **Кнопка меню** (☰): Доступ к боковому меню
+  - Настройки
+  - История сессий
+  - Опции экспорта
+  - Справка и документация
 
-### Center
-- **Agent Selector**: Current agent name with dropdown
-  - Tap to change agents
-  - Shows agent status (active/thinking)
-  - Displays specialized agent icons
+### Центр
+- **Выбор агента**: Имя текущего агента с выпадающим списком
+  - Нажмите для смены агентов
+  - Показывает статус агента (активен/обрабатывает)
+  - Отображает специализированные значки агентов
 
-### Right Side
-- **Model Badge**: Current model indicator
-  - Tap to change models
-  - Color-coded by provider
-  - Shows token limits
-- **Action Button** (...): Quick actions
-  - Clear conversation
-  - Export chat
-  - View raw output
+### Правая сторона
+- **Значок модели**: Индикатор текущей модели
+  - Нажмите для смены моделей
+  - Цветовая кодировка по провайдеру
+  - Показывает лимиты токенов
+- **Кнопка действий** (...): Быстрые действия
+  - Очистить беседу
+  - Экспорт чата
+  - Просмотр необработанного вывода
 
-## Chat Display Area
+## Область отображения чата
 
-The main conversation area with sophisticated rendering:
+Основная область беседы с продвинутым рендерингом:
 
-### Message Types
+### Типы сообщений
 
-**User Messages**
-- Right-aligned bubbles
-- Blue background (customizable)
-- Timestamp on long-press
-- Swipe actions available
+**Сообщения пользователя**
+- Пузырьки, выровненные по правому краю
+- Синий фон (настраиваемый)
+- Временная метка при длительном нажатии
+- Доступны действия свайпами
 
-**Assistant Messages**
-- Left-aligned bubbles
-- White/gray background
-- Agent avatar/icon
-- Streaming indicator during generation
+**Сообщения ассистента**
+- Пузырьки, выровненные по левому краю
+- Белый/серый фон
+- Аватар/значок агента
+- Индикатор стриминга во время генерации
 
-**System Messages**
-- Center-aligned
-- Muted appearance
-- Status updates and notifications
+**Системные сообщения**
+- Выровнены по центру
+- Приглушенный вид
+- Обновления статуса и уведомления
 
-### Content Rendering
+### Рендеринг контента
 
-**Text Formatting**
-- **Bold text** for emphasis
-- *Italic text* for notes
-- `Inline code` with syntax highlighting
-- > Blockquotes for citations
+**Форматирование текста**
+- **Полужирный текст** для выделения
+- *Курсивный текст* для примечаний
+- `Встроенный код` с подсветкой синтаксиса
+- > Блоки цитирования для ссылок
 
-**Code Blocks**
+**Блоки кода**
 ```python
-# Syntax highlighted code
+# Код с подсветкой синтаксиса
 def security_scan(target):
     return results
 ```
-- Language detection
-- Copy button overlay
-- Horizontal scrolling for long lines
-
-**Lists and Tables**
-- Bullet points with proper indentation
-- Numbered lists with automatic ordering
-- Tables with responsive layout
-- Horizontal scroll for wide tables
-
-**Special Elements**
-- 🔧 Tool usage indicators
-- 🤔 Thinking/reasoning displays
-- ⚠️ Warning/error messages
-- ✅ Success confirmations
-
-## Message Input Bar
-
-Advanced input controls at the bottom:
-
-### Text Field
-- Multi-line support (expands up to 5 lines)
-- Paste detection for long content
-- Mention support (@agent, @file)
-- Markdown preview toggle
-
-### Action Buttons
-- **Send** (→): Submit message
-- **Attach** (📎): Add files/images
-  - Photo library
-  - Camera
-  - Files app
-  - Paste from clipboard
-- **Voice** (🎤): Voice input (when available)
-- **Commands** (/): Quick command palette
-
-## Tab Bar Navigation
-
-Bottom navigation for primary app sections:
-
-### Chats Tab
-- Active conversations list
-- Unread message indicators
-- Swipe to delete/archive
-- Search conversations
-
-### Agents Tab
-- Browse all available agents
-- Category filtering
-- Agent descriptions
-- Quick select/favorite
-
-### Tools Tab
-- MCP tool management
-- Connected servers
-- Tool documentation
-- Configuration options
-
-### History Tab
-- Past sessions
-- Search and filters
-- Export options
-- Analytics view
-
-### Settings Tab
-- Account management
-- Appearance options
-- Network configuration
-- Advanced settings
-
-## Visual Design
-
-### Color Scheme
-
-**Light Mode**
-- Background: #FFFFFF
-- Primary: #007AFF (iOS Blue)
-- Text: #000000
-- Secondary: #8E8E93
-
-**Dark Mode**
-- Background: #000000
-- Primary: #0A84FF
-- Text: #FFFFFF
-- Secondary: #8E8E93
-
-**Agent Status Colors**
-- Active: Green (#34C759)
-- Thinking: Orange (#FF9500)
-- Error: Red (#FF3B30)
-- Idle: Gray (#8E8E93)
-
-### Typography
-
-**Fonts**
-- Headers: SF Pro Display (Bold)
-- Body: SF Pro Text (Regular)
-- Code: SF Mono (Regular)
-- Custom: Suisse Intl (CAI branding)
-
-**Sizes**
-- Large Title: 34pt
-- Title 1: 28pt
-- Body: 17pt
-- Caption: 12pt
-- Code: 14pt
-
-### Spacing and Layout
+- Определение языка
+- Наложение кнопки копирования
+- Горизонтальная прокрутка для длинных строк
+
+**Списки и таблицы**
+- Маркированные списки с правильным отступом
+- Нумерованные списки с автоматической нумерацией
+- Таблицы с адаптивным макетом
+- Горизонтальная прокрутка для широких таблиц
+
+**Специальные элементы**
+- 🔧 Индикаторы использования инструментов
+- 🤔 Отображение обработки/рассуждений
+- ⚠️ Предупреждения/сообщения об ошибках
+- ✅ Подтверждения успеха
+
+## Панель ввода сообщений
+
+Продвинутые элементы управления вводом внизу:
+
+### Текстовое поле
+- Поддержка многострочных строк (расширяется до 5 строк)
+- Обнаружение вставки для длинного контента
+- Поддержка упоминаний (@агент, @файл)
+- Переключатель предварительного просмотра Markdown
+
+### Кнопки действий
+- **Отправить** (→): Отправить сообщение
+- **Прикрепить** (📎): Добавить файлы/изображения
+  - Библиотека фото
+  - Камера
+  - Приложение Файлы
+  - Вставка из буфера обмена
+- **Голос** (🎤): Голосовой ввод (когда доступен)
+- **Команды** (/): Быстрая палитра команд
+
+## Навигация по панели вкладок
+
+Нижняя навигация по основным разделам приложения:
+
+### Вкладка Чаты
+- Список активных бесед
+- Индикаторы непрочитанных сообщений
+- Свайп для удаления/архивации
+- Поиск бесед
+
+### Вкладка Агенты
+- Просмотр всех доступных агентов
+- Фильтрация по категориям
+- Описания агентов
+- Быстрый выбор/избранное
+
+### Вкладка Инструменты
+- Управление инструментами MCP
+- Подключенные серверы
+- Документация инструментов
+- Опции конфигурации
+
+### Вкладка История
+- Прошлые сессии
+- Поиск и фильтры
+- Опции экспорта
+- Вид аналитики
+
+### Вкладка Настройки
+- Управление аккаунтом
+- Опции внешнего вида
+- Конфигурация сети
+- Расширенные настройки
+
+## Визуальный дизайн
+
+### Цветовая схема
+
+**Светлый режим**
+- Фон: #FFFFFF
+- Основной: #007AFF (Синий iOS)
+- Текст: #000000
+- Вторичный: #8E8E93
+
+**Темный режим**
+- Фон: #000000
+- Основной: #0A84FF
+- Текст: #FFFFFF
+- Вторичный: #8E8E93
+
+**Цвета статуса агентов**
+- Активен: Зеленый (#34C759)
+- Обрабатывает: Оранжевый (#FF9500)
+- Ошибка: Красный (#FF3B30)
+- Простаивает: Серый (#8E8E93)
+
+### Типографика
+
+**Шрифты**
+- Заголовки: SF Pro Display (Полужирный)
+- Основной текст: SF Pro Text (Обычный)
+- Код: SF Mono (Обычный)
+- Пользовательский: Suisse Intl (Брендинг CAI)
+
+**Размеры**
+- Большой заголовок: 34pt
+- Заголовок 1: 28pt
+- Основной текст: 17pt
+- Подпись: 12pt
+- Код: 14pt
+
+### Интервалы и макет
 
-**Margins**
-- Screen edges: 16pt
-- Between elements: 8pt
-- Message bubbles: 12pt padding
-
-**Adaptive Layouts**
-- iPhone SE: Compact width
-- iPhone 14: Regular width
-- iPad: Multi-column support
-
-## Interactive Elements
-
-### Gestures
-
-**Tap Gestures**
-- Single tap: Select/activate
-- Double tap: Quick actions
-- Long press: Context menu
-
-**Swipe Gestures**
-- Horizontal: Navigate conversations
-- Vertical: Scroll content
-- Pull-to-refresh: Reload/cancel
-
-**Pinch Gestures**
-- Zoom: Adjust text size
-- Spread: View image full screen
-
-### Animations
-
-**Transitions**
-- Push/pop: 0.3s ease-in-out
-- Fade: 0.2s linear
-- Spring: Damping 0.8, velocity 0.5
-
-**Loading States**
-- Skeleton screens for content
-- Pulse animation for thinking
-- Progress indicators for uploads
-
-### Haptic Feedback
-
-**Light Impact**
-- Selection changes
-- Toggle switches
-- Tab selections
-
-**Medium Impact**
-- Send message
-- Error alerts
-- Successful actions
-
-**Heavy Impact**
-- Critical errors
-- Destructive actions
-- Force touch menus
-
-## Adaptive Features
-
-### Dynamic Type
-
-Support for iOS accessibility sizes:
-- Minimum: 14pt
-- Maximum: 53pt
-- Automatic layout adjustment
-- Readable line lengths maintained
-
-### Orientation Support
-
-**Portrait Mode**
-- Full interface visible
-- Optimized for one-handed use
-- Keyboard avoidance
-
-**Landscape Mode**
-- Extended message view
-- Side-by-side on iPad
-- Floating keyboard support
-
-### Display Modes
-
-**Compact Mode**
-- Simplified navigation
-- Condensed messages
-- Essential actions only
-
-**Regular Mode**
-- Full feature set
-- Rich formatting
-- All tools available
-
-**iPad Mode**
-- Multi-column layout
-- Floating panels
-- Keyboard shortcuts
-
-## Status Indicators
-
-### Connection Status
-- 🟢 Connected: Solid green
-- 🟡 Connecting: Pulsing yellow
-- 🔴 Disconnected: Solid red
-- 🔄 Syncing: Rotating icon
-
-### Agent Status
-- 💭 Thinking: Animated dots
-- 🛠️ Using tools: Tool icon
-- ✍️ Writing: Typing indicator
-- ✅ Complete: Checkmark
-
-### Network Quality
-- Full bars: Excellent (<50ms)
-- 3 bars: Good (50-150ms)
-- 2 bars: Fair (150-300ms)
-- 1 bar: Poor (>300ms)
-
-## Accessibility
-
-### VoiceOver Support
-- Complete label coverage
-- Logical navigation order
-- Action hints provided
-- Custom rotor actions
-
-### Visual Accommodations
-- High contrast mode
-- Reduce motion option
-- Color blind filters
-- Text size preferences
-
-### Motor Accommodations
-- Touch target minimums (44x44pt)
-- Gesture alternatives
-- Voice control support
-- Switch control compatible
-
-## Customization Options
-
-### Appearance Settings
-- Theme selection (Light/Dark/Auto)
-- Accent color choices
-- Font size adjustment
-- Message bubble styles
-
-### Layout Preferences
-- Compact/comfortable/spacious
-- Show/hide timestamps
-- Avatar display options
-- Tab bar configuration
-
-### Behavior Settings
-- Swipe sensitivity
-- Animation speed
-- Haptic intensity
-- Sound effects
-
-## Performance Optimization
-
-### Image Handling
-- Lazy loading for history
-- Thumbnail generation
-- Progressive image loading
-- Memory-efficient caching
-
-### Message Rendering
-- Virtualized scrolling
-- Incremental rendering
-- Text measurement caching
-- Smooth 60fps scrolling
-
-### Network Efficiency
-- Message batching
-- Compression support
-- Delta updates only
-- Offline queue management
-
-## Next Steps
-
-- 👆 [Master Gestures & Shortcuts](gestures_shortcuts.md)
-- 💬 [Explore Chat Features](chat_features.md)
-- 🎯 [Learn Agent Selection](agent_selection.md)
+**Отступы**
+- Края экрана: 16pt
+- Между элементами: 8pt
+- Пузырьки сообщений: 12pt отступ
+
+**Адаптивные макеты**
+- iPhone SE: Компактная ширина
+- iPhone 14: Обычная ширина
+- iPad: Поддержка нескольких колонок
+
+## Интерактивные элементы
+
+### Жесты
+
+**Жесты нажатия**
+- Одиночное нажатие: Выбор/активация
+- Двойное нажатие: Быстрые действия
+- Длительное нажатие: Контекстное меню
+
+**Жесты свайпов**
+- Горизонтальные: Навигация по беседам
+- Вертикальные: Прокрутка содержимого
+- Провести для обновления: Перезагрузка/отмена
+
+**Жесты разделения пальцами**
+- Масштабирование: Настройка размера текста
+- Увеличение: Просмотр изображения на полном экране
+
+### Анимации
+
+**Переходы**
+- Push/pop: 0,3с ease-in-out
+- Затухание: 0,2с linear
+- Пружина: Демпфирование 0,8, скорость 0,5
+
+**Состояния загрузки**
+- Экраны-скелетоны для контента
+- Пульсирующая анимация для обработки
+- Индикаторы прогресса для загрузок
+
+### Тактильная обратная связь
+
+**Легкое воздействие**
+- Изменения выбора
+- Переключатели
+- Выбор вкладок
+
+**Среднее воздействие**
+- Отправка сообщения
+- Предупреждения об ошибках
+- Успешные действия
+
+**Тяжелое воздействие**
+- Критические ошибки
+- Деструктивные действия
+- Меню Force touch
+
+## Адаптивные функции
+
+### Динамический текст
+
+Поддержка размеров специальных возможностей iOS:
+- Минимум: 14pt
+- Максимум: 53pt
+- Автоматическая настройка макета
+- Сохранение читаемой длины строк
+
+### Поддержка ориентации
+
+**Книжный режим**
+- Полный интерфейс виден
+- Оптимизировано для использования одной рукой
+- Избегание клавиатуры
+
+**Альбомный режим**
+- Расширенный вид сообщений
+- Бок о бок на iPad
+- Поддержка плавающей клавиатуры
+
+### Режимы отображения
+
+**Компактный режим**
+- Упрощенная навигация
+- Сжатые сообщения
+- Только основные действия
+
+**Обычный режим**
+- Полный набор функций
+- Насыщенное форматирование
+- Все инструменты доступны
+
+**Режим iPad**
+- Многоколоночный макет
+- Плавающие панели
+- Горячие клавиши
+
+## Индикаторы статуса
+
+### Статус подключения
+- 🟢 Подключено: Сплошной зеленый
+- 🟡 Подключение: Пульсирующий желтый
+- 🔴 Отключено: Сплошной красный
+- 🔄 Синхронизация: Вращающийся значок
+
+### Статус агента
+- 🛠️ Использование инструментов: Значок инструмента
+- ✍️ Набор текста: Индикатор ввода
+- ✅ Завершено: Галочка
+
+### Качество сети
+- Полные полосы: Отличное (<50мс)
+- 3 полосы: Хорошее (50-150мс)
+- 2 полосы: Удовлетворительное (150-300мс)
+- 1 полоса: Плохое (>300мс)
+
+## Специальные возможности
+
+### Поддержка VoiceOver
+- Полное покрытие метками
+- Логический порядок навигации
+- Предоставление подсказок действий
+- Пользовательские действия ротора
+
+### Визуальные адаптации
+- Режим высокого контраста
+- Опция уменьшения анимации
+- Фильтры для цветной слепоты
+- Предпочтения размера текста
+
+### Моторные адаптации
+- Минимальные цели касания (44x44pt)
+- Альтернативы жестам
+- Поддержка голосового управления
+- Совместимость с переключателями
+
+## Опции пользовательских настроек
+
+### Настройки внешнего вида
+- Выбор темы (Светлая/Темная/Авто)
+- Выбор цвета акцента
+- Настройка размера шрифта
+- Стили пузырьков сообщений
+
+### Предпочтения макета
+- Компактный/Комфортный/Просторный
+- Показать/скрыть временные метки
+- Опции отображения аватаров
+- Конфигурация панели вкладок
+
+### Настройки поведения
+- Чувствительность свайпов
+- Скорость анимации
+- Интенсивность тактильной обратной связи
+- Звуковые эффекты
+
+## Оптимизация производительности
+
+### Обработка изображений
+- Ленивая загрузка для истории
+- Генерация миниатюр
+- Прогрессивная загрузка изображений
+- Эффективный по памяти кэш
+
+### Рендеринг сообщений
+- Виртуализированная прокрутка
+- Инкрементный рендеринг
+- Кэш измерения текста
+- Плавная прокрутка 60fps
+
+### Эффективность сети
+- Группировка сообщений
+- Поддержка сжатия
+- Только дельта-обновления
+- Управление офлайн очередью
+
+## Следующие шаги
+
+- 👆 [Освойте жесты и сочетания клавиш](gestures_shortcuts.md)
+- 💬 [Исследуйте функции чата](chat_features.md)
+- 🎯 [Изучите выбор агентов](agent_selection.md)
 
 ---
 
-*Understanding the interface is key to efficient mobile security testing*
+*Понимание интерфейса - ключ к эффективному мобильному тестированию безопасности*

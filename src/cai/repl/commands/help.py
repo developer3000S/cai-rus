@@ -51,7 +51,7 @@ def create_styled_table(
 
 
 def create_notes_panel(
-    notes: List[str], title: str = "Notes", border_style: str | None = None
+    notes: List[str], title: str = "Примечания", border_style: str | None = None
 ) -> Panel:
     """Create a notes panel with consistent formatting.
 
@@ -78,21 +78,21 @@ def model_help_panel_markup() -> str:
     z = _CAI_GREEN
     return (
         _h_panel_desc(
-            "Model selection: browse and set CAI_MODEL from the short table or the full catalog."
+            "Выбор модели: просмотр и установка CAI_MODEL из краткой таблицы или полного каталога."
         )
-        + f"[bold {z}]Syntax[/bold {z}]\n"
-        f"• [bold {z}]/model[/bold {z}] — current model and short table\n"
-        f"• [bold {z}]/model show[/bold {z}] — full LiteLLM catalog\n"
-        f"• [bold {z}]/model show supported[/bold {z}] — function-calling models only\n"
-        f"• [bold {z}]/model show <term>[/bold {z}] — filter by name\n"
-        f"• [bold {z}]/model show supported <term>[/bold {z}] — filter supported set\n"
-        f"• [bold {z}]/model <name>[/bold {z}] or [bold {z}]/model <n>[/bold {z}] — set "
-        f"[bold]CAI_MODEL[/bold] if the id exists in the loaded catalog (applies next turn)\n\n"
-        f"[bold {z}]Notes[/bold {z}]\n"
-        f"• API keys: [bold {z}]/env list[/bold {z}]\n"
-        f"• Row numbers match [bold {z}]/model show[/bold {z}]; the short table skips "
-        "LiteLLM-only slots\n\n"
-        f"[dim]Alias: /mod[/dim]"
+        + f"[bold {z}]Синтаксис[/bold {z}]\n"
+        f"• [bold {z}]/model[/bold {z}] — текущая модель и краткая таблица\n"
+        f"• [bold {z}]/model show[/bold {z}] — полный каталог LiteLLM\n"
+        f"• [bold {z}]/model show supported[/bold {z}] — только модели с function calling\n"
+        f"• [bold {z}]/model show <term>[/bold {z}] — фильтр по имени\n"
+        f"• [bold {z}]/model show supported <term>[/bold {z}] — фильтр по поддерживаемым\n"
+        f"• [bold {z}]/model <name>[/bold {z}] или [bold {z}]/model <n>[/bold {z}] — установка "
+        f"[bold]CAI_MODEL[/bold], если идентификатор есть в загруженном каталоге (вступает в силу на следующем ходу)\n\n"
+        f"[bold {z}]Примечания[/bold {z}]\n"
+        f"• Ключи API: [bold {z}]/env list[/bold {z}]\n"
+        f"• Номера строк соответствуют [bold {z}]/model show[/bold {z}]; краткая таблица пропускает "
+        "слоты только LiteLLM\n\n"
+        f"[dim]Алиас: /mod[/dim]"
     )
 
 
@@ -101,36 +101,36 @@ def graph_help_panel_markup() -> str:
     z = _CAI_GREEN
     return (
         _h_panel_desc(
-            "Graph views show user, assistant, and tool messages; export to json, dot, or mermaid."
+            "Представления графа показывают сообщения пользователя, ассистента и инструментов; экспорт в json, dot или mermaid."
         )
-        + f"[bold {z}]Available Commands:[/bold {z}]\n"
-        f"• [bold {z}]/graph[/bold {z}] or [bold {z}]/g[/bold {z}] — "
-        "multi-agent layout when [bold]CAI_PARALLEL[/bold]>1 or multiple parallel slots exist; "
-        "otherwise the active agent\n"
-        f"• [bold {z}]/graph show[/bold {z}] — same as bare [bold {z}]/graph[/bold {z}]\n"
-        f"• [bold {z}]/graph P1[/bold {z}] — graph for parallel agent by id (e.g. P2, P3)\n"
-        f"• [bold {z}]/graph <agent_name>[/bold {z}] — graph for a specific agent (name may include spaces)\n"
-        f"• [bold {z}]/graph all[/bold {z}] — graphs for every agent that has history\n"
-        f"• [bold {z}]/graph timeline[/bold {z}] — table of messages per agent (by message index)\n"
-        f"• [bold {z}]/graph stats[/bold {z}] — per-agent message and tool-call counts\n"
-        f"• [bold {z}]/graph export <format>[/bold {z}] — export data (optional filename)\n\n"
-        f"[bold {z}]Examples:[/bold {z}]\n"
-        f"• [bold {z}]/graph[/bold {z}] — current context graph\n"
-        f"• [bold {z}]/graph P2[/bold {z}] — graph for agent P2\n"
-        f"• [bold {z}]/graph red_teamer[/bold {z}] — graph for that agent\n"
-        f"• [bold {z}]/graph timeline[/bold {z}] — message table\n"
-        f"• [bold {z}]/graph stats[/bold {z}] — statistics\n"
-        f"• [bold {z}]/graph export mermaid graph.md[/bold {z}] — write a Mermaid file\n"
-        f"• [bold {z}]/g timeline[/bold {z}] — same via alias\n\n"
-        f"[bold {z}]Features:[/bold {z}]\n"
-        "• Multi-agent panels in parallel mode\n"
-        "• User, assistant, and tool-call flow in the graph\n"
-        "• Timeline table for cross-agent review (index order, not wall-clock)\n"
-        "• Stats across agents\n"
-        "• Export full tracked histories to a file\n\n"
-        "[dim]Exports: json (full messages), dot (Graphviz), mermaid (diagram text). "
-        "Optional path defaults to a timestamped name in the cwd.[/dim]\n\n"
-        f"[dim]Alias: /g[/dim]"
+        + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+        f"• [bold {z}]/graph[/bold {z}] или [bold {z}]/g[/bold {z}] — "
+        "многоагентная раскладка, когда [bold]CAI_PARALLEL[/bold]>1 или существуют несколько параллельных слотов; "
+        "в противном случае — активный агент\n"
+        f"• [bold {z}]/graph show[/bold {z}] — то же, что и [bold {z}]/graph[/bold {z}]\n"
+        f"• [bold {z}]/graph P1[/bold {z}] — граф для параллельного агента по id (напр. P2, P3)\n"
+        f"• [bold {z}]/graph <agent_name>[/bold {z}] — граф для конкретного агента (имя может содержать пробелы)\n"
+        f"• [bold {z}]/graph all[/bold {z}] — графы для каждого агента с историей\n"
+        f"• [bold {z}]/graph timeline[/bold {z}] — таблица сообщений по агентам (по индексу сообщения)\n"
+        f"• [bold {z}]/graph stats[/bold {z}] — подсчёт сообщений и вызовов инструментов по агентам\n"
+        f"• [bold {z}]/graph export <format>[/bold {z}] — экспорт данных (необязательное имя файла)\n\n"
+        f"[bold {z}]Примеры:[/bold {z}]\n"
+        f"• [bold {z}]/graph[/bold {z}] — граф текущего контекста\n"
+        f"• [bold {z}]/graph P2[/bold {z}] — граф для агента P2\n"
+        f"• [bold {z}]/graph red_teamer[/bold {z}] — граф для этого агента\n"
+        f"• [bold {z}]/graph timeline[/bold {z}] — таблица сообщений\n"
+        f"• [bold {z}]/graph stats[/bold {z}] — статистика\n"
+        f"• [bold {z}]/graph export mermaid graph.md[/bold {z}] — записать файл Mermaid\n"
+        f"• [bold {z}]/g timeline[/bold {z}] — то же через алиас\n\n"
+        f"[bold {z}]Возможности:[/bold {z}]\n"
+        "• Панели нескольких агентов в параллельном режиме\n"
+        "• Поток сообщений пользователя, ассистента и вызовов инструментов в графе\n"
+        "• Таблица временной шкалы для кросс-агентного просмотра (порядок индексов, а не реальное время)\n"
+        "• Статистика по агентам\n"
+        "• Экспорт отслеживаемых историй в файл\n\n"
+        "[dim]Экспорт: json (полные сообщения), dot (Graphviz), mermaid (текст диаграммы). "
+        "Необязательный путь по умолчанию получает имя с временной меткой в текущей директории.[/dim]\n\n"
+        f"[dim]Алиас: /g[/dim]"
     )
 
 
@@ -139,23 +139,23 @@ def cost_help_panel_markup() -> str:
     z = _CAI_GREEN
     return (
         _h_panel_desc(
-            "Current session spend and tokens, plus global totals from ~/.cai/usage.json when "
-            "usage tracking is enabled."
+            "Расходы текущей сессии и токены, а также глобальные итоги из ~/.cai/usage.json, "
+            "когда включено отслеживание использования."
         )
-        + f"[bold {z}]Syntax[/bold {z}]\n"
-        f"• [bold {z}]/cost[/bold {z}] or [bold {z}]/cost summary[/bold {z}]: "
-        "session + global panels, top models snippet, hints for other views\n"
-        f"• [bold {z}]/cost models[/bold {z}] — per-model costs and share\n"
-        f"• [bold {z}]/cost daily[/bold {z}] — last 30 days and weekly rollup\n"
-        f"• [bold {z}]/cost sessions[/bold {z}] — recent sessions (default 10 rows); "
-        f"optional numeric arg limits rows (e.g. [bold {z}]/cost sessions 5[/bold {z}])\n"
-        f"• [bold {z}]/cost reset[/bold {z}] — clear persisted stats (type RESET to confirm; backup first)\n\n"
-        f"[bold {z}]Related[/bold {z}]\n"
-        f"• [bold {z}]/context[/bold {z}] — where context tokens go (per-role estimates + heavy messages)\n\n"
-        f"[bold {z}]Notes[/bold {z}]\n"
-        "• Cache tokens (read/write) are shown when the backend reports them (provider-dependent)\n"
-        "• Some views use local estimation; provider tokenization can differ by model\n\n"
-        f"[dim]Aliases: /costs, /usage. Global file tracking off: CAI_DISABLE_USAGE_TRACKING=true[/dim]"
+        + f"[bold {z}]Синтаксис[/bold {z}]\n"
+        f"• [bold {z}]/cost[/bold {z}] или [bold {z}]/cost summary[/bold {z}]: "
+        "панели сессии + глобальная, фрагмент топ-моделей, подсказки для других представлений\n"
+        f"• [bold {z}]/cost models[/bold {z}] — расходы и доля по моделям\n"
+        f"• [bold {z}]/cost daily[/bold {z}] — последние 30 дней и недельная сводка\n"
+        f"• [bold {z}]/cost sessions[/bold {z}] — недавние сессии (по умолчанию 10 строк); "
+        f"необязательный числовой аргумент ограничивает строки (напр. [bold {z}]/cost sessions 5[/bold {z}])\n"
+        f"• [bold {z}]/cost reset[/bold {z}] — очистить сохранённую статистику (введите RESET для подтверждения; сделайте резервную копию)\n\n"
+        f"[bold {z}]Связанные[/bold {z}]\n"
+        f"• [bold {z}]/context[/bold {z}] — куда уходят токены контекста (оценки по ролям + тяжёлые сообщения)\n\n"
+        f"[bold {z}]Примечания[/bold {z}]\n"
+        "• Токены кэша (чтение/запись) отображаются, когда бэкенд их сообщает (зависит от провайдера)\n"
+        "• Некоторые представления используют локальную оценку; токенизация провайдера может отличаться в зависимости от модели\n\n"
+        f"[dim]Алиасы: /costs, /usage. Глобальное отслеживание отключено: CAI_DISABLE_USAGE_TRACKING=true[/dim]"
     )
 
 
@@ -164,15 +164,15 @@ def auth_help_panel_markup() -> str:
     z = _CAI_GREEN
     return (
         _h_panel_desc(
-            "Persisted API users (`AuthManager`): add a named account or pair a device by IP."
+            "Сохранённые пользователи API (`AuthManager`): добавление именованной учётной записи или привязка устройства по IP."
         )
-        + f"[bold {z}]Syntax[/bold {z}]\n"
-        f"• [bold {z}]/auth add-user <username> <password>[/bold {z}] — register user\n"
-        f"• [bold {z}]/auth add-ip <ip[:port]>[/bold {z}] — random user + session, JSON over TCP to "
-        "the device listener (device port from [bold]CAI_AUTH_DEVICE_PORT[/bold])\n\n"
-        f"[dim]Device [bold]base_url[/bold]: [bold]CAI_AUTH_BASE_URL[/bold] if set, else public host/"
-        f"port envs and [bold]CAI_API_*[/bold]. Bare [bold {z}]/auth[/bold {z}] lists required "
-        "subcommands.[/dim]"
+        + f"[bold {z}]Синтаксис[/bold {z}]\n"
+        f"• [bold {z}]/auth add-user <username> <password>[/bold {z}] — регистрация пользователя\n"
+        f"• [bold {z}]/auth add-ip <ip[:port]>[/bold {z}] — случайный пользователь + сессия, JSON через TCP к "
+        "слушателю устройства (порт устройства из [bold]CAI_AUTH_DEVICE_PORT[/bold])\n\n"
+        f"[dim][bold]base_url[/bold] устройства: [bold]CAI_AUTH_BASE_URL[/bold], если задан, иначе публичные переменные "
+        f"хоста/порта и [bold]CAI_API_*[/bold]. [bold {z}]/auth[/bold {z}] без аргументов показывает "
+        "список подкоманд.[/dim]"
     )
 
 
@@ -181,7 +181,7 @@ def commands_reference_panel_markup() -> str:
     z = _CAI_GREEN
     parts: list[str] = [
         _h_panel_desc(
-            "All available commands"
+            "Все доступные команды"
         )
     ]
     for category, commands in categorized_command_tables():
@@ -195,7 +195,7 @@ def commands_reference_panel_markup() -> str:
             )
         parts.append("\n")
     parts.append(
-        "[dim]• /h <topic> — e.g. agent, env, model (command index: /help topics)[/dim]"
+        "[dim]• /h <topic> — например agent, env, model (индекс команд: /help topics)[/dim]"
     )
     return "".join(parts)
 
@@ -207,89 +207,89 @@ class HelpCommand(Command):
         """Initialize the help command."""
         super().__init__(
             name="/help",
-            description=("Display help information about commands and features"),
+            description=("Отображение справки о командах и возможностях"),
             aliases=["/h", "/?"],
         )
 
         # Add subcommands organized by category
         # Agent Management
-        self.add_subcommand("agent", "Display help for agent commands", self.handle_agent)
-        self.add_subcommand("parallel", "Display help for parallel execution", self.handle_parallel)
-        self.add_subcommand("queue", "Display help for queue command", self.handle_queue)
+        self.add_subcommand("agent", "Справка по командам агентов", self.handle_agent)
+        self.add_subcommand("parallel", "Справка по параллельному выполнению", self.handle_parallel)
+        self.add_subcommand("queue", "Справка по команде очереди", self.handle_queue)
 
         # Memory & History
-        self.add_subcommand("memory", "Display help for memory persistence", self.handle_memory)
-        self.add_subcommand("history", "Display help for conversation history", self.handle_history)
+        self.add_subcommand("memory", "Справка по сохранению памяти", self.handle_memory)
+        self.add_subcommand("history", "Справка по истории разговоров", self.handle_history)
         self.add_subcommand(
-            "compact", "Display help for conversation compaction", self.handle_compact
+            "compact", "Справка по сжатию разговоров", self.handle_compact
         )
-        self.add_subcommand("flush", "Display help for clearing histories", self.handle_flush)
-        self.add_subcommand("load", "Display help for loading JSONL files", self.handle_load)
-        self.add_subcommand("save", "Display help for saving conversation JSONL", self.handle_save)
+        self.add_subcommand("flush", "Справка по очистке историй", self.handle_flush)
+        self.add_subcommand("load", "Справка по загрузке файлов JSONL", self.handle_load)
+        self.add_subcommand("save", "Справка по сохранению разговоров в JSONL", self.handle_save)
         self.add_subcommand(
-            "merge", "Display help for merging agent histories", self.handle_merge_help
+            "merge", "Справка по слиянию историй агентов", self.handle_merge_help
         )
 
-        self.add_subcommand("config", "Deprecated — same notice as /config; use /env", self.handle_config)
-        self.add_subcommand("env", "Display help for environment variables", self.handle_env)
+        self.add_subcommand("config", "Устарело — то же, что /config; используйте /env", self.handle_config)
+        self.add_subcommand("env", "Справка по переменным окружения", self.handle_env)
         self.add_subcommand(
             "var",
-            "Long-form help for environment variables (/help var NAME)",
+            "Подробная справка по переменным окружения (/help var NAME)",
             self.handle_var,
         )
         self.add_subcommand(
-            "workspace", "Display help for workspace management", self.handle_workspace
+            "workspace", "Справка по управлению рабочим пространством", self.handle_workspace
         )
         self.add_subcommand(
-            "virtualization", "Display help for Docker containers", self.handle_virtualization
+            "virtualization", "Справка по контейнерам Docker", self.handle_virtualization
         )
 
         # Tools & Integration
-        self.add_subcommand("mcp", "Display help for Model Context Protocol", self.handle_mcp)
-        self.add_subcommand("shell", "Display help for shell commands", self.handle_shell)
+        self.add_subcommand("mcp", "Справка по Model Context Protocol", self.handle_mcp)
+        self.add_subcommand("shell", "Справка по командам оболочки", self.handle_shell)
 
         # Utilities
-        self.add_subcommand("model", "Display help for model selection", self.handle_model)
-        self.add_subcommand("graph", "Display help for visualization", self.handle_graph)
+        self.add_subcommand("model", "Справка по выбору модели", self.handle_model)
+        self.add_subcommand("graph", "Справка по визуализации", self.handle_graph)
         self.add_subcommand(
             "aliases",
-            "List registered command shortcuts",
+            "Список зарегистрированных алиасов команд",
             self.handle_aliases,
         )
 
         # Session & Cost
-        self.add_subcommand("cost", "Display help for cost tracking", self.handle_cost)
-        self.add_subcommand("context", "Display help for context usage", self.handle_context)
-        self.add_subcommand("exit", "Display help for exiting CAI", self.handle_exit)
-        self.add_subcommand("resume", "Display help for session resume", self.handle_resume)
-        self.add_subcommand("sessions", "Display help for session listing", self.handle_sessions)
-        self.add_subcommand("replay", "Display help for session replay", self.handle_replay)
+        self.add_subcommand("cost", "Справка по отслеживанию расходов", self.handle_cost)
+        self.add_subcommand("context", "Справка по использованию контекста", self.handle_context)
+        self.add_subcommand("exit", "Справка по выходу из CAI", self.handle_exit)
+        self.add_subcommand("resume", "Справка по возобновлению сессии", self.handle_resume)
+        self.add_subcommand("sessions", "Справка по списку сессий", self.handle_sessions)
+        self.add_subcommand("replay", "Справка по воспроизведению сессий", self.handle_replay)
         self.add_subcommand(
-            "continue", "Display help for continuation mode", self.handle_continue
+            "continue", "Справка по режиму продолжения", self.handle_continue
         )
 
         # Model Tuning
         self.add_subcommand(
-            "temperature", "Display help for temperature adjustment", self.handle_temperature
+            "temperature", "Справка по настройке температуры", self.handle_temperature
         )
-        self.add_subcommand("topp", "Display help for top-p adjustment", self.handle_topp)
+        self.add_subcommand("topp", "Справка по настройке top-p", self.handle_topp)
 
         # Advanced
         self.add_subcommand(
-            "settings", "Help for /settings (alias /set)", self.handle_settings
+            "settings", "Справка по /settings (алиас /set)", self.handle_settings
         )
-        self.add_subcommand("auth", "Display help for API authentication", self.handle_auth)
-        self.add_subcommand("ctr", "Display help for CTR security analysis", self.handle_ctr)
-        self.add_subcommand("api", "Help for /api: ALIAS_API_KEY in .env (Alias / CAI PRO)", self.handle_api)
+        self.add_subcommand("auth", "Справка по аутентификации API", self.handle_auth)
+        self.add_subcommand("ctr", "Справка по анализу безопасности CTR", self.handle_ctr)
+        self.add_subcommand("api", "Справка по /api: ALIAS_API_KEY в .env (Alias / CAI PRO)", self.handle_api)
         self.add_subcommand(
-            "metadebug", "Display help for meta-agent debugging", self.handle_metadebug
+            "metadebug", "Справка по отладке мета-агента", self.handle_metadebug
         )
 
         # General
-        self.add_subcommand("commands", "List all available commands", self.handle_commands)
+        self.add_subcommand("commands", "Список всех доступных команд", self.handle_commands)
         self.add_subcommand(
             "topics",
-            "Slash commands by category + /help <topic> hints; bare /help adds env tables",
+            "Команды по категориям + подсказки /help <topic>; /help добавляет таблицы окружения",
             self.handle_help_topics,
         )
 
@@ -297,8 +297,8 @@ class HelpCommand(Command):
         """Legacy help tokens ``quick`` / ``quickstart`` → point to ``/quickstart``."""
         if subcommand in ("quick", "quickstart"):
             console.print(
-                "[dim]There is no /help quick or /help quickstart; use [bold]/quickstart[/bold] "
-                "(aliases: /qs, /quick).[/dim]"
+                "[dim]Команды /help quick или /help quickstart не существует; используйте [bold]/quickstart[/bold] "
+                "(алиасы: /qs, /quick).[/dim]"
             )
             return False
         return super().handle_unknown_subcommand(subcommand)
@@ -308,41 +308,41 @@ class HelpCommand(Command):
         z = _CAI_GREEN
         console.print(
             Panel(
-                _h_panel_desc("Memory: save, restore, and manage agent conversation snapshots.")
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/memory list[/bold #00ff9d] - List saved memory snapshots\n"
-                "• [bold #00ff9d]/memory save [name] [agent][/bold #00ff9d] - Save current agent history\n"
-                "• [bold #00ff9d]/memory apply <ID|name> [agent|all][/bold #00ff9d] - Apply memory to an agent\n"
-                "• [bold #00ff9d]/memory show <ID|name>[/bold #00ff9d] - Show memory contents\n"
-                "• [bold #00ff9d]/memory delete <ID|name>[/bold #00ff9d] - Delete a saved memory\n"
-                "• [bold #00ff9d]/memory merge <ID1> <ID2> [name][/bold #00ff9d] - Merge memories into one\n"
-                "• [bold #00ff9d]/memory status[/bold #00ff9d] - Show currently applied memories\n"
-                "• [bold #00ff9d]/memory compact <agent|all>[/bold #00ff9d] - Compact and save agent history\n"
-                "• [bold #00ff9d]/memory remove <memory_id> <agent>[/bold #00ff9d] - Remove a specific memory from agent\n"
-                "• [bold #00ff9d]/memory clear <agent>[/bold #00ff9d] - Clear all memories from an agent\n"
-                "• [bold #00ff9d]/memory list-applied [agent][/bold #00ff9d] - Show which memories are applied\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
-                "• [bold #00ff9d]/memory save pentest_login_flow[/bold #00ff9d] - Save with a custom name\n"
-                "• [bold #00ff9d]/memory save[/bold #00ff9d] - Save with auto-generated name\n"
-                "• [bold #00ff9d]/memory show M001[/bold #00ff9d] - Inspect memory by ID\n"
-                "• [bold #00ff9d]/memory apply M001 P1[/bold #00ff9d] - Apply a memory to agent P1\n"
-                "• [bold #00ff9d]/memory delete M001[/bold #00ff9d] - Delete memory by ID\n"
-                "• [bold #00ff9d]/memory compact red_teamer[/bold #00ff9d] - Compact a single agent\n"
-                "• [bold #00ff9d]/memory remove M001 red_teamer[/bold #00ff9d] - Remove one memory from agent\n"
-                "• [bold #00ff9d]/memory clear red_teamer[/bold #00ff9d] - Clear all memories from agent\n"
-                "• [bold #00ff9d]/memory list-applied[/bold #00ff9d] - Show all applied memories\n\n"
-                f"[bold {z}]Recommended flow:[/bold {z}]\n"
-                "• 1. Select/use an agent (e.g. /agent red_teamer)\n"
-                "• 2. Send at least one normal prompt (non-command)\n"
-                "• 3. Run /memory save <name>\n"
-                "• 4. Use /memory list and /memory show to verify\n"
-                "• 5. Apply with /memory apply when needed\n\n"
-                f"[bold {z}]Notes:[/bold {z}]\n"
-                "• If '/memory save' reports no history, send a prompt first\n"
-                "• Memory IDs (e.g., M001) are the safest way to reference memories\n"
-                "• Use '/memory status' to see what is currently applied\n\n"
-                "[dim]Alias: /mem[/dim]",
-                title=_quick_guide_subpanel_title("Memory Commands"),
+                _h_panel_desc("Память: сохранение, восстановление и управление снимками разговоров агентов.")
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/memory list[/bold #00ff9d] - Список сохранённых снимков памяти\n"
+                "• [bold #00ff9d]/memory save [name] [agent][/bold #00ff9d] - Сохранить текущую историю агента\n"
+                "• [bold #00ff9d]/memory apply <ID|name> [agent|all][/bold #00ff9d] - Применить память к агенту\n"
+                "• [bold #00ff9d]/memory show <ID|name>[/bold #00ff9d] - Показать содержимое памяти\n"
+                "• [bold #00ff9d]/memory delete <ID|name>[/bold #00ff9d] - Удалить сохранённую память\n"
+                "• [bold #00ff9d]/memory merge <ID1> <ID2> [name][/bold #00ff9d] - Объединить памяти в одну\n"
+                "• [bold #00ff9d]/memory status[/bold #00ff9d] - Показать текущие применённые памяти\n"
+                "• [bold #00ff9d]/memory compact <agent|all>[/bold #00ff9d] - Сжать и сохранить историю агента\n"
+                "• [bold #00ff9d]/memory remove <memory_id> <agent>[/bold #00ff9d] - Удалить конкретную память из агента\n"
+                "• [bold #00ff9d]/memory clear <agent>[/bold #00ff9d] - Очистить все памяти агента\n"
+                "• [bold #00ff9d]/memory list-applied [agent][/bold #00ff9d] - Показать применённые памяти\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
+                "• [bold #00ff9d]/memory save pentest_login_flow[/bold #00ff9d] - Сохранить с пользовательским именем\n"
+                "• [bold #00ff9d]/memory save[/bold #00ff9d] - Сохранить с автогенерированным именем\n"
+                "• [bold #00ff9d]/memory show M001[/bold #00ff9d] - Просмотреть память по ID\n"
+                "• [bold #00ff9d]/memory apply M001 P1[/bold #00ff9d] - Применить память к агенту P1\n"
+                "• [bold #00ff9d]/memory delete M001[/bold #00ff9d] - Удалить память по ID\n"
+                "• [bold #00ff9d]/memory compact red_teamer[/bold #00ff9d] - Сжать память одного агента\n"
+                "• [bold #00ff9d]/memory remove M001 red_teamer[/bold #00ff9d] - Удалить одну память из агента\n"
+                "• [bold #00ff9d]/memory clear red_teamer[/bold #00ff9d] - Очистить все памяти агента\n"
+                "• [bold #00ff9d]/memory list-applied[/bold #00ff9d] - Показать все применённые памяти\n\n"
+                f"[bold {z}]Рекомендуемый порядок:[/bold {z}]\n"
+                "• 1. Выберите/используйте агента (напр. /agent red_teamer)\n"
+                "• 2. Отправьте хотя бы один обычный запрос (не команду)\n"
+                "• 3. Выполните /memory save <name>\n"
+                "• 4. Используйте /memory list и /memory show для проверки\n"
+                "• 5. Применяйте через /memory apply при необходимости\n\n"
+                f"[bold {z}]Примечания:[/bold {z}]\n"
+                "• Если '/memory save' сообщает об отсутствии истории, сначала отправьте запрос\n"
+                "• ID памяти (напр., M001) — самый безопасный способ ссылаться на памяти\n"
+                "• Используйте '/memory status' для просмотра текущих применённых памятей\n\n"
+                "[dim]Алиас: /mem[/dim]",
+                title=_quick_guide_subpanel_title("Команды памяти"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -356,43 +356,43 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Agents are autonomous AI assistants. Default CLI entry is "
-                    "[bold]selection_agent[/bold] (handoff-only router); "
-                    "[bold]orchestration_agent[/bold] [bold white on bright_red] BETA [/] adds "
-                    "breadth-first routing with specialist tools. "
-                    "See [bold]/help var CAI_AGENT_TYPE[/bold] and [bold]/help var CAI_ORCHESTRATION_*[/bold]."
+                    "Агенты — автономные ИИ-ассистенты. Точка входа по умолчанию: "
+                    "[bold]selection_agent[/bold] (роутер только для передачи); "
+                    "[bold]orchestration_agent[/bold] [bold white on bright_red] BETA [/] добавляет "
+                    "поисковую маршрутизацию с инструментами специалистов. "
+                    "См. [bold]/help var CAI_AGENT_TYPE[/bold] и [bold]/help var CAI_ORCHESTRATION_*[/bold]."
                 )
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/agent list[/bold #00ff9d] - List all available agents\n"
-                "• [bold #00ff9d]/agent select <name>[/bold #00ff9d] - Switch to a specific agent\n"
-                "• [bold #00ff9d]/agent info <name>[/bold #00ff9d] - Show agent details and tools\n"
-                "• [bold #00ff9d]/agent current[/bold #00ff9d] - Show current agent configuration\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
-                "• [bold #00ff9d]/agent list[/bold #00ff9d] - See all available agents\n"
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/agent list[/bold #00ff9d] - Список всех доступных агентов\n"
+                "• [bold #00ff9d]/agent select <name>[/bold #00ff9d] - Переключиться на конкретного агента\n"
+                "• [bold #00ff9d]/agent info <name>[/bold #00ff9d] - Показать детали и инструменты агента\n"
+                "• [bold #00ff9d]/agent current[/bold #00ff9d] - Показать текущую конфигурацию агента\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
+                "• [bold #00ff9d]/agent list[/bold #00ff9d] - Просмотреть всех доступных агентов\n"
                 "• [bold #00ff9d]/agent select [/bold #00ff9d][red]red_teamer[/red]"
-                " [dim]- Switch to offensive security agent[/dim]\n"
+                " [dim]- Переключиться на агента атакующей безопасности[/dim]\n"
                 "• [bold #00ff9d]/agent info [/bold #00ff9d][red]bug_bounter[/red]"
-                " [dim]- View bug bounty agent details[/dim]\n"
-                "• [bold #00ff9d]/a select [/bold #00ff9d][red]2[/red] [dim]- Select agent by number (alias)[/dim]\n\n"
-                f"[bold {z}]Available agents:[/bold {z}]\n"
-                "• [bold #00ff9d]selection_agent[/bold #00ff9d] - Default entry: handoff-only router "
-                "(no orchestration specialist tools)\n"
+                " [dim]- Просмотреть детали агента поиска уязвимостей[/dim]\n"
+                "• [bold #00ff9d]/a select [/bold #00ff9d][red]2[/red] [dim]- Выбрать агента по номеру (алиас)[/dim]\n\n"
+                f"[bold {z}]Доступные агенты:[/bold {z}]\n"
+                "• [bold #00ff9d]selection_agent[/bold #00ff9d] - Точка входа по умолчанию: роутер только для передачи "
+                "(без инструментов специалиста оркестрации)\n"
                 "• [bold #00ff9d]orchestration_agent[/bold #00ff9d] [bold white on bright_red] BETA [/] - "
-                "Routing plus [bold]run_specialist[/bold], dual contest, and "
+                "Маршрутизация плюс [bold]run_specialist[/bold], двойной контест и "
                 "[bold]run_parallel_specialists[/bold] "
-                "(tune workers with [bold]CAI_ORCHESTRATION_WORKER_MAX_TURNS[/bold]; optional multi-front "
-                "nudge: [bold]CAI_ORCHESTRATION_MAS_HINT[/bold])\n"
-                "• [bold #00ff9d]one_tool_agent[/bold #00ff9d] - Basic CTF solver\n"
-                "• [bold #00ff9d]red_teamer[/bold #00ff9d] - Offensive security specialist\n"
-                "• [bold #00ff9d]blue_teamer[/bold #00ff9d] - Defensive security specialist\n"
-                "• [bold #00ff9d]bug_bounter[/bold #00ff9d] - Bug bounty hunter\n"
-                "• [bold #00ff9d]dfir[/bold #00ff9d] - Digital forensics & incident response\n"
-                "• [bold #00ff9d]network_traffic_analyzer[/bold #00ff9d] - Network analysis\n"
-                "• [bold #00ff9d]flag_discriminator[/bold #00ff9d] - CTF flag extraction\n"
-                "• [bold #00ff9d]codeagent[/bold #00ff9d] - Code generation and analysis\n"
-                "• [bold #00ff9d]thought[/bold #00ff9d] - Strategic planning\n\n"
-                "[dim]Alias: /a[/dim]",
-                title=_quick_guide_subpanel_title("Agent Commands"),
+                "(настройка воркеров через [bold]CAI_ORCHESTRATION_WORKER_MAX_TURNS[/bold]; опциональная подсказка "
+                "многофронтового режима: [bold]CAI_ORCHESTRATION_MAS_HINT[/bold])\n"
+                "• [bold #00ff9d]one_tool_agent[/bold #00ff9d] - Базовый решатель CTF\n"
+                "• [bold #00ff9d]red_teamer[/bold #00ff9d] - Специалист атакующей безопасности\n"
+                "• [bold #00ff9d]blue_teamer[/bold #00ff9d] - Специалист防御ной безопасности\n"
+                "• [bold #00ff9d]bug_bounter[/bold #00ff9d] - Охотник за уязвимостями\n"
+                "• [bold #00ff9d]dfir[/bold #00ff9d] - Цифровая forensicика и реагирование на инциденты\n"
+                "• [bold #00ff9d]network_traffic_analyzer[/bold #00ff9d] - Анализ сети\n"
+                "• [bold #00ff9d]flag_discriminator[/bold #00ff9d] - Извлечение флагов CTF\n"
+                "• [bold #00ff9d]codeagent[/bold #00ff9d] - Генерация и анализ кода\n"
+                "• [bold #00ff9d]thought[/bold #00ff9d] - Стратегическое планирование\n\n"
+                "[dim]Алиас: /a[/dim]",
+                title=_quick_guide_subpanel_title("Команды агентов"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -406,18 +406,18 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Context usage: inspect where tokens are going (per-role estimates and heavy messages). "
-                    "Useful for diagnosing fast token growth and deciding when to compact."
+                    "Использование контекста: проверка распределения токенов (оценки по ролям и тяжёлые сообщения). "
+                    "Полезно для диагностики быстрого роста токенов и решения о необходимости сжатия."
                 )
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/context[/bold #00ff9d] - Show per-role context estimate (system/user/assistant/tool)\n"
-                "• [bold #00ff9d]/context top[/bold #00ff9d] - Show biggest messages by estimated tokens (default 8)\n"
-                "• [bold #00ff9d]/context top 20[/bold #00ff9d] - Show top 20 heavy messages\n\n"
-                f"[bold {z}]Notes:[/bold {z}]\n"
-                "• Estimates count message role+content only; system prompts and tool schemas add extra overhead\n"
-                "• Provider tokenization can differ from local estimates depending on the model\n\n"
-                "[dim]Alias: /ctx[/dim]",
-                title=_quick_guide_subpanel_title("Context Usage"),
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/context[/bold #00ff9d] - Оценка контекста по ролям (system/user/assistant/tool)\n"
+                "• [bold #00ff9d]/context top[/bold #00ff9d] - Самые большие сообщения по оценке токенов (по умолчанию 8)\n"
+                "• [bold #00ff9d]/context top 20[/bold #00ff9d] - Топ-20 тяжёлых сообщений\n\n"
+                f"[bold {z}]Примечания:[/bold {z}]\n"
+                "• Оценки учитывают только роль+содержимое сообщения; системные промпты и схемы инструментов добавляют дополнительную нагрузку\n"
+                "• Токенизация провайдера может отличаться от локальных оценок в зависимости от модели\n\n"
+                "[dim]Алиас: /ctx[/dim]",
+                title=_quick_guide_subpanel_title("Использование контекста"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -444,18 +444,18 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Shell: run commands in the workspace cwd, or in the container when "
-                    "CAI_ACTIVE_CONTAINER is set."
+                    "Оболочка: выполнение команд в текущей директории рабочего пространства или в контейнере, "
+                    "когда задан CAI_ACTIVE_CONTAINER."
                 )
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/shell <command>[/bold #00ff9d] - Execute a shell command\n\n"
-                f"[bold {z}]Aliases:[/bold {z}]\n"
-                "• [bold #00ff9d]/s[/bold #00ff9d], [bold #00ff9d]$[/bold #00ff9d] - Shorthand for /shell\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
-                "• [bold #00ff9d]/shell ls -la[/bold #00ff9d] [dim]- List files[/dim]\n"
-                "• [bold #00ff9d]/s pwd[/bold #00ff9d] [dim]- Show current directory[/dim]\n"
-                "• [bold #00ff9d]$ git status[/bold #00ff9d] [dim]- Git status[/dim]",
-                title=_quick_guide_subpanel_title("Shell Commands"),
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/shell <command>[/bold #00ff9d] - Выполнить команду оболочки\n\n"
+                f"[bold {z}]Алиасы:[/bold {z}]\n"
+                "• [bold #00ff9d]/s[/bold #00ff9d], [bold #00ff9d]$[/bold #00ff9d] - Сокращение для /shell\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
+                "• [bold #00ff9d]/shell ls -la[/bold #00ff9d] [dim]- Список файлов[/dim]\n"
+                "• [bold #00ff9d]/s pwd[/bold #00ff9d] [dim]- Текущая директория[/dim]\n"
+                "• [bold #00ff9d]$ git status[/bold #00ff9d] [dim]- Статус git[/dim]",
+                title=_quick_guide_subpanel_title("Команды оболочки"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -469,25 +469,25 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Environment: session keys and full catalog use the same tables as bare /help."
+                    "Окружение: ключи сессии и полный каталог используют те же таблицы, что и /help."
                 )
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
                 "• [bold #00ff9d]/env[/bold #00ff9d] — "
-                "only [dim]CAI_[/dim] / [dim]CTF_[/dim] keys currently set in the process "
-                "(same as before)\n"
+                "только ключи [dim]CAI_[/dim] / [dim]CTF_[/dim], установленные в процессе "
+                "(как и раньше)\n"
                 "• [bold #00ff9d]/env list[/bold #00ff9d] — "
-                "every catalog variable (#, current, default, values, when, description)\n"
-                "• [bold #00ff9d]/env get <n|NAME>[/bold #00ff9d] — show one catalog entry\n"
-                "• [bold #00ff9d]/env set <n|NAME> <value>[/bold #00ff9d] — set by number or "
-                "name (value may include spaces; no quotes)\n"
-                "• [bold #00ff9d]/env default[/bold #00ff9d] — restore all catalog variables to "
-                "registered defaults\n\n"
-                f"[bold {z}]Notes:[/bold {z}]\n"
-                "• Example catalog entry: [bold]CAI_MODEL[/bold] ([bold]/env list[/bold], "
+                "все переменные каталога (#, текущее, по умолчанию, значения, когда, описание)\n"
+                "• [bold #00ff9d]/env get <n|NAME>[/bold #00ff9d] — показать одну запись каталога\n"
+                "• [bold #00ff9d]/env set <n|NAME> <value>[/bold #00ff9d] — установить по номеру или "
+                "имени (значение может содержать пробелы; без кавычек)\n"
+                "• [bold #00ff9d]/env default[/bold #00ff9d] — восстановить все переменные каталога "
+                "до зарегистрированных значений по умолчанию\n\n"
+                f"[bold {z}]Примечания:[/bold {z}]\n"
+                "• Пример записи каталога: [bold]CAI_MODEL[/bold] ([bold]/env list[/bold], "
                 "[bold]/help var CAI_MODEL[/bold]).\n"
-                "• Bare [bold]/help[/bold] still includes the full environment reference tables.\n\n"
-                "[dim]Alias: /e[/dim]",
-                title=_quick_guide_subpanel_title("Environment Commands"),
+                "• [bold]/help[/bold] по-прежнему включает полные таблицы справки по окружению.\n\n"
+                "[dim]Алиас: /e[/dim]",
+                title=_quick_guide_subpanel_title("Команды окружения"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -505,16 +505,16 @@ class HelpCommand(Command):
                 Panel(
                     Text.from_markup(
                         _h_panel_desc(
-                            "Long-form rows for one catalog variable (full tables stay on bare /help)."
+                            "Подробные строки для одной переменной каталога (полные таблицы — в /help)."
                         )
-                        + f"{usage_markup_bold()}  [dim](one or more names)[/dim]\n\n"
-                        "Detailed help for a single variable from the tables under "
+                        + f"{usage_markup_bold()}  [dim](одно или несколько имён)[/dim]\n\n"
+                        "Подробная справка по одной переменной из таблиц под "
                         "[bold]/help[/bold]: "
-                        "type, when it applies, default, and copy-paste examples.\n\n"
-                        "[bold]Examples[/bold]\n"
+                        "тип, когда применяется, значение по умолчанию и примеры для копирования.\n\n"
+                        "[bold]Примеры[/bold]\n"
                         f"{example_cyan_line('CAI_MODEL')}\n"
                         f"{example_cyan_line('CAI_DEBUG')}\n\n"
-                        "[dim]All documented variables (including former “Additional”) are in the /env catalog.[/dim]"
+                        "[dim]Все задокументированные переменные (включая бывшие «Дополнительные») находятся в каталоге /env.[/dim]"
                     ),
                     title=environment_reference_outer_title(),
                     title_align="left",
@@ -533,7 +533,7 @@ class HelpCommand(Command):
             if not ok:
                 all_ok = False
             title_text = _quick_guide_subpanel_title(
-                f"Variable — {canonical}" if ok else f"Unknown — {canonical}"
+                f"Переменная — {canonical}" if ok else f"Неизвестно — {canonical}"
             )
             style = _CAI_GREEN if ok else "red"
             console.print(
@@ -585,7 +585,7 @@ class HelpCommand(Command):
         commands: List[tuple[str, str, str]],
         header_style: str | None = None,
         command_style: str | None = None,
-        alias_column: str = "Alias",
+        alias_column: str = "Алиас",
     ) -> None:
         """Print a table of commands with consistent formatting."""
         z = _CAI_GREEN
@@ -594,9 +594,9 @@ class HelpCommand(Command):
         table = create_styled_table(
             title,
             [
-                ("Command", cs),
+                ("Команда", cs),
                 (alias_column, "#9aa0a6"),
-                ("Description", "white"),
+                ("Описание", "white"),
             ],
             hs,
         )
@@ -622,12 +622,12 @@ class HelpCommand(Command):
         z = _CAI_GREEN
         accent = f"bold {z}"
         intro = (
-            f"[bold]Command Aliases[/bold]"
+            f"[bold]Алиасы команд[/bold]"
         )
         console.print(
             Panel(
                 Text.from_markup(intro, overflow="fold"),
-                title=_quick_guide_subpanel_title("Aliases"),
+                title=_quick_guide_subpanel_title("Алиасы"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -637,9 +637,9 @@ class HelpCommand(Command):
         alias_table = create_styled_table(
             None,
             [
-                ("Alias", accent),
-                ("Command", accent),
-                ("Description", "white"),
+                ("Алиас", accent),
+                ("Команда", accent),
+                ("Описание", "white"),
             ],
             accent,
         )
@@ -652,15 +652,15 @@ class HelpCommand(Command):
         console.print(alias_table)
 
         tips = [
-            "Use the alias as the first token of the line, same as the full command name.",
+            "Используйте алиас как первый токен строки, так же, как и полное имя команды.",
             (
-                f"Example: [bold {z}]/a list[/bold {z}] for [bold {z}]/agent list[/bold {z}], or "
-                f"[bold {z}]/mem list[/bold {z}] for [bold {z}]/memory list[/bold {z}]."
+                f"Пример: [bold {z}]/a list[/bold {z}] вместо [bold {z}]/agent list[/bold {z}], или "
+                f"[bold {z}]/mem list[/bold {z}] вместо [bold {z}]/memory list[/bold {z}]."
             ),
-            "[dim]Shell: `$` only works at the start of the line (same routing rule as `/`).[/dim]",
+            "[dim]Оболочка: `$` работает только в начале строки (те же правила маршрутизации, что и `/`).[/dim]",
         ]
         console.print("\n")
-        console.print(create_notes_panel(tips, "Tips"))
+        console.print(create_notes_panel(tips, "Советы"))
 
         return True
 
@@ -670,34 +670,34 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Parallel execution: run several agents at once with isolated histories, then merge."
+                    "Параллельное выполнение: запуск нескольких агентов одновременно с изолированными историями, затем слияние."
                 )
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/parallel[/bold #00ff9d] - Show current configuration\n"
-                "• [bold #00ff9d]/parallel add <agent>[/bold #00ff9d] - Add agent to parallel config\n"
-                "• [bold #00ff9d]/parallel run[/bold #00ff9d] - Execute configured parallel agents\n"
-                "• [bold #00ff9d]/parallel list[/bold #00ff9d] - List configured agents\n"
-                "• [bold #00ff9d]/parallel clear[/bold #00ff9d] - Clear all configurations\n"
-                "• [bold #00ff9d]/parallel remove <index>[/bold #00ff9d] - Remove specific agent\n"
-                "• [bold #00ff9d]/parallel override-models[/bold #00ff9d] - Use global model for all\n"
-                "• [bold #00ff9d]/parallel merge <indices>[/bold #00ff9d] - Merge agent histories\n"
-                "• [bold #00ff9d]/parallel prompt <index> <text>[/bold #00ff9d] - Set custom prompt\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
-                "• [bold #00ff9d]/parallel add red_teamer[/bold #00ff9d] - Add red team agent\n"
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/parallel[/bold #00ff9d] - Показать текущую конфигурацию\n"
+                "• [bold #00ff9d]/parallel add <agent>[/bold #00ff9d] - Добавить агента в параллельную конфигурацию\n"
+                "• [bold #00ff9d]/parallel run[/bold #00ff9d] - Выполнить настроенных параллельных агентов\n"
+                "• [bold #00ff9d]/parallel list[/bold #00ff9d] - Список настроенных агентов\n"
+                "• [bold #00ff9d]/parallel clear[/bold #00ff9d] - Очистить все конфигурации\n"
+                "• [bold #00ff9d]/parallel remove <index>[/bold #00ff9d] - Удалить конкретного агента\n"
+                "• [bold #00ff9d]/parallel override-models[/bold #00ff9d] - Использовать глобальную модель для всех\n"
+                "• [bold #00ff9d]/parallel merge <indices>[/bold #00ff9d] - Объединить истории агентов\n"
+                "• [bold #00ff9d]/parallel prompt <index> <text>[/bold #00ff9d] - Установить пользовательский промпт\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
+                "• [bold #00ff9d]/parallel add red_teamer[/bold #00ff9d] - Добавить агента red team\n"
                 "• [bold #00ff9d]/parallel prompt P1 Analyze service exposure[/bold #00ff9d]\n"
-                "• [bold #00ff9d]/parallel run[/bold #00ff9d] - Execute configured parallel agents\n"
-                "• [bold #00ff9d]/merge[/bold #00ff9d] - Merge and auto-exit parallel mode\n"
-                "• [bold #00ff9d]/p list[/bold #00ff9d] - Show all configured agents\n\n"
-                f"[bold {z}]Notes:[/bold {z}]\n"
-                "• Agents run independently with isolated contexts\n"
-                "• Each agent gets a unique ID (P1, P2, etc.)\n"
-                "• Results are displayed side-by-side\n"
-                "• /merge merges all parallel agent contexts and exits parallel mode\n"
-                "• /parallel clear exits parallel mode without merging contexts\n"
-                "• /parallel add <agent> --model alias1 sets a custom model\n"
-                "• Use CAI_PARALLEL env var to set default count\n\n"
-                "[dim]Aliases: /par, /p[/dim]",
-                title=_quick_guide_subpanel_title("Parallel Commands"),
+                "• [bold #00ff9d]/parallel run[/bold #00ff9d] - Выполнить настроенных параллельных агентов\n"
+                "• [bold #00ff9d]/merge[/bold #00ff9d] - Объединить и автоматически выйти из параллельного режима\n"
+                "• [bold #00ff9d]/p list[/bold #00ff9d] - Показать всех настроенных агентов\n\n"
+                f"[bold {z}]Примечания:[/bold {z}]\n"
+                "• Агенты работают независимо с изолированными контекстами\n"
+                "• Каждый агент получает уникальный ID (P1, P2 и т.д.)\n"
+                "• Результаты отображаются бок о бок\n"
+                "• /merge объединяет контексты всех параллельных агентов и выходит из параллельного режима\n"
+                "• /parallel clear выходит из параллельного режима без объединения контекстов\n"
+                "• /parallel add <agent> --model alias1 устанавливает пользовательскую модель\n"
+                "• Используйте переменную окружения CAI_PARALLEL для установки количества по умолчанию\n\n"
+                "[dim]Алиасы: /par, /p[/dim]",
+                title=_quick_guide_subpanel_title("Параллельные команды"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -710,26 +710,26 @@ class HelpCommand(Command):
         z = _CAI_GREEN
         console.print(
             Panel(
-                _h_panel_desc("Queue: line up prompts for sequential runs on the active or chosen agent.")
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/queue or /queue show[/bold #00ff9d] - Show queue status\n"
-                "• [bold #00ff9d]/queue add <prompt>[/bold #00ff9d] - Queue a prompt (active agent)\n"
-                "• [bold #00ff9d]/queue add --agent <name> <prompt>[/bold #00ff9d] - Queue with specific agent\n"
-                "• [bold #00ff9d]/queue list[/bold #00ff9d] - List queued prompts\n"
-                "• [bold #00ff9d]/queue clear[/bold #00ff9d] - Clear queued prompts\n"
-                "• [bold #00ff9d]/queue remove <index>[/bold #00ff9d] - Remove one queued prompt\n"
-                "• [bold #00ff9d]/queue move <from> <to>[/bold #00ff9d] - Move prompt to new position\n"
-                "• [bold #00ff9d]/queue next[/bold #00ff9d] - Show the next prompt in queue\n"
-                "• [bold #00ff9d]/queue load <file>[/bold #00ff9d] - Load prompts from file\n"
-                "• [bold #00ff9d]/queue run[/bold #00ff9d] - Execute all queued prompts\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
+                _h_panel_desc("Очередь: постановка запросов в очередь для последовательного выполнения на активном или выбранном агенте.")
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/queue или /queue show[/bold #00ff9d] - Показать состояние очереди\n"
+                "• [bold #00ff9d]/queue add <prompt>[/bold #00ff9d] - Добавить запрос в очередь (активный агент)\n"
+                "• [bold #00ff9d]/queue add --agent <name> <prompt>[/bold #00ff9d] - Добавить с конкретным агентом\n"
+                "• [bold #00ff9d]/queue list[/bold #00ff9d] - Список запросов в очереди\n"
+                "• [bold #00ff9d]/queue clear[/bold #00ff9d] - Очистить очередь запросов\n"
+                "• [bold #00ff9d]/queue remove <index>[/bold #00ff9d] - Удалить один запрос из очереди\n"
+                "• [bold #00ff9d]/queue move <from> <to>[/bold #00ff9d] - Переместить запрос на новую позицию\n"
+                "• [bold #00ff9d]/queue next[/bold #00ff9d] - Показать следующий запрос в очереди\n"
+                "• [bold #00ff9d]/queue load <file>[/bold #00ff9d] - Загрузить запросы из файла\n"
+                "• [bold #00ff9d]/queue run[/bold #00ff9d] - Выполнить все запросы в очереди\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
                 '• [bold #00ff9d]/queue add Analyze this target service[/bold #00ff9d]\n'
                 "• [bold #00ff9d]/queue add --agent red_teamer scan target[/bold #00ff9d]\n"
-                "• [bold #00ff9d]/queue move 3 1[/bold #00ff9d] - Move item #3 to position #1\n"
-                "• [bold #00ff9d]/queue clear[/bold #00ff9d] - Clear the queue\n"
-                "• [bold #00ff9d]/queue load prompts.txt[/bold #00ff9d] - Load prompts from file\n\n"
-                "[dim]Alias: /que[/dim]",
-                title=_quick_guide_subpanel_title("Queue Commands"),
+                "• [bold #00ff9d]/queue move 3 1[/bold #00ff9d] - Переместить элемент #3 на позицию #1\n"
+                "• [bold #00ff9d]/queue clear[/bold #00ff9d] - Очистить очередь\n"
+                "• [bold #00ff9d]/queue load prompts.txt[/bold #00ff9d] - Загрузить запросы из файла\n\n"
+                "[dim]Алиас: /que[/dim]",
+                title=_quick_guide_subpanel_title("Команды очереди"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -743,34 +743,34 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "History: browse, search, and drill into per-agent transcripts and parallel slots."
+                    "История: просмотр, поиск и детальный анализ транскриптов по агентам и параллельным слотам."
                 )
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/history[/bold #00ff9d] - Show control panel (tree view of agents)\n"
-                "• [bold #00ff9d]/history all[/bold #00ff9d] - Display all agent histories chronologically\n"
-                "• [bold #00ff9d]/history <agent>[/bold #00ff9d] or [bold #00ff9d]/history <ID>[/bold #00ff9d]"
-                " - Show specific agent history\n"
-                "• [bold #00ff9d]/history agent <name>[/bold #00ff9d] - Show history by agent name\n"
-                "• [bold #00ff9d]/history search <term>[/bold #00ff9d] - Search messages across all agents\n"
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/history[/bold #00ff9d] - Панель управления (дерево агентов)\n"
+                "• [bold #00ff9d]/history all[/bold #00ff9d] - Отобразить все истории агентов хронологически\n"
+                "• [bold #00ff9d]/history <agent>[/bold #00ff9d] или [bold #00ff9d]/history <ID>[/bold #00ff9d]"
+                " - Показать историю конкретного агента\n"
+                "• [bold #00ff9d]/history agent <name>[/bold #00ff9d] - Показать историю по имени агента\n"
+                "• [bold #00ff9d]/history search <term>[/bold #00ff9d] - Поиск сообщений среди всех агентов\n"
                 "• [bold #00ff9d]/history index <agent> <index> [role][/bold #00ff9d]"
-                " - Show specific message by index\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
-                "• [bold #00ff9d]/history[/bold #00ff9d] - View agent control panel\n"
-                "• [bold #00ff9d]/history P1[/bold #00ff9d] - Show P1's conversation\n"
-                "• [bold #00ff9d]/history agent red_teamer[/bold #00ff9d] - Show red_teamer's history\n"
-                '• [bold #00ff9d]/history search "password"[/bold #00ff9d] - Search for term\n'
-                "• [bold #00ff9d]/history index red_teamer 5[/bold #00ff9d] - Show message #5\n"
-                "• [bold #00ff9d]/history index P1 3 user[/bold #00ff9d] - Show 3rd user message from P1\n\n"
-                f"[bold {z}]Features:[/bold {z}]\n"
-                "• Message count and role breakdown per agent\n"
-                "• Message role visualization (color-coded)\n"
-                "• Tool call details\n"
-                "• Use [bold #00ff9d]/save <file>.jsonl[/bold #00ff9d] for snapshots ([bold #00ff9d]/load[/bold #00ff9d]); "
-                "[bold #00ff9d].md[/bold #00ff9d] for readable exports\n"
-                "• Memory status indicator\n"
-                "• Parallel agent support (isolated histories)\n\n"
-                "[dim]Alias: /his[/dim]",
-                title=_quick_guide_subpanel_title("History Commands"),
+                " - Показать конкретное сообщение по индексу\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
+                "• [bold #00ff9d]/history[/bold #00ff9d] - Открыть панель управления агентами\n"
+                "• [bold #00ff9d]/history P1[/bold #00ff9d] - Показать разговор P1\n"
+                "• [bold #00ff9d]/history agent red_teamer[/bold #00ff9d] - Показать историю red_teamer\n"
+                '• [bold #00ff9d]/history search "password"[/bold #00ff9d] - Поиск по запросу\n'
+                "• [bold #00ff9d]/history index red_teamer 5[/bold #00ff9d] - Показать сообщение #5\n"
+                "• [bold #00ff9d]/history index P1 3 user[/bold #00ff9d] - Показать 3-е сообщение пользователя от P1\n\n"
+                f"[bold {z}]Возможности:[/bold {z}]\n"
+                "• Подсчёт сообщений и разбивка по ролям для каждого агента\n"
+                "• Визуализация ролей сообщений (цветовая кодировка)\n"
+                "• Детали вызовов инструментов\n"
+                "• Используйте [bold #00ff9d]/save <file>.jsonl[/bold #00ff9d] для снимков ([bold #00ff9d]/load[/bold #00ff9d]); "
+                "[bold #00ff9d].md[/bold #00ff9d] для читаемого экспорта\n"
+                "• Индикатор состояния памяти\n"
+                "• Поддержка параллельных агентов (изолированные истории)\n\n"
+                "[dim]Алиас: /his[/dim]",
+                title=_quick_guide_subpanel_title("Команды истории"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -784,35 +784,35 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Compaction: use a summarization model to shrink long threads and free context."
+                    "Сжатие: использование модели резюмирования для уменьшения длинных тредов и освобождения контекста."
                 )
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/compact[/bold #00ff9d] - Compact current conversation\n"
-                "• [bold #00ff9d]/compact model <name>[/bold #00ff9d] - Set compaction model by name\n"
-                "• [bold #00ff9d]/compact model <number>[/bold #00ff9d] - Set compaction model by table number\n"
-                "• [bold #00ff9d]/compact model default[/bold #00ff9d] - Reset to current agent model\n"
-                "• [bold #00ff9d]/compact prompt <text>[/bold #00ff9d] - Set custom summarization prompt\n"
-                "• [bold #00ff9d]/compact prompt reset[/bold #00ff9d] - Reset to default prompt\n"
-                "• [bold #00ff9d]/compact status[/bold #00ff9d] - Show current settings\n\n"
-                f"[bold {z}]Inline flags (one-time override):[/bold {z}]\n"
-                "• [bold #00ff9d]/compact --model <model>[/bold #00ff9d] - Compact with a specific model\n"
-                "• [bold #00ff9d]/compact --prompt <text>[/bold #00ff9d] - Compact with a custom prompt\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
-                "• [bold #00ff9d]/compact model o3-mini[/bold #00ff9d] - Set O3 Mini as compaction model\n"
-                "• [bold #00ff9d]/compact model 3[/bold #00ff9d] - Set model by number from table\n"
-                "• [bold #00ff9d]/compact model default[/bold #00ff9d] - Use current agent model\n"
-                '• [bold #00ff9d]/compact prompt "Focus on vulnerabilities"[/bold #00ff9d] - Set custom prompt\n'
-                "• [bold #00ff9d]/compact prompt reset[/bold #00ff9d] - Reset to default prompt\n"
-                "• [bold #00ff9d]/cmp status[/bold #00ff9d] - Check configuration\n"
-                "• [bold #00ff9d]/compact --model o3-mini[/bold #00ff9d] - One-time compaction with specific model\n"
-                '• [bold #00ff9d]/compact --prompt "Focus on credentials"[/bold #00ff9d] - One-time custom prompt\n\n'
-                f"[bold {z}]Features:[/bold {z}]\n"
-                "• Preserves important context\n"
-                "• Reduces token usage\n"
-                "• Saves to memory (M-prefixed)\n"
-                "• Clears history after compaction\n\n"
-                "[dim]Alias: /cmp[/dim]",
-                title=_quick_guide_subpanel_title("Compact Commands"),
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/compact[/bold #00ff9d] - Сжать текущий разговор\n"
+                "• [bold #00ff9d]/compact model <name>[/bold #00ff9d] - Установить модель сжатия по имени\n"
+                "• [bold #00ff9d]/compact model <number>[/bold #00ff9d] - Установить модель сжатия по номеру из таблицы\n"
+                "• [bold #00ff9d]/compact model default[/bold #00ff9d] - Сбросить на модель текущего агента\n"
+                "• [bold #00ff9d]/compact prompt <text>[/bold #00ff9d] - Установить пользовательский промпт резюмирования\n"
+                "• [bold #00ff9d]/compact prompt reset[/bold #00ff9d] - Сбросить на промпт по умолчанию\n"
+                "• [bold #00ff9d]/compact status[/bold #00ff9d] - Показать текущие настройки\n\n"
+                f"[bold {z}]Флаги (разовое переопределение):[/bold {z}]\n"
+                "• [bold #00ff9d]/compact --model <model>[/bold #00ff9d] - Сжать с конкретной моделью\n"
+                "• [bold #00ff9d]/compact --prompt <text>[/bold #00ff9d] - Сжать с пользовательским промптом\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
+                "• [bold #00ff9d]/compact model o3-mini[/bold #00ff9d] - Установить O3 Mini как модель сжатия\n"
+                "• [bold #00ff9d]/compact model 3[/bold #00ff9d] - Установить модель по номеру из таблицы\n"
+                "• [bold #00ff9d]/compact model default[/bold #00ff9d] - Использовать модель текущего агента\n"
+                '• [bold #00ff9d]/compact prompt "Focus on vulnerabilities"[/bold #00ff9d] - Установить пользовательский промпт\n'
+                "• [bold #00ff9d]/compact prompt reset[/bold #00ff9d] - Сбросить на промпт по умолчанию\n"
+                "• [bold #00ff9d]/cmp status[/bold #00ff9d] - Проверить конфигурацию\n"
+                "• [bold #00ff9d]/compact --model o3-mini[/bold #00ff9d] - Разовое сжатие с конкретной моделью\n"
+                '• [bold #00ff9d]/compact --prompt "Focus on credentials"[/bold #00ff9d] - Разовый пользовательский промпт\n\n'
+                f"[bold {z}]Возможности:[/bold {z}]\n"
+                "• Сохранение важного контекста\n"
+                "• Сокращение использования токенов\n"
+                "• Сохранение в память (с префиксом M)\n"
+                "• Очистка истории после сжатия\n\n"
+                "[dim]Алиас: /cmp[/dim]",
+                title=_quick_guide_subpanel_title("Команды сжатия"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -826,25 +826,25 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Flush: drop stored messages while keeping agents, tools, and MCP as configured."
+                    "Очистка: удаление сохранённых сообщений с сохранением агентов, инструментов и MCP в настроенной конфигурации."
                 )
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/flush[/bold #00ff9d] - Clear current agent's history\n"
-                "• [bold #00ff9d]/flush all[/bold #00ff9d] - Clear all agent histories\n"
-                "• [bold #00ff9d]/flush <agent>[/bold #00ff9d] - Clear specific agent\n"
-                "• [bold #00ff9d]/flush P1[/bold #00ff9d] - Clear parallel agent P1\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
-                "• [bold #00ff9d]/flush[/bold #00ff9d] - Clear active agent\n"
-                "• [bold #00ff9d]/flush all[/bold #00ff9d] - Reset all agents\n"
-                "• [bold #00ff9d]/flush red_teamer[/bold #00ff9d] - Clear red team agent\n"
-                "• [bold #00ff9d]/clear P2[/bold #00ff9d] - Clear parallel agent P2\n\n"
-                f"[bold {z}]Effects:[/bold {z}]\n"
-                "• Removes all messages\n"
-                "• Resets token counts\n"
-                "• Preserves agent configuration\n"
-                "• Keeps MCP connections\n\n"
-                "[dim]Alias: /clear[/dim]",
-                title=_quick_guide_subpanel_title("Flush Commands"),
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/flush[/bold #00ff9d] - Очистить историю текущего агента\n"
+                "• [bold #00ff9d]/flush all[/bold #00ff9d] - Очистить все истории агентов\n"
+                "• [bold #00ff9d]/flush <agent>[/bold #00ff9d] - Очистить конкретного агента\n"
+                "• [bold #00ff9d]/flush P1[/bold #00ff9d] - Очистить параллельного агента P1\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
+                "• [bold #00ff9d]/flush[/bold #00ff9d] - Очистить активного агента\n"
+                "• [bold #00ff9d]/flush all[/bold #00ff9d] - Сбросить всех агентов\n"
+                "• [bold #00ff9d]/flush red_teamer[/bold #00ff9d] - Очистить агента red team\n"
+                "• [bold #00ff9d]/clear P2[/bold #00ff9d] - Очистить параллельного агента P2\n\n"
+                f"[bold {z}]Действия:[/bold {z}]\n"
+                "• Удаляет все сообщения\n"
+                "• Сбрасывает счётчики токенов\n"
+                "• Сохраняет конфигурацию агента\n"
+                "• Сохраняет подключения MCP\n\n"
+                "[dim]Алиас: /clear[/dim]",
+                title=_quick_guide_subpanel_title("Команды очистки"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -857,26 +857,26 @@ class HelpCommand(Command):
         z = _CAI_GREEN
         console.print(
             Panel(
-                _h_panel_desc("Load JSONL transcripts from /save (or elsewhere) back into agents.")
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/load <file>[/bold #00ff9d] - Load for current agent\n"
-                "• [bold #00ff9d]/load <file> agent <name>[/bold #00ff9d] - Load for specific agent\n"
-                "• [bold #00ff9d]/load <file> all[/bold #00ff9d] - Distribute across all agents\n"
-                "• [bold #00ff9d]/load <file> parallel[/bold #00ff9d] - Smart parallel distribution\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
-                "• [bold #00ff9d]/load session.jsonl[/bold #00ff9d] - Load to current agent ([dim]use .jsonl from /save, not .md[/dim])\n"
-                "• [bold #00ff9d]/load ctf.jsonl agent red_teamer[/bold #00ff9d] - Load to red team\n"
-                "• [bold #00ff9d]/load scan.jsonl all[/bold #00ff9d] - Split across agents\n"
-                "• [bold #00ff9d]/l pentest.jsonl parallel[/bold #00ff9d] - Pattern-based loading\n\n"
-                "Use [bold #00ff9d]/save file.jsonl[/bold #00ff9d] to reload with [bold #00ff9d]/load[/bold #00ff9d]; "
-                "[bold #00ff9d].md[/bold #00ff9d] exports are readable only (not for /load).\n"
-                "[dim]/history export[/dim] is deprecated; use [bold #00ff9d]/save[/bold #00ff9d].\n\n"
-                f"[bold {z}]Distribution modes:[/bold {z}]\n"
-                "• [bold #00ff9d]agent[/bold #00ff9d] - Load all to one agent\n"
-                "• [bold #00ff9d]all[/bold #00ff9d] - Round-robin distribution\n"
-                "• [bold #00ff9d]parallel[/bold #00ff9d] - Match by agent patterns\n\n"
-                "[dim]Alias: /l[/dim]",
-                title=_quick_guide_subpanel_title("Load Commands"),
+                _h_panel_desc("Загрузка JSONL-транскриптов из /save (или другого места) обратно в агентов.")
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/load <file>[/bold #00ff9d] - Загрузить для текущего агента\n"
+                "• [bold #00ff9d]/load <file> agent <name>[/bold #00ff9d] - Загрузить для конкретного агента\n"
+                "• [bold #00ff9d]/load <file> all[/bold #00ff9d] - Распределить среди всех агентов\n"
+                "• [bold #00ff9d]/load <file> parallel[/bold #00ff9d] - Умное параллельное распределение\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
+                "• [bold #00ff9d]/load session.jsonl[/bold #00ff9d] - Загрузить для текущего агента ([dim]используйте .jsonl из /save, а не .md[/dim])\n"
+                "• [bold #00ff9d]/load ctf.jsonl agent red_teamer[/bold #00ff9d] - Загрузить для red team\n"
+                "• [bold #00ff9d]/load scan.jsonl all[/bold #00ff9d] - Разделить между агентами\n"
+                "• [bold #00ff9d]/l pentest.jsonl parallel[/bold #00ff9d] - Загрузка по шаблонам\n\n"
+                "Используйте [bold #00ff9d]/save file.jsonl[/bold #00ff9d] для повторной загрузки через [bold #00ff9d]/load[/bold #00ff9d]; "
+                "[bold #00ff9d].md[/bold #00ff9d] экспорты только для чтения (не для /load).\n"
+                "[dim]/history export[/dim] устарело; используйте [bold #00ff9d]/save[/bold #00ff9d].\n\n"
+                f"[bold {z}]Режимы распределения:[/bold {z}]\n"
+                "• [bold #00ff9d]agent[/bold #00ff9d] - Загрузить всё одному агенту\n"
+                "• [bold #00ff9d]all[/bold #00ff9d] - Распределение по кругу\n"
+                "• [bold #00ff9d]parallel[/bold #00ff9d] - Сопоставление по шаблонам агентов\n\n"
+                "[dim]Алиас: /l[/dim]",
+                title=_quick_guide_subpanel_title("Команды загрузки"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -890,21 +890,21 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Save: export JSONL for /load or Markdown for humans; use after /flush to archive safely."
+                    "Сохранение: экспорт JSONL для /load или Markdown для людей; используйте после /flush для безопасного архивирования."
                 )
-                + f"[bold {z}]Formats:[/bold {z}]\n"
-                "• [bold #00ff9d].jsonl[/bold #00ff9d] — machine format, one JSON object per line "
-                "([dim]agent, role, content[/dim], tool fields). Use with [bold]/load[/bold].\n"
-                "• [bold #00ff9d].md[/bold #00ff9d] or [bold #00ff9d].markdown[/bold #00ff9d] — human-readable "
-                "report (headings per agent and role). Not loaded by [bold]/load[/bold].\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
+                + f"[bold {z}]Форматы:[/bold {z}]\n"
+                "• [bold #00ff9d].jsonl[/bold #00ff9d] — машинный формат, один JSON-объект на строку "
+                "([dim]agent, role, content[/dim], поля инструментов). Используйте с [bold]/load[/bold].\n"
+                "• [bold #00ff9d].md[/bold #00ff9d] или [bold #00ff9d].markdown[/bold #00ff9d] — читаемый "
+                "отчёт (заголовки по агентам и ролям). Не загружается через [bold]/load[/bold].\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
                 "• [bold #00ff9d]/save session.jsonl[/bold #00ff9d]\n"
                 "• [bold #00ff9d]/save findings.md[/bold #00ff9d]\n"
                 "• [bold #00ff9d]/save ~/notes/cai_thread.jsonl[/bold #00ff9d]\n\n"
-                "Tilde paths ([bold]~/...[/bold]) are expanded; parent directories are created if needed.\n"
-                "Not the same as [bold]/memory save[/bold] (summarized memory under [dim].cai/memory[/dim]).\n\n"
-                "[dim]Deprecated: /history export — use /save instead.[/dim]",
-                title=_quick_guide_subpanel_title("Save Commands"),
+                "Пути с тильдой ([bold]~/...[/bold]) раскрываются; родительские директории создаются при необходимости.\n"
+                "Не то же самое, что [bold]/memory save[/bold] (резюмированная память в [dim].cai/memory[/dim]).\n\n"
+                "[dim]Устарело: /history export — используйте /save.[/dim]",
+                title=_quick_guide_subpanel_title("Команды сохранения"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -918,19 +918,19 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Workspace labels and paths for CAI_WORKSPACE; bare /workspace or /workspace get shows status."
+                    "Метки и пути рабочего пространства для CAI_WORKSPACE; /workspace или /workspace get показывает состояние."
                 )
-                + f"[bold {z}]Subcommands[/bold {z}] ([dim]alias[/dim] [bold #00ff9d]/ws[/bold #00ff9d])\n"
-                "• [bold #00ff9d]/workspace set <name>[/bold #00ff9d] — set workspace label\n"
-                "• [bold #00ff9d]/workspace get[/bold #00ff9d] — same as bare [bold]/ws[/bold]\n"
-                "• [bold #00ff9d]/workspace ls[/bold #00ff9d] [dim](optional path in workspace)[/dim] — list files\n"
-                "• [bold #00ff9d]/workspace exec <cmd>[/bold #00ff9d] — run a shell command in the workspace cwd\n"
-                "• [bold #00ff9d]/workspace copy <src> <dst>[/bold #00ff9d] — host ↔ container via [bold]docker cp[/bold]; "
-                "[bold]container:[/bold] on exactly one path; needs [dim]CAI_ACTIVE_CONTAINER[/dim] "
+                + f"[bold {z}]Подкоманды[/bold {z}] ([dim]алиас[/dim] [bold #00ff9d]/ws[/bold #00ff9d])\n"
+                "• [bold #00ff9d]/workspace set <name>[/bold #00ff9d] — установить метку рабочего пространства\n"
+                "• [bold #00ff9d]/workspace get[/bold #00ff9d] — то же, что и [bold]/ws[/bold]\n"
+                "• [bold #00ff9d]/workspace ls[/bold #00ff9d] [dim](необязательный путь в рабочем пространстве)[/dim] — список файлов\n"
+                "• [bold #00ff9d]/workspace exec <cmd>[/bold #00ff9d] — выполнить команду оболочки в текущей директории рабочего пространства\n"
+                "• [bold #00ff9d]/workspace copy <src> <dst>[/bold #00ff9d] — хост ↔ контейнер через [bold]docker cp[/bold]; "
+                "[bold]container:[/bold] ровно на одном пути; требуется [dim]CAI_ACTIVE_CONTAINER[/dim] "
                 "([dim]/h virtualization[/dim])\n\n"
-                "[dim]Host base path:[/dim] [dim]CAI_WORKSPACE_DIR[/dim]\n\n"
-                "[dim]Alias: /ws[/dim]",
-                title=_quick_guide_subpanel_title("Workspace Commands"),
+                "[dim]Базовый путь хоста:[/dim] [dim]CAI_WORKSPACE_DIR[/dim]\n\n"
+                "[dim]Алиас: /ws[/dim]",
+                title=_quick_guide_subpanel_title("Команды рабочего пространства"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -944,31 +944,31 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Virtualization: attach CAI to Docker containers for isolated security tool runs."
+                    "Виртуализация: привязка CAI к контейнерам Docker для изолированного запуска инструментов безопасности."
                 )
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/virtualization[/bold #00ff9d] or [bold #00ff9d]/virtualization info[/bold #00ff9d] — full status (alias [bold #00ff9d]/virt[/bold #00ff9d])\n"
-                "• [bold #00ff9d]/virtualization list[/bold #00ff9d] - List Docker containers\n"
-                "• [bold #00ff9d]/virtualization set <container_id>[/bold #00ff9d] - Set active container (prefix if unique)\n"
-                "• [bold #00ff9d]/virtualization clear[/bold #00ff9d] - Return to host\n"
-                "• [bold #00ff9d]/virtualization pull <image>[/bold #00ff9d] - Pull Docker image\n"
-                "• [bold #00ff9d]/virtualization run <image|id>[/bold #00ff9d] - New container from image, or activate if <id> matches one container prefix\n"
-                "• [bold #00ff9d]/virtualization <image_or_pen_id>[/bold #00ff9d] - Switch (same as bare shortcut)\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
-                "• [bold #00ff9d]/virt pull kalilinux/kali-rolling[/bold #00ff9d] - Pull Kali\n"
-                "• [bold #00ff9d]/virt run parrotsec/security[/bold #00ff9d] - Run Parrot OS\n"
-                "• [bold #00ff9d]/virt set abc123def456[/bold #00ff9d] - Activate container by ID\n"
-                "• [bold #00ff9d]/virt abc123def456[/bold #00ff9d] - Same (bare shortcut)\n\n"
-                f"[bold {z}]Supported images:[/bold {z}]\n"
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/virtualization[/bold #00ff9d] или [bold #00ff9d]/virtualization info[/bold #00ff9d] — полное состояние (алиас [bold #00ff9d]/virt[/bold #00ff9d])\n"
+                "• [bold #00ff9d]/virtualization list[/bold #00ff9d] - Список контейнеров Docker\n"
+                "• [bold #00ff9d]/virtualization set <container_id>[/bold #00ff9d] - Установить активный контейнер (префикс, если уникален)\n"
+                "• [bold #00ff9d]/virtualization clear[/bold #00ff9d] - Вернуться на хост\n"
+                "• [bold #00ff9d]/virtualization pull <image>[/bold #00ff9d] - Загрузить образ Docker\n"
+                "• [bold #00ff9d]/virtualization run <image|id>[/bold #00ff9d] - Новый контейнер из образа или активировать, если <id> совпадает с префиксом контейнера\n"
+                "• [bold #00ff9d]/virtualization <image_or_pen_id>[/bold #00ff9d] - Переключение (то же, что и короткая команда)\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
+                "• [bold #00ff9d]/virt pull kalilinux/kali-rolling[/bold #00ff9d] - Загрузить Kali\n"
+                "• [bold #00ff9d]/virt run parrotsec/security[/bold #00ff9d] - Запустить Parrot OS\n"
+                "• [bold #00ff9d]/virt set abc123def456[/bold #00ff9d] - Активировать контейнер по ID\n"
+                "• [bold #00ff9d]/virt abc123def456[/bold #00ff9d] - То же (короткая команда)\n\n"
+                f"[bold {z}]Поддерживаемые образы:[/bold {z}]\n"
                 "• [bold #00ff9d]kalilinux/kali-rolling[/bold #00ff9d] - Kali Linux\n"
                 "• [bold #00ff9d]parrotsec/security[/bold #00ff9d] - Parrot Security\n"
-                "• [bold #00ff9d]Any security-focused image[/bold #00ff9d]\n\n"
-                f"[bold {z}]Features:[/bold {z}]\n"
-                "• Host networking enabled\n"
-                "• Workspace mounting\n"
-                "• Interactive TTY\n"
-                "• Sets CAI_ACTIVE_CONTAINER\n\n",
-                title=_quick_guide_subpanel_title("Virtualization Commands"),
+                "• [bold #00ff9d]Любой образ для безопасности[/bold #00ff9d]\n\n"
+                f"[bold {z}]Возможности:[/bold {z}]\n"
+                "• Сетевая связность хоста включена\n"
+                "• Монтирование рабочего пространства\n"
+                "• Интерактивный TTY\n"
+                "• Устанавливает CAI_ACTIVE_CONTAINER\n\n",
+                title=_quick_guide_subpanel_title("Команды виртуализации"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -1010,14 +1010,14 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Leave the REPL: session is tidied up and a short summary is shown "
-                    "(same path as Ctrl+C)."
+                    "Выход из REPL: сессия завершается и отображается краткое резюме "
+                    "(то же, что и Ctrl+C)."
                 )
-                + f"[bold {z}]Command:[/bold {z}]\n"
-                f"• [bold {z}]/exit[/bold {z}] — quit CAI\n\n"
-                f"[bold {z}]Aliases:[/bold {z}] [dim]/q, /quit[/dim]\n\n"
-                f"[bold {z}]Also:[/bold {z}] [dim]Ctrl+C at the prompt[/dim]\n",
-                title=_quick_guide_subpanel_title("Exit Commands"),
+                + f"[bold {z}]Команда:[/bold {z}]\n"
+                f"• [bold {z}]/exit[/bold {z}] — выйти из CAI\n\n"
+                f"[bold {z}]Алиасы:[/bold {z}] [dim]/q, /quit[/dim]\n\n"
+                f"[bold {z}]Также:[/bold {z}] [dim]Ctrl+C в приглашении[/dim]\n",
+                title=_quick_guide_subpanel_title("Команды выхода"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -1031,24 +1031,24 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Resume replaces the old ``cai --resume`` / ``--logpath`` flags: pick a log, "
-                    "replay it, then load history into the active agent."
+                    "Возобновление заменяет старые флаги ``cai --resume`` / ``--logpath``: выберите журнал, "
+                    "воспроизведите его, затем загрузите историю в активного агента."
                 )
-                + f"[bold {z}]Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/resume[/bold #00ff9d] — same [bold #00ff9d]10[/bold #00ff9d] recent sessions as "
-                "[bold #00ff9d]/sessions[/bold #00ff9d]; enter a number to load one\n"
-                "• [bold #00ff9d]/resume last[/bold #00ff9d] — newest log under [dim]logs/[/dim] with messages\n"
-                "• [bold #00ff9d]/resume <file.jsonl>[/bold #00ff9d] — load that capture\n"
-                "• [bold #00ff9d]/resume <dir>[/bold #00ff9d] — pick among up to 10 newest [dim].jsonl[/dim] under "
-                "[dim]dir[/dim] (recursive)\n"
-                "• [bold #00ff9d]/resume <dir> <token>[/bold #00ff9d] — newest [dim].jsonl[/dim] under "
-                "[dim]dir[/dim] whose name contains [dim]token[/dim]\n"
-                "• [bold #00ff9d]/resume <token>[/bold #00ff9d] — match in [dim]logs/cai_*.jsonl[/dim] filenames "
-                "(not a path)\n\n"
-                f"[bold {z}]Related:[/bold {z}]\n"
+                + f"[bold {z}]Команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/resume[/bold #00ff9d] — те же [bold #00ff9d]10[/bold #00ff9d] последних сессий, что и "
+                "[bold #00ff9d]/sessions[/bold #00ff9d]; введите номер для загрузки\n"
+                "• [bold #00ff9d]/resume last[/bold #00ff9d] — самый свежий журнал в [dim]logs/[/dim] с сообщениями\n"
+                "• [bold #00ff9d]/resume <file.jsonl>[/bold #00ff9d] — загрузить эту запись\n"
+                "• [bold #00ff9d]/resume <dir>[/bold #00ff9d] — выбрать из до 10 самых свежих [dim].jsonl[/dim] в "
+                "[dim]dir[/dim] (рекурсивно)\n"
+                "• [bold #00ff9d]/resume <dir> <token>[/bold #00ff9d] — самый свежий [dim].jsonl[/dim] в "
+                "[dim]dir[/dim], имя которого содержит [dim]token[/dim]\n"
+                "• [bold #00ff9d]/resume <token>[/bold #00ff9d] — поиск в именах файлов [dim]logs/cai_*.jsonl[/dim] "
+                "(не путь)\n\n"
+                f"[bold {z}]Связанные:[/bold {z}]\n"
                 "• [bold #00ff9d]/sessions[/bold #00ff9d], [bold #00ff9d]/sessions <n>[/bold #00ff9d]\n\n"
-                "[dim]Alias: /r[/dim]",
-                title=_quick_guide_subpanel_title("Resume Commands"),
+                "[dim]Алиас: /r[/dim]",
+                title=_quick_guide_subpanel_title("Команды возобновления"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -1062,18 +1062,18 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Sessions: browse on-disk JSONL logs. Default list matches the first step of "
-                    "[bold #00ff9d]/resume[/bold #00ff9d] (10 newest with messages)."
+                    "Сессии: просмотр JSONL-журналов на диске. Список по умолчанию соответствует первому шагу "
+                    "[bold #00ff9d]/resume[/bold #00ff9d] (10 самых свежих с сообщениями)."
                 )
-                + f"[bold {z}]Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/sessions[/bold #00ff9d] — last [bold #00ff9d]10[/bold #00ff9d] sessions "
+                + f"[bold {z}]Команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/sessions[/bold #00ff9d] — последние [bold #00ff9d]10[/bold #00ff9d] сессий "
                 "([dim]logs/cai_*.jsonl[/dim])\n"
-                "• [bold #00ff9d]/sessions <n>[/bold #00ff9d] — last [dim]n[/dim] sessions\n"
-                "• [bold #00ff9d]/sessions <id|path>[/bold #00ff9d] — metadata for one log\n\n"
-                f"[bold {z}]Related:[/bold {z}]\n"
-                "• [bold #00ff9d]/resume[/bold #00ff9d] — pick and replay into the agent\n\n"
-                "[dim]Alias: /sess[/dim]",
-                title=_quick_guide_subpanel_title("Sessions Commands"),
+                "• [bold #00ff9d]/sessions <n>[/bold #00ff9d] — последние [dim]n[/dim] сессий\n"
+                "• [bold #00ff9d]/sessions <id|path>[/bold #00ff9d] — метаданные одного журнала\n\n"
+                f"[bold {z}]Связанные:[/bold {z}]\n"
+                "• [bold #00ff9d]/resume[/bold #00ff9d] — выбрать и воспроизвести для агента\n\n"
+                "[dim]Алиас: /sess[/dim]",
+                title=_quick_guide_subpanel_title("Команды сессий"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -1086,20 +1086,20 @@ class HelpCommand(Command):
         z = _CAI_GREEN
         console.print(
             Panel(
-                _h_panel_desc("Replay a JSONL capture with optional delay; stop from TUI if needed.")
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/replay <file.jsonl>[/bold #00ff9d] - Replay a conversation\n"
-                "• [bold #00ff9d]/replay <file.jsonl> <delay>[/bold #00ff9d] - Replay with custom delay\n"
-                "• [bold #00ff9d]/replay stop[/bold #00ff9d] - Cancel active replay (TUI)\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
-                "• [bold #00ff9d]/replay session.jsonl[/bold #00ff9d] - Replay at default speed\n"
-                "• [bold #00ff9d]/replay session.jsonl 2[/bold #00ff9d] - 2s delay between steps\n"
-                "• [bold #00ff9d]/replay stop[/bold #00ff9d] - Stop current replay\n\n"
-                f"[bold {z}]Features:[/bold {z}]\n"
-                "• Shows user prompts, assistant panels, and tool outputs\n"
-                "• Live step-by-step playback\n"
-                "• Session recording is disabled during replay",
-                title=_quick_guide_subpanel_title("Replay Commands"),
+                _h_panel_desc("Воспроизведение JSONL-записи с необязательной задержкой; остановка из TUI при необходимости.")
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/replay <file.jsonl>[/bold #00ff9d] - Воспроизвести разговор\n"
+                "• [bold #00ff9d]/replay <file.jsonl> <delay>[/bold #00ff9d] - Воспроизвести с пользовательской задержкой\n"
+                "• [bold #00ff9d]/replay stop[/bold #00ff9d] - Отменить активное воспроизведение (TUI)\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
+                "• [bold #00ff9d]/replay session.jsonl[/bold #00ff9d] - Воспроизвести на стандартной скорости\n"
+                "• [bold #00ff9d]/replay session.jsonl 2[/bold #00ff9d] - Задержка 2 сек между шагами\n"
+                "• [bold #00ff9d]/replay stop[/bold #00ff9d] - Остановить текущее воспроизведение\n\n"
+                f"[bold {z}]Возможности:[/bold {z}]\n"
+                "• Показывает промпты пользователя, панели ассистента и выводы инструментов\n"
+                "• Пошаговое воспроизведение в реальном времени\n"
+                "• Запись сессии отключена во время воспроизведения",
+                title=_quick_guide_subpanel_title("Команды воспроизведения"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -1113,21 +1113,21 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Continuation mode: let the agent keep working turn-by-turn until you turn it off."
+                    "Режим продолжения: позволяет агенту продолжать работу пошагово, пока вы не отключите его."
                 )
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/continue[/bold #00ff9d] - Enable and continue current task\n"
-                "• [bold #00ff9d]/continue on[/bold #00ff9d] - Enable continuation mode\n"
-                "• [bold #00ff9d]/continue off[/bold #00ff9d] - Disable continuation mode\n"
-                "• [bold #00ff9d]/continue status[/bold #00ff9d] - Check current mode status\n\n"
-                f"[bold {z}]How it works:[/bold {z}]\n"
-                "• When enabled, the agent automatically continues\n"
-                "  working on the current task after each response\n"
-                "• Useful for long-running multi-step tasks\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
-                "• [bold #00ff9d]/continue[/bold #00ff9d] - Start continuing\n"
-                "• [bold #00ff9d]/continue off[/bold #00ff9d] - Stop auto-continuation",
-                title=_quick_guide_subpanel_title("Continue Commands"),
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/continue[/bold #00ff9d] - Включить и продолжить текущую задачу\n"
+                "• [bold #00ff9d]/continue on[/bold #00ff9d] - Включить режим продолжения\n"
+                "• [bold #00ff9d]/continue off[/bold #00ff9d] - Отключить режим продолжения\n"
+                "• [bold #00ff9d]/continue status[/bold #00ff9d] - Проверить текущий статус режима\n\n"
+                f"[bold {z}]Как это работает:[/bold {z}]\n"
+                "• При включении агент автоматически продолжает\n"
+                "  работу над текущей задачей после каждого ответа\n"
+                "• Полезно для длительных многоэтапных задач\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
+                "• [bold #00ff9d]/continue[/bold #00ff9d] - Начать продолжение\n"
+                "• [bold #00ff9d]/continue off[/bold #00ff9d] - Остановить автопродолжение",
+                title=_quick_guide_subpanel_title("Команды продолжения"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -1141,16 +1141,16 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Sampling temperature (0.0–2.0). Bare command shows the current value; "
-                    "with a number it sets [bold]CAI_TEMPERATURE[/bold] and the active REPL agent's "
-                    "model_settings for the next turn."
+                    "Температура сэмплирования (0.0–2.0). Команда без аргументов показывает текущее значение; "
+                    "с числом устанавливает [bold]CAI_TEMPERATURE[/bold] и model_settings "
+                    "активного агента REPL для следующего хода."
                 )
-                + f"[bold {z}]Syntax[/bold {z}]\n"
-                f"• [bold {z}]/temperature[/bold {z}] [dim]— show current[/dim]\n"
-                f"• [bold {z}]/temperature <value>[/bold {z}] [dim]— set a float in 0.0–2.0[/dim]\n\n"
-                f"[dim]Env: CAI_TEMPERATURE. Some models may ignore or clamp the parameter.[/dim]\n\n"
-                "[dim]Alias: /temp[/dim]",
-                title=_quick_guide_subpanel_title("Temperature"),
+                + f"[bold {z}]Синтаксис[/bold {z}]\n"
+                f"• [bold {z}]/temperature[/bold {z}] [dim]— показать текущее[/dim]\n"
+                f"• [bold {z}]/temperature <value>[/bold {z}] [dim]— установить дробное число от 0.0 до 2.0[/dim]\n\n"
+                f"[dim]Переменная: CAI_TEMPERATURE. Некоторые модели могут игнорировать или ограничивать параметр.[/dim]\n\n"
+                "[dim]Алиас: /temp[/dim]",
+                title=_quick_guide_subpanel_title("Температура"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -1164,21 +1164,21 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Nucleus sampling top_p (0.0–1.0). Bare command shows the current value; "
-                    "with a number it sets [bold]CAI_TOP_P[/bold] and the active REPL agent's "
-                    "model_settings for the next turn."
+                    "Nucleus-сэмплирование top_p (0.0–1.0). Команда без аргументов показывает текущее значение; "
+                    "с числом устанавливает [bold]CAI_TOP_P[/bold] и model_settings "
+                    "активного агента REPL для следующего хода."
                 )
-                + f"[bold {z}]Syntax[/bold {z}]\n"
-                f"• [bold {z}]/topp[/bold {z}] [dim]— show current[/dim]\n"
-                f"• [bold {z}]/topp <value>[/bold {z}] [dim]— set a float in 0.0–1.0[/dim]\n\n"
-                f"[bold {z}]Value guide:[/bold {z}]\n"
-                "• [bold #00ff9d]0.1[/bold #00ff9d] - Very narrow (top 10% probability mass)\n"
-                "• [bold #00ff9d]0.5[/bold #00ff9d] - Moderate (top 50%)\n"
-                "• [bold #00ff9d]1.0[/bold #00ff9d] - Default (consider all tokens)\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
-                "• [bold #00ff9d]/topp 0.5[/bold #00ff9d] - More focused sampling\n"
-                "• [bold #00ff9d]/topp 1.0[/bold #00ff9d] - Default behavior\n\n"
-                f"[dim]Env: CAI_TOP_P. Some models may ignore or clamp the parameter.[/dim]",
+                + f"[bold {z}]Синтаксис[/bold {z}]\n"
+                f"• [bold {z}]/topp[/bold {z}] [dim]— показать текущее[/dim]\n"
+                f"• [bold {z}]/topp <value>[/bold {z}] [dim]— установить дробное число от 0.0 до 1.0[/dim]\n\n"
+                f"[bold {z}]Справка по значениям:[/bold {z}]\n"
+                "• [bold #00ff9d]0.1[/bold #00ff9d] - Очень узкий (топ 10% вероятностной массы)\n"
+                "• [bold #00ff9d]0.5[/bold #00ff9d] - Умеренный (топ 50%)\n"
+                "• [bold #00ff9d]1.0[/bold #00ff9d] - По умолчанию (учитывать все токены)\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
+                "• [bold #00ff9d]/topp 0.5[/bold #00ff9d] - Более сфокусированное сэмплирование\n"
+                "• [bold #00ff9d]/topp 1.0[/bold #00ff9d] - Поведение по умолчанию\n\n"
+                f"[dim]Переменная: CAI_TOP_P. Некоторые модели могут игнорировать или ограничивать параметр.[/dim]",
                 title=_quick_guide_subpanel_title("Top-P"),
                 title_align="left",
                 padding=(1, 1),
@@ -1194,13 +1194,13 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Settings: edit .env variables, FAQ, API checks, language, and Ollama."
+                    "Настройки: редактирование переменных .env, FAQ, проверки API, язык и Ollama."
                 )
-                + f"[bold {z}]Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/settings[/bold #00ff9d] - Interactive menu\n"
+                + f"[bold {z}]Команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/settings[/bold #00ff9d] - Интерактивное меню\n"
                 f"{subs}\n\n"
-                "[dim]Alias: /set[/dim]",
-                title=_quick_guide_subpanel_title("Settings"),
+                "[dim]Алиас: /set[/dim]",
+                title=_quick_guide_subpanel_title("Настройки"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -1227,19 +1227,19 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "CTR: game-theoretic analysis on the session; artifacts under run_* folders "
-                    "(base directory or one nested level, same discovery for list/show/graph/use)."
+                    "CTR: теоретико-игровой анализ сессии; артефакты в папках run_* "
+                    "(базовая директория или один уровень вложенности, одинаковое обнаружение для list/show/graph/use)."
                 )
-                + f"[bold {z}]Commands:[/bold {z}]\n"
-                f"• [bold {z}]/ctr[/bold {z}] — run full analysis\n"
-                f"• [bold {z}]/ctr show[/bold {z}] — print equilibrium and strategies\n"
-                f"• [bold {z}]/ctr graph[/bold {z}] — open graph image; node/edge summary when data exists\n"
-                f"• [bold {z}]/ctr list[/bold {z}] — list runs (newest first; # matches [bold {z}]/ctr use <n>[/bold {z}])\n"
-                f"• [bold {z}]/ctr use[/bold {z}] — [dim]list index[/dim], [dim]run folder name under base[/dim], "
-                f"or [dim]absolute path[/dim]\n"
-                f"• [bold {z}]/ctr open[/bold {z}] — open the runs folder in the file manager\n\n"
-                f"[dim]Example: [bold {z}]/ctr[/bold {z}] then [bold {z}]/ctr list[/bold {z}] and [bold {z}]/ctr use 1[/bold {z}][/dim]",
-                title=_quick_guide_subpanel_title("CTR Commands"),
+                + f"[bold {z}]Команды:[/bold {z}]\n"
+                f"• [bold {z}]/ctr[/bold {z}] — запустить полный анализ\n"
+                f"• [bold {z}]/ctr show[/bold {z}] — вывести равновесие и стратегии\n"
+                f"• [bold {z}]/ctr graph[/bold {z}] — открыть изображение графа; сводка узлов/рёбер при наличии данных\n"
+                f"• [bold {z}]/ctr list[/bold {z}] — список запусков (сначала новые; # соответствует [bold {z}]/ctr use <n>[/bold {z}])\n"
+                f"• [bold {z}]/ctr use[/bold {z}] — [dim]индекс из списка[/dim], [dim]имя папки запуска в базе[/dim] "
+                f"или [dim]абсолютный путь[/dim]\n"
+                f"• [bold {z}]/ctr open[/bold {z}] — открыть папку запусков в файловом менеджере\n\n"
+                f"[dim]Пример: [bold {z}]/ctr[/bold {z}] затем [bold {z}]/ctr list[/bold {z}] и [bold {z}]/ctr use 1[/bold {z}][/dim]",
+                title=_quick_guide_subpanel_title("Команды CTR"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -1253,25 +1253,25 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "ALIAS_API_KEY for Alias-hosted models (CAI PRO). "
-                    "Show reads .env first, then the process environment if unset in the file; "
-                    "masked display matches the CLI startup hint (first 4 … last 4 when the key is longer than 10 characters)."
+                    "ALIAS_API_KEY для моделей Alias (CAI PRO). "
+                    "Показ сначала читает .env, затем переменные окружения процесса, если не задано в файле; "
+                    "маскированный вывод соответствует подсказке при запуске CLI (первые 4 … последние 4, если ключ длиннее 10 символов)."
                 )
-                + f"[bold {z}]Commands:[/bold {z}]\n"
-                f"• [bold {z}]/api[/bold {z}] — show masked ALIAS_API_KEY\n"
-                f"• [bold {z}]/api show[/bold {z}] — same as bare [bold {z}]/api[/bold {z}]\n"
-                f"• [bold {z}]/api set <key>[/bold {z}] — write [bold {z}].env[/bold {z}] and update "
-                f"[bold {z}]os.environ[/bold {z}] for this process\n"
-                f"• [bold {z}]/api <key>[/bold {z}] — shorthand for [bold {z}]set[/bold {z}] when the "
-                f"first token is not [bold {z}]show[/bold {z}] or [bold {z}]set[/bold {z}]\n\n"
-                f"[bold {z}]Notes:[/bold {z}]\n"
-                f"• Alias: [bold {z}]/apikey[/bold {z}] (same handlers as [bold {z}]/api[/bold {z}])\n"
-                f"• Other provider keys: [bold {z}]/env[/bold {z}], [bold {z}]/settings[/bold {z}]\n"
-                f"• HTTP API server (FastAPI) may use [bold {z}]CAI_API_KEY[/bold {z}] as a fallback "
-                f"root key; see [bold {z}]docs/api.md[/bold {z}]\n\n"
-                f"[dim]Example: [bold {z}]/api show[/bold {z}] then [bold {z}]/api set[/bold {z}] "
-                f"(paste the key as the next token)[/dim]",
-                title=_quick_guide_subpanel_title("API Commands"),
+                + f"[bold {z}]Команды:[/bold {z}]\n"
+                f"• [bold {z}]/api[/bold {z}] — показать маскированный ALIAS_API_KEY\n"
+                f"• [bold {z}]/api show[/bold {z}] — то же, что и [bold {z}]/api[/bold {z}]\n"
+                f"• [bold {z}]/api set <key>[/bold {z}] — записать [bold {z}].env[/bold {z}] и обновить "
+                f"[bold {z}]os.environ[/bold {z}] для этого процесса\n"
+                f"• [bold {z}]/api <key>[/bold {z}] — сокращение для [bold {z}]set[/bold {z}], если "
+                f"первый токен не [bold {z}]show[/bold {z}] и не [bold {z}]set[/bold {z}]\n\n"
+                f"[bold {z}]Примечания:[/bold {z}]\n"
+                f"• Алиас: [bold {z}]/apikey[/bold {z}] (те же обработчики, что и [bold {z}]/api[/bold {z}])\n"
+                f"• Ключи других провайдеров: [bold {z}]/env[/bold {z}], [bold {z}]/settings[/bold {z}]\n"
+                f"• HTTP API-сервер (FastAPI) может использовать [bold {z}]CAI_API_KEY[/bold {z}] как запасной "
+                f"корневой ключ; см. [bold {z}]docs/api.md[/bold {z}]\n\n"
+                f"[dim]Пример: [bold {z}]/api show[/bold {z}] затем [bold {z}]/api set[/bold {z}] "
+                f"(вставьте ключ следующим токеном)[/dim]",
+                title=_quick_guide_subpanel_title("Команды API"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -1284,15 +1284,15 @@ class HelpCommand(Command):
         z = _CAI_GREEN
         console.print(
             Panel(
-                _h_panel_desc("Meta-debug: dump meta-reasoning state, routing, and agent-pick diagnostics.")
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/metadebug[/bold #00ff9d] - Show debug information\n\n"
-                f"[bold {z}]What it shows:[/bold {z}]\n"
-                "• Meta-agent reasoning state\n"
-                "• Agent selection decisions\n"
-                "• Internal routing information\n\n"
-                "[dim]Alias: /md[/dim]",
-                title=_quick_guide_subpanel_title("Metadebug Commands"),
+                _h_panel_desc("Мета-отладка: вывод состояния мета-рассуждений, маршрутизации и диагностики выбора агента.")
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/metadebug[/bold #00ff9d] - Показать отладочную информацию\n\n"
+                f"[bold {z}]Что показывает:[/bold {z}]\n"
+                "• Состояние рассуждений мета-агента\n"
+                "• Решения о выборе агента\n"
+                "• Внутренняя информация о маршрутизации\n\n"
+                "[dim]Алиас: /md[/dim]",
+                title=_quick_guide_subpanel_title("Команды мета-отладки"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,
@@ -1306,7 +1306,7 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 Text.from_markup(commands_reference_panel_markup(), overflow="fold"),
-                title=_quick_guide_subpanel_title("Command Reference"),
+                title=_quick_guide_subpanel_title("Справочник команд"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=z,
@@ -1320,45 +1320,45 @@ class HelpCommand(Command):
         console.print(
             Panel(
                 _h_panel_desc(
-                    "Merge: fuse parallel workers into shared histories and leave parallel mode when done."
+                    "Слияние: объединение параллельных воркеров в общие истории и выход из параллельного режима."
                 )
-                + f"[bold {z}]Available Commands:[/bold {z}]\n"
-                "• [bold #00ff9d]/merge <agents...> [options][/bold #00ff9d] - Merge specified agents\n"
-                "• [bold #00ff9d]/merge all [options][/bold #00ff9d] - Merge all agent histories\n\n"
-                f"[bold {z}]Default behavior:[/bold {z}]\n"
-                "Without --target, all source agents receive the complete\n"
-                "merged history (with automatic duplicate control).\n"
-                "After a successful merge, CAI exits parallel mode automatically,\n"
-                "so you can continue using that merged context in next prompts.\n\n"
-                f"[bold {z}]Options:[/bold {z}]\n"
-                "• [bold #00ff9d]--strategy <type>[/bold #00ff9d] - Merge strategy\n"
-                "  • chronological (default) - Order by timestamp\n"
-                "  • by-agent - Group by agent\n"
-                "  • interleaved - Preserve conversation flow\n"
-                "• [bold #00ff9d]--target <name>[/bold #00ff9d] - Create new agent with merged history\n"
-                "• [bold #00ff9d]--remove-sources[/bold #00ff9d] - Remove source agents after merge\n"
-                "• [bold #00ff9d]--no-worker-summary[/bold #00ff9d] - Keep full per-worker transcripts (no AI digest)\n"
-                "• [bold #00ff9d]--summarize-workers[/bold #00ff9d] - Digest every worker, even short histories\n\n"
-                "[dim]Env: CAI_MERGE_SUMMARIZE_PER_WORKER=1 (default) enables per-worker digests "
-                "when a worker has ≥ CAI_MERGE_SUMMARIZE_MIN_MESSAGES (default 20).[/dim]\n\n"
-                f"[bold {z}]Examples:[/bold {z}]\n"
+                + f"[bold {z}]Доступные команды:[/bold {z}]\n"
+                "• [bold #00ff9d]/merge <agents...> [options][/bold #00ff9d] - Объединить указанных агентов\n"
+                "• [bold #00ff9d]/merge all [options][/bold #00ff9d] - Объединить все истории агентов\n\n"
+                f"[bold {z}]Поведение по умолчанию:[/bold {z}]\n"
+                "Без --target все исходные агенты получают полную\n"
+                "объединённую историю (с автоматическим контролем дубликатов).\n"
+                "После успешного слияния CAI автоматически выходит из параллельного режима,\n"
+                "чтобы вы могли продолжать использовать объединённый контекст в следующих запросах.\n\n"
+                f"[bold {z}]Параметры:[/bold {z}]\n"
+                "• [bold #00ff9d]--strategy <type>[/bold #00ff9d] - Стратегия слияния\n"
+                "  • chronological (по умолчанию) - По временной метке\n"
+                "  • by-agent - По агентам\n"
+                "  • interleaved - Сохранение потока разговора\n"
+                "• [bold #00ff9d]--target <name>[/bold #00ff9d] - Создать нового агента с объединённой историей\n"
+                "• [bold #00ff9d]--remove-sources[/bold #00ff9d] - Удалить исходных агентов после слияния\n"
+                "• [bold #00ff9d]--no-worker-summary[/bold #00ff9d] - Сохранить полные транскрипты по воркерам (без ИИ-резюме)\n"
+                "• [bold #00ff9d]--summarize-workers[/bold #00ff9d] - Резюмировать каждый воркер, даже короткие истории\n\n"
+                "[dim]Переменная: CAI_MERGE_SUMMARIZE_PER_WORKER=1 (по умолчанию) включает резюмирование по воркерам, "
+                "когда у воркера ≥ CAI_MERGE_SUMMARIZE_MIN_MESSAGES (по умолчанию 20).[/dim]\n\n"
+                f"[bold {z}]Примеры:[/bold {z}]\n"
                 "• [bold #00ff9d]/merge P1 P2[/bold #00ff9d]\n"
-                "  → P1 gets P2's messages, P2 gets P1's messages\n"
+                "  → P1 получает сообщения P2, P2 получает сообщения P1\n"
                 "• [bold #00ff9d]/merge P1 P2 --target combined[/bold #00ff9d]\n"
-                "  → Creates new 'combined' agent, P1 and P2 unchanged\n"
+                "  → Создаёт нового агента 'combined', P1 и P2 без изменений\n"
                 "• [bold #00ff9d]/merge all[/bold #00ff9d]\n"
-                "  → All agents get the complete combined history\n"
+                "  → Все агенты получают полную объединённую историю\n"
                 "• [bold #00ff9d]/merge all --target unified --remove-sources[/bold #00ff9d]\n"
-                "  → Creates 'unified' agent and removes all others\n\n"
-                f"[bold {z}]Notes:[/bold {z}]\n"
-                "• /merge = merge contexts + exit parallel mode automatically\n"
-                "• /parallel clear = exit parallel mode without merging contexts\n"
-                "• Use agent IDs (P1, P2) or full names\n"
-                "• Agent names with spaces are auto-detected\n"
-                "• Duplicates are automatically filtered\n"
-                "• This is an alias for /parallel merge\n\n"
-                "[dim]Alias: /mrg[/dim]",
-                title=_quick_guide_subpanel_title("Merge Commands"),
+                "  → Создаёт агента 'unified' и удаляет всех остальных\n\n"
+                f"[bold {z}]Примечания:[/bold {z}]\n"
+                "• /merge = слияние контекстов + автоматический выход из параллельного режима\n"
+                "• /parallel clear = выход из параллельного режима без слияния контекстов\n"
+                "• Используйте ID агентов (P1, P2) или полные имена\n"
+                "• Имена агентов с пробелами определяются автоматически\n"
+                "• Дубликаты автоматически фильтруются\n"
+                "• Это алиас для /parallel merge\n\n"
+                "[dim]Алиас: /mrg[/dim]",
+                title=_quick_guide_subpanel_title("Команды слияния"),
                 title_align="left",
                 padding=(1, 1),
                 border_style=_CAI_GREEN,

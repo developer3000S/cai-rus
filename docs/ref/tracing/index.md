@@ -1,3 +1,3 @@
-# Tracing module
+# Модуль трассировки
 
 ::: cai.sdk.agents.tracing

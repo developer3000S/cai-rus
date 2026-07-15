@@ -1,8 +1,8 @@
 """
-Context usage command for CAI REPL (CLI).
+Команда использования контекста для CAI REPL (CLI).
 
-Provides a Claude-Code-like view of where context tokens go.
-This is best-effort: provider usage may differ by tokenizer/model.
+Предоставляет вид, аналогичный Claude-Code, показывающий, куда расходуются токены контекста.
+Это приблизительная оценка: использование у провайдера может отличаться в зависимости от токенизатора/модели.
 """
 
 from __future__ import annotations
@@ -67,13 +67,13 @@ class ContextCommand(Command):
     def __init__(self) -> None:
         super().__init__(
             name="/context",
-            description="Explain where context tokens are going",
+            description="Показать, куда расходуются токены контекста",
             aliases=["/ctx"],
         )
-        self.add_subcommand("top", "Show top context-heavy messages", self.handle_top)
+        self.add_subcommand("top", "Показать самые тяжёлые сообщения контекста", self.handle_top)
         self.add_subcommand(
             "trim",
-            "Deterministically trim old tool outputs (no summarization)",
+            "Детерминированно обрезать старые выводы инструментов (без суммаризации)",
             self.handle_trim,
         )
 
@@ -89,8 +89,8 @@ class ContextCommand(Command):
     def handle_summary(self, args: Optional[List[str]] = None) -> bool:
         model_inst = get_current_active_model()
         if model_inst is None:
-            console.print(f"[yellow]No active model instance found.[/yellow]")
-            console.print(f"[dim {_M}]Run a prompt first, then try /context again.[/dim {_M}]")
+            console.print(f"[yellow]Активный экземпляр модели не найден.[/yellow]")
+            console.print(f"[dim {_M}]Сначала отправьте запрос, затем попробуйте /context снова.[/dim {_M}]")
             return True
 
         model_name = str(getattr(model_inst, "model", "") or "")
@@ -112,15 +112,15 @@ class ContextCommand(Command):
         pct = (total_est / max_tokens * 100.0) if max_tokens > 0 else 0.0
 
         table = Table(
-            title=f"[bold {_Z}]Context breakdown[/bold {_Z}]",
+            title=f"[bold {_Z}]Разбивка контекста[/bold {_Z}]",
             box=box.ROUNDED,
             header_style=f"bold {_M}",
             show_header=True,
         )
-        table.add_column("Role", style=f"bold {_Z}", no_wrap=True)
-        table.add_column("Messages", justify="right")
-        table.add_column("Est. tokens", justify="right")
-        table.add_column("Share", justify="right")
+        table.add_column("Роль", style=f"bold {_Z}", no_wrap=True)
+        table.add_column("Сообщения", justify="right")
+        table.add_column("Примерно токенов", justify="right")
+        table.add_column("Доля", justify="right")
 
         def _share(tok: int) -> str:
             if total_est <= 0:
@@ -139,9 +139,9 @@ class ContextCommand(Command):
             table.add_row(role, str(msgs), f"{tok:,}", _share(tok))
 
         summary = Text()
-        summary.append("Model: ", style=f"dim {_M}")
+        summary.append("Модель: ", style=f"dim {_M}")
         summary.append(model_name or "(unknown)", style="bold white")
-        summary.append("\nEstimated context: ", style=f"dim {_M}")
+        summary.append("\nПримерный контекст: ", style=f"dim {_M}")
         summary.append(f"{total_est:,} tokens", style="bold white")
         summary.append(" / ", style=f"dim {_M}")
         summary.append(f"{max_tokens:,}" if max_tokens else "unknown", style="bold white")
@@ -149,8 +149,8 @@ class ContextCommand(Command):
         summary.append(f"{pct:.1f}%", style="bold white")
         summary.append(")\n", style=f"dim {_M}")
         summary.append(
-            "Note: this view counts message role+content only. System prompts, tool schemas, and provider-specific "
-            "tokenization can add significant overhead.",
+            "Примечание: этот вид учитывает только роль+содержимое сообщения. Системные подсказки, схемы инструментов и "
+            "специфичная для провайдера токенизация могут добавить значительные накладные расходы.",
             style=f"dim {_M}",
         )
 
@@ -158,16 +158,16 @@ class ContextCommand(Command):
         hints: list[str] = []
         tool_tok = by_role.get("tool", (0, 0))[1] if "tool" in by_role else 0
         if total_est > 0 and (tool_tok / total_est) >= 0.4:
-            hints.append("Tool outputs dominate. Consider: /context top, then /context trim.")
+            hints.append("Выводы инструментов доминируют. Попробуйте: /context top, затем /context trim.")
         if pct >= 80:
-            hints.append("You are near the context limit. Consider: /compact (summary) or /context trim (tool-only).")
+            hints.append("Вы приближаетесь к лимиту контекста. Попробуйте: /compact (суммаризация) или /context trim (только инструменты).")
         if not hints and pct >= 50:
-            hints.append("If token usage grows quickly, use: /context top to find the culprit messages.")
+            hints.append("Если использование токенов растёт быстро, используйте: /context top для поиска тяжёлых сообщений.")
 
         console.print()
         if hints:
             hint_text = Text()
-            hint_text.append("Recommendations:\n", style=f"bold {_Z}")
+            hint_text.append("Рекомендации:\n", style=f"bold {_Z}")
             for h in hints:
                 hint_text.append(f"• {h}\n", style=f"dim {_M}")
             console.print(
@@ -182,7 +182,7 @@ class ContextCommand(Command):
             console.print(Panel(summary, border_style=_Z, box=box.ROUNDED, padding=(1, 2)))
         console.print(table)
         console.print(
-            f"\n[dim {_M}]Try '/context top' to see the biggest messages (often tool outputs).[/dim {_M}]"
+            f"\n[dim {_M}]Попробуйте '/context top', чтобы увидеть самые большие сообщения (обычно выводы инструментов).[/dim {_M}]"
         )
         return True
 
@@ -207,15 +207,15 @@ class ContextCommand(Command):
         scored.sort(key=lambda x: x[0], reverse=True)
 
         table = Table(
-            title=f"[bold {_Z}]Top {min(n, len(scored))} messages by estimated tokens[/bold {_Z}]",
+            title=f"[bold {_Z}]Топ {min(n, len(scored))} сообщений по оценке токенов[/bold {_Z}]",
             box=box.ROUNDED,
             header_style=f"bold {_M}",
             show_header=True,
         )
         table.add_column("#", justify="right", style=f"dim {_M}")
-        table.add_column("Role", style=f"bold {_Z}", no_wrap=True)
-        table.add_column("Est. tokens", justify="right")
-        table.add_column("Preview", overflow="fold")
+        table.add_column("Роль", style=f"bold {_Z}", no_wrap=True)
+        table.add_column("Примерно токенов", justify="right")
+        table.add_column("Предпросмотр", overflow="fold")
 
         for i, (tok, msg) in enumerate(scored[:n], start=1):
             role = str(msg.get("role", "unknown") or "unknown")
@@ -233,7 +233,7 @@ class ContextCommand(Command):
         """Trim old tool outputs deterministically (no LLM call)."""
         model_inst = get_current_active_model()
         if model_inst is None:
-            console.print(f"[yellow]No active model instance found.[/yellow]")
+            console.print(f"[yellow]Активный экземпляр модели не найден.[/yellow]")
             return True
 
         max_chars = 800
@@ -253,7 +253,7 @@ class ContextCommand(Command):
 
         history = getattr(model_inst, "message_history", None)
         if not isinstance(history, list) or not history:
-            console.print(f"[yellow]No message history to trim.[/yellow]")
+            console.print(f"[yellow]Нет истории сообщений для обрезки.[/yellow]")
             return True
 
         # Import the same phase-1 truncator used by auto-compactor for consistent behaviour.
@@ -280,12 +280,12 @@ class ContextCommand(Command):
         console.print()
         console.print(
             Panel(
-                f"[bold {_Z}]Tool-output trim complete[/bold {_Z}]\n\n"
-                f"[{_M}]Truncated outputs:[/] [white]{truncated_count}[/white]\n"
-                f"[{_M}]Est. tokens before:[/] [white]{before:,}[/white]\n"
-                f"[{_M}]Est. tokens after:[/]  [white]{after:,}[/white]\n"
-                f"[{_M}]Est. tokens freed:[/]  [white]{max(0, before - after):,}[/white]\n"
-                f"[dim {_M}]Note: tokens_saved is a fast estimate used by the compactor; before/after are role+content estimates.[/dim {_M}]",
+                f"[bold {_Z}]Обрезка выводов инструментов завершена[/bold {_Z}]\n\n"
+                f"[{_M}]Обрезано выводов:[/] [white]{truncated_count}[/white]\n"
+                f"[{_M}]Примерно токенов до:[/] [white]{before:,}[/white]\n"
+                f"[{_M}]Примерно токенов после:[/]  [white]{after:,}[/white]\n"
+                f"[{_M}]Примерно токенов освобождено:[/]  [white]{max(0, before - after):,}[/white]\n"
+                f"[dim {_M}]Примечание: tokens_saved — быстрая оценка, используемая компоновщиком; до/после — оценки по роли+содержимому.[/dim {_M}]",
                 border_style=_Z,
                 box=box.ROUNDED,
                 padding=(1, 2),

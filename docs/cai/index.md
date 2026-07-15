@@ -10,7 +10,7 @@
     </a>
   </p>
 
-## 🎯 Milestones
+## 🎯 Достижения
 [![](https://img.shields.io/badge/HTB_ranking-top_90_Spain_(5_days)-red.svg)](https://app.hackthebox.com/users/2268644)
 [![](https://img.shields.io/badge/HTB_ranking-top_50_Spain_(6_days)-red.svg)](https://app.hackthebox.com/users/2268644)
 [![](https://img.shields.io/badge/HTB_ranking-top_30_Spain_(7_days)-red.svg)](https://app.hackthebox.com/users/2268644)
@@ -22,7 +22,7 @@
 [![](https://img.shields.io/badge/Mistral_AI_Robotics_Hackathon-2500_$-yellow.svg)](https://lu.ma/roboticshack?tk=RuryKF)
 [![](https://img.shields.io/badge/Bug_rewards-250_$-yellow.svg)](https://github.com/aliasrobotics/cai)
 
-## 📦 Package Attributes
+## 📦 Характеристики пакета
 [![version](https://badge.fury.io/py/cai-framework.svg)](https://badge.fury.io/py/cai-framework)
 [![downloads](https://img.shields.io/pypi/dm/cai-framework)](https://pypistats.org/packages/cai-framework)
 [![Linux](https://img.shields.io/badge/Linux-Supported-brightgreen?logo=linux&logoColor=white)](https://github.com/aliasrobotics/cai)
@@ -36,18 +36,18 @@
 Лёгкий, удобный фреймворк для создания ИИ-систем по кибербезопасности, готовых к Bug Bounty (CAI).
 
 
-| CAI with `alias0` on ROS message injection attacks in MiR-100 robot | CAI with `alias0` on API vulnerability discovery at Mercado Libre |
+| CAI с `alias0` при атаках через внедрение сообщений ROS в робота MiR-100 | CAI с `alias0` при поиске уязвимостей API в Mercado Libre |
 |-----------------------------------------------|---------------------------------|
 | [![asciicast](https://asciinema.org/a/dNv705hZel2Rzrw0cju9HBGPh.svg)](https://asciinema.org/a/dNv705hZel2Rzrw0cju9HBGPh) | [![asciicast](https://asciinema.org/a/9Hc9z1uFcdNjqP3bY5y7wO1Ww.svg)](https://asciinema.org/a/9Hc9z1uFcdNjqP3bY5y7wO1Ww) |
 
 
-| CAI on JWT@PortSwigger CTF — Cybersecurity AI | CAI on HackableII Boot2Root CTF — Cybersecurity AI |
+| CAI в JWT@PortSwigger CTF — Cybersecurity AI | CAI в HackableII Boot2Root CTF — Cybersecurity AI |
 |-----------------------------------------------|---------------------------------|
 | [![asciicast](https://asciinema.org/a/713487.svg)](https://asciinema.org/a/713487) | [![asciicast](https://asciinema.org/a/713485.svg)](https://asciinema.org/a/713485) |
 
 > [!WARNING]
-> ⚠️  CAI is in active development, so don't expect it to work flawlessly. Instead, contribute by raising an issue or [sending a PR](https://github.com/aliasrobotics/cai/pulls).
+> ⚠️  CAI находится в стадии активной разработки, поэтому не ожидайте безупречной работы. Вместо этого помогите нам, создавая issue или [отправляя PR](https://github.com/aliasrobotics/cai/pulls).
 >
-> Access to this library and the use of information, materials (or portions thereof), is **<u>not intended</u>, and is <u>prohibited</u>, where such access or use violates applicable laws or regulations**. By no means the authors encourage or promote the unauthorized tampering with running systems. This can cause serious human harm and material damages.
+> Доступ к этой библиотеке и использование информации, материалов (или их частей) **<u>не предназначены</u> и <u>запрещены</u> там, где такой доступ или использование нарушают применимые законы или правила**. Авторы ни в коем случае не поощряют и не пропагандируют несанкционированное вмешательство в работу систем. Это может привести к серьезному вреду для людей и материальному ущербу.
 >
-> *By no means the authors of CAI encourage or promote the unauthorized tampering with compute systems. Please don't use the source code in here for cybercrime. <u>Pentest for good instead</u>*. By downloading, using, or modifying this source code, you agree to the terms of the [`LICENSE`](LICENSE) and the limitations outlined in the [`DISCLAIMER`](DISCLAIMER) file. 
+> *Авторы CAI ни в коем случае не поощряют и не пропагандируют несанкционированное вмешательство в работу вычислительных систем. Пожалуйста, не используйте этот исходный код для киберпреступности. <u>Занимайтесь пентестингом во благо</u>*. Загружая, используя или модифицируя этот исходный код, вы соглашаетесь с условиями [ЛИЦЕНЗИИ](LICENSE) и ограничениями, изложенными в файле [ОТКАЗА ОТ ОТВЕТСТВЕННОСТИ](DISCLAIMER). 

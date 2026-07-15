@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Script to saturate the Tokens Per Minute (TPM) limit of the LLM endpoint.
-Target: 490,000 TPM (just below the 500,000 TPM limit)
+Скрипт для насыщения лимита токенов в минуту (TPM) конечной точки LLM.
+Цель: 490,000 TPM (чуть ниже лимита 500,000 TPM)
 """
 
-# Suppress warnings before any imports
+# Подавление предупреждений перед любыми импортами
 import warnings
 warnings.filterwarnings("ignore", message=".*UnsupportedFieldAttributeWarning.*")
 warnings.filterwarnings("ignore", category=UserWarning, module="pydantic")
@@ -25,54 +25,54 @@ from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeRe
 from rich.live import Live
 from rich import print as rprint
 
-# Load environment variables from .env file
+# Загрузка переменных окружения из файла .env
 dotenv_path = os.path.join(os.getcwd(), '.env')
 load_dotenv(dotenv_path=dotenv_path, verbose=False)
 
-# Configure logging - set to WARNING to reduce noise
+# Настройка логирования - установка WARNING для уменьшения шума
 logging.basicConfig(
     level=logging.WARNING,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
-# Suppress HTTP request logs from httpx
+# Подавление логов HTTP запросов от httpx
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("httpcore").setLevel(logging.WARNING)
 
-# Rich console
+# Rich консоль
 console = Console()
 
-# Suppress debug info from litellm
+# Подавление отладочной информации от litellm
 litellm.suppress_debug_info = True
 litellm.set_verbose = False
 
-# Disable litellm logging
+# Отключение логирования litellm
 logging.getLogger("LiteLLM").setLevel(logging.WARNING)
 logging.getLogger("litellm").setLevel(logging.WARNING)
 
-# Configuration
-TARGET_TPM = 490000  # Target tokens per minute
-TARGET_TOKENS_PER_REQUEST = 8000  # Large request to maximize token usage
-REQUESTS_PER_MINUTE = TARGET_TPM // TARGET_TOKENS_PER_REQUEST  # About 61 requests
+# Конфигурация
+TARGET_TPM = 490000  # Целевые токены в минуту
+TARGET_TOKENS_PER_REQUEST = 8000  # Большой запрос для максимизации использования токенов
+REQUESTS_PER_MINUTE = TARGET_TPM // TARGET_TOKENS_PER_REQUEST  # Около 61 запроса
 REQUEST_INTERVAL = 60.0 / REQUESTS_PER_MINUTE if REQUESTS_PER_MINUTE > 0 else 1.0
 
-# API Configuration
+# Конфигурация API
 API_BASE = "https://api.aliasrobotics.com:666/"
 API_KEY = os.getenv("ALIAS_API_KEY", "").strip()
 
 if not API_KEY:
-    raise ValueError("ALIAS_API_KEY environment variable must be set")
+    raise ValueError("Необходимо установить переменную окружения ALIAS_API_KEY")
 
-# Model configuration - use CAI_MODEL if set, otherwise default to alias1 
-# since it's optimized and can handle large contexts
+# Конфигурация модели - используйте CAI_MODEL, если установлена, иначе по умолчанию alias1
+# поскольку она оптимизирована и может обрабатывать большие контексты
 MODEL = os.getenv("CAI_MODEL", "alias1")
 
-# Temperature configuration
+# Конфигурация температуры
 TEMPERATURE = float(os.getenv("CAI_TEMPERATURE", "0.7"))
 
 def count_tokens(text: str) -> int:
-    """Count tokens in text using tiktoken."""
+    """Подсчет токенов в тексте с помощью tiktoken."""
     try:
         encoding = tiktoken.get_encoding("cl100k_base")
     except:
@@ -80,45 +80,45 @@ def count_tokens(text: str) -> int:
     return len(encoding.encode(text))
 
 def generate_large_prompt(target_tokens: int) -> str:
-    """Generate a prompt with approximately the target number of tokens."""
-    # Base context about a complex technical system
-    base_prompt = """You are analyzing a complex distributed system with the following characteristics:
+    """Генерация промпта с приблизительно целевым количеством токенов."""
+    # Базовый контекст о сложной технической системе
+    base_prompt = """Вы анализируете сложную распределенную систему со следующими характеристиками:
 
-The system consists of multiple microservices deployed across different regions:
-- Frontend service: Handles user requests and UI rendering
-- API Gateway: Routes requests to appropriate backend services
-- Authentication service: Manages user authentication and authorization
-- Database cluster: Distributed PostgreSQL with read replicas
-- Cache layer: Redis cluster for session management and caching
-- Message queue: RabbitMQ for asynchronous processing
-- Analytics engine: Real-time data processing with Apache Spark
-- Monitoring stack: Prometheus, Grafana, and custom alerting
+Система состоит из нескольких микросервисов, развернутых в различных регионах:
+- Сервис фронтенда: обрабатывает запросы пользователей и рендеринг UI
+- API Gateway: маршрутизирует запросы к соответствующим бэкенд-сервисам
+- Сервис аутентификации: управляет аутентификацией и авторизацией пользователей
+- Кластер базы данных: распределенный PostgreSQL с репликами для чтения
+- Уровень кэширования: кластер Redis для управления сессиями и кэширования
+- Очередь сообщений: RabbitMQ для асинхронной обработки
+- Движок аналитики: обработка данных в реальном времени с Apache Spark
+- Стек мониторинга: Prometheus, Grafana и пользовательские оповещения
 
-Each service has specific performance requirements and SLAs:
-1. Frontend must respond within 200ms for 95% of requests
-2. API Gateway must handle 10,000 requests per second
-3. Database queries must complete within 100ms
-4. Cache hit ratio must be above 85%
-5. Message queue processing latency must be under 500ms
+Каждый сервис имеет конкретные требования к производительности и SLA:
+1. Фронтенд должен отвечать в течение 200мс для 95% запросов
+2. API Gateway должен обрабатывать 10,000 запросов в секунду
+3. Запросы к базе данных должны завершаться в течение 100мс
+4. Соотношение попаданий в кэш должно быть выше 85%
+5. Задержка обработки очереди сообщений должна быть менее 500мс
 
-The system experiences the following load patterns:
-- Peak hours: 8AM-10AM and 6PM-9PM local time
-- Weekend traffic is 60% of weekday traffic
-- Monthly spikes on the 1st and 15th (payroll processing)
-- Seasonal variations during holidays and sales events
+Система испытывает следующие паттерны нагрузки:
+- Пиковые часы: 8:00-10:00 и 18:00-21:00 местного времени
+- Трафик в выходные составляет 60% от трафика в будние дни
+- Месячные всплески 1-го и 15-го числа (обработка заработной платы)
+- Сезонные колебания во время праздников и распродаж
 
-Recent incidents and their root causes:
+Последние инциденты и их корневые причины:
 """
     
-    # Add detailed incident descriptions to reach target tokens
+    # Добавляем подробные описания инцидентов для достижения целевого количества токенов
     incident_template = """
-Incident #{num}: Database connection pool exhaustion
-Date: 2024-{month:02d}-{day:02d}
-Duration: {duration} minutes
-Impact: {impact}% of users affected
-Root cause: A deployment introduced a database connection leak in the payment service. Each request was creating a new connection without properly closing it. The connection pool limit of 100 was reached within 45 minutes of deployment.
-Resolution: Rolled back the deployment and implemented proper connection management using try-with-resources blocks. Added monitoring for connection pool metrics.
-Lessons learned: Need better testing of resource management in staging environment. Implement automatic circuit breakers for database connections.
+Инцидент #{num}: Исчерпание пула подключений к базе данных
+Дата: 2024-{month:02d}-{day:02d}
+Длительность: {duration} минут
+Влияние: Затронуто {impact}% пользователей
+Корневая причина: Деплой ввел утечку подключений к базе данных в платежном сервисе. Каждый запрос создавал новое подключение без его корректного закрытия. Лимит пула подключений в 100 был достигнут в течение 45 минут после деплоя.
+Решение: Откат деплоя и внедрение корректного управления подключениями с использованием блоков try-with-resources. Добавление мониторинга метрик пула подключений.
+Извлеченные уроки: Необходимо лучше тестировать управление ресурсами в staging окружении. Внедрение автоматических предохранителей для подключений к базе данных.
 
 """
     
@@ -126,8 +126,8 @@ Lessons learned: Need better testing of resource management in staging environme
     incidents = []
     incident_num = 1
     
-    # Generate incidents until we reach approximately the target token count
-    while current_tokens < target_tokens - 500:  # Leave some buffer
+    # Генерируем инциденты до тех пор, пока не достигнем приблизительно целевого количества токенов
+    while current_tokens < target_tokens - 500:  # Оставляем некоторый запас
         incident = incident_template.format(
             num=incident_num,
             month=(incident_num % 12) + 1,
@@ -140,12 +140,12 @@ Lessons learned: Need better testing of resource management in staging environme
         incident_num += 1
     
     full_prompt = base_prompt + "".join(incidents)
-    full_prompt += "\n\nBased on these incidents and system characteristics, provide a brief summary of the most critical issue."
+    full_prompt += "\n\nНа основе этих инцидентов и характеристик системы предоставьте краткую сводку о наиболее критической проблеме."
     
     return full_prompt
 
 async def make_large_token_request(request_id: int, prompt: str) -> Dict[str, Any]:
-    """Make a single API request with large token count."""
+    """Выполнение одного API запроса с большим количеством токенов."""
     start_time = time.time()
     prompt_tokens = count_tokens(prompt)
     
@@ -156,15 +156,15 @@ async def make_large_token_request(request_id: int, prompt: str) -> Dict[str, An
             api_base=API_BASE,
             api_key=API_KEY,
             custom_llm_provider="openai",
-            max_tokens=1000,  # Allow reasonable response
+            max_tokens=1000,  # Разумный ответ
             temperature=TEMPERATURE,
-            timeout=120.0  # Longer timeout for large requests
+            timeout=120.0  # Увеличенный тайм-аут для больших запросов
         )
         
         end_time = time.time()
         duration = end_time - start_time
         
-        # Extract token usage
+        # Извлечение использования токенов
         usage = response.usage if hasattr(response, 'usage') else {}
         actual_prompt_tokens = getattr(usage, 'prompt_tokens', prompt_tokens)
         output_tokens = getattr(usage, 'completion_tokens', 0)
@@ -182,8 +182,8 @@ async def make_large_token_request(request_id: int, prompt: str) -> Dict[str, An
         }
         
     except litellm.exceptions.Timeout as e:
-        console.print(f"[bold red]⏱️  TIMEOUT DETECTED![/bold red] Request {request_id} timed out after {duration:.2f}s")
-        console.print(f"[red]Error: {str(e)}[/red]")
+        console.print(f"[bold red]⏱️  ОБНАРУЖЕН ТАЙМАУТ![/bold red] Запрос {request_id} превысил лимит времени после {duration:.2f}s")
+        console.print(f"[red]Ошибка: {str(e)}[/red]")
         return {
             "request_id": request_id,
             "status": "timeout",
@@ -194,10 +194,10 @@ async def make_large_token_request(request_id: int, prompt: str) -> Dict[str, An
         }
     except Exception as e:
         if "rate limit" in str(e).lower():
-            console.print(f"[bold yellow]⚠️  RATE LIMIT HIT![/bold yellow] Request {request_id}")
-            console.print(f"[yellow]Error: {str(e)}[/yellow]")
+            console.print(f"[bold yellow]⚠️  ДОСТИГНУТ ЛИМИТ СКОРОСТИ![/bold yellow] Запрос {request_id}")
+            console.print(f"[yellow]Ошибка: {str(e)}[/yellow]")
         else:
-            console.print(f"[red]❌ Request {request_id} failed: {str(e)[:100]}...[/red]", highlight=False)
+            console.print(f"[red]❌ Запрос {request_id} не удался: {str(e)[:100]}...[/red]", highlight=False)
         return {
             "request_id": request_id,
             "status": "error",
@@ -208,38 +208,38 @@ async def make_large_token_request(request_id: int, prompt: str) -> Dict[str, An
         }
 
 async def token_saturation_test(num_minutes: float = 2):
-    """Execute token saturation test for the specified number of minutes."""
-    # Display test configuration
-    config_table = Table(title="TPM Saturation Test Configuration", show_header=True, header_style="bold magenta")
-    config_table.add_column("Parameter", style="cyan")
-    config_table.add_column("Value", style="green")
-    config_table.add_row("Target TPM", f"{TARGET_TPM:,}")
-    config_table.add_row("Target Tokens/Request", f"{TARGET_TOKENS_PER_REQUEST:,}")
-    config_table.add_row("Requests Per Minute", str(REQUESTS_PER_MINUTE))
-    config_table.add_row("Duration", f"{num_minutes} minutes")
-    config_table.add_row("Model", MODEL)
+    """Выполнение теста насыщения токенов на указанное количество минут."""
+    # Отображение конфигурации теста
+    config_table = Table(title="Конфигурация теста насыщения TPM", show_header=True, header_style="bold magenta")
+    config_table.add_column("Параметр", style="cyan")
+    config_table.add_column("Значение", style="green")
+    config_table.add_row("Целевой TPM", f"{TARGET_TPM:,}")
+    config_table.add_row("Целевые токены/Запрос", f"{TARGET_TOKENS_PER_REQUEST:,}")
+    config_table.add_row("Запросов в минуту", str(REQUESTS_PER_MINUTE))
+    config_table.add_row("Длительность", f"{num_minutes} минут")
+    config_table.add_row("Модель", MODEL)
     
     console.print(config_table)
     
-    # Generate the large prompt once
-    console.print("\n[yellow]Generating large prompt...[/yellow]")
+    # Генерируем большой промпт один раз
+    console.print("\n[yellow]Генерация большого промпта...[/yellow]")
     large_prompt = generate_large_prompt(TARGET_TOKENS_PER_REQUEST)
     actual_prompt_tokens = count_tokens(large_prompt)
-    console.print(f"[green]✓ Generated prompt with {actual_prompt_tokens:,} tokens[/green]")
+    console.print(f"[green]✓ Сгенерирован промпт с {actual_prompt_tokens:,} токенами[/green]")
     
     results = []
     start_time = time.time()
     
-    # Track tokens per minute window
+    # Отслеживание окна токенов в минуту
     minute_windows = {}
     
-    # Calculate total requests needed
+    # Подсчет общего количества необходимых запросов
     total_requests = int(REQUESTS_PER_MINUTE * num_minutes)
     
-    # Variable to track if we should stop due to timeout
+    # Переменная для отслеживания необходимости остановки из-за тайм-аута
     should_stop = False
     
-    # Create tasks for concurrent execution (batch by minute)
+    # Создание задач для параллельного выполнения (пакетами по минутам)
     for minute in range(int(num_minutes)):
         if should_stop:
             break
@@ -247,7 +247,7 @@ async def token_saturation_test(num_minutes: float = 2):
         minute_start = time.time()
         minute_tasks = []
         
-        # Limit concurrent requests to avoid overwhelming the API
+        # Ограничение параллельных запросов для перегрузки API
         requests_this_minute = min(50, REQUESTS_PER_MINUTE, total_requests - (minute * REQUESTS_PER_MINUTE))
         
         for i in range(requests_this_minute):
@@ -255,8 +255,8 @@ async def token_saturation_test(num_minutes: float = 2):
             task = make_large_token_request(request_id, large_prompt)
             minute_tasks.append(task)
         
-        # Execute requests in batches
-        console.print(f"\n[cyan]Minute {minute + 1}: Sending {len(minute_tasks)} requests...[/cyan]")
+        # Выполнение запросов пакетами
+        console.print(f"\n[cyan]Минута {minute + 1}: Отправка {len(minute_tasks)} запросов...[/cyan]")
         batch_size = 10
         minute_results = []
         
@@ -268,7 +268,7 @@ async def token_saturation_test(num_minutes: float = 2):
             console=console,
             transient=True
         ) as progress:
-            task_id = progress.add_task("[green]Processing requests...", total=len(minute_tasks))
+            task_id = progress.add_task("[green]Обработка запросов...", total=len(minute_tasks))
             
             for batch_start in range(0, len(minute_tasks), batch_size):
                 batch_end = min(batch_start + batch_size, len(minute_tasks))
@@ -278,21 +278,21 @@ async def token_saturation_test(num_minutes: float = 2):
                 
                 progress.update(task_id, advance=len(batch))
                 
-                # Check for timeouts
+                # Проверка тайм-аутов
                 for result in batch_results:
                     if isinstance(result, dict) and result.get("status") == "timeout":
                         should_stop = True
-                        console.print("\n[bold red]🛑 Timeout detected! Stopping test...[/bold red]")
+                        console.print("\n[bold red]🛑 Обнаружен тайм-аут! Остановка теста...[/bold red]")
                         break
                 
                 if should_stop:
                     break
                     
-                # Small delay between batches
+                # Небольшая задержка между пакетами
                 if batch_end < len(minute_tasks):
                     await asyncio.sleep(0.5)
         
-        # Process results
+        # Обработка результатов
         for result in minute_results:
             if isinstance(result, Exception):
                 logger.error(f"Task exception: {result}")
@@ -304,107 +304,107 @@ async def token_saturation_test(num_minutes: float = 2):
             else:
                 results.append(result)
                 
-                # Track tokens in this minute window
+                # Отслеживание токенов в этом окне минуты
                 if minute not in minute_windows:
                     minute_windows[minute] = {"requests": 0, "tokens": 0}
                 minute_windows[minute]["requests"] += 1
                 minute_windows[minute]["tokens"] += result.get("total_tokens", 0)
         
-        # Wait for the remainder of the minute if needed
+        # Ожидание остатка минуты при необходимости
         minute_elapsed = time.time() - minute_start
         if minute_elapsed < 60 and minute < num_minutes - 1:
             wait_time = 60 - minute_elapsed
-            logger.info(f"Waiting {wait_time:.1f}s until next minute...")
+            logger.info(f"Ожидание {wait_time:.1f}s до следующей минуты...")
             await asyncio.sleep(wait_time)
     
-    # Final statistics
+    # Финальная статистика
     total_time = time.time() - start_time
     successful_requests = sum(1 for r in results if r.get("status") == "success")
     timeout_requests = sum(1 for r in results if r.get("status") == "timeout")
     error_requests = sum(1 for r in results if r.get("status") == "error")
     
-    # Calculate total tokens used
+    # Подсчет общего количества использованных токенов
     total_tokens = sum(r.get("total_tokens", 0) for r in results if r.get("status") == "success")
     total_estimated_tokens = sum(r.get("prompt_tokens_estimated", 0) for r in results)
     
-    # Create results table
-    results_table = Table(title="\n🏁 TPM Saturation Test Results", show_header=True, header_style="bold cyan")
-    results_table.add_column("Metric", style="yellow")
-    results_table.add_column("Value", style="white")
+    # Создание таблицы результатов
+    results_table = Table(title="\n🏁 Результаты теста насыщения TPM", show_header=True, header_style="bold cyan")
+    results_table.add_column("Метрика", style="yellow")
+    results_table.add_column("Значение", style="white")
     
-    results_table.add_row("Total Time", f"{total_time:.2f} seconds")
-    results_table.add_row("Total Requests", str(len(results)))
-    results_table.add_row("Successful Requests", f"[green]{successful_requests}[/green]")
-    results_table.add_row("Timeout Requests", f"[red]{timeout_requests}[/red]" if timeout_requests > 0 else str(timeout_requests))
-    results_table.add_row("Error Requests", f"[yellow]{error_requests}[/yellow]" if error_requests > 0 else str(error_requests))
-    results_table.add_row("Total Tokens Used", f"[bold]{total_tokens:,}[/bold]")
-    results_table.add_row("Estimated Tokens Sent", f"{total_estimated_tokens:,}")
-    results_table.add_row("Actual TPM", f"[bold green]{(total_tokens / (total_time / 60)):,.0f}[/bold green]")
+    results_table.add_row("Общее время", f"{total_time:.2f} секунд")
+    results_table.add_row("Всего запросов", str(len(results)))
+    results_table.add_row("Успешные запросы", f"[green]{successful_requests}[/green]")
+    results_table.add_row("Запросы с тайм-аутом", f"[red]{timeout_requests}[/red]" if timeout_requests > 0 else str(timeout_requests))
+    results_table.add_row("Запросы с ошибками", f"[yellow]{error_requests}[/yellow]" if error_requests > 0 else str(error_requests))
+    results_table.add_row("Всего использовано токенов", f"[bold]{total_tokens:,}[/bold]")
+    results_table.add_row("Отправлено токенов (оценка)", f"{total_estimated_tokens:,}")
+    results_table.add_row("Фактический TPM", f"[bold green]{(total_tokens / (total_time / 60)):,.0f}[/bold green]")
     if successful_requests > 0:
-        results_table.add_row("Avg Tokens/Request", f"{(total_tokens / successful_requests):,.0f}")
+        results_table.add_row("Среднее токенов/Запрос", f"{(total_tokens / successful_requests):,.0f}")
     
     console.print(results_table)
     
-    # Show tokens per minute window
+    # Показать окно токенов в минуту
     if minute_windows:
-        window_table = Table(title="\nTokens Per Minute Window", show_header=True)
-        window_table.add_column("Minute", style="cyan")
-        window_table.add_column("Requests", style="green")
-        window_table.add_column("Tokens", style="magenta")
+        window_table = Table(title="\nОкно токенов в минуту", show_header=True)
+        window_table.add_column("Минута", style="cyan")
+        window_table.add_column("Запросы", style="green")
+        window_table.add_column("Токены", style="magenta")
         for window, stats in sorted(minute_windows.items()):
             window_table.add_row(str(window + 1), str(stats['requests']), f"{stats['tokens']:,}")
         console.print(window_table)
     
-    # Check if we hit rate limits
+    # Проверка, достигли ли мы ограничений скорости
     rate_limit_errors = [r for r in results if "rate" in str(r.get("error", "")).lower()]
     if rate_limit_errors:
         console.print(Panel(
-            f"[bold yellow]⚠️  Hit rate limit {len(rate_limit_errors)} times![/bold yellow]\n\n"
-            f"Rate limit errors:\n",
-            title="Rate Limit Detected",
+            f"[bold yellow]⚠️  Достигнут лимит скорости {len(rate_limit_errors)} раз![/bold yellow]\n\n"
+            f"Ошибки лимита скорости:\n",
+            title="Обнаружен лимит скорости",
             border_style="yellow"
         ))
-        for err in rate_limit_errors[:3]:  # Show first 3
-            console.print(f"[yellow]  - {err.get('error', 'Unknown error')}[/yellow]")
+        for err in rate_limit_errors[:3]:  # Показываем первые 3
+            console.print(f"[yellow]  - {err.get('error', 'Неизвестная ошибка')}[/yellow]")
     
-    # Check if we hit timeouts
+    # Проверка, достигли ли мы тайм-аутов
     if timeout_requests > 0:
         timeout_errors = [r for r in results if r.get("status") == "timeout"]
         achieved_tpm = (total_tokens / (total_time / 60)) if total_time > 0 else 0
         console.print(Panel(
-            f"[bold red]⏱️  Hit timeout {timeout_requests} times![/bold red]\n\n"
-            f"This indicates the API endpoint is saturated and cannot respond in time.\n"
-            f"Achieved approximately [bold]{achieved_tpm:,.0f} TPM[/bold] before timeout.\n"
-            f"The endpoint was successfully saturated!",
-            title="Timeout Analysis",
+            f"[bold red]⏱️  Достигнут тайм-аут {timeout_requests} раз![/bold red]\n\n"
+            f"Это указывает на то, что конечная точка API насыщена и не может отвечать вовремя.\n"
+            f"Достигнуто приблизительно [bold]{achieved_tpm:,.0f} TPM[/bold] до тайм-аута.\n"
+            f"Конечная точка успешно насыщена!",
+            title="Анализ тайм-аута",
             border_style="red"
         ))
 
 async def main():
-    """Main function to run the TPM saturation test."""
+    """Основная функция для запуска теста насыщения TPM."""
     console.print(Panel(
-        f"[bold cyan]TPM Limit Saturation Test[/bold cyan]\n\n"
-        f"[yellow]Model:[/yellow] {MODEL}\n"
-        f"[yellow]Target:[/yellow] {TARGET_TPM:,} tokens per minute\n"
+        f"[bold cyan]Тест насыщения лимита TPM[/bold cyan]\n\n"
+        f"[yellow]Модель:[/yellow] {MODEL}\n"
+        f"[yellow]Цель:[/yellow] {TARGET_TPM:,} токенов в минуту\n"
         f"[yellow]API:[/yellow] {API_BASE}",
-        title="🚀 Test Starting",
+        title="🚀 Запуск теста",
         border_style="blue"
     ))
     
-    # Check if tiktoken is available
+    # Проверка доступности tiktoken
     try:
         import tiktoken
     except ImportError:
-        console.print("[red]⚠️  tiktoken not installed. Install with: pip install tiktoken[/red]")
+        console.print("[red]⚠️  tiktoken не установлен. Установите с помощью: pip install tiktoken[/red]")
         return
     
     try:
-        # Run for 2 minutes to properly test the rate limit
+        # Запуск на 2 минуты для правильного тестирования ограничения скорости
         await token_saturation_test(num_minutes=2)
     except KeyboardInterrupt:
-        console.print("\n[yellow]Test interrupted by user[/yellow]")
+        console.print("\n[yellow]Тест прерван пользователем[/yellow]")
     except Exception as e:
-        console.print(f"\n[red]Test failed with error: {str(e)}[/red]")
+        console.print(f"\n[red]Тест не удался с ошибкой: {str(e)}[/red]")
         raise
 
 if __name__ == "__main__":

@@ -1,40 +1,40 @@
 # OpenCode
 
-!!! danger "Third-Party Scaffolding — Privacy & Security Warning"
-    Third-party scaffoldings may be serving your data outside your environment.
-    For **privacy** and **cybersecurity refusal optimization**, use **CAI** to obtain the best performance.
+!!! danger "Сторонние каркасы — Предупреждение о конфиденциальности и безопасности"
+    Сторонние каркасы могут обрабатывать ваши данные за пределами вашей среды.
+    Для **конфиденциальности** и **оптимизации отказа от кибербезопасности** используйте **CAI** для получения лучшей производительности.
 
-[OpenCode](https://opencode.ai) is an open-source, terminal-based AI coding assistant. It supports OpenAI-compatible providers, which means the Alias API can be plugged in directly without any proxy.
+[OpenCode](https://opencode.ai) — это открытый терминальный ИИ помощник для кодирования. Он поддерживает провайдеров, совместимых с OpenAI, что означает, что API Alias может быть подключен напрямую без какого-либо прокси.
 
-!!! warning "Support Disclaimer"
-    Alias Robotics **does not provide support** for developments or integrations related to OpenCode. This page documents API compatibility only. Alias simply allows usage of the Alias API through your preferred scaffolding.
+!!! warning "Отказ от поддержки"
+    Alias Robotics **не предоставляет поддержку** для разработок или интеграций, связанных с OpenCode. Эта страница документирует только совместимость API. Alias просто разрешает использование API Alias через ваш предпочтительный каркас.
 
 ---
 
-## Setup
+## Настройка
 
-### 1. Get your Alias API Key
+### 1. Получите ваш API ключ Alias
 
-An `ALIAS_API_KEY` (format: `sk-...`) can be obtained from either of the following:
+`ALIAS_API_KEY` (формат: `sk-...`) можно получить из одного из следующих источников:
 
-- **[CAI PRO](https://aliasrobotics.com/cybersecurityai.php)** — full cybersecurity AI platform with access to `alias1` and other models.
-- **[Alias LLMs](https://aliasrobotics.com/aliasLLMs.php)** — acquire `alias2-mini` and other Alias language models directly.
+- **[CAI PRO](https://aliasrobotics.com/cybersecurityai.php)** — полная платформа кибербезопасности с доступом к `alias1` и другим моделям.
+- **[Alias LLMs](https://aliasrobotics.com/aliasLLMs.php)** — приобретите `alias2-mini` и другие языковые модели Alias напрямую.
 
-### 2. Install OpenCode
+### 2. Установка OpenCode
 
 ```bash
 npm install -g opencode-ai
 ```
 
-Or via Homebrew (macOS):
+Или через Homebrew (macOS):
 
 ```bash
 brew install sst/tap/opencode
 ```
 
-### 3. Configure the Alias provider
+### 3. Настройка провайдера Alias
 
-OpenCode uses a `~/.config/opencode/config.json` file. Add a custom OpenAI-compatible provider pointing to the Alias API:
+OpenCode использует файл `~/.config/opencode/config.json`. Добавьте пользовательский провайдер, совместимый с OpenAI, указывающий на API Alias:
 
 ```json
 {
@@ -49,25 +49,25 @@ OpenCode uses a `~/.config/opencode/config.json` file. Add a custom OpenAI-compa
 }
 ```
 
-Then export your key:
+Затем экспортируйте ваш ключ:
 
 ```bash
 export ALIAS_API_KEY="sk-your-alias-api-key-here"
 ```
 
-### 4. Run OpenCode
+### 4. Запуск OpenCode
 
 ```bash
 opencode
 ```
 
-OpenCode will pick up the configured provider and route requests to the Alias API.
+OpenCode определит настроенный провайдер и направит запросы в API Alias.
 
 ---
 
-## Alternative: environment variable approach
+## Альтернатива: подход через переменные окружения
 
-If you prefer not to edit the config file, OpenCode also respects standard OpenAI environment variables:
+Если вы предпочитаете не редактировать файл конфигурации, OpenCode также поддерживает стандартные переменные окружения OpenAI:
 
 ```bash
 export OPENAI_API_KEY="sk-your-alias-api-key-here"
@@ -77,15 +77,15 @@ opencode --model alias1
 
 ---
 
-## Notes
+## Примечания
 
-- Use `alias1` for best cybersecurity performance, or `alias0` for a faster, lighter alternative.
-- Token usage and billing appear in your Alias account dashboard.
+- Используйте `alias1` для лучшей производительности в области кибербезопасности или `alias0` для более быстрой и легкой альтернативы.
+- Использование токенов и расчеты отображаются в панели вашего аккаунта Alias.
 
 ---
 
-## Related
+## Связанная информация
 
-- [CAI PRO Quickstart](../cai_pro_quickstart.md)
-- [Available Models](../cai_list_of_models.md)
-- [Environment Variables](../environment_variables.md)
+- [Быстрый старт CAI PRO](../cai_pro_quickstart.md)
+- [Доступные модели](../cai_list_of_models.md)
+- [Переменные окружения](../environment_variables.md)

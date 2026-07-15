@@ -1,10 +1,10 @@
 """
-Command and control utility to power LLM client.
+Утилита управления командами для работы LLM-клиента.
 
-This module provides a reverse shell client implementation that allows an LLM
-control and interact with remote shells.
-It handles starting/stopping listeners,
-sending commands, and managing shell sessions.
+Этот модуль предоставляет реализацию клиент обратной оболочки, которая позволяет LLM
+управлять и взаимодействовать с удалёнными оболочками.
+Он обрабатывает запуск/остановку слушателей,
+отправку команд и управление сессиями оболочек.
 """
 
 import socket
@@ -14,24 +14,24 @@ import threading
 
 class ReverseShellClient:
     """
-    A reverse shell client that runs in the background and allows the LLM to:
-    - Start/stop listeners
-    - Send commands to connected shells
-    - Access command history and output
-    - Handle multiple shell sessions
+    Клиент обратной оболочки, работающий в фоновом режиме и позволяющий LLM:
+    - Запускать/останавливать слушатели
+    - Отправлять команды подключённым оболочкам
+    - Получать доступ к истории команд и выводу
+    - Управлять несколькими сессиями оболочек
 
-    The shells run in the background (second plane) while allowing the LLM to:
-    - Compare and analyze command outputs
-    - Chain commands across sessions
-    - Monitor shell status
+    Оболочки работают в фоновом режиме (втором плане), позволяя LLM:
+    - Сравнивать и анализировать выводы команд
+    - Цеплять команды через сессии
+    - Мониторить статус оболочек
     """
 
     def __init__(self, host="127.0.0.1", port=4444):
         """
-        Initialize reverse shell client
+        Инициализация клиента обратной оболочки
         Args:
-            host: Listener host IP, defaults to all interfaces
-            port: Listener port number, defaults to 4444
+            host: IP-адрес слушателя, по умолчанию все интерфейсы
+            port: Номер порта слушателя, по умолчанию 4444
         """
         self.host = host
         self.port = port
@@ -44,9 +44,9 @@ class ReverseShellClient:
 
     def handle_client(self, client_socket):
         """
-        Handle incoming client connection in background thread
+        Обработка входящего подключения клиента в фоновом потоке
         Args:
-            client_socket: Connected client socket
+            client_socket: Подключённый сокет клиента
         """
         self.client_socket = client_socket
         client_socket.settimeout(30.0)
@@ -67,7 +67,7 @@ class ReverseShellClient:
         self.client_socket = None
 
     def start_listener(self):
-        """Start listener thread in background"""
+        """Запуск потока слушателя в фоновом режиме"""
         self.running = True
         try:
             self.socket.bind((self.host, self.port))
@@ -82,68 +82,68 @@ class ReverseShellClient:
                 client_handler.daemon = True
                 client_handler.start()
         except OSError as e:
-            print(f"Error in listener: {str(e)}")
+            print(f"Ошибка в слушателе: {str(e)}")
         finally:
             if not self.running:
                 self.socket.close()
 
     def start(self):
         """
-        Start the reverse shell listener in background thread
+        Запуск слушателя обратной оболочки в фоновом потоке
         Returns:
-            str: Status message with connection details
+            str: Статусное сообщение с данными подключения
         """
         self.listener_thread = threading.Thread(target=self.start_listener)
         self.listener_thread.daemon = True
         self.listener_thread.start()
         self.socket.close()
-        return f"Listener started on {self.host}:{self.port}"
+        return f"Слушатель запущен на {self.host}:{self.port}"
 
     def stop(self):
         """
-        Stop the reverse shell listener
+        Остановка слушателя обратной оболочки
         Returns:
-            dict: Status message
-            dict: Status including host and port
+            dict: Статусное сообщение
+            dict: Статус с хостом и портом
         """
         self.running = False
         if self.client_socket:
             self.client_socket.close()
         self.socket.close()
-        return {"status": "Listener stopped"}
+        return {"status": "Слушатель остановлен"}
 
     def send_command(self, command: str):
         """
-        Send a command to the connected reverse shell
-        The command runs in background and output can be retrieved from history
+        Отправка команды подключённой обратной оболочке
+        Команда выполняется в фоновом режиме, а вывод можно получить из истории
         Args:
-            command: Command to execute on target
+            command: Команда для выполнения на целевом хосте
         Returns:
-            dict: Status of command execution
+            dict: Статус выполнения команды
         """
         if not self.client_socket:
-            return {"status": "error", "message": "No client connected"}
+            return {"status": "error", "message": "Нет подключённого клиента"}
         try:
             self.client_socket.send(f"{command}\n".encode())
-            return {"status": "success", "message": "Command sent"}
+            return {"status": "success", "message": "Команда отправлена"}
         except OSError as e:
             return {"status": "error", "message": str(e)}
 
     def show_session(self):
         """
-        Show the current session status
+        Показать статус текущей сессии
         Returns:
-            dict: Session status including host and port
+            dict: Статус сессии с хостом и портом
         """
         return {"host": self.host, "port": self.port}
 
     def get_history(self):
         """
-        Get command history and output for LLM analysis
+        Получить историю команд и вывод для анализа LLM
         Returns:
-            dict: History of commands and outputs, connection status
+            dict: История команд и выводов, статус подключения
         """
-        connected = "Connected" if self.client_socket else "Not connected"
+        connected = "Подключён" if self.client_socket else "Не подключён"
         return {
             "history": self.command_history,
             "host": self.host,

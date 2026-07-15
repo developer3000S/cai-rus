@@ -1,9 +1,9 @@
-"""Headless (non-TUI) REPL loop and supporting helpers.
+"""Headless (non-TUI) цикл REPL и вспомогательные функции.
 
-Extracted from cli.py to keep the main module a thin orchestrator.
-Contains:
+Извлечён из cli.py для поддержания тонкого оркестратора в основном модуле.
+Содержит:
   - update_agent_models_recursively()
-  - run_cai_cli()  -- the interactive conversation loop
+  - run_cai_cli()  -- интерактивный цикл беседы
 """
 
 import asyncio
@@ -91,7 +91,7 @@ except ImportError:
 
 
 def _ctf_hotswap_failure_extra_hints(err: BaseException) -> str:
-    """Rich markup (Spanish): cómo resolver fallos de registry / pull de imágenes CAIBench."""
+    """Rich-разметка: как исправить ошибки registry / pull образов CAIBench."""
     msg = str(err).lower()
     if type(err).__name__ != "CTFSetupError" and not any(
         k in msg
@@ -99,25 +99,25 @@ def _ctf_hotswap_failure_extra_hints(err: BaseException) -> str:
     ):
         return ""
     return (
-        "\n\n[bold #00ff9d]Cómo solucionarlo[/bold #00ff9d]\n"
-        "• Define [bold]CAIBENCH_IMG_REGISTRY_TOKEN[/bold] en tu [dim].env[/dim] o con "
-        "[bold]export[/bold] antes de lanzar CAI: debe ser un [bold]token de GitLab[/bold] "
-        "con permiso de lectura del registry ([dim]read_registry[/dim]) para "
+        "\n\n[bold #00ff9d]Как исправить[/bold #00ff9d]\n"
+        "• Установите [bold]CAIBENCH_IMG_REGISTRY_TOKEN[/bold] в вашем [dim].env[/dim] или через "
+        "[bold]export[/bold] перед запуском CAI: это должен быть [bold]токен GitLab[/bold] "
+        "с правом чтения registry ([dim]read_registry[/dim]) для "
         "[dim]registry.gitlab.com[/dim].\n"
-        "• CAIBench usa usuario [dim]gitlab[/dim] y ese token como contraseña al hacer "
-        "[dim]docker login[/dim] y [dim]docker pull[/dim] de la imagen del CTF.\n"
-        "• Prueba el login a mano: "
+        "• CAIBench использует пользователя [dim]gitlab[/dim] и этот токен в качестве пароля при "
+        "[dim]docker login[/dim] и [dim]docker pull[/dim] образа CTF.\n"
+        "• Проверьте вход вручную: "
         "[bold]echo \"$CAIBENCH_IMG_REGISTRY_TOKEN\" | docker login registry.gitlab.com "
         "-u gitlab --password-stdin[/bold]\n"
-        "• Si la imagen ya está en local ([bold]docker images[/bold]), el arranque puede "
-        "reutilizarla sin volver a descargarla.\n"
-        "• Si sigue fallando: token caducado o revocado, Docker sin servicio, o la imagen "
-        "no existe en ese registry."
+        "• Если образ уже загружен локально ([bold]docker images[/bold]), запуск может "
+        "переиспользовать его без повторного скачивания.\n"
+        "• Если ошибка сохраняется: токен истёк или отозван, Docker не работает, или образ "
+        "не существует в данном registry."
     )
 
 
 def __getattr__(name: str):
-    """Lazy ``START_TIME`` from :mod:`cai.util.cli_session_clock` (no import-time side effects)."""
+    """Ленивый ``START_TIME`` из :mod:`cai.util.cli_session_clock` (без побочных эффектов при импорте)."""
     if name == "START_TIME":
         import cai.util.cli_session_clock as _clk
 
@@ -126,9 +126,9 @@ def __getattr__(name: str):
 
 
 def _line_is_cli_command_line(line: str) -> bool:
-    """Return True if ``line`` should be routed to the CLI command dispatcher.
+    """Определить, должна ли строка быть направлена в диспетчер CLI-команд.
 
-    Recognised forms: ``/cmd``, ``$shellcmd`` and bare ``?`` (REPL shortcuts).
+    Распознаваемые формы: ``/cmd``, ``$shellcmd`` и голый ``?`` (ярлыки REPL).
     """
     s = line.strip()
     if not s:
@@ -137,7 +137,7 @@ def _line_is_cli_command_line(line: str) -> bool:
 
 
 def _user_input_is_cli_command_block(raw: str) -> bool:
-    """Detect single-line or pasted multi-line CLI command blocks."""
+    """Обнаружить однострочные или вставленные многострочные блоки CLI-команд."""
     if "\n" in raw:
         return any(_line_is_cli_command_line(ln) for ln in raw.splitlines())
     return _line_is_cli_command_line(raw)
@@ -158,7 +158,7 @@ def _parallel_summary_row_fg(row_index: int) -> str:
 
 
 def _strip_parallel_preview_emojis_and_rules(text: str) -> str:
-    """Remove emoji, HR lines, decorative rules; flatten markdown headings to bold lines."""
+    """Убрать эмодзи, строки-разделители, декоративные линии; свернуть заголовки markdown в жирные строки."""
     if not text:
         return ""
     s = text.replace("\r\n", "\n")
@@ -184,7 +184,7 @@ def _strip_parallel_preview_emojis_and_rules(text: str) -> str:
 
 
 def _parallel_preview_repair_pipe_row_boundaries(text: str) -> str:
-    """Turn flattened `| col | | next row` into real newlines so markdown tables render."""
+    """Превратить сплющенные `| col | | next row` в настоящие переносы строк для отрисовки таблиц markdown."""
     if not text or text.count("|") < 4:
         return text
     # Common corruption: row boundary appears as space/pipe/space/pipe between cells.
@@ -199,7 +199,7 @@ def _parallel_preview_is_markdown_separator_row(row: str) -> bool:
 
 
 def _split_md_table_row(ln: str) -> list[str]:
-    """Split one markdown table row into cell strings (outer pipes optional)."""
+    """Разбить одну строку таблицы markdown на ячейки (внешние трубы опциональны)."""
     s = ln.strip()
     if not s.startswith("|"):
         s = "|" + s
@@ -210,7 +210,7 @@ def _split_md_table_row(ln: str) -> list[str]:
 
 
 def _parallel_preview_table_block_to_bullets(block: str) -> str:
-    """Convert GFM-style pipe tables to bullet lines (Rich Markdown nested tables break badly)."""
+    """Преобразовать таблицы pipe в стиле GFM в строки-пункты (вложенные таблицы Rich Markdown ломаются)."""
     raw_lines = [ln.strip() for ln in block.strip().split("\n") if ln.strip() and "|" in ln]
     if len(raw_lines) < 2:
         return block.strip()
@@ -251,7 +251,7 @@ def _parallel_preview_table_block_to_bullets(block: str) -> str:
 
 
 def _parallel_preview_fenced_code_to_gtgt(text: str) -> str:
-    """Replace ``` fences with plain ``>> command`` lines (no ``**`` — reserved for real bold)."""
+    """Заменить ограждения ``` на простые строки ``>> command`` (без ``**`` — зарезервировано для настоящего жирного)."""
 
     def _fmt_body(body: str) -> str:
         one = " ".join(body.strip().split())
@@ -269,7 +269,7 @@ def _parallel_preview_fenced_code_to_gtgt(text: str) -> str:
 
 
 def _collapse_parallel_preview_paragraphs(text: str) -> str:
-    """Join non-table lines into compact prose; keep markdown tables as tight blocks."""
+    """Склеить не-табличные строки в компактный текст; оставить таблицы markdown плотными блоками."""
     if not text:
         return ""
     lines = text.split("\n")
@@ -319,14 +319,14 @@ def _collapse_parallel_preview_paragraphs(text: str) -> str:
 
 
 def _parallel_preview_strip_links_and_inline_code(text: str) -> str:
-    """Avoid default Markdown link/code colors (blue etc.) in the summary preview."""
+    """Избежать цветов ссылок/кода Markdown по умолчанию (синий и т.д.) в предварительном просмотре."""
     s = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", text)
     s = re.sub(r"`([^`]+)`", r"\1", s)
     return s
 
 
 def _parallel_preview_avoid_md_list_syntax(text: str) -> str:
-    """Turn '- ' / '* ' line starters into middle-dot lines (plain text, row-colored)."""
+    """Превратить строки с '- ' / '* ' в строки с middle-dot (простой текст, цвет строки)."""
     out: list[str] = []
     for ln in text.split("\n"):
         m = re.match(r"^(\s*)[-*]\s+(.*)$", ln)
@@ -338,7 +338,7 @@ def _parallel_preview_avoid_md_list_syntax(text: str) -> str:
 
 
 def _parallel_preview_strip_blockquote_prefixes(text: str) -> str:
-    """Remove markdown blockquote markers (Rich would render purple bars otherwise)."""
+    """Удалить маркеры цитат markdown (иначе Rich отрисует фиолетовые полосы)."""
     out: list[str] = []
     for ln in text.split("\n"):
         t = ln.lstrip()
@@ -349,7 +349,7 @@ def _parallel_preview_strip_blockquote_prefixes(text: str) -> str:
 
 
 def _parallel_preview_strip_gt_command_prefix(text: str) -> str:
-    """Normalize >> lines from fenced-code conversion to plain text."""
+    """Нормализовать строки >> из преобразования fenced-code в простой текст."""
     lines: list[str] = []
     for ln in text.split("\n"):
         t = ln.lstrip()
@@ -360,12 +360,12 @@ def _parallel_preview_strip_gt_command_prefix(text: str) -> str:
 
 
 def _parallel_preview_strip_underline_emphasis(text: str) -> str:
-    """Strip ``__underline__`` only; ``**bold**`` is kept for Rich Text rendering."""
+    """Удалить только ``__underline__``; ``**bold**`` сохраняется для отрисовки Rich Text."""
     return re.sub(r"__([^_]+)__", r"\1", text)
 
 
 def _parallel_preview_text_with_inline_bold(body: str, row_fg: str) -> Text:
-    """Render ``**segment**`` as bold using the same base color as the row."""
+    """Отрисовать ``**segment**`` как жирный с тем же базовым цветом что и строка."""
     if not body:
         return Text("", style=row_fg)
     if "**" not in body:
@@ -384,7 +384,7 @@ def _parallel_preview_text_with_inline_bold(body: str, row_fg: str) -> Text:
 
 
 def _parallel_preview_format_numbered_step_breaks(text: str) -> str:
-    """Break 'Step N: … 1) …' and '… 2) Plan …' into separate lines (no blank lines)."""
+    """Разбить 'Step N: … 1) …' и '… 2) Plan …' на отдельные строки (без пустых строк)."""
     t = text.replace("\r\n", "\n")
     t = re.sub(
         r"(Step\s+\d+:\s*[^\n]+?)\s+(\d+\))",
@@ -398,7 +398,7 @@ def _parallel_preview_format_numbered_step_breaks(text: str) -> str:
 
 
 def _parallel_preview_expand_dot_subclauses(text: str) -> str:
-    """Split '1) Title · Goal: … · Assumptions: …' into indented · lines."""
+    """Разбить '1) Title · Goal: … · Assumptions: …' на отступленные · строки."""
     out_lines: list[str] = []
     for raw in text.split("\n"):
         line = raw.strip()
@@ -419,10 +419,10 @@ def _parallel_preview_expand_dot_subclauses(text: str) -> str:
 def _sanitize_parallel_preview_for_table(
     text: str, max_chars: int = 1200
 ) -> tuple[str, bool]:
-    """Normalize parallel worker preview text; ``**bold**`` survives for table rendering.
+    """Нормализовать текст предварительного просмотра параллельного воркера; ``**bold**`` сохраняется для отрисовки таблицы.
 
-    Returns:
-        (text_with_optional_bold_markers, truncated)
+    Возвращает:
+        (текст_с_опциональными_маркетами_жирного, усечён)
     """
     s = text.replace("\r\n", "\n")
     s = _parallel_preview_fenced_code_to_gtgt(s)
@@ -454,7 +454,7 @@ def _sanitize_parallel_preview_for_table(
 
 
 def _parallel_summary_preview_renderable(body: str, truncated: bool, *, row_fg: str):
-    """Preview cell: *row_fg* for body, ``**...**`` segments as bold (no full Markdown)."""
+    """Ячейка предварительного просмотра: *row_fg* для тела, ``**...**`` сегменты жирным (не полный Markdown)."""
     main = _parallel_preview_text_with_inline_bold(body, row_fg)
     if not truncated:
         return main
@@ -464,7 +464,7 @@ def _parallel_summary_preview_renderable(body: str, truncated: bool, *, row_fg: 
 def _new_parallel_execution_summary_table() -> Table:
     """Horizontal rule under header (CAI green); no row backgrounds (zebra is text color only)."""
     return Table(
-        title="Parallel Execution Summary",
+        title="Сводка параллельного выполнения",
         title_style=f"bold {_PARALLEL_SUMMARY_MUTED}",
         box=box.HORIZONTALS,
         show_edge=False,
@@ -477,25 +477,25 @@ def _new_parallel_execution_summary_table() -> Table:
 
 def _add_parallel_summary_columns(t: Table, preview_max_width: int = 88) -> None:
     t.add_column(
-        "Agent",
+        "Агент",
         style=f"bold {_PARALLEL_SUMMARY_GREEN}",
         no_wrap=False,
         overflow="fold",
         vertical="top",
     )
-    # Model / Prompt / Preview colors come from per-row Text (white vs grey).
-    t.add_column("Model", no_wrap=True, vertical="top")
-    t.add_column("Prompt Source", no_wrap=True, vertical="top")
-    t.add_column("Status", no_wrap=True, vertical="top")
+    # Цвета Модель / Промпт / Предпросмотр идут из Text по строкам (белый vs серый).
+    t.add_column("Модель", no_wrap=True, vertical="top")
+    t.add_column("Источник промпта", no_wrap=True, vertical="top")
+    t.add_column("Статус", no_wrap=True, vertical="top")
     t.add_column(
-        "Preview",
+        "Предпросмотр",
         max_width=preview_max_width,
         overflow="fold",
         vertical="top",
     )
 
 def _resolve_parallel_model_name(config_model: str | None) -> str:
-    """Resolve parallel model name, enforcing alias-family models for consistency."""
+    """Найти имя параллельной модели, обеспечивая модели семейства alias для согласованности."""
     env_model = (os.getenv("CAI_MODEL", "alias1") or "alias1").strip()
     candidate = (config_model or env_model).strip()
     if candidate.lower().startswith("alias"):
@@ -508,17 +508,17 @@ def _resolve_parallel_model_name(config_model: str | None) -> str:
 def _print_session_log_target(
     console: Console, filepath: str, *, trailing_blankline: bool = True
 ) -> None:
-    """Print session JSONL path (Layout 1: italic grey path:/file: lines).
+    """Вывести путь сессии JSONL (Макет 1: курсивные серые строки путь:/файл:).
 
-    If ``trailing_blankline`` is True, print one blank row after path/file so the
-    next ``● …`` block is not flush. Set False when the following output already
-    ends with its own blank line.
+    Если ``trailing_blankline`` равен True, вывести одну пустую строку после пути/файла, чтобы
+    следующий блок ``● …`` не был прижат. Установите False когда следующий вывод уже
+    заканчивается собственной пустой строкой.
     """
     from cai.util.cli_palette import GREY_TEXT
 
     log_style = f"italic {GREY_TEXT}"
     expanded = os.path.expanduser(filepath)
-    full_line = f"path: {expanded}"
+    full_line = f"путь: {expanded}"
     cols = max(40, shutil.get_terminal_size((80, 24)).columns)
 
     if len(full_line) <= cols:
@@ -537,8 +537,8 @@ def _print_session_log_target(
         parent_disp = parent_str + os.sep
     else:
         parent_disp = parent_str
-    console.print(Text(f"path: {parent_disp}", style=log_style))
-    console.print(Text(f"file: {rp.name}", style=log_style))
+    console.print(Text(f"путь: {parent_disp}", style=log_style))
+    console.print(Text(f"файл: {rp.name}", style=log_style))
     if trailing_blankline:
         console.print()
 
@@ -548,7 +548,7 @@ def _print_session_log_target(
 # ---------------------------------------------------------------------------
 
 def update_agent_models_recursively(agent, new_model, visited=None):
-    """Recursively update the model for an agent and all agents in its handoffs."""
+    """Рекурсивно обновить модель для агента и всех агентов в его передачах."""
     if visited is None:
         visited = set()
 
@@ -601,10 +601,10 @@ def run_cai_cli(
     console=None,
     skip_startup_banner: bool = False,
 ):
-    """Run the interactive headless CLI loop for CAI.
+    """Запустить интерактивный headless CLI цикл CAI.
 
-    This is the non-TUI conversation loop.  The function returns when the
-    user presses Ctrl-C at the input prompt or force-mode criteria are met.
+    Это не-TUI цикл беседы. Функция возвращает управление когда
+    пользователь нажимает Ctrl-C на строке ввода или выполняются критерии принудительного режима.
     """
     from cai.util.cli_session_clock import reset_session_clock
 
@@ -630,7 +630,7 @@ def run_cai_cli(
 
     session_hints = StartupHints(console)
     session_hints.start(
-        f"Connecting to model server ({_startup_cfg.model})...",
+        f"Подключение к серверу моделей ({_startup_cfg.model})...",
         leading_blank=False,
     )
 
@@ -695,15 +695,15 @@ def run_cai_cli(
                 auto_run_queue = True
                 console.print(
                     build_cai_markup_line(
-                        "\n[#9aa0a6]Continue mode: resuming automatically from previous session.[/]"
+                        "\n[#9aa0a6]Режим продолжения: автоматическое возобновление из предыдущей сессии.[/]"
                     )
                 )
         except Exception:
-            add_to_queue("Continue working on the task based on your previous findings.")
+            add_to_queue("Продолжайте работу над задачей на основе предыдущих результатов.")
             auto_run_queue = True
             console.print(
                 build_cai_markup_line(
-                    "\n[#9aa0a6]Continue mode: resuming automatically from previous session.[/]"
+                    "\n[#9aa0a6]Режим продолжения: автоматическое возобновление из предыдущей сессии.[/]"
                 )
             )
 
@@ -711,17 +711,17 @@ def run_cai_cli(
         from cai.repl.commands.queue import load_queue_from_file
         queue_file = os.path.expanduser(queue_file)
         if os.path.exists(queue_file):
-            session_hints.set_message("Loading prompt queue from disk...")
+            session_hints.set_message("Загрузка очереди промптов с диска...")
             loaded = load_queue_from_file(queue_file)
             if loaded > 0:
                 session_hints.stop()
                 console.print(
                     build_cai_markup_line(
-                        f"\n[#9aa0a6]Auto-loaded [/][bold #00ff9d]{loaded}[/bold #00ff9d]"
-                        f"[#9aa0a6] prompts from [/][bold white]{queue_file}[/bold white][#9aa0a6].[/]"
+                        f"\n[#9aa0a6]Авто-загружено [/][bold #00ff9d]{loaded}[/bold #00ff9d]"
+                        f"[#9aa0a6] промптов из [/][bold white]{queue_file}[/bold white][#9aa0a6].[/]"
                     )
                 )
-                console.print(f"[green]Starting automatic queue processing...[/green]\n")
+                console.print(f"[green]Запуск автоматической обработки очереди...[/green]\n")
                 auto_run_queue = True
 
     def get_agent_short_name(agent):
@@ -742,7 +742,7 @@ def run_cai_cli(
 
     # Initial system check (second startup phase: license / API reachability)
     session_hints.set_message(
-        f"Verifying license and API key ({mask_key_for_hint(os.getenv('ALIAS_API_KEY', ''))})..."
+        f"Проверка лицензии и API-ключа ({mask_key_for_hint(os.getenv('ALIAS_API_KEY', ''))})..."
     )
     try:
         from cai.util_ext import _chk
@@ -782,12 +782,12 @@ def run_cai_cli(
         # Single-shot ticks (e.g. continuous_ops in tmux) often have a real TTY; still must not
         # block on prompt_toolkit when a bundled prompt is configured or this is the loop worker.
         if _single_shot_cli_active() and fb and (not sys.stdin.isatty() or prompt_file_set or loop_child):
-            console.print("[dim]Single-shot: using bundled tick prompt (no interactive stdin).[/dim]")
+            console.print("[dim]Одноразовый режим: используется встроенный тик-промпт (без интерактивного stdin).[/dim]")
             return fb
         if _single_shot_cli_active() and not sys.stdin.isatty():
             console.print(
-                "[bold red]Single-shot CLI cannot open prompt_toolkit: stdin is not a TTY and no "
-                "CAI_SINGLE_SHOT_STDIN_PROMPT_FILE / CAI_SINGLE_SHOT_STDIN_PROMPT / --prompt text is available. Exiting.[/bold red]"
+                "[bold red]Одноразовый CLI не может открыть prompt_toolkit: stdin не является TTY и нет "
+                "CAI_SINGLE_SHOT_STDIN_PROMPT_FILE / CAI_SINGLE_SHOT_STDIN_PROMPT / текста --prompt. Выход.[/bold red]"
             )
             return None
         return get_user_input(
@@ -806,11 +806,11 @@ def run_cai_cli(
                 except _CTF_HOTSWAP_FAILURE_EXCEPTIONS as err:
                     console.print(
                         Panel(
-                            f"[bold red]CTF setup failed[/bold red]\n\n{err}\n\n"
-                            "[yellow]Se revirtió [bold]CTF_NAME[/bold] al valor anterior para que CAI "
-                            "siga respondiendo. Si el nombre era incorrecto, usa un id del catálogo "
-                            "CAIBench; si el fallo es de red o credenciales, corrígelo y vuelve a "
-                            "ejecutar [bold]/env set CTF_NAME …[/bold].[/yellow]"
+                    f"[bold red]Ошибка настройки CTF[/bold red]\n\n{err}\n\n"
+                    "[yellow]Значение [bold]CTF_NAME[/bold] откачено на предыдущее, чтобы CAI "
+                    "продолжал работать. Если имя было неправильным, используйте id из каталога "
+                    "CAIBench; если ошибка сети или учётных данных, исправьте её и повторите "
+                    "[bold]/env set CTF_NAME …[/bold].[/yellow]"
                             f"{_ctf_hotswap_failure_extra_hints(err)}",
                             title="[red]CTF error[/red]",
                             border_style="red",
@@ -838,14 +838,14 @@ def run_cai_cli(
             prev_max_turns = max_turns
             if turn_limit_reached and turn_count < max_turns:
                 turn_limit_reached = False
-                console.print("[green]Turn limit increased. You can now continue using CAI.[/green]")
+                console.print("[green]Лимит ходов увеличен. Теперь вы можете продолжить использование CAI.[/green]")
 
         if turn_count >= max_turns and max_turns != float("inf"):
             if not turn_limit_reached:
                 turn_limit_reached = True
-                console.print(f"[bold red]Error: Maximum turn limit ({int(max_turns)}) reached.[/bold red]")
-                console.print("[yellow]You must increase the limit using: /env set CAI_MAX_TURNS <new_value>[/yellow]")
-                console.print("[yellow]Only CLI commands (starting with '/') will be processed until the limit is increased.[/yellow]")
+                console.print(f"[bold red]Ошибка: Достигнут максимальный лимит ходов ({int(max_turns)}).[/bold red]")
+                console.print("[yellow]Необходимо увеличить лимит: /env set CAI_MAX_TURNS <новое_значение>[/yellow]")
+                console.print("[yellow]Только CLI-команды (начинающиеся с '/') будут обрабатываться до увеличения лимита.[/yellow]")
             if force_until_flag:
                 return
 
@@ -857,15 +857,15 @@ def run_cai_cli(
         except MaxInteractionsExceeded:
             if not interaction_limit_reached:
                 interaction_limit_reached = True
-                console.print(f"[bold red]Error: Maximum interaction limit ({current_max_interactions}) reached.[/bold red]")
-                console.print("[yellow]You must increase the limit using: /env set CAI_MAX_INTERACTIONS <new_value>[/yellow]")
-                console.print("[yellow]Only CLI commands (starting with '/') will be processed until the limit is increased.[/yellow]")
+                console.print(f"[bold red]Ошибка: Достигнут максимальный лимит взаимодействий ({current_max_interactions}).[/bold red]")
+                console.print("[yellow]Необходимо увеличить лимит: /env set CAI_MAX_INTERACTIONS <новое_значение>[/yellow]")
+                console.print("[yellow]Только CLI-команды (начинающиеся с '/') будут обрабатываться до увеличения лимита.[/yellow]")
             if force_until_flag:
                 return
 
         if interaction_limit_reached:
-            console.print("[bold red]Error: Interaction limit reached. Only CLI commands are allowed.[/bold red]")
-            console.print("[yellow]Please use /env to increase CAI_MAX_INTERACTIONS limit.[/yellow]")
+                console.print("[bold red]Ошибка: Достигнут лимит взаимодействий. Разрешены только CLI-команды.[/bold red]")
+                console.print("[yellow]Используйте /env для увеличения лимита CAI_MAX_INTERACTIONS.[/yellow]")
 
         # ---- price limit check ----
         current_price_limit = os.getenv("CAI_PRICE_LIMIT", "inf")
@@ -881,17 +881,17 @@ def run_cai_cli(
                 price_limit_reached = True
                 if not hasattr(run_cai_cli, '_price_limit_warning_shown'):
                     run_cai_cli._price_limit_warning_shown = True
-                    console.print(f"[bold red]Error: Maximum price limit (${price_limit:.4f}) reached. Current cost: ${COST_TRACKER.session_total_cost:.4f}[/bold red]")
-                    console.print("[yellow]You must increase the limit using: /env set CAI_PRICE_LIMIT <new_value>[/yellow]")
-                    console.print("[yellow]Only CLI commands (starting with '/') will be processed until the limit is increased.[/yellow]")
+                    console.print(f"[bold red]Ошибка: Достигнут максимальный лимит цены (${price_limit:.4f}). Текущая стоимость: ${COST_TRACKER.session_total_cost:.4f}[/bold red]")
+                    console.print("[yellow]Необходимо увеличить лимит: /env set CAI_PRICE_LIMIT <новое_значение>[/yellow]")
+                    console.print("[yellow]Только CLI-команды (начинающиеся с '/') будут обрабатываться до увеличения лимита.[/yellow]")
                 if force_until_flag:
                     return
         except Exception:
             price_limit_reached = False
 
         if price_limit_reached:
-            console.print("[bold red]Error: Price limit reached. Only CLI commands are allowed.[/bold red]")
-            console.print("[yellow]Please use /env to increase CAI_PRICE_LIMIT limit.[/yellow]")
+            console.print("[bold red]Ошибка: Достигнут лимит цен. Разрешены только CLI-команды.[/bold red]")
+            console.print("[yellow]Используйте /env для увеличения лимита CAI_PRICE_LIMIT.[/yellow]")
 
         try:
             # Idle time measurement
@@ -1007,16 +1007,16 @@ def run_cai_cli(
                     logger = logging.getLogger(__name__)
                     logger.debug(f"Error switching agent: {str(e)}")
                     if _get_config().debug == 2:
-                        console.print(f"[red]Error switching agent: {str(e)}[/red]")
+                        console.print(f"[red]Ошибка переключения агента: {str(e)}[/red]")
 
             # ---- Get user input ----
             if not force_until_flag and _setup.ctf_init != 0:
                 if use_initial_prompt and turn_count == 0:
                     user_input = initial_prompt
                     if not (user_input or "").strip():
-                        console.print("[bold red]Initial --prompt is empty; cannot run. Exiting.[/bold red]")
+                        console.print("[bold red]Начальный --prompt пуст; невозможно выполнить. Выход.[/bold red]")
                         return
-                    console.print(f"[dim white]Processing initial prompt:[/dim white] {user_input}")
+                    console.print(f"[dim white]Обработка начального промпта:[/dim white] {user_input}")
                     # Defer clearing until a successful turn unless the queue will drive subsequent prompts
                     # (otherwise a failed first turn leaves turn_count==0 and forces interactive input).
                     if os.getenv("CAI_AUTO_RUN_QUEUE") == "1":
@@ -1037,13 +1037,13 @@ def run_cai_cli(
                                     if item_agent in _avail:
                                         agent = _avail[item_agent]
                                         console.print(
-                                            f"[dim white]Queue: switching to "
-                                            f"[bold]{item_agent}[/bold][/dim white]"
+                            f"[dim white]Очередь: переключение на "
+                            f"[bold]{item_agent}[/bold][/dim white]"
                                         )
                             else:
                                 user_input = str(next_item)
                             console.print(
-                                f"[dim white]Processing from queue:[/dim white] {user_input}"
+                                f"[dim white]Обработка из очереди:[/dim white] {user_input}"
                             )
                         else:
                             auto_run_queue = False
@@ -1060,7 +1060,7 @@ def run_cai_cli(
                 else:
                     if turn_count == 0 and os.getenv("CAI_AUTO_RUN_PARALLEL") == "1" and PARALLEL_CONFIGS:
                         user_input = ""
-                        console.print(f"[dim white]Auto-running parallel agents with configured prompts...[/dim white]")
+                        console.print(f"[dim white]Авто-запуск параллельных агентов с настроенными промптами...[/dim white]")
                         os.environ.pop("CAI_AUTO_RUN_PARALLEL", None)
                     else:
                         u = _interactive_cli_input()
@@ -1078,7 +1078,7 @@ def run_cai_cli(
                         user_input = _setup.messages_ctf
                         _setup.first_ctf_time = False
                     else:
-                        user_input = "Continue working on the CTF challenge based on previous output."
+                        user_input = "Продолжайте работу над задачей CTF на основе предыдущего вывода."
 
             idle_time += time.time() - idle_start_time
             stop_idle_timer()
@@ -1118,16 +1118,16 @@ def run_cai_cli(
         try:
             # Turn/price limit enforcement on non-command input
             if turn_limit_reached and not _user_input_is_cli_command_block(user_input):
-                console.print("[bold red]Error: Turn limit reached. Only CLI commands are allowed.[/bold red]")
-                console.print("[yellow]Please use /env to increase CAI_MAX_TURNS limit.[/yellow]")
+                console.print("[bold red]Ошибка: Достигнут лимит ходов. Разрешены только CLI-команды.[/bold red]")
+                console.print("[yellow]Используйте /env для увеличения лимита CAI_MAX_TURNS.[/yellow]")
                 stop_active_timer()
                 start_idle_timer()
                 _try_refresh_info_bars()
                 continue
 
             if price_limit_reached and not _user_input_is_cli_command_block(user_input):
-                console.print("[bold red]Error: Price limit reached. Only CLI commands are allowed.[/bold red]")
-                console.print("[yellow]Please use /env to increase CAI_PRICE_LIMIT limit.[/yellow]")
+                console.print("[bold red]Ошибка: Достигнут лимит цен. Разрешены только CLI-команды.[/bold red]")
+                console.print("[yellow]Используйте /env для увеличения лимита CAI_PRICE_LIMIT.[/yellow]")
                 stop_active_timer()
                 start_idle_timer()
                 continue
@@ -1138,9 +1138,9 @@ def run_cai_cli(
                 if exec_mode == "external":
                     console.print(
                         build_cai_markup_line(
-                            "[#9aa0a6]Parallel mode is active (external terminals). "
-                            "Use [/][bold #00ff9d]/parallel run[/bold #00ff9d][#9aa0a6] to launch workers, "
-                            "[/][bold #00ff9d]/parallel clear[/bold #00ff9d][#9aa0a6] to exit parallel mode.[/]"
+            "[#9aa0a6]Параллельный режим активен (внешние терминалы). "
+            "Используйте [/][bold #00ff9d]/parallel run[/bold #00ff9d][#9aa0a6] для запуска воркеров, "
+            "[/][bold #00ff9d]/parallel clear[/bold #00ff9d][#9aa0a6] для выхода из параллельного режима.[/]"
                         )
                     )
                     continue
@@ -1251,7 +1251,7 @@ def run_cai_cli(
             if is_pentestperf_available() and _setup.ctf_init == 0 and force_until_flag:
                 found_flag, flag = check_flag(str(history_context), _setup.ctf_global)
                 if found_flag:
-                    console.print(Text(f"Correct flag submitted: {flag}! Stopping CTF.", style="bold green"))
+                    console.print(Text(f"Верный флаг отправлен: {flag}! Остановка CTF.", style="bold green"))
                     _setup.messages_ctf = ""
                     _setup.ctf_init = 1
                     if _setup.ctf_global:
@@ -1259,7 +1259,7 @@ def run_cai_cli(
                     os.environ["CTF_FLAG_FOUND"] = str(flag)
                     return
                 else:
-                    console.print(Text("Incorrect flag! Try again.", style="bold red"))
+                    console.print(Text("Неверный флаг! Попробуйте снова.", style="bold red"))
 
             # Pass only the new user message — history lives in model.message_history
             # and get_response() already prepends it. Passing it here too caused
@@ -1281,16 +1281,16 @@ def run_cai_cli(
                 handoff = consume_agent_handoff()
                 if handoff:
                     reset_note = (
-                        "SYSTEM CONTEXT NOTE: The active agent changed. Continue the same engagement "
-                        "using the handoff below (compacted context + recent findings). "
-                        "Do not claim there is no prior history.\n\n"
+                        "SYSTEM CONTEXT NOTE: Активный агент изменился. Продолжайте то же взаимодействие "
+                        "используя передачу ниже (компактный контекст + недавние находки). "
+                        "Не утверждайте, что нет предыдущей истории.\n\n"
                         f"{handoff}\n\n"
                     )
                 else:
                     reset_note = (
-                        "SYSTEM CONTEXT NOTE: The previous task was interrupted or the active agent changed. "
-                        "Treat the user's current request as the active task and do not continue prior unfinished work "
-                        "unless the user explicitly asks to resume it.\n\n"
+                        "SYSTEM CONTEXT NOTE: Предыдущая задача была прервана или активный агент изменился. "
+                        "Рассматривайте текущий запрос пользователя как активную задачу и не продолжайте "
+                        "незавершённую предыдущую работу, пока пользователь явно не попросит возобновить.\n\n"
                     )
                 conversation_input = reset_note + conversation_input
                 os.environ["CAI_TASK_RESET_PENDING"] = "0"
@@ -1350,8 +1350,8 @@ def run_cai_cli(
                                 console=console,
                             ))
                         except Exception:
-                            continuation_prompt = "Continue working on the task based on your previous findings."
-                            console.print(f"\n[dim white]Auto-continuing with:[/dim white] {continuation_prompt}")
+                            continuation_prompt = "Продолжайте работу над задачей на основе предыдущих результатов."
+                            console.print(f"\n[dim white]Авто-продолжение с:[/dim white] {continuation_prompt}")
                         from cai.repl.commands.queue import add_to_queue
                         add_to_queue(continuation_prompt)
                         auto_run_queue = True
@@ -1464,7 +1464,7 @@ def _run_streamed(agent, conversation_input, console, force_until_flag, ctf_glob
                         agent.model.add_to_message_history({
                             "role": "tool",
                             "tool_call_id": call_id,
-                            "content": "Tool execution interrupted",
+                            "content": "Выполнение инструмента прервано",
                         })
             except Exception:
                 pass
@@ -1500,7 +1500,7 @@ def _run_streamed(agent, conversation_input, console, force_until_flag, ctf_glob
             logger.error(f"Error occurred during streaming: {str(e)}", exc_info=True)
             if _get_config().debug == 2:
                 import traceback
-                print(f"\n[Error occurred during streaming: {str(e)}]\nLocation: {traceback.format_exc()}")
+                print(f"\n[Ошибка во время стриминга: {str(e)}]\nМестоположение: {traceback.format_exc()}")
             return None
 
     try:
@@ -1573,7 +1573,7 @@ def _run_non_streamed(agent, conversation_input, console, force_until_flag, ctf_
                 # Clean retry: re-send the SAME input — don't inject "continue"
                 # into message history as it pollutes context [F]
             else:
-                print("Max retries reached")
+                print("Достигнут максимум повторных попыток")
                 raise
         except MaxTurnsExceeded as e:
             if force_until_flag and ctf_global:
@@ -1640,7 +1640,7 @@ def _run_simple_parallel(agent, conversation_input, parallel_count, last_agent_t
             logger = logging.getLogger(__name__)
             logger.error(f"Error in instance {instance_number}: {str(e)}", exc_info=True)
             if _get_config().debug == 2:
-                console.print(f"[bold red]Error in instance {instance_number}: {str(e)}[/bold red]")
+                console.print(f"[bold red]Ошибка в экземпляре {instance_number}: {str(e)}[/bold red]")
             return (instance_number, None)
 
     async def process_all():
@@ -1668,7 +1668,7 @@ def _run_simple_parallel(agent, conversation_input, parallel_count, last_agent_t
 # ---------------------------------------------------------------------------
 
 def _run_parallel_turn(agent, user_input, console, configs, instances, last_agent_type, _update_fn):
-    """Execute one turn with all configured parallel agents."""
+    """Выполнить один ход со всеми настроенными параллельными агентами."""
     from cai.agents import get_available_agents, get_agent_by_name
     from cai.sdk.agents.parallel_isolation import PARALLEL_ISOLATION
     from cai.sdk.agents.simple_agent_manager import AGENT_MANAGER
@@ -1681,8 +1681,8 @@ def _run_parallel_turn(agent, user_input, console, configs, instances, last_agen
     if os.environ.get("CAI_PARALLEL_MODE_HINT_SHOWN") != "1":
         console.print(
             build_cai_markup_line(
-                "[#9aa0a6]Parallel mode is running in logical mode (single main terminal). "
-                "Set [/][bold #00ff9d]CAI_PARALLEL_EXEC_MODE=external[/bold #00ff9d][#9aa0a6] to launch separate system terminals.[/]"
+                "[#9aa0a6]Параллельный режим работает в логическом режиме (один основной терминал). "
+                "Установите [/][bold #00ff9d]CAI_PARALLEL_EXEC_MODE=external[/bold #00ff9d][#9aa0a6] для запуска отдельных системных терминалов.[/]"
             )
         )
         os.environ["CAI_PARALLEL_MODE_HINT_SHOWN"] = "1"
@@ -1824,7 +1824,7 @@ def _run_parallel_turn(agent, user_input, console, configs, instances, last_agen
             logger = logging.getLogger(__name__)
             logger.error(f"Error in {config.agent_name}: {str(e)}", exc_info=True)
             if _get_config().debug == 2:
-                console.print(f"[bold red]Error in {config.agent_name}: {str(e)}[/bold red]")
+                console.print(f"[bold red]Ошибка в {config.agent_name}: {str(e)}[/bold red]")
             return (config, None)
 
     async def run_all():
@@ -1845,7 +1845,7 @@ def _run_parallel_turn(agent, user_input, console, configs, instances, last_agen
     if len(launched_preview) > 100:
         launched_preview = launched_preview[:97] + "..."
     wait_msg = build_startup_hint_renderable(
-        f"Launched agents {launched_preview} in parallel. Waiting for responses..."
+        f"Запущены агенты {launched_preview} параллельно. Ожидание ответов..."
     )
 
     results = []
@@ -1890,7 +1890,7 @@ def _run_parallel_turn(agent, user_input, console, configs, instances, last_agen
     if not results:
         console.print(
             build_cai_markup_line(
-                "[#9aa0a6]Parallel execution finished with no successful outputs.[/]"
+                "[#9aa0a6]Параллельное выполнение завершено без успешных результатов.[/]"
             )
         )
         return
@@ -1901,7 +1901,7 @@ def _run_parallel_turn(agent, user_input, console, configs, instances, last_agen
 
     for row_i, (config, result) in enumerate(results):
         row_fg = _parallel_summary_row_fg(row_i)
-        prompt_src = "preset" if config.prompt else "main input"
+        prompt_src = "настроенный" if config.prompt else "основной ввод"
         model_name = _resolve_parallel_model_name(config.model)
         final_output = getattr(result, "final_output", "")
         if final_output is None:
@@ -1915,9 +1915,9 @@ def _run_parallel_turn(agent, user_input, console, configs, instances, last_agen
                 preview_clean, preview_trunc, row_fg=row_fg
             )
         else:
-            preview_renderable = Text("(empty output)", style=row_fg)
+            console.print(Text("(пустой вывод)", style=row_fg))
         agent_name = _sync_parallel_display_name(config, configs, get_available_agents)
-        status_text = Text("ok", style=f"bold {_PARALLEL_SUMMARY_GREEN}")
+        status_text = Text("ок", style=f"bold {_PARALLEL_SUMMARY_GREEN}")
         summary_table.add_row(
             agent_name,
             Text(model_name, style=row_fg),
@@ -1931,8 +1931,8 @@ def _run_parallel_turn(agent, user_input, console, configs, instances, last_agen
     console.print(summary_table)
     console.print(
         build_cai_markup_line(
-            f"[{_PARALLEL_SUMMARY_MUTED}][italic]All parallel agents completed. "
-            "Use /parallel merge to consolidate histories.[/italic][/]"
+            f"[{_PARALLEL_SUMMARY_MUTED}][italic]Все параллельные агенты завершили работу. "
+            "Используйте /parallel merge для объединения историй.[/italic][/"
         )
     )
 
@@ -1956,14 +1956,14 @@ def _sync_parallel_display_name(config, configs, get_available_agents_fn):
 
 
 def _detect_external_terminal_backend() -> tuple[str | None, str]:
-    """Return (backend, human_hint) for external terminal execution."""
+    """Вернуть (бэкенд, подсказка_для_человека) для внешнего выполнения терминала."""
     is_wsl = "microsoft" in platform.release().lower() or bool(os.getenv("WSL_DISTRO_NAME"))
     system = platform.system().lower()
 
     if system == "darwin":
         if shutil.which("osascript"):
             return "osascript", "macOS Terminal (via osascript)"
-        return None, "Install/enable AppleScript CLI (osascript)"
+        return None, "Установите/включите AppleScript CLI (osascript)"
 
     # Linux / WSL
     for candidate in ("gnome-terminal", "konsole", "xfce4-terminal", "xterm"):
@@ -1971,12 +1971,12 @@ def _detect_external_terminal_backend() -> tuple[str | None, str]:
             return candidate, candidate
 
     if is_wsl:
-        return None, "Install one terminal launcher inside WSL/X11 (e.g. xterm)"
-    return None, "Install one of: gnome-terminal, konsole, xfce4-terminal, xterm"
+        return None, "Установите один запускатель терминалов внутри WSL/X11 (например, xterm)"
+    return None, "Установите один из: gnome-terminal, konsole, xfce4-terminal, xterm"
 
 
 def _spawn_external_worker_terminal(backend: str, title: str, command: str) -> bool:
-    """Spawn worker terminal window/tab for one agent."""
+    """Запустить окно/вкладку терминала воркера для одного агента."""
     try:
         if backend == "gnome-terminal":
             subprocess.Popen(
@@ -1987,7 +1987,7 @@ def _spawn_external_worker_terminal(backend: str, title: str, command: str) -> b
                     "--",
                     "bash",
                     "-lc",
-                    f"{command}; echo; echo '[CAI] Worker finished.'; read -r -p 'Press Enter to close...'",
+                    f"{command}; echo; echo '[CAI] Воркер завершил работу.'; read -r -p 'Нажмите Enter для закрытия...'",
                 ],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
@@ -2003,7 +2003,7 @@ def _spawn_external_worker_terminal(backend: str, title: str, command: str) -> b
                     "-e",
                     "bash",
                     "-lc",
-                    f"{command}; echo; echo '[CAI] Worker finished.'; read -r -p 'Press Enter to close...'",
+                    f"{command}; echo; echo '[CAI] Воркер завершил работу.'; read -r -p 'Нажмите Enter для закрытия...'",
                 ],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
@@ -2042,7 +2042,7 @@ def _spawn_external_worker_terminal(backend: str, title: str, command: str) -> b
         if backend == "osascript":
             osa_cmd = (
                 'tell application "Terminal" to do script '
-                + json.dumps(f"{command}; echo; echo '[CAI] Worker finished.'")
+                + json.dumps(f"{command}; echo; echo '[CAI] Воркер завершил работу.'")
             )
             subprocess.Popen(
                 ["osascript", "-e", osa_cmd],
@@ -2056,7 +2056,7 @@ def _spawn_external_worker_terminal(backend: str, title: str, command: str) -> b
 
 
 def _run_parallel_turn_external(console, configs, user_input: str) -> None:
-    """Run parallel workers in external system terminals and summarize in main."""
+    """Запустить параллельных воркеров во внешних системных терминалах и вывести сводку в основном."""
     from cai.util.pricing import COST_TRACKER
     from cai.sdk.agents.parallel_isolation import PARALLEL_ISOLATION
     from cai.sdk.agents.simple_agent_manager import AGENT_MANAGER
@@ -2066,14 +2066,14 @@ def _run_parallel_turn_external(console, configs, user_input: str) -> None:
     if not backend:
         console.print(
             build_cai_markup_line(
-                "[#9aa0a6]External parallel mode requested, but no supported terminal launcher was found.[/]"
+                "[#9aa0a6]Запрошен параллельный режим через внешние терминалы, но не найден поддерживаемый запускатель терминалов.[/]"
             )
         )
         console.print(build_cai_markup_line(f"[#9aa0a6]{backend_hint}[/]"))
         console.print(
             build_cai_markup_line(
-                "[#9aa0a6]Falling back to logical mode. "
-                "Note: these are system-level requirements and are not installed via [/]"
+                "[#9aa0a6]Возврат в логический режим. "
+                "Обратите внимание: это системные требования и они не устанавливаются через [/]"
                 "[bold #00ff9d]pyproject.toml[/bold #00ff9d][#9aa0a6].[/]"
             )
         )
@@ -2104,18 +2104,18 @@ def _run_parallel_turn_external(console, configs, user_input: str) -> None:
 
     console.print(
         build_cai_markup_line(
-            "[dim]External parallel mode uses system terminal launchers "
-            f"({backend_hint}); this is not managed by pyproject dependencies.[/dim]"
+            "[dim]Параллельный режим через внешние терминалы использует системные запускатели "
+            f"({backend_hint}); это не управляется зависимостями pyproject.[/dim]"
         )
     )
     _pe_timeout = float(os.getenv("CAI_PARALLEL_EXTERNAL_TIMEOUT", "1800"))
     console.print(
         build_cai_markup_line(
-            "[dim]External parallel: the main CLI waits up to "
-            f"{int(_pe_timeout)}s for each worker result file "
-            "(CAI_PARALLEL_EXTERNAL_TIMEOUT). Workers may keep running in their terminals after that. "
-            "The cost footer sums metrics from workers that finished in time—it is not a single "
-            "agent's token limit.[/dim]"
+            "[dim]Параллельный режим через внешние терминалы: основной CLI ждёт до "
+            f"{int(_pe_timeout)}с для каждого файла результата воркера "
+            "(CAI_PARALLEL_EXTERNAL_TIMEOUT). Воркеры могут продолжать работу в своих терминалах после этого. "
+            "Стоимость в подвале суммирует метрики от воркеров, завершившихся вовремя — это не "
+            "лимит токенов одного агента.[/dim]"
         )
     )
 
@@ -2132,8 +2132,8 @@ def _run_parallel_turn_external(console, configs, user_input: str) -> None:
                 json.dump(_mcp_spec, bf, ensure_ascii=False)
             console.print(
                 build_cai_markup_line(
-                    "[dim]Active MCP servers and /mcp associations are passed to each "
-                    "external worker (re-connected in that process).[/dim]"
+                    "[dim]Активные MCP-серверы и ассоциации /mcp передаются каждому "
+                    "внешнему воркеру (переподключаются в том процессе).[/dim]"
                 )
             )
     except Exception:
@@ -2171,29 +2171,29 @@ def _run_parallel_turn_external(console, configs, user_input: str) -> None:
                     "agent_id": agent_id,
                     "agent_name": agent_name,
                     "model": model,
-                    "prompt_source": "preset" if config.prompt else "main input",
+                    "prompt_source": "настроенный" if config.prompt else "основной ввод",
                     "result_file": result_path,
                 }
             )
         else:
             console.print(
                 build_cai_markup_line(
-                    f"[red]Failed to open terminal for {agent_id} ({agent_name}).[/red]"
+                    f"[red]Не удалось открыть терминал для {agent_id} ({agent_name}).[/red]"
                 )
             )
 
     if not worker_specs:
         console.print(
             build_cai_markup_line(
-                "[red]No external worker terminals could be launched.[/red]"
+                "[red]Не удалось запустить ни одного внешнего терминала для воркеров.[/red]"
             )
         )
         return
 
     launched_preview = ", ".join([w["agent_id"] for w in worker_specs])
     wait_msg = build_startup_hint_renderable(
-        f"Launched agents {launched_preview} in parallel (external terminals). "
-        "Waiting for responses..."
+        f"Запущены агенты {launched_preview} параллельно (внешние терминалы). "
+        "Ожидание ответов..."
     )
 
     timeout_s = float(os.getenv("CAI_PARALLEL_EXTERNAL_TIMEOUT", "1800"))
@@ -2234,7 +2234,7 @@ def _run_parallel_turn_external(console, configs, user_input: str) -> None:
         row_fg = _parallel_summary_row_fg(row_i)
         agent_id = spec["agent_id"]
         status = "timeout"
-        preview = "(no result file yet)"
+        preview = "(файл результата ещё не получен)"
         preview_renderable = Text(preview, style=row_fg)
         if agent_id in payload_by_id:
             _spec, payload = payload_by_id[agent_id]
@@ -2253,7 +2253,7 @@ def _run_parallel_turn_external(console, configs, user_input: str) -> None:
                 if len(one_line) > 120:
                     one_line = one_line[:117] + "\u2026"
                 preview_renderable = _parallel_preview_text_with_inline_bold(
-                    one_line or "(empty)", row_fg
+                    one_line or "(пусто)", row_fg
                 )
             usage = payload.get("usage", {}) or {}
             total_in_tokens += int(usage.get("input_tokens", 0) or 0)
@@ -2333,28 +2333,28 @@ def _run_parallel_turn_external(console, configs, user_input: str) -> None:
     if pending:
         console.print(
             build_cai_markup_line(
-                f"[#9aa0a6]{len(pending)} worker(s) timed out after {int(timeout_s)}s. "
-                "Results may still complete in external terminals. "
-                "Increase [/][bold #00ff9d]CAI_PARALLEL_EXTERNAL_TIMEOUT[/bold #00ff9d][#9aa0a6] if needed.[/]"
+                f"[{_PARALLEL_SUMMARY_MUTED}]{len(pending)} воркер(ов) превысили лимит времени ({int(timeout_s)}с). "
+                "Результаты могут всё ещё завершиться во внешних терминалах. "
+                "Увеличьте [/][bold #00ff9d]CAI_PARALLEL_EXTERNAL_TIMEOUT[/bold #00ff9d][#9aa0a6] при необходимости.[/]"
             )
         )
     console.print(
         build_cai_markup_line(
-            f"[{_PARALLEL_SUMMARY_MUTED}][italic]External parallel run finished.[/italic][/]"
+            f"[{_PARALLEL_SUMMARY_MUTED}][italic]Внешнее параллельное выполнение завершено.[/italic][/]"
         )
     )
     console.print(
         build_cai_markup_line(
-            f"[{_PARALLEL_SUMMARY_MUTED}]Next steps: "
-            f"[/][bold #00ff9d]/merge[/bold #00ff9d][{_PARALLEL_SUMMARY_MUTED}] to consolidate results into the main context "
-            f"and exit parallel mode automatically.[/]"
+            f"[{_PARALLEL_SUMMARY_MUTED}]Следующие шаги: "
+            f"[/][bold #00ff9d]/merge[/bold #00ff9d][{_PARALLEL_SUMMARY_MUTED}] для объединения результатов в основной контекст "
+            f"и автоматического выхода из параллельного режима.[/]"
         )
     )
     console.print(
         build_cai_markup_line(
-            f"[{_PARALLEL_SUMMARY_MUTED}]Or use [/][bold #00ff9d]/parallel clear[/bold #00ff9d]"
-            f"[{_PARALLEL_SUMMARY_MUTED}] to leave parallel mode without merging—parallel agent histories are not "
-            f"folded into the main conversation.[/]"
+            f"[{_PARALLEL_SUMMARY_MUTED}]Или используйте [/][bold #00ff9d]/parallel clear[/bold #00ff9d]"
+            f"[{_PARALLEL_SUMMARY_MUTED}] для выхода из параллельного режима без объединения — истории параллельных агентов не "
+            f"сворачиваются в основную беседу.[/]"
         )
     )
 
@@ -2365,7 +2365,7 @@ def _run_parallel_turn_external(console, configs, user_input: str) -> None:
 
 def _handle_exit_interrupt(agent, console, session_logger, idle_time, idle_start_time,
                             force_until_flag, parallel_configs, parallel_instances):
-    """Handle Ctrl-C at the input prompt (outer loop)."""
+    """Обработать Ctrl-C на строке ввода (внешний цикл)."""
     try:
         from cai.util import cleanup_all_streaming_resources
 
@@ -2436,7 +2436,7 @@ def _handle_exit_interrupt(agent, console, session_logger, idle_time, idle_start
                     agent.model.add_to_message_history({
                         "role": "tool",
                         "tool_call_id": call_id,
-                        "content": "Operation interrupted by user (Keyboard Interrupt during shutdown)",
+                        "content": "Операция прервана пользователем (Keyboard Interrupt во время завершения)",
                     })
             try:
                 from cai.util import sanitize_message_list as fix
@@ -2469,20 +2469,20 @@ def _handle_exit_interrupt(agent, console, session_logger, idle_time, idle_start
 
         _body = "dim white"
         text_content = [
-            Text(f"Session Time: {metrics['session_time']}", style=_body),
+            Text(f"Время сессии: {metrics['session_time']}", style=_body),
             Text(
-                f"Active Time: {metrics['active_time']} ({metrics['llm_percentage']}%)",
+                f"Активное время: {metrics['active_time']} ({metrics['llm_percentage']}%)",
                 style=_body,
             ),
-            Text(f"Idle Time: {metrics['idle_time']}", style=_body),
+            Text(f"Время простоя: {metrics['idle_time']}", style=_body),
         ]
         cost_line = Text()
-        cost_line.append("Total Session Cost:", style=_body)
+        cost_line.append("Общая стоимость сессии:", style=_body)
         cost_line.append(" ", style=_body)
         cost_line.append(metrics["session_cost"], style=f"bold {CAI_GREEN}")
         text_content.append(cost_line)
         if logging_path:
-            text_content.append(Text("Log available at:", style=_body))
+            text_content.append(Text("Лог доступен по адресу:", style=_body))
             text_content.append(Text(logging_path, style=_body))
 
         # Suppress atexit log_final_cost — cost is already inside the session panel.
@@ -2517,11 +2517,11 @@ def _handle_exit_interrupt(agent, console, session_logger, idle_time, idle_start
         if is_pentestperf_available() and os.getenv("CTF_NAME", None):
             if _setup.ctf_global:
                 try:
-                    print(color("\nStopping CTF container...", fg="yellow"))
+                    print(color("\nОстановка контейнера CTF...", fg="yellow"))
                     _setup.ctf_global.stop_ctf()
-                    print(color("CTF container stopped successfully.", fg="green"))
+                    print(color("Контейнер CTF успешно остановлен.", fg="green"))
                 except Exception as e:
-                    print(color(f"Warning: Failed to stop CTF container: {e}", fg="yellow"))
+                    print(color(f"Предупреждение: Не удалось остановить контейнер CTF: {e}", fg="yellow"))
 
         try:
             from cai.util.streaming import restore_terminal_state
@@ -2543,7 +2543,7 @@ def _handle_exit_interrupt(agent, console, session_logger, idle_time, idle_start
 
 
 def _handle_inner_interrupt(agent, console):
-    """Handle Ctrl-C during agent execution (inner loop)."""
+    """Обработать Ctrl-C во время выполнения агента (внутренний цикл)."""
     os.environ["CAI_TASK_RESET_PENDING"] = "1"
     try:
         from cai.util import cleanup_all_streaming_resources
@@ -2569,7 +2569,7 @@ def _handle_inner_interrupt(agent, console):
             agent.model.add_to_message_history({
                 "role": "tool",
                 "tool_call_id": cid,
-                "content": "Tool execution interrupted",
+                "content": "Выполнение инструмента прервано",
             })
         if orphaned:
             try:
@@ -2598,7 +2598,7 @@ def _handle_inner_interrupt(agent, console):
 
 
 def _handle_loop_exception(e, agent, console, force_until_flag):
-    """Handle non-interrupt exceptions in the main loop."""
+    """Обработать не-interrupt исключения в основном цикле."""
     import sys
     import traceback
 
@@ -2614,15 +2614,15 @@ def _handle_loop_exception(e, agent, console, force_until_flag):
 
     if isinstance(e, UserCancelledCommand):
         console.print(
-            f"[yellow]Command cancelled.[/yellow] [dim]Awaiting new instructions.[/dim]\n"
+            f"[yellow]Команда отменена.[/yellow] [dim]Ожидание новых инструкций.[/dim]\n"
         )
         return
 
     if isinstance(e, MaxTurnsExceeded):
         max_turns_val = os.getenv("CAI_MAX_TURNS", "unlimited")
-        console.print(f"[yellow]Maximum conversation turns reached ({max_turns_val} turns)[/yellow]")
-        console.print("[dim]The agent has reached the configured turn limit for this conversation.[/dim]")
-        console.print("[dim white]You can continue with a new conversation or adjust CAI_MAX_TURNS if needed.[/dim white]\n")
+        console.print(f"[yellow]Достигнут максимальный лимит ходов беседы ({max_turns_val} ходов)[/yellow]")
+        console.print("[dim]Агент достиг настроенного лимита ходов для этой беседы.[/dim]")
+        console.print("[dim white]Вы можете продолжить с новой беседой или изменить CAI_MAX_TURNS при необходимости.[/dim white]\n")
         return
 
     cfg = _get_config()
@@ -2650,16 +2650,16 @@ def _handle_loop_exception(e, agent, console, force_until_flag):
         body = Text.assemble(
             (f"[bold {CAI_GREEN}]CAI[/bold {CAI_GREEN}]\n\n", ""),
             (
-                f"The provider returned [bold]{n}[/bold] consecutive empty responses "
-                "(no assistant text and no tool calls). This is usually a transient gateway issue.\n\n",
+                f"Провайдер вернул [bold]{n}[/bold] последовательных пустых ответов "
+                "(без текста ассистента и без вызовов инструментов). Обычно это временная проблема шлюза.\n\n",
                 GREY_TEXT,
             ),
-            ("Try again in a moment, or switch model if it keeps happening.", YELLOW_WARN),
+            ("Повторите попытку через некоторое время или смените модель, если проблема сохраняется.", YELLOW_WARN),
         )
         console.print(
             Panel.fit(
                 body,
-                title=Text("Provider error", style=f"bold {YELLOW_WARN}"),
+                title=Text("Ошибка провайдера", style=f"bold {YELLOW_WARN}"),
                 border_style=CAI_GREEN,
                 style=f"on {FINAL_PANEL_BG}",
             )
@@ -2699,23 +2699,23 @@ def _handle_loop_exception(e, agent, console, force_until_flag):
                 "LLM context overflow (TPM budget %s, projected %s): %s",
                 tpm_limit, projected, e,
             )
-            panel_title = "Gateway rate budget exceeded"
+            panel_title = "Превышен лимит бюджета шлюза"
             projected_str = f"{projected:,}" if isinstance(projected, int) else "?"
             tpm_str = f"{tpm_limit:,}" if isinstance(tpm_limit, int) else "?"
             body_text = Text.assemble(
                 (f"[bold {CAI_GREEN}]CAI[/bold {CAI_GREEN}]\n\n", ""),
                 (
-                    f"This request projects [bold]{projected_str}[/bold] tokens, which alone "
-                    f"exceeds the gateway's per-minute budget of [bold]{tpm_str}[/bold] "
-                    "tokens. No amount of waiting will let it through — the body itself must "
-                    "shrink before retrying.\n\n",
+                    f"Этот запрос прогнозирует [bold]{projected_str}[/bold] токенов, что само по себе "
+                    f"превышает минутный бюджет шлюза в [bold]{tpm_str}[/bold] "
+                    "токенов. Никакое ожидание не позволит его пропустить — тело запроса должно "
+                    "уменьшиться перед повторной попыткой.\n\n",
                     GREY_TEXT,
                 ),
                 (
-                    "Use [bold]/compact[/bold] to summarize the conversation, or [bold]/flush[/bold] to "
-                    "reset history. Tool outputs that returned large dumps (filesystem listings, packet "
-                    "captures, full binaries) are the usual culprit — pipe to ``head`` / ``wc -l`` or "
-                    "save to a file next time.",
+                    "Используйте [bold]/compact[/bold] для суммирования беседы или [bold]/flush[/bold] для "
+                    "сброса истории. Выводы инструментов, вернувшие большие дампы (листинги файловой системы, "
+                    "захваты пакетов, полные бинарные файлы) — обычные виновники — направьте в ``head`` / ``wc -l`` или "
+                    "сохраните в файл в следующий раз.",
                     YELLOW_WARN,
                 ),
             )
@@ -2729,20 +2729,20 @@ def _handle_loop_exception(e, agent, console, force_until_flag):
                 if isinstance(body_bytes, int) else "unknown size"
             )
             log.warning("LLM context overflow (HTTP 413, %s): %s", body_kb, e)
-            panel_title = "Request body too large"
+            panel_title = "Тело запроса слишком велико"
             body_text = Text.assemble(
                 (f"[bold {CAI_GREEN}]CAI[/bold {CAI_GREEN}]\n\n", ""),
                 (
-                    f"The request body ({body_kb}, {msg_count if msg_count is not None else '?'} messages) "
-                    "exceeded the model gateway's POST size limit (HTTP 413). This usually means a tool "
-                    "returned a very large output (binary dump, full filesystem listing, packet capture, "
-                    "etc.) that ballooned the context.\n\n",
+                    f"Тело запроса ({body_kb}, {msg_count if msg_count is not None else '?'} сообщений) "
+                    "превысило лимит размера POST шлюза модели (HTTP 413). Обычно это означает, что инструмент "
+                    "вернул очень большой вывод (дамп бинарного файла, полный листинг файловой системы, захват пакетов "
+                    "и т.д.), который раздул контекст.\n\n",
                     GREY_TEXT,
                 ),
                 (
-                    "Use [bold]/compact[/bold] to summarize the conversation, or [bold]/flush[/bold] to "
-                    "reset history before retrying. For one-off heavy commands, pipe to ``head`` / ``wc -l`` "
-                    "or save the output to a file instead of returning it inline.",
+                    "Используйте [bold]/compact[/bold] для суммирования беседы или [bold]/flush[/bold] для "
+                    "сброса истории перед повторной попыткой. Для тяжёлых разовых команд направьте вывод в ``head`` / ``wc -l`` "
+                    "или сохраните в файл вместо возврата инлайн.",
                     YELLOW_WARN,
                 ),
             )
@@ -2772,17 +2772,17 @@ def _handle_loop_exception(e, agent, console, force_until_flag):
         else:
             # User-facing copy only — no exception text or URLs (see CAI_DEBUG=2 for engineers).
             console.print(
-                "\n[bold yellow]The model service and its proxy are under heavy load right now.[/bold yellow]"
+                "\n[bold yellow]Сервис моделей и его прокси сейчас сильно нагружены.[/bold yellow]"
             )
             console.print(
-                "[dim]In busy periods, access with your current ALIAS_API_KEY plan is not prioritized, "
-                "which makes complex requests more likely to fail or queue behind higher tiers. "
-                "We recommend waiting a few minutes before trying again so the gateway may clear, "
-                "or upgrading your plan if you need more consistent capacity during peak demand.[/dim]"
+                "[dim]В периоды высокой нагрузки доступ с вашим текущим планом ALIAS_API_KEY не приоритизируется, "
+                "что делает сложные запросы более склонными к ошибкам или постановке в очередь за более высокими тирами. "
+                "Рекомендуем подождать несколько минут перед повторной попыткой, чтобы шлюз мог разгрузиться, "
+                "или обновить план, если вам нужна более стабильная ёмкость в часы пиковой нагрузки.[/dim]"
             )
             console.print(
-                "[dim]Error details are not shown in the console; set CAI_DEBUG=2 only if you need a "
-                "traceback for support.[/dim]\n"
+                "[dim]Подробности ошибки не отображаются в консоли; установите CAI_DEBUG=2 только если вам нужна "
+                "трассировка для поддержки.[/dim]\n"
             )
         return
 
@@ -2790,11 +2790,11 @@ def _handle_loop_exception(e, agent, console, force_until_flag):
         logging.getLogger(__name__).error("Price limit: %s", e, exc_info=True)
         console.print(f"[bold red]Error: {str(e)}[/bold red]")
         if force_until_flag:
-            console.print("[yellow]Price limit reached. Exiting due to force_until_flag=True.[/yellow]")
+            console.print("[yellow]Лимит цен достигнут. Выход из-за force_until_flag=True.[/yellow]")
             raise SystemExit(0)
         console.print(
-            "[yellow]You must increase the limit using: "
-            "/env set CAI_PRICE_LIMIT <new_value>[/yellow]"
+            "[yellow]Необходимо увеличить лимит: "
+            "/env set CAI_PRICE_LIMIT <новое_значение>[/yellow]"
         )
         return
 
@@ -2814,7 +2814,7 @@ def _handle_loop_exception(e, agent, console, force_until_flag):
         or "token limit" in str(e).lower()
     ):
         if force_until_flag:
-            print("Automatically running /compact to summarize the conversation...\n")
+            print("Автоматическое выполнение /compact для суммирования беседы...\n")
             from cai.repl.commands.base import handle_command as commands_handle_command
 
             commands_handle_command("/compact", ["--model", _get_config().model])
@@ -2855,7 +2855,7 @@ def _handle_loop_exception(e, agent, console, force_until_flag):
                         "Recovery agent run failed: %s", run_exc
                     )
                     console.print(
-                        f"[yellow]Recovery agent run stopped with an error: {run_exc}[/yellow]"
+                        f"[yellow]Агент восстановления остановлен с ошибкой: {run_exc}[/yellow]"
                     )
 
             try_recover_with_model(
@@ -2877,7 +2877,7 @@ def _handle_loop_exception(e, agent, console, force_until_flag):
     else:
         logger = logging.getLogger(__name__)
         logger.error(f"Error in main loop: {str(e)}", exc_info=True)
-        console.print(f"[yellow]Error occurred: {type(e).__name__}: {str(e)[:100]}[/yellow]")
+        console.print(f"[yellow]Произошла ошибка: {type(e).__name__}: {str(e)[:100]}[/yellow]")
 
 
 # ---------------------------------------------------------------------------
@@ -2886,30 +2886,30 @@ def _handle_loop_exception(e, agent, console, force_until_flag):
 
 def _print_guardrail_warning(e):
     guardrail_name = e.guardrail_result.guardrail.get_name()
-    reason = e.guardrail_result.output.output_info.get("reason", "Security policy violation")
-    print(f"\n\033[91mSECURITY GUARDRAIL TRIGGERED\033[0m")
-    print(f"\033[91mGuardrail: {guardrail_name}\033[0m")
-    print(f"\033[91mReason: {reason}\033[0m")
-    print(f"\033[93mThe agent's output was blocked for security reasons.\033[0m")
-    print(f"\033[96mYou can continue the conversation with a different request.\033[0m\n")
+    reason = e.guardrail_result.output.output_info.get("reason", "Нарушение политики безопасности")
+    print(f"\n\033[91mСРАБОТАЛ БЕЗОПАСНОСТНЫЙ БАРЬЕР\033[0m")
+    print(f"\033[91mБарьер: {guardrail_name}\033[0m")
+    print(f"\033[91mПричина: {reason}\033[0m")
+    print(f"\033[93mВывод агента заблокирован по соображениям безопасности.\033[0m")
+    print(f"\033[96mВы можете продолжить беседу с другим запросом.\033[0m\n")
 
 
 def _print_input_guardrail_warning(e):
-    reason = "Potential security threat detected in input"
+    reason = "Обнаружена потенциальная угроза безопасности во вводе"
     if hasattr(e, 'guardrail_result') and e.guardrail_result:
         if hasattr(e.guardrail_result, 'output') and e.guardrail_result.output:
             reason = e.guardrail_result.output.output_info.get("reason", reason)
-    print(f"\n\033[91mINPUT SECURITY GUARDRAIL TRIGGERED\033[0m")
-    print(f"\033[91mReason: {reason}\033[0m")
-    print(f"\033[93mYour input was blocked for security reasons.\033[0m")
+    print(f"\n\033[91mСРАБОТАЛ БЕЗОПАСНОСТНЫЙ БАРЬЕР ВВОДА\033[0m")
+    print(f"\033[91mПричина: {reason}\033[0m")
+    print(f"\033[93mВаш ввод заблокирован по соображениям безопасности.\033[0m")
     if "base64" in reason.lower() or "pattern" in reason.lower():
-        print(f"\n\033[96mThis may be due to malicious content in the conversation history.\033[0m")
-        print(f"\033[96mOptions:\033[0m")
-        print(f"  1. Type \033[92m/clear\033[0m to clear the conversation history")
-        print(f"  2. Type \033[92m/env set CAI_GUARDRAILS false\033[0m to temporarily disable guardrails")
-        print(f"  3. Type \033[92m/exit\033[0m to exit CAI")
+        print(f"\n\033[96mЭто может быть вызвано вредоносным содержимым в истории беседы.\033[0m")
+        print(f"\033[96mВарианты:\033[0m")
+        print(f"  1. Введите \033[92m/clear\033[0m для очистки истории беседы")
+        print(f"  2. Введите \033[92m/env set CAI_GUARDRAILS false\033[0m для временного отключения барьеров")
+        print(f"  3. Введите \033[92m/exit\033[0m для выхода из CAI")
     else:
-        print(f"\033[96mPlease rephrase your request or try a different approach.\033[0m\n")
+        print(f"\033[96mПожалуйста, перефразируйте запрос или попробуйте другой подход.\033[0m\n")
 
 
 # ---------------------------------------------------------------------------

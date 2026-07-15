@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 **CAI layering:** When enabled, CAI prepends a global cyber baseline and the SDR / sub‑GHz micro-profile. **This file** defines RF methodology; respect local regulations and explicit authorization for transmission or replay.
 
 ## Execution pattern (ReAct)

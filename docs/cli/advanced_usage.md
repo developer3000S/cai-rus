@@ -1,146 +1,146 @@
-# Advanced Usage
+# Продвинутое использование
 
-This guide covers advanced features, automation, scripting, and power-user techniques for the CAI Command Line Interface.
-
----
-
-## Table of Contents
-
-1. [CLI Startup Flags](#cli-startup-flags)
-2. [Parallel Execution](#parallel-execution)
-3. [Queue System](#queue-system)
-4. [Automation & Scripting](#automation--scripting)
-5. [Memory Management](#memory-management)
-6. [Workspace & Virtualization](#workspace--virtualization)
-7. [CTF Workflows](#ctf-workflows)
-8. [Cost Management](#cost-management)
-9. [Configuration Management](#configuration-management)
-10. [Integration Patterns](#integration-patterns)
-11. [Troubleshooting](#troubleshooting)
+Это руководство охватывает продвинутые функции, автоматизацию, скриптинг и техники для продвинутых пользователей интерфейса командной строки CAI.
 
 ---
 
-## CLI Startup Flags
+## Содержание
 
-CAI provides powerful command-line flags for session management and autonomous operation.
+1. [Флаги запуска CLI](#флаги-запуска-cli)
+2. [Параллельное выполнение](#параллельное-выполнение)
+3. [Система очередей](#система-очередей)
+4. [Автоматизация и скриптинг](#автоматизация-и-скриптинг)
+5. [Управление памятью](#управление-памятью)
+6. [Рабочее пространство и виртуализация](#рабочее-пространство-и-виртуализация)
+7. [Рабочие процессы CTF](#рабочие-процессы-ctf)
+8. [Управление стоимостью](#управление-стоимостью)
+9. [Управление конфигурацией](#управление-конфигурацией)
+10. [Паттерны интеграции](#паттерны-интеграции)
+11. [Решение проблем](#решение-проблем)
 
-### Session Resume Flags
+---
 
-Resume previous sessions to continue where you left off:
+## Флаги запуска CLI
+
+CAI предоставляет мощные флаги командной строки для управления сессиями и автономной работы.
+
+### Флаги возобновления сессий
+
+Возобновление предыдущих сессий для продолжения с того места, где вы остановились:
 
 ```bash
-# Resume the last session
+# Возобновить последнюю сессию
 cai --resume
 
-# Resume with interactive session selector
+# Возобновить с интерактивным выбором сессии
 cai --resume list
 
-# Resume a specific session by ID
+# Возобновить конкретную сессию по ID
 cai --resume abc12345
 
-# Resume from a specific log file
+# Возобновить из конкретного файла журнала
 cai --resume /path/to/session.jsonl
 
-# Resume from custom logs directory
+# Возобновить из пользовательского каталога журналов
 cai --resume list --logpath ~/custom_logs/
 ```
 
-### Continue Mode Flag
+### Флаг режима продолжения
 
-Enable autonomous operation where the agent continues working without waiting for user input:
+Включение автономной работы, где агент продолжает работать без ожидания ввода от пользователя:
 
 ```bash
-# Start with continue mode
-cai --continue --prompt "perform security audit"
+# Запуск в режиме продолжения
+cai --continue --prompt "выполни аудит безопасности"
 
-# Short form
-cai -c --prompt "analyze vulnerabilities"
+# Сокращенная форма
+cai -c --prompt "проанализируй уязвимости"
 ```
 
-### Combining Resume and Continue
+### Комбинирование возобновления и продолжения
 
-The most powerful combination - resume a session AND continue autonomously:
+Самая мощная комбинация — возобновление сессии И автономное продолжение:
 
 ```bash
-# Resume last session and continue working
+# Возобновить последнюю сессию и продолжить работу
 cai --resume --continue
 
-# Resume specific session and continue
+# Возобновить конкретную сессию и продолжить
 cai --resume abc12345 --continue
 
-# Short form
+# Сокращенная форма
 cai --resume -c
 ```
 
-This is ideal for:
-- Resuming interrupted long-running tasks
-- Continuing security audits after a break
-- Picking up penetration tests where you left off
+Это идеально подходит для:
+- Возобновления прерванных долгосрочных задач
+- Продолжения аудитов безопасности после перерыва
+- Продолжения пентестов с того места, где вы остановились
 
-### Other Useful Flags
+### Другие полезные флаги
 
 ```bash
-# Start with initial prompt
-cai --prompt "your task here"
-cai -p "your task here"
+# Запуск с начальным промптом
+cai --prompt "ваша задача здесь"
+cai -p "ваша задача здесь"
 
-# Use specific agent type
+# Использование конкретного типа агента
 cai --agent redteam_agent
 cai -a bug_bounter_agent
 
-# Use specific model
+# Использование конкретной модели
 cai --model alias1
 cai -m gpt-4o
 
-# Load YAML configuration
+# Загрузка YAML конфигурации
 cai --yaml config.yaml
 
-# Check version
+# Проверка версии
 cai --version
 
-# Update CAI
+# Обновление CAI
 cai --update
 ```
 
-For detailed documentation on session resume, see [Session Resume](../session_resume.md).
-For continue mode details, see [Continue Mode](../continue_mode.md).
+Для подробной документации по возобновлению сессий смотрите [Возобновление сессий](../session_resume.md).
+Для подробностей о режиме продолжения смотрите [Режим продолжения](../continue_mode.md).
 
 ---
 
-## Parallel Execution
+## Параллельное выполнение
 
-Run multiple agents simultaneously to get different perspectives or distribute workload.
+Запуск нескольких агентов одновременно для получения различных перспектив или распределения нагрузки.
 
-### Basic Parallel Setup
+### Базовая настройка параллельного выполнения
 
-#### Method 1: Using Commands
+#### Способ 1: Использование команд
 
 ```bash
-# Launch CAI
+# Запуск CAI
 cai
 
-# Add agents to parallel configuration
+# Добавление агентов в параллельную конфигурацию
 CAI> /parallel add redteam_agent alias1
 CAI> /parallel add blueteam_agent alias1
 CAI> /parallel add bug_bounter_agent gpt-4o
 
-# List configured agents
+# Список настроенных агентов
 CAI> /parallel list
 
-# Execute on all agents
-CAI> /parallel run "analyze the security of target.com"
+# Выполнение на всех агентах
+CAI> /parallel run "проанализируй безопасность target.com"
 
-# Merge results
+# Объединение результатов
 CAI> /parallel merge
 ```
 
-#### Method 2: Using YAML Configuration
+#### Способ 2: Использование YAML конфигурации
 
-Create `agents.yaml`:
+Создайте `agents.yaml`:
 
 ```yaml
 metadata:
-  description: "Multi-perspective security analysis"
+  description: "Многопроспектный анализ безопасности"
   auto_run: true
 
 agents:
@@ -161,28 +161,28 @@ agents:
     model: alias1
 ```
 
-Launch with YAML:
+Запуск с YAML:
 
 ```bash
-cai --yaml agents.yaml --prompt "perform comprehensive security assessment of target.com"
+cai --yaml agents.yaml --prompt "выполни комплексную оценку безопасности target.com"
 ```
 
-#### Method 3: Using Environment Variable
+#### Способ 3: Использование переменной окружения
 
 ```bash
-# Set parallel count
+# Установка количества параллельных задач
 export CAI_PARALLEL=3
 export CAI_AGENT_TYPE=redteam_agent
 export CAI_MODEL=alias1
 
-cai --prompt "scan network 192.168.1.0/24"
+cai --prompt "просканируй сеть 192.168.1.0/24"
 ```
 
-### Advanced Parallel Patterns
+### Продвинутые паттерны параллельного выполнения
 
-#### Pattern 1: Distributed Reconnaissance
+#### Паттерн 1: Распределенная разведка
 
-Split reconnaissance across multiple agents:
+Разделение разведки между несколькими агентами:
 
 ```yaml
 # recon_team.yaml
@@ -190,47 +190,47 @@ agents:
   - name: subdomain_enum
     agent_type: redteam_agent
     model: alias1
-    initial_prompt: "Enumerate subdomains for A-M range"
+    initial_prompt: "Перечисли поддомены для диапазона A-M"
     
   - name: subdomain_enum2
     agent_type: redteam_agent
     model: alias1
-    initial_prompt: "Enumerate subdomains for N-Z range"
+    initial_prompt: "Перечисли поддомены для диапазона N-Z"
     
   - name: port_scanner
     agent_type: network_security_analyzer_agent
     model: alias1
-    initial_prompt: "Scan all discovered hosts"
+    initial_prompt: "Просканируй все обнаруженные хосты"
     
   - name: web_analyzer
     agent_type: bug_bounter_agent
     model: alias1
-    initial_prompt: "Analyze all web services found"
+    initial_prompt: "Проанализируй все найденные веб-сервисы"
 ```
 
 ```bash
 cai --yaml recon_team.yaml
 ```
 
-#### Pattern 2: Red vs Blue Analysis
+#### Паттерн 2: Анализ Красная vs Синяя команда
 
-Compare offensive and defensive perspectives:
+Сравнение наступательной и защитной перспектив:
 
 ```bash
-# Configure teams
+# Настройка команд
 CAI> /parallel add redteam_agent alias1
 CAI> /parallel add blueteam_agent alias1
 
-# Execute same analysis from different perspectives
-CAI> /parallel run "analyze the security posture of this web application"
+# Выполнение одного анализа с различных перспектив
+CAI> /parallel run "проанализируй защитную позицию этого веб-приложения"
 
-# Compare results
+# Сравнение результатов
 CAI> /parallel merge
 ```
 
-#### Pattern 3: Multi-Model Comparison
+#### Паттерн 3: Сравнение нескольких моделей
 
-Test different models on the same task:
+Тестирование различных моделей на одной задаче:
 
 ```yaml
 # model_comparison.yaml
@@ -248,143 +248,143 @@ agents:
     model: claude-3-5-sonnet-20241022
 ```
 
-### Managing Parallel Results
+### Управление результатами параллельного выполнения
 
 ```bash
-# View individual agent outputs
+# Просмотр выводов отдельных агентов
 CAI> /history 10 offensive
 CAI> /history 10 defensive
 
-# Merge all conversations
+# Объединение всех бесед
 CAI> /parallel merge
 
-# Save merged results
+# Сохранение объединенных результатов
 CAI> /save parallel_assessment_results.json
 
-# Clear parallel configuration
+# Очистка параллельной конфигурации
 CAI> /parallel clear
 ```
 
 ---
 
-## Queue System
+## Система очередей
 
-Batch process multiple prompts for automated workflows.
+Пакетная обработка нескольких промптов для автоматизированных рабочих процессов.
 
-### Creating Queue Files
+### Создание файлов очереди
 
-Create `security_checklist.txt`:
+Создайте `security_checklist.txt`:
 
 ```text
-# Security Assessment Checklist
-# Comments start with # and are ignored
+# Чек-лист оценки безопасности
+# Комментарии начинаются с # и игнорируются
 
-# Phase 1: Reconnaissance
+# Этап 1: Разведка
 /agent redteam_agent
-Perform passive reconnaissance on target.com
-Enumerate subdomains and services
+Выполни пассивную разведку target.com
+Перечисли поддомены и сервисы
 
-# Phase 2: Vulnerability Scanning
+# Этап 2: Сканирование уязвимостей
 /agent bug_bounter_agent
-Test for OWASP Top 10 vulnerabilities
-Check for known CVEs in discovered services
+Протестируй на уязвимости OWASP Top 10
+Проверь на известные CVE в обнаруженных сервисах
 
-# Phase 3: Network Analysis
+# Этап 3: Анализ сети
 /agent network_security_analyzer_agent
 $ nmap -sV -p- target.com
-Analyze the network topology
+Проанализируй сетевую топологию
 
-# Phase 4: Report Generation
+# Этап 4: Генерация отчета
 /agent reporting_agent
-Generate comprehensive security report
+Сгенерируй комплексный отчет безопасности
 /save security_assessment_report.md
 
-# Phase 5: Cleanup
+# Этап 5: Очистка
 /cost
 /history 50
 ```
 
-### Loading and Executing Queues
+### Загрузка и выполнение очередей
 
-#### Method 1: Auto-load on Startup
+#### Способ 1: Автозагрузка при запуске
 
 ```bash
-# Set environment variable
+# Установка переменной окружения
 export CAI_QUEUE_FILE="security_checklist.txt"
 cai
 
-# Queue executes automatically
+# Очередь выполняется автоматически
 ```
 
-#### Method 2: Command Line Queue
+#### Способ 2: Очередь командной строки
 
 ```bash
-# Use semicolons to chain commands
-cai --prompt "/agent redteam_agent ; scan target.com ; /save results.json"
+# Используйте точки с запятой для цепочки команд
+cai --prompt "/agent redteam_agent ; просканируй target.com ; /save results.json"
 ```
 
-### Advanced Queue Patterns
+### Продвинутые паттерны очередей
 
-#### Pattern 1: CTF Challenge Queue
+#### Паттерн 1: Очередь задач CTF
 
 ```text
 # ctf_workflow.txt
 /config CTF_NAME=hackableii
 /config CTF_CHALLENGE=web_app
 /agent redteam_agent
-Analyze the CTF challenge environment
-Find and exploit vulnerabilities
-Extract the flag
+Проанализируй среду задачи CTF
+Найди и эксплуатируй уязвимости
+Извлеки флаг
 /save ctf_solution.md
 ```
 
-#### Pattern 2: Bug Bounty Workflow
+#### Паттерн 2: Рабочий процесс Bug Bounty
 
 ```text
 # bugbounty_recon.txt
 /agent bug_bounter_agent
 /config CAI_PRICE_LIMIT=20.0
 
-# Reconnaissance
-Perform subdomain enumeration on target.com
-Identify web technologies and frameworks
-Map the attack surface
+# Разведка
+Выполни перечисление поддоменов target.com
+Определи веб-технологии и фреймворки
+Составь карту поверхности атаки
 
-# Testing
-Test authentication mechanisms for bypasses
-Check for injection vulnerabilities
-Analyze API endpoints for security issues
+# Тестирование
+Протестируй механизмы аутентификации на обходы
+Проверь на уязвимости инъекций
+Проанализируй API эндпоинты на проблемы безопасности
 
-# Reporting
-Compile findings into bug bounty report
+# Отчетность
+Составь находки в отчет bug bounty
 /save bugbounty_findings.md
 /cost
 ```
 
-#### Pattern 3: Continuous Security Monitoring
+#### Паттерн 3: Непрерывный мониторинг безопасности
 
 ```text
 # daily_security_check.txt
 /agent network_security_analyzer_agent
 
-# Daily checks
+# Ежедневные проверки
 $ nmap -sV 192.168.1.0/24
-Analyze changes from previous scan
-Identify new services or hosts
-Report anomalies
+Проанализируй изменения с предыдущего сканирования
+Определи новые сервисы или хосты
+Сообщи об аномалиях
 
 /save daily_scan_$(date +%Y%m%d).json
 ```
 
 ---
 
-## Automation & Scripting
+## Автоматизация и скриптинг
 
-Integrate CAI into scripts and CI/CD pipelines.
+Интеграция CAI в скрипты и конвейеры CI/CD.
 
-### Bash Script Integration
+### Интеграция с Bash-скриптами
 
-#### Script 1: Automated Security Scan
+#### Скрипт 1: Автоматизированное сканирование безопасности
 
 ```bash
 #!/bin/bash
@@ -394,7 +394,7 @@ TARGET="$1"
 OUTPUT_DIR="./scan_results"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
-# Configuration
+# Конфигурация
 export CAI_MODEL=alias1
 export CAI_AGENT_TYPE=redteam_agent
 export CAI_PRICE_LIMIT=10.0
@@ -402,30 +402,30 @@ export CAI_MAX_TURNS=50
 export CAI_TRACING=false
 export CAI_DEBUG=0
 
-# Create output directory
+# Создание каталога вывода
 mkdir -p "$OUTPUT_DIR"
 
-# Run CAI with automated prompt
+# Запуск CAI с автоматизированным промптом
 cai --prompt "
 /agent redteam_agent
-Perform comprehensive security scan on $TARGET
-Test for common vulnerabilities
+Выполни комплексное сканирование безопасности $TARGET
+Протестируй на распространенные уязвимости
 /save $OUTPUT_DIR/scan_${TIMESTAMP}.json
 /cost
 /exit
 "
 
-echo "Scan completed. Results saved to $OUTPUT_DIR/scan_${TIMESTAMP}.json"
+echo "Сканирование завершено. Результаты сохранены в $OUTPUT_DIR/scan_${TIMESTAMP}.json"
 ```
 
-Usage:
+Использование:
 
 ```bash
 chmod +x security_scan.sh
 ./security_scan.sh target.com
 ```
 
-#### Script 2: Multi-Target Batch Scan
+#### Скрипт 2: Пакетное сканирование нескольких целей
 
 ```bash
 #!/bin/bash
@@ -437,30 +437,30 @@ OUTPUT_DIR="./batch_results"
 mkdir -p "$OUTPUT_DIR"
 
 while IFS= read -r target; do
-    echo "Scanning $target..."
+    echo "Сканирование $target..."
     
     CAI_PRICE_LIMIT=5.0 cai --prompt "
     /agent bug_bounter_agent
-    Scan $target for web vulnerabilities
+    Просканируй $target на веб-уязвимости
     /save $OUTPUT_DIR/${target//\//_}_scan.json
     /exit
     "
     
-    echo "Completed: $target"
+    echo "Завершено: $target"
     sleep 2
 done < "$TARGETS_FILE"
 
-echo "All scans completed!"
+echo "Все сканирования завершены!"
 ```
 
-Usage:
+Использование:
 
 ```bash
-# targets.txt contains one domain per line
+# targets.txt содержит по одному домену в строке
 ./batch_scan.sh targets.txt
 ```
 
-#### Script 3: CTF Automation
+#### Скрипт 3: Автоматизация CTF
 
 ```bash
 #!/bin/bash
@@ -476,60 +476,60 @@ export CAI_AGENT_TYPE=redteam_agent
 export CAI_MODEL=alias1
 export CAI_MAX_TURNS=100
 
-# Create queue file
+# Создание файла очереди
 cat > /tmp/ctf_queue.txt << 'EOF'
-Analyze the CTF challenge
-Identify vulnerabilities
-Exploit and find the flag
+Проанализируй задачу CTF
+Определи уязвимости
+Эксплуатируй и найди флаг
 /save ctf_solution.json
 /exit
 EOF
 
-# Run with queue
+# Запуск с очередью
 CAI_QUEUE_FILE=/tmp/ctf_queue.txt cai
 
-# Cleanup
+# Очистка
 rm /tmp/ctf_queue.txt
 ```
 
-Usage:
+Использование:
 
 ```bash
 ./ctf_solver.sh hackableii web_challenge
 ```
 
-### CI/CD Integration
+### Интеграция с CI/CD
 
-#### GitHub Actions Example
+#### Пример GitHub Actions
 
 ```yaml
 # .github/workflows/security-scan.yml
-name: Security Scan
+name: Сканирование безопасности
 
 on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '0 2 * * *'  # Daily at 2 AM
+    - cron: '0 2 * * *'  # Ежедневно в 2 часа ночи
 
 jobs:
   security-scan:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
+    - name: Клонирование кода
       uses: actions/checkout@v3
       
-    - name: Setup Python
+    - name: Настройка Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
         
-    - name: Install CAI
+    - name: Установка CAI
       run: |
         pip install cai
         
-    - name: Run Security Scan
+    - name: Запуск сканирования безопасности
       env:
         ALIAS_API_KEY: ${{ secrets.ALIAS_API_KEY }}
         CAI_MODEL: alias1
@@ -538,20 +538,20 @@ jobs:
       run: |
         cai --prompt "
         /agent bug_bounter_agent
-        Analyze this repository for security issues
-        Focus on OWASP Top 10 vulnerabilities
+        Проанализируй этот репозиторий на проблемы безопасности
+        Сфокусируйся на уязвимостях OWASP Top 10
         /save security_report.json
         /exit
         "
         
-    - name: Upload Results
+    - name: Загрузка результатов
       uses: actions/upload-artifact@v3
       with:
         name: security-report
         path: security_report.json
 ```
 
-#### GitLab CI Example
+#### Пример GitLab CI
 
 ```yaml
 # .gitlab-ci.yml
@@ -566,7 +566,7 @@ security_scan:
     - |
       cai --prompt "
       /agent redteam_agent
-      Scan $CI_PROJECT_URL for vulnerabilities
+      Просканируй $CI_PROJECT_URL на уязвимости
       /save scan_results.json
       /exit
       "
@@ -581,67 +581,67 @@ security_scan:
     - merge_requests
 ```
 
-### Non-Interactive Mode
+### Неинтерактивный режим
 
 ```bash
-# Single command execution
-cai --prompt "scan 192.168.1.1" > output.txt
+# Выполнение одной команды
+cai --prompt "просканируй 192.168.1.1" > output.txt
 
-# Suppress interactive elements
-CAI_DEBUG=0 CAI_BRIEF=true cai --prompt "quick scan"
+# Подавление интерактивных элементов
+CAI_DEBUG=0 CAI_BRIEF=true cai --prompt "быстрое сканирование"
 
-# Pipe output
-cai --prompt "analyze" | grep -i "vulnerability"
+# Перенаправление вывода
+cai --prompt "проанализируй" | grep -i "уязвимость"
 
-# JSON output for parsing
-cai --prompt "scan target ; /save results.json ; /exit"
+# Вывод JSON для парсинга
+cai --prompt "просканируй цель ; /save results.json ; /exit"
 ```
 
 ---
 
-## Memory Management
+## Управление памятью
 
-Advanced persistent memory for long-term context.
+Продвинутая постоянная память для долгосрочного контекста.
 
-### Episodic Memory
+### Эпизодическая память
 
-Store and recall specific episodes or sessions.
+Хранение и вызов конкретных эпизодов или сессий.
 
 ```bash
-# Enable episodic memory
+# Включение эпизодической памяти
 export CAI_MEMORY=episodic
 cai
 
-# During session
-CAI> /memory save "SQLi vulnerability found in login"
-CAI> /memory save "XSS in comment section"
+# Во время сессии
+CAI> /memory save "SQLi уязвимость найдена в форме входа"
+CAI> /memory save "XSS в разделе комментариев"
 
-# List memories
+# Список воспоминаний
 CAI> /memory list
 
-# Apply memory to new session
+# Применение воспоминания к новой сессии
 CAI> /memory apply mem_12345
 ```
 
-### Semantic Memory
+### Семантическая память
 
-Store knowledge and facts.
+Хранение знаний и фактов.
 
 ```bash
-# Enable semantic memory
+# Включение семантической памяти
 export CAI_MEMORY=semantic
 cai
 
-# Save semantic knowledge
-CAI> /memory save "Target uses Apache 2.4.41 with ModSecurity"
+# Сохранение семантических знаний
+CAI> /memory save "Цель использует Apache 2.4.41 с ModSecurity"
 ```
 
-### Combined Memory
+### Комбинированная память
 
-Use both episodic and semantic memory:
+Использование эпизодической и семантической памяти:
 
 ```bash
-# Enable all memory types
+# Включение всех типов памяти
 export CAI_MEMORY=all
 export CAI_MEMORY_ONLINE=true
 export CAI_MEMORY_ONLINE_INTERVAL=5
@@ -649,179 +649,179 @@ export CAI_MEMORY_ONLINE_INTERVAL=5
 cai
 ```
 
-### Online Memory Mode
+### Режим онлайн-памяти
 
-Automatically save memory at intervals:
+Автоматическое сохранение памяти через определенные интервалы:
 
 ```bash
-# Configure online memory
+# Настройка онлайн-памяти
 export CAI_MEMORY=episodic
 export CAI_MEMORY_ONLINE=true
-export CAI_MEMORY_ONLINE_INTERVAL=3  # Save every 3 turns
+export CAI_MEMORY_ONLINE_INTERVAL=3  # Сохранение каждые 3 хода
 
-cai --prompt "long reconnaissance session"
+cai --prompt "длинная сессия разведки"
 ```
 
-### Memory Workflows
+### Рабочие процессы с памятью
 
-#### Workflow 1: Multi-Day Assessment
+#### Рабочий процесс 1: Многодневная оценка
 
-**Day 1:**
+**День 1:**
 ```bash
 CAI> /agent bug_bounter_agent
-CAI> Perform reconnaissance on target.com
+CAI> Выполни разведку target.com
 CAI> /memory save "day1_reconnaissance"
 CAI> /save day1_session.json
 ```
 
-**Day 2:**
+**День 2:**
 ```bash
 CAI> /agent bug_bounter_agent
 CAI> /memory apply day1_reconnaissance
-CAI> Continue testing based on yesterday's findings
+CAI> Продолжи тестирование на основе вчерашних находок
 CAI> /memory save "day2_exploitation"
 ```
 
-#### Workflow 2: Knowledge Base
+#### Рабочий процесс 2: База знаний
 
 ```bash
-# Build security knowledge base
-CAI> /memory save "CVE-2024-1234 affects Apache < 2.4.59"
-CAI> /memory save "SQL injection bypasses for ModSecurity"
-CAI> /memory save "XSS payload variants for WAF bypass"
+# Построение базы знаний безопасности
+CAI> /memory save "CVE-2024-1234 влияет на Apache < 2.4.59"
+CAI> /memory save "Обходы SQL-инъекций для ModSecurity"
+CAI> /memory save "Варианты полезных нагрузок XSS для обхода WAF"
 
-# Later, in new session
+# Позже, в новой сессии
 CAI> /memory list
 CAI> /memory apply mem_useful_techniques
 ```
 
-### Memory Compaction
+### Сжатие памяти
 
-Reduce memory size while preserving important information:
+Уменьшение размера памяти с сохранением важной информации:
 
 ```bash
-# Compact current conversation
+# Сжатие текущей беседы
 CAI> /memory compact
 
-# Status and statistics
+# Статус и статистика
 CAI> /memory status
 ```
 
-### Memory Management
+### Управление памятью
 
 ```bash
-# Show specific memory
+# Просмотр конкретного воспоминания
 CAI> /memory show mem_12345
 
-# Merge memories
+# Объединение воспоминаний
 CAI> /memory merge mem_12345 mem_67890 "combined_findings"
 
-# Delete memory
+# Удаление воспоминания
 CAI> /memory delete mem_12345
 ```
 
 ---
 
-## Workspace & Virtualization
+## Рабочее пространство и виртуализация
 
-Manage execution environments and Docker containers.
+Управление средами выполнения и Docker контейнерами.
 
-### Workspace Management
+### Управление рабочим пространством
 
 ```bash
-# Show current workspace
+# Показать текущее рабочее пространство
 CAI> /workspace show
 
-# Change workspace
+# Изменить рабочее пространство
 CAI> /workspace set /home/user/pentests/target_corp
 
-# List workspace contents
+# Список содержимого рабочего пространства
 CAI> /workspace list
 
-# Execute commands in workspace
+# Выполнение команд в рабочем пространстве
 CAI> $ ls -la
 CAI> $ cat target_info.txt
 ```
 
-### Docker Container Execution
+### Выполнение в Docker контейнерах
 
-#### Automatic Container Setup (CTF)
+#### Автоматическая настройка контейнера (CTF)
 
 ```bash
-# CTF automatically sets up container
+# CTF автоматически настраивает контейнер
 export CTF_NAME=hackableii
 export CTF_INSIDE=true
 cai
 
-# Commands execute inside container automatically
+# Команды автоматически выполняются внутри контейнера
 CAI> $ whoami
 CAI> $ ip addr
 ```
 
-#### Manual Container Management
+#### Ручное управление контейнерами
 
 ```bash
-# List available containers
+# Список доступных контейнеров
 CAI> /virtualization list
 
-# Set active container
+# Установка активного контейнера
 CAI> /virtualization set ubuntu_pentest
 
-# All commands now execute in container
+# Все команды теперь выполняются в контейнере
 CAI> $ nmap -sV localhost
 
-# Return to host
+# Возврат к хосту
 CAI> /virtualization clear
 ```
 
-### Environment Variables for Virtualization
+### Переменные окружения для виртуализации
 
 ```bash
-# CTF Configuration
+# Конфигурация CTF
 export CTF_NAME=hackableii
 export CTF_CHALLENGE=web_app
 export CTF_SUBNET=192.168.3.0/24
 export CTF_IP=192.168.3.100
-export CTF_INSIDE=true  # Execute inside container
+export CTF_INSIDE=true  # Выполнение внутри контейнера
 
-# Active Container
+# Активный контейнер
 export CAI_ACTIVE_CONTAINER=abc123def456
 
 cai
 ```
 
-### Advanced Virtualization Patterns
+### Продвинутые паттерны виртуализации
 
-#### Pattern 1: Isolated Testing
+#### Паттерн 1: Изолированное тестирование
 
 ```bash
 #!/bin/bash
 # isolated_test.sh
 
-# Create isolated container
+# Создание изолированного контейнера
 CONTAINER_ID=$(docker run -d ubuntu:latest sleep infinity)
 
-# Set container for CAI
+# Установка контейнера для CAI
 export CAI_ACTIVE_CONTAINER=$CONTAINER_ID
 
-# Run tests
+# Запуск тестов
 cai --prompt "
 /virtualization set $CONTAINER_ID
-Install and test malware sample
-Analyze behavior
+Установи и протестируй образец вредоносного ПО
+Проанализируй поведение
 /save malware_analysis.json
 /exit
 "
 
-# Cleanup
+# Очистка
 docker stop $CONTAINER_ID
 docker rm $CONTAINER_ID
 ```
 
-#### Pattern 2: Multi-Container Testing
+#### Паттерн 2: Тестирование с несколькими контейнерами
 
 ```bash
-# Test across multiple containers
+# Тестирование на нескольких контейнерах
 CAI> /virtualization set web_server_container
 CAI> $ curl http://localhost
 
@@ -834,14 +834,14 @@ CAI> $ python test_exploit.py
 
 ---
 
-## CTF Workflows
+## Рабочие процессы CTF
 
-Specialized workflows for Capture The Flag challenges.
+Специализированные рабочие процессы для задач Capture The Flag.
 
-### Basic CTF Setup
+### Базовая настройка CTF
 
 ```bash
-# Configure CTF environment
+# Настройка среды CTF
 export CTF_NAME=hackableii
 export CTF_CHALLENGE=binary_exploit
 export CAI_AGENT_TYPE=redteam_agent
@@ -851,9 +851,9 @@ export CAI_MAX_TURNS=inf
 cai
 ```
 
-### CTF Challenge Types
+### Типы задач CTF
 
-#### Type 1: Web Challenges
+#### Тип 1: Веб-задачи
 
 ```bash
 export CTF_NAME=webchallenge
@@ -861,42 +861,42 @@ export CTF_INSIDE=true
 
 cai --prompt "
 /agent bug_bounter_agent
-Analyze this web application
-Find and exploit vulnerabilities
-Extract the flag
+Проанализируй это веб-приложение
+Найди и эксплуатируй уязвимости
+Извлеки флаг
 /save web_ctf_solution.md
 "
 ```
 
-#### Type 2: Binary Exploitation
+#### Тип 2: Эксплуатация бинарных файлов
 
 ```bash
 export CTF_NAME=pwn_challenge
 
 cai --prompt "
 /agent reverse_engineering_agent
-Analyze the binary
-Find buffer overflow vulnerability
-Develop exploit
+Проанализируй бинарный файл
+Найди уязвимость переполнения буфера
+Разработай эксплойт
 /save exploit.py
 "
 ```
 
-#### Type 3: Forensics
+#### Тип 3: Криминалистика
 
 ```bash
 export CTF_NAME=forensics_challenge
 
 cai --prompt "
 /agent dfir_agent
-Analyze the memory dump
-Extract hidden data
-Find the flag
+Проанализируй дамп памяти
+Извлеки скрытые данные
+Найди флаг
 /save forensics_analysis.md
 "
 ```
 
-### Automated CTF Solver
+### Автоматический решатель CTF
 
 ```bash
 #!/bin/bash
@@ -912,152 +912,152 @@ CHALLENGES=(
 for challenge in "${CHALLENGES[@]}"; do
     IFS=':' read -r name agent <<< "$challenge"
     
-    echo "Solving $name..."
+    echo "Решение $name..."
     
     CTF_NAME="ctf_event" \
     CTF_CHALLENGE="$name" \
     CAI_AGENT_TYPE="$agent" \
     cai --prompt "
-    Analyze and solve the challenge
-    Find the flag
+    Проанализируй и реши задачу
+    Найди флаг
     /save ${name}_solution.json
     /exit
     "
 done
 ```
 
-### CTF with Time Limits
+### CTF с временными ограничениями
 
 ```bash
-# Set strict limits for CTF
+# Установка строгих ограничений для CTF
 export CAI_MAX_TURNS=50
 export CAI_MAX_INTERACTIONS=200
 export CAI_PRICE_LIMIT=5.0
 
-# Force exit if flag not found
-# (requires force_until_flag mode)
-cai --prompt "solve the CTF challenge"
+# Принудительный выход, если флаг не найден
+# (требуется режим force_until_flag)
+cai --prompt "реши задачу CTF"
 ```
 
 ---
 
-## Cost Management
+## Управление стоимостью
 
-Control and optimize API usage costs.
+Контроль и оптимизация затрат на использование API.
 
-### Setting Cost Limits
+### Установка лимитов стоимости
 
 ```bash
-# Set price limit
+# Установка лимита стоимости
 export CAI_PRICE_LIMIT=10.0
 
-# Set interaction limit
+# Установка лимита взаимодействий
 export CAI_MAX_INTERACTIONS=100
 
-# Set turn limit
+# Установка лимита ходов
 export CAI_MAX_TURNS=50
 
 cai
 ```
 
-### Runtime Cost Adjustment
+### Настройка стоимости во время выполнения
 
 ```bash
-# Check current costs
+# Проверка текущих затрат
 CAI> /cost
 
-# Increase limit if needed
+# Увеличение лимита при необходимости
 CAI> /config CAI_PRICE_LIMIT=20.0
 
-# Check updated limit
+# Проверка обновленного лимита
 CAI> /config | grep PRICE_LIMIT
 ```
 
-### Cost Optimization Strategies
+### Стратегии оптимизации затрат
 
-#### Strategy 1: Model Selection
+#### Стратегия 1: Выбор модели
 
 ```bash
-# Use cheaper models for reconnaissance
+# Использование более дешевых моделей для разведки
 CAI> /agent redteam_agent
-CAI> /model alias1  # Balanced cost/performance
+CAI> /model alias1  # Сбалансированная стоимость/производительность
 
-# Use powerful models for complex analysis
+# Использование мощных моделей для сложного анализа
 CAI> /model gpt-4o
-CAI> Analyze complex vulnerability chain
+CAI> Проанализируй сложную цепочку уязвимостей
 ```
 
-#### Strategy 2: Conversation Compaction
+#### Стратегия 2: Сжатие беседы
 
 ```bash
-# When approaching token limits
+# При приближении к лимитам токенов
 CAI> /compact
 
-# Or set automatic compaction
+# Или настройка автоматического сжатия
 export CAI_AUTO_COMPACT=true
 ```
 
-#### Strategy 3: Targeted Prompts
+#### Стратегия 3: Целенаправленные промпты
 
 ```bash
-# Be specific to reduce back-and-forth
-CAI> Scan 192.168.1.1 ports 80,443,8080 with nmap -sV
+# Будьте конкретны для снижения переключений
+CAI> Просканируй 192.168.1.1 порты 80,443,8080 с помощью nmap -sV
 
-# Instead of:
-CAI> Scan 192.168.1.1
-# (agent asks which ports)
-# (multiple turns = higher cost)
+# Вместо:
+CAI> Просканируй 192.168.1.1
+# (агент спрашивает какие порты)
+# (несколько ходов = более высокая стоимость)
 ```
 
-### Cost Monitoring
+### Мониторинг затрат
 
 ```bash
-# View detailed cost breakdown
+# Просмотр подробной разбивки затрат
 CAI> /cost
 
-# Per-agent costs
+# Стоимость по агентам
 CAI> /cost redteam_agent
 CAI> /cost bug_bounter_agent
 
-# Session statistics
+# Статистика сессии
 CAI> /history
 CAI> /cost all
 ```
 
-### Budget-Constrained Workflows
+### Рабочие процессы с ограниченным бюджетом
 
 ```bash
 #!/bin/bash
 # budget_scan.sh
 
-# Set strict budget
+# Установка строгого бюджета
 export CAI_PRICE_LIMIT=2.0
-export CAI_MODEL=alias1  # Cost-effective model
+export CAI_MODEL=alias1  # Экономичная модель
 
 cai --prompt "
 /agent redteam_agent
-Quick vulnerability scan on $TARGET
-Focus on critical issues only
+Быстрое сканирование уязвимостей $TARGET
+Сфокусируйся только на критических проблемах
 /cost
 /save budget_scan.json
 /exit
 "
 
-# Check if limit was hit
+# Проверка, не достигнут ли лимит
 if grep -q "price limit" budget_scan.json; then
-    echo "Warning: Price limit reached"
+    echo "Внимание: Достигнут лимит стоимости"
 fi
 ```
 
 ---
 
-## Configuration Management
+## Управление конфигурацией
 
-Advanced configuration patterns.
+Продвинутые паттерны конфигурации.
 
-### Configuration Profiles
+### Профили конфигурации
 
-#### Profile 1: Development
+#### Профиль 1: Разработка
 
 ```bash
 # dev_profile.env
@@ -1068,13 +1068,13 @@ export CAI_TRACING=true
 export CAI_MAX_TURNS=20
 ```
 
-Usage:
+Использование:
 ```bash
 source dev_profile.env
 cai
 ```
 
-#### Profile 2: Production
+#### Профиль 2: Продакшен
 
 ```bash
 # prod_profile.env
@@ -1086,7 +1086,7 @@ export CAI_TRACING=false
 export CAI_GUARDRAILS=true
 ```
 
-#### Profile 3: CTF
+#### Профиль 3: CTF
 
 ```bash
 # ctf_profile.env
@@ -1097,96 +1097,96 @@ export CAI_PRICE_LIMIT=20.0
 export CAI_DEBUG=1
 ```
 
-### Per-Agent Model Override
+### Переопределение моделей для агентов
 
 ```bash
-# Set different models for different agents
+# Установка различных моделей для различных агентов
 export CAI_REDTEAM_AGENT_MODEL=gpt-4o
 export CAI_BUG_BOUNTER_AGENT_MODEL=alias1
 export CAI_DFIR_AGENT_MODEL=claude-3-5-sonnet-20241022
 
-# Default model for others
+# Модель по умолчанию для других
 export CAI_MODEL=alias1
 
 cai
 ```
 
-### Dynamic Configuration
+### Динамическая конфигурация
 
 ```bash
-# Start with base config
+# Запуск с базовой конфигурацией
 CAI> /config
 
-# Adjust during session
+# Настройка во время сессии
 CAI> /config CAI_DEBUG=2
 CAI> /config CAI_PRICE_LIMIT=15.0
 
-# Verify changes
+# Проверка изменений
 CAI> /env | grep CAI
 ```
 
 ---
 
-## Integration Patterns
+## Паттерны интеграции
 
-Integrate CAI with other tools and services.
+Интеграция CAI с другими инструментами и сервисами.
 
-### MCP Integration
+### Интеграция с MCP
 
-#### Pattern 1: Burp Suite Integration
+#### Паттерн 1: Интеграция с Burp Suite
 
 ```bash
-# Start Burp Suite MCP server
-# (in separate terminal)
+# Запуск MCP сервера Burp Suite
+# (в отдельном терминале)
 burp-mcp-server --port 9876
 
-# In CAI
+# В CAI
 CAI> /mcp load http://localhost:9876/sse burp
 CAI> /mcp tools burp
 CAI> /mcp add redteam_agent burp
 
-# Use Burp tools
-CAI> Use Burp to scan https://target.com
+# Использование инструментов Burp
+CAI> Используй Burp для сканирования https://target.com
 ```
 
-#### Pattern 2: Custom Tool Integration
+#### Паттерн 2: Интеграция пользовательских инструментов
 
 ```bash
-# Load custom MCP server
+# Загрузка пользовательского MCP сервера
 CAI> /mcp load stdio "python my_custom_tools.py" custom
 
-# Add to agent
+# Добавление к агенту
 CAI> /mcp add bug_bounter_agent custom
 
-# Use custom tools
-CAI> Use custom scanner on target
+# Использование пользовательских инструментов
+CAI> Используй пользовательский сканер на цели
 ```
 
-### API Integration
+### Интеграция с API
 
 ```bash
 #!/bin/bash
 # api_integration.sh
 
-# Get CAI results
-RESULT=$(cai --prompt "scan $TARGET ; /save -" 2>/dev/null)
+# Получение результатов CAI
+RESULT=$(cai --prompt "просканируй $TARGET ; /save -" 2>/dev/null)
 
-# Send to external API
+# Отправка во внешний API
 curl -X POST https://api.security-platform.com/scans \
   -H "Content-Type: application/json" \
   -d "$RESULT"
 ```
 
-### Webhook Integration
+### Интеграция с вебхуками
 
 ```bash
 #!/bin/bash
 # webhook_notify.sh
 
-# Run scan
-cai --prompt "security scan on $TARGET ; /save results.json"
+# Запуск сканирования
+cai --prompt "сканирование безопасности $TARGET ; /save results.json"
 
-# Send webhook notification
+# Отправка уведомления через вебхук
 curl -X POST $WEBHOOK_URL \
   -H "Content-Type: application/json" \
   -d '{
@@ -1198,192 +1198,192 @@ curl -X POST $WEBHOOK_URL \
 
 ---
 
-## Troubleshooting
+## Решение проблем
 
-Common issues and solutions.
+Типичные проблемы и решения.
 
-### Issue: Price Limit Reached
+### Проблема: Достигнут лимит стоимости
 
 ```bash
-# Check current cost
+# Проверка текущей стоимости
 CAI> /cost
 
-# Increase limit
+# Увеличение лимита
 CAI> /config CAI_PRICE_LIMIT=20.0
 
-# Or restart with higher limit
+# Или перезапуск с более высоким лимитом
 exit
 CAI_PRICE_LIMIT=20.0 cai
 ```
 
-### Issue: Max Interactions Exceeded
+### Проблема: Превышен максимальный лимит взаимодействий
 
 ```bash
-# Check current count
+# Проверка текущего количества
 CAI> /env | grep MAX_INTERACTIONS
 
-# Increase limit
+# Увеличение лимита
 CAI> /config CAI_MAX_INTERACTIONS=500
 
-# Or use /flush to start fresh
+# Или используйте /flush для начала заново
 CAI> /flush
 ```
 
-### Issue: Agent Not Responding
+### Проблема: Агент не отвечает
 
 ```bash
-# Interrupt current operation
+# Прерывание текущей операции
 Ctrl+C
 
-# Check agent status
+# Проверка статуса агента
 CAI> /agent
 
-# Switch to different agent
+# Переключение на другого агента
 CAI> /agent redteam_agent
 
-# Check configuration
+# Проверка конфигурации
 CAI> /config
 ```
 
-### Issue: Context Window Full
+### Проблема: Окно контекста заполнено
 
 ```bash
-# Check context usage (CAI PRO)
+# Проверка использования контекста (CAI PRO)
 CAI> /context
 
-# Compact conversation
+# Сжатие беседы
 CAI> /compact
 
-# Or flush and start fresh
+# Или очистка и начало заново
 CAI> /flush
 ```
 
-### Issue: Container Execution Problems
+### Проблема: Проблемы с выполнением контейнера
 
 ```bash
-# Check virtualization status
+# Проверка статуса виртуализации
 CAI> /virtualization info
 
-# List containers
+# Список контейнеров
 CAI> /virtualization list
 
-# Clear container setting
+# Очистка настройки контейнера
 CAI> /virtualization clear
 
-# Verify workspace
+# Проверка рабочего пространства
 CAI> /workspace show
 ```
 
-### Issue: Memory Loading Fails
+### Проблема: Ошибка загрузки памяти
 
 ```bash
-# Check memory status
+# Проверка статуса памяти
 CAI> /memory status
 
-# List available memories
+# Список доступных воспоминаний
 CAI> /memory list
 
-# Clear corrupted memory
+# Удаление поврежденной памяти
 CAI> /memory delete mem_problematic
 
-# Check storage directory
+# Проверка каталога хранения
 $ ls -la ~/.cai/memory/
 ```
 
-### Debug Mode
+### Режим отладки
 
 ```bash
-# Enable maximum debugging
+# Включение максимальной отладки
 export CAI_DEBUG=2
 cai
 
-# Or enable during session
+# Или включение во время сессии
 CAI> /config CAI_DEBUG=2
 ```
 
 ---
 
-## Best Practices
+## Лучшие практики
 
-### 1. Session Management
+### 1. Управление сессиями
 
 ```bash
-# Always save important sessions
+# Всегда сохраняйте важные сессии
 CAI> /save project_name_$(date +%Y%m%d).json
 
-# Use descriptive filenames
+# Используйте описательные имена файлов
 CAI> /save pentest_target_corp_phase1.json
 ```
 
-### 2. Cost Control
+### 2. Контроль стоимости
 
 ```bash
-# Set reasonable limits
+# Установите разумные лимиты
 export CAI_PRICE_LIMIT=10.0
 export CAI_MAX_TURNS=50
 
-# Monitor regularly
+# Регулярно монорьте
 CAI> /cost
 ```
 
-### 3. Agent Selection
+### 3. Выбор агентов
 
 ```bash
-# Use specialized agents
-# ✅ Good: /agent bug_bounter_agent for web apps
-# ❌ Bad: /agent one_tool_agent for complex tasks
+# Используйте специализированных агентов
+# ✅ Хорошо: /agent bug_bounter_agent для веб-приложений
+# ❌ Плохо: /agent one_tool_agent для сложных задач
 
-# Let selection_agent help
+# Пусть selection_agent поможет
 CAI> /agent selection_agent
-CAI> I need to test a mobile application
+CAI> Мне нужно протестировать мобильное приложение
 ```
 
-### 4. Parallel Execution
+### 4. Параллельное выполнение
 
 ```bash
-# Use YAML for complex setups
-# ✅ Good: cai --yaml team_config.yaml
-# ❌ Bad: Manual /parallel add for many agents
+# Используйте YAML для сложных настроек
+# ✅ Хорошо: cai --yaml team_config.yaml
+# ❌ Плохо: Ручное /parallel add для многих агентов
 ```
 
-### 5. Memory Usage
+### 5. Использование памяти
 
 ```bash
-# Save important findings
-CAI> /memory save "critical vulnerability in auth system"
+# Сохраняйте важные находки
+CAI> /memory save "критическая уязвимость в системе аутентификации"
 
-# Use descriptive names
-# ✅ Good: "SQLi in admin panel - bypasses WAF"
-# ❌ Bad: "bug1"
+# Используйте описательные имена
+# ✅ Хорошо: "SQLi в админке - обходы WAF"
+# ❌ Плохо: "bug1"
 ```
 
 ---
 
-## Quick Reference
+## Краткий справочник
 
-### Environment Variables
+### Переменные окружения
 
-| Variable | Purpose | Example |
+| Переменная | Назначение | Пример |
 |----------|---------|---------|
-| `CAI_MODEL` | Default model | `alias1` |
-| `CAI_AGENT_TYPE` | Default agent | `redteam_agent` |
-| `CAI_PARALLEL` | Parallel count | `3` |
-| `CAI_QUEUE_FILE` | Auto-load queue | `prompts.txt` |
-| `CAI_MEMORY` | Memory mode | `episodic` |
-| `CAI_MEMORY_ONLINE` | Auto-save memory | `true` |
-| `CAI_PRICE_LIMIT` | Cost limit | `10.0` |
-| `CAI_MAX_TURNS` | Turn limit | `50` |
-| `CAI_ACTIVE_CONTAINER` | Docker container | `abc123` |
+| `CAI_MODEL` | Модель по умолчанию | `alias1` |
+| `CAI_AGENT_TYPE` | Агент по умолчанию | `redteam_agent` |
+| `CAI_PARALLEL` | Количество параллельных задач | `3` |
+| `CAI_QUEUE_FILE` | Автозагрузка очереди | `prompts.txt` |
+| `CAI_MEMORY` | Режим памяти | `episodic` |
+| `CAI_MEMORY_ONLINE` | Автосохранение памяти | `true` |
+| `CAI_PRICE_LIMIT` | Лимит стоимости | `10.0` |
+| `CAI_MAX_TURNS` | Лимит ходов | `50` |
+| `CAI_ACTIVE_CONTAINER` | Docker контейнер | `abc123` |
 
-### Command Patterns
+### Паттерны команд
 
 ```bash
-# Automation
-cai --prompt "command ; command ; command"
+# Автоматизация
+cai --prompt "команда ; команда ; команда"
 CAI_QUEUE_FILE=file.txt cai
 
-# Parallel
-cai --yaml agents.yaml --prompt "task"
+# Параллельное выполнение
+cai --yaml agents.yaml --prompt "задача"
 CAI_PARALLEL=3 cai
 
 # CTF
@@ -1392,13 +1392,12 @@ CTF_NAME=challenge cai
 
 ---
 
-## Next Steps
+## Следующие шаги
 
-- 📖 [Getting Started](getting_started.md) - Basic usage
-- 📚 [Commands Reference](commands_reference.md) - All commands
-- 🏠 [CLI Overview](cli_index.md) - Main documentation
+- 📖 [Начало работы](getting_started.md) - Базовое использование
+- 📚 [Справочник команд](commands_reference.md) - Все команды
+- 🏠 [Обзор CLI](cli_index.md) - Основная документация
 
 ---
 
-*Last updated: November 2025 | CAI CLI v0.6+*
-
+*Последнее обновление: Ноябрь 2025 | CAI CLI v0.6+*

@@ -1,7 +1,7 @@
 """
-Quickstart command for CAI REPL.
-Provides essential setup information and guidance for new users.
-Automatically runs on first launch if ~/.cai doesn't exist.
+Команда quickstart для CAI REPL.
+Предоставляет основную информацию о настройке и руководство для новых пользователей.
+Автоматически запускается при первом запуске, если ~/.cai не существует.
 """
 
 import os
@@ -32,7 +32,7 @@ class QuickstartCommand(Command):
         """Initialize the quickstart command."""
         super().__init__(
             name="/quickstart",
-            description="Display quickstart guide and setup information",
+            description="Показать руководство быстрого старта и информацию о настройке",
             aliases=["/qs", "/quick"],
         )
 

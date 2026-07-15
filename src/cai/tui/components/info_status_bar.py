@@ -304,7 +304,7 @@ class InfoStatusBar(Container):
                 # Try to update at least the model info
                 agent_widget = self.query_one("#agent-model-info", Static)
                 text = Text()
-                text.append("Model: ", style="dim #03fcb180")
+                text.append("Модель: ", style="dim #03fcb180")
                 text.append(self.model_name or "default", style="bold #03fcb1")
                 agent_widget.update(text)
 
@@ -317,7 +317,7 @@ class InfoStatusBar(Container):
                 # Last resort - just set simple text
                 try:
                     agent_widget = self.query_one("#agent-model-info", Static)
-                    agent_widget.update(f"Model: {self.model_name or 'default'}")
+                    agent_widget.update(f"Модель: {self.model_name or 'default'}")
                 except:
                     pass
 
@@ -362,7 +362,7 @@ class InfoStatusBar(Container):
             else:
                 # If no agent name, show just the icon
                 text.append("🤖 ", style="dim #00ff88")
-                text.append("Ready", style="dim #00ff88")
+                text.append("Готов", style="dim #00ff88")
 
             widget.update(text)
         except Exception:
@@ -411,7 +411,7 @@ class InfoStatusBar(Container):
             text = Text()
 
             # Cost label
-            text.append("COST: ", style="dim white")
+            text.append("СТОИМОСТЬ: ", style="dim white")
 
             # Always show cost even if 0
             cost_style = "#ff0066" if self.total_cost > 10 else "#ffff00" if self.total_cost > 5 else "#00ff88"
@@ -446,7 +446,7 @@ class InfoStatusBar(Container):
             text = Text()
 
             # Context label
-            text.append("CTX: ", style="dim white")
+            text.append("КОНТЕКСТ: ", style="dim white")
 
             # Context usage - always show
             usage_pct = int(self.context_usage * 100)

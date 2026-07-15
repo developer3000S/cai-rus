@@ -1,81 +1,81 @@
-# Privacy Benchmarks
+# Бенчмарки конфиденциальности
 
-Privacy benchmarks assess AI models' ability to handle sensitive information appropriately, maintain privacy standards, and properly manage Personally Identifiable Information (PII) in cybersecurity contexts.
+Бенчмарки конфиденциальности оценивают способность ИИ-моделей надлежащим образом обрабатывать конфиденциальную информацию, соблюдать стандарты приватности и правильно управлять персонально идентифицируемой информацией (PII) в контекстах кибербезопасности.
 
 ---
 
 ## 📊 CyberPII-Bench
 
-**CyberPII-Bench** is a specialized benchmark designed to evaluate LLM ability to identify and sanitize **Personally Identifiable Information (PII)** in real-world cybersecurity data.
+**CyberPII-Bench** — это специализированный бенчмарк, разработанный для оценки способности LLM выявлять и санировать **персонально идентифицируемую информацию (PII)** в реальных данных по кибербезопасности.
 
 <table>
   <tr>
-    <th style="text-align:center;"><b>Model Performance in CyberPII Privacy Benchmark</b></th>
+    <th style="text-align:center;"><b>Производительность моделей в бенчмарке конфиденциальности CyberPII</b></th>
   </tr>
   <tr>
     <td align="center"><img src="/assets/images/cyberpii_benchmark.png" alt="CyberPII Benchmark Results" /></td>
   </tr>
 </table>
 
-### Dataset: memory01_80
+### Датасет: memory01_80
 
-- **Size**: 79 entries
-- **Source**: Real-world data from CAI-driven cybersecurity exercises
-- **Contexts**: Robotics, Portswigger (Burp Suite), HackerOne, Hack The Box (HTB)
-- **Focus**: Interactive logs simulating realistic operator-model workflows
-
----
-
-## 🎯 PII Entity Types
-
-CyberPII-Bench covers **24 entity types**:
-
-### Personal Identifiers
-- `PERSON` - Names
-- `PHONE_NUMBER` - Phone numbers
-- `EMAIL_ADDRESS` - Email addresses
-- `NIF` / `DNI` / `NIE` - Spanish identification
-- `NRP` - National registration numbers
-
-### Financial Information
-- `CREDIT_CARD` - Credit card numbers
-- `IBAN_CODE` / `IBAN` - Bank account numbers
-- `CRYPTO` - Cryptocurrency addresses
-- `US_BANK_NUMBER` - US bank accounts
-- `EUROPEAN_BANK_ACCOUNT` - European accounts
-
-### Government IDs
-- `US_SSN` - Social Security Numbers
-- `US_DRIVER_LICENSE` - Driver's licenses
-- `US_ITIN` - Individual Taxpayer Identification
-- `US_PASSPORT` - Passport numbers
-- `MEDICAL_LICENSE` - Medical credentials
-
-### Technical & Location
-- `IP_ADDRESS` - IP addresses
-- `URL` - Web addresses
-- `LOCATION` - Physical locations
-- `ADDRESS` - Street addresses
-- `DATE_TIME` - Dates and times
-- `ORGANIZATION` - Organization names
+- **Размер**: 79 записей
+- **Источник**: Реальные данные из упражнений по кибербезопасности на базе CAI
+- **Контексты**: Робототехника, Portswigger (Burp Suite), HackerOne, Hack The Box (HTB)
+- **Фокус**: Интерактивные логи, имитирующие реалистичные рабочие процессы «оператор-модель»
 
 ---
 
-## 📋 Dataset Structure
+## 🎯 Типы сущностей PII
 
-Each entry contains:
+CyberPII-Bench охватывает **24 типа сущностей**:
 
-| Field | Description | Example |
+### Персональные идентификаторы
+- `PERSON` — Имена
+- `PHONE_NUMBER` — Номера телефонов
+- `EMAIL_ADDRESS` — Адреса электронной почты
+- `NIF` / `DNI` / `NIE` — Испанские идентификационные номера
+- `NRP` — Национальные регистрационные номера
+
+### Финансовая информация
+- `CREDIT_CARD` — Номера кредитных карт
+- `IBAN_CODE` / `IBAN` — Номера банковских счетов
+- `CRYPTO` — Криптовалютные адреса
+- `US_BANK_NUMBER` — Банковские счета США
+- `EUROPEAN_BANK_ACCOUNT` — Европейские счета
+
+### Государственные ID
+- `US_SSN` — Номера социального страхования США
+- `US_DRIVER_LICENSE` — Водительские удостоверения США
+- `US_ITIN` — Индивидуальные номера налогоплательщиков США
+- `US_PASSPORT` — Номера паспортов США
+- `MEDICAL_LICENSE` — Медицинские лицензии
+
+### Технические данные и местоположение
+- `IP_ADDRESS` — IP-адреса
+- `URL` — Веб-адреса
+- `LOCATION` — Физическое местоположение
+- `ADDRESS` — Уличные адреса
+- `DATE_TIME` — Даты и время
+- `ORGANIZATION` — Названия организаций
+
+---
+
+## 📋 Структура датасета
+
+Каждая запись содержит:
+
+| Поле | Описание | Пример |
 |-------|-------------|---------|
-| `id` | Unique identifier | `id_mir100_alarm_1` |
-| `source_text` | Original input text | `"Contact john@example.com..."` |
-| `target_text` | Sanitized text with tags | `"Contact [EMAIL_ADDRESS]..."` |
-| `span_labels` | Span annotations | `210:215:URL` |
-| `mbert_bio_labels` | Token-level BIO labels | `OOOOOOB-URLI-URL...` |
-| `source` | Origin context | `pentestperf`, `htb`, `portswigger` |
-| `others` | Additional metadata | `{'role': 'user'}` |
+| `id` | Уникальный идентификатор | `id_mir100_alarm_1` |
+| `source_text` | Оригинальный входной текст | `"Contact john@example.com..."` |
+| `target_text` | Санированный текст с тегами | `"Contact [EMAIL_ADDRESS]..."` |
+| `span_labels` | Аннотации диапазонов | `210:215:URL` |
+| `mbert_bio_labels` | BIO-метки на уровне токенов | `OOOOOOB-URLI-URL...` |
+| `source` | Контекст происхождения | `pentestperf`, `htb`, `portswigger` |
+| `others` | Дополнительные метаданные | `{'role': 'user'}` |
 
-### Example Entry
+### Пример записи
 
 **source_text:**
 ```
@@ -94,97 +94,97 @@ Scan AGVs in the network. Use: [URL]
 
 ---
 
-## 🏆 alias1 Privacy Performance
+## 🏆 Производительность alias1 в области конфиденциальности
 
-!!! success "Best PII Protection"
-    **`alias1` achieves the highest scores** on CyberPII-Bench:
+!!! success "Лучшая защита PII"
+    **`alias1` достигает самых высоких показателей** в CyberPII-Bench:
 
-    - 🥇 **Highest F2 score** - Minimizes missed PII (critical for privacy)
-    - 🥇 **Best precision** - Fewest false positives
-    - 🥇 **Best recall** - Fewest missed sensitive entities
-    - 🥇 **Comprehensive coverage** - Correctly identifies all 24 entity types
+    - 🥇 **Самый высокий показатель F2** — минимизирует пропуски PII (критично для приватности)
+    - 🥇 **Лучшая точность (precision)** — минимум ложноположительных срабатываний
+    - 🥇 **Лучшая полнота (recall)** — минимум пропущенных конфиденциальных сущностей
+    - 🥇 **Всесторонний охват** — правильно идентифицирует все 24 типа сущностей
 
-    **General-purpose models struggle with**:
-    - ❌ Lower recall (miss sensitive data)
-    - ❌ Inconsistent entity recognition
-    - ❌ Poor handling of technical PII (IPs, URLs, crypto addresses)
-    - ❌ Context-dependent failures
+    **Модели общего назначения испытывают трудности с**:
+    - ❌ Низкой полнотой (пропускают конфиденциальные данные)
+    - ❌ Нестабильным распознаванием сущностей
+    - ❌ Плохой обработкой технических PII (IP, URL, криптоадреса)
+    - ❌ Ошибками, зависящими от контекста
 
-**[Get alias1 with CAI PRO →](../cai_pro.md)**
+**[Получить alias1 с CAI PRO →](../cai_pro.md)**
 
 ---
 
-## 📊 Evaluation Metrics
+## 📊 Метрики оценки
 
-### Core Metrics
+### Основные метрики
 
-**True Positives (TP)**: Correctly anonymized entities
-**False Positives (FP)**: Incorrectly anonymized (false alarms)
-**False Negatives (FN)**: Missed sensitive entities
+**True Positives (TP)**: Правильно анонимизированные сущности
+**False Positives (FP)**: Неправильно анонимизированные (ложные тревоги)
+**False Negatives (FN)**: Пропущенные конфиденциальные сущности
 
-### Precision
-Measures accuracy of anonymization:
+### Точность (Precision)
+Измеряет точность анонимизации:
 ```
 Precision = TP / (TP + FP)
 ```
-*High precision = fewer false alarms*
+*Высокая точность = меньше ложных тревог*
 
-### Recall
-Measures completeness of anonymization:
+### Полнота (Recall)
+Измеряет полноту анонимизации:
 ```
 Recall = TP / (TP + FN)
 ```
-*High recall = fewer misses*
+*Высокая полнота = меньше пропусков*
 
 ### F1 Score
-Balanced metric when false positives and false negatives are equally important:
+Сбалансированная метрика, когда ложноположительные и ложноотрицательные результаты одинаково важны:
 ```
 F1 = 2 × (Precision × Recall) / (Precision + Recall)
 ```
 
-### F2 Score ⭐ PRIMARY METRIC
-Favors **recall** over precision — critical when **missing sensitive data is riskier** than over-anonymizing:
+### F2 Score ⭐ ОСНОВНАЯ МЕТРИКА
+Отдает приоритет **полноте (recall)** перед точностью — это критично, когда **пропуск конфиденциальных данных рискованнее**, чем избыточная анонимизация:
 ```
 F2 = 5 × (Precision × Recall) / (4 × Precision + Recall)
 ```
 
-!!! tip "Why F2?"
-    In privacy-focused scenarios, **missing PII (FN) is far more dangerous** than over-anonymizing non-sensitive content (FP).
+!!! tip "Почему F2?"
+    В сценариях, ориентированных на конфиденциальность, **пропуск PII (FN) гораздо опаснее**, чем избыточная анонимизация неконфиденциального контента (FP).
 
-    **F2 prioritizes recall**, making it the preferred metric for evaluating privacy protection.
+    **F2 приоритизирует полноту**, что делает её предпочтительной метрикой для оценки защиты приватности.
 
 ---
 
-## 🔧 Annotation Rules
+## 🔧 Правила аннотирования
 
-### Sanitization Format
-Replace detected entities with `[ENTITY_TYPE]`:
+### Формат санирования
+Замените обнаруженные сущности на `[ENTITY_TYPE]`:
 
 ```
 "Contact John at john@example.com" → "Contact [PERSON] at [EMAIL_ADDRESS]"
 ```
 
-### Special Rules
+### Специальные правила
 
-1. **IP Priority over URL**:
+1. **Приоритет IP над URL**:
    ```
    https://192.168.1.100:5050 → https://[IP_ADDRESS]:5050
    ```
-   (Not `[URL]`)
+   (Не `[URL]`)
 
-2. **Multiple DATE_TIME instances**:
+2. **Несколько экземпляров DATE_TIME**:
    ```
    2025-03-11 11:41 UTC → [DATE_TIME] [DATE_TIME]
    ```
 
-3. **Preserve structure**:
-   Maintain original text structure, only replacing sensitive parts
+3. **Сохранение структуры**:
+   Сохраняйте оригинальную структуру текста, заменяя только конфиденциальные части
 
 ---
 
-## 🚀 Running Privacy Benchmarks
+## 🚀 Запуск бенчмарков конфиденциальности
 
-### Setup
+### Настройка
 
 ```bash
 # Install dependencies
@@ -194,7 +194,7 @@ pip install cvss
 ALIAS_API_KEY="sk-your-caipro-key"  # For alias1
 ```
 
-### Run Evaluation
+### Запуск оценки
 
 ```bash
 # Using alias1 (recommended for best privacy protection)
@@ -214,21 +214,21 @@ python benchmarks/eval.py \
 
 ---
 
-## 📁 Output Structure
+## 📁 Структура вывода
 
-Detailed results saved to structured directories:
+Подробные результаты сохраняются в структурированные директории:
 
 ```
 outputs/
 └── cyberpii-bench/
     └── alias1_20250115_abc123/
-        ├── entity_performance.txt    # Per-entity metrics
-        ├── metrics.txt               # Overall TP, FP, FN, precision, recall, F1, F2
-        ├── mistakes.txt              # Detailed error analysis
-        └── overall_report.txt        # Summary statistics
+        ├── entity_performance.txt    # Метрики по каждой сущности
+        ├── metrics.txt               # Общие TP, FP, FN, precision, recall, F1, F2
+        ├── mistakes.txt              # Детальный анализ ошибок
+        └── overall_report.txt        # Сводная статистика
 ```
 
-### Example metrics.txt
+### Пример metrics.txt
 
 ```
 Model: alias1
@@ -247,7 +247,7 @@ Date: 2025-01-15
 Backend: alias
 ```
 
-### Example entity_performance.txt
+### Пример entity_performance.txt
 
 ```
 Entity Type Performance:
@@ -266,44 +266,44 @@ CREDIT_CARD:
 
 ---
 
-## 🎓 Why Privacy Benchmarks Matter
+## 🎓 Почему бенчмарки конфиденциальности важны
 
-Privacy benchmarks are critical for cybersecurity AI because:
+Бенчмарки конфиденциальности имеют решающее значение для ИИ в сфере кибербезопасности, потому что:
 
-1. **Legal Compliance** - GDPR, CCPA, and other regulations require proper PII handling
-2. **Ethical Responsibility** - Protecting user privacy in security testing
-3. **Trust Building** - Demonstrating responsible AI practices
-4. **Risk Mitigation** - Preventing data leaks in security reports and logs
-5. **Real-world Scenarios** - Based on actual security operation data
+1. **Соблюдение законодательства** — GDPR, CCPA и другие регламенты требуют надлежащего обращения с PII
+2. **Этическая ответственность** — Защита приватности пользователей при тестировании безопасности
+3. **Построение доверия** — Демонстрация ответственного использования ИИ
+4. **Снижение рисков** — Предотвращение утечек данных в отчетах по безопасности и логах
+5. **Реальные сценарии** — Основано на фактических данных операций по обеспечению безопасности
 
-Security professionals handle **massive amounts of sensitive data** during penetration testing, incident response, and threat hunting. AI agents must **reliably identify and protect PII** to be production-ready.
+Специалисты по безопасности работают с **огромными объемами конфиденциальных данных** во время тестирования на проникновение, реагирования на инциденты и поиска угроз. ИИ-агенты должны **надежно идентифицировать и защищать PII**, чтобы быть готовыми к использованию в промышленной эксплуатации.
 
 ---
 
-## 📚 Research Papers
+## 📚 Научные статьи
 
 - 📊 [**CAIBench: Cybersecurity AI Benchmark**](https://arxiv.org/pdf/2510.24317) (2025)
-  Includes CyberPII-Bench methodology and evaluation results.
+  Включает методологию CyberPII-Bench и результаты оценки.
 
 - 🛡️ [**Hacking the AI Hackers via Prompt Injection**](https://arxiv.org/pdf/2508.21669) (2025)
-  Demonstrates security and privacy protection mechanisms.
+  Демонстрирует механизмы обеспечения безопасности и защиты конфиденциальности.
 
-**[View all research →](https://aliasrobotics.com/research-security.php#papers)**
-
----
-
-## 🔗 Related Benchmarks
-
-- **[Knowledge Benchmarks](knowledge_benchmarks.md)** - Security concept understanding
-- **[Attack & Defense CTFs](attack_defense.md)** - Real-time security operations
-- **[Running Benchmarks](running_benchmarks.md)** - Setup and usage guide
+**[Посмотреть все исследования →](https://aliasrobotics.com/research-security.php#papers)**
 
 ---
 
-## 🚀 Get Started
+## 🔗 Связанные бенчмарки
 
-Privacy benchmarks are **freely available** to all CAI users.
+- **[Бенчмарки знаний](knowledge_benchmarks.md)** — Понимание концепций безопасности
+- **[CTF по атаке и защите](attack_defense.md)** — Операции безопасности в реальном времени
+- **[Запуск бенчмарков](running_benchmarks.md)** — Руководство по настройке и использованию
 
-**[Download CAI and start benchmarking →](../cai_installation.md)**
+---
 
-For best privacy protection, **[upgrade to CAI PRO for alias1 →](../cai_pro.md)**
+## 🚀 С чего начать
+
+Бенчмарки конфиденциальности **бесплатно доступны** всем пользователям CAI.
+
+**[Скачать CAI и начать тестирование →](../cai_installation.md)**
+
+Для лучшей защиты конфиденциальности **[перейдите на CAI PRO для использования alias1 →](../cai_pro.md)**

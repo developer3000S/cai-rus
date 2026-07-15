@@ -1,3 +1,3 @@
-# `Exceptions`
+# `Исключения`
 
 ::: cai.sdk.agents.exceptions

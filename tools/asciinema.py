@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Tool to record asciinema sessions of JSONL replay files.
+Инструмент для записи сессий asciinema JSONL файлов воспроизведения.
 
-Usage:
+Использование:
     cai-asciinema path/to/file.jsonl 0.5
 
-This tool wraps asciinema recording to capture replay sessions.
+Этот инструмент оборачивает запись asciinema для захвата сессий воспроизведения.
 """
 
 import argparse
@@ -15,62 +15,62 @@ import sys
 
 
 def parse_arguments():
-    """Parse command line arguments."""
+    """Разбор аргументов командной строки."""
     parser = argparse.ArgumentParser(
-        description="Record asciinema sessions of JSONL replay files.",
+        description="Запись сессий asciinema JSONL файлов воспроизведения.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
-Examples:
+Примеры:
   cai-asciinema path/to/file.jsonl 0.5
   cai-asciinema conversation.jsonl 1.0
 """,
     )
 
-    parser.add_argument("jsonl_file", help="Path to the JSONL file containing conversation history")
+    parser.add_argument("jsonl_file", help="Путь к JSONL файлу, содержащему историю разговоров")
 
-    parser.add_argument("replay_delay", type=float, help="Time in seconds to wait between actions")
+    parser.add_argument("replay_delay", type=float, help="Время в секундах ожидания между действиями")
 
     parser.add_argument(
-        "--output", "-o", type=str, help="Output file path for the recording (optional)"
+        "--output", "-o", type=str, help="Путь к выходному файлу для записи (необязательно)"
     )
 
     return parser.parse_args()
 
 
 def main():
-    """Main function to record asciinema session."""
+    """Основная функция для записи сессии asciinema."""
     args = parse_arguments()
 
-    # Validate that the JSONL file exists
+    # Проверка существования JSONL файла
     if not os.path.exists(args.jsonl_file):
-        print(f"Error: File {args.jsonl_file} not found", file=sys.stderr)
+        print(f"Ошибка: Файл {args.jsonl_file} не найден", file=sys.stderr)
         sys.exit(1)
 
-    # Build the command to record using the same Python interpreter
+    # Построение команды для записи с использованием того же интерпретатора Python
     replay_command = f"{sys.executable} tools/replay.py {args.jsonl_file} {args.replay_delay}"
 
-    # Build asciinema command
+    # Построение команды asciinema
     asciinema_cmd = ["asciinema", "rec", f"--command={replay_command}", "--overwrite"]
 
-    # Add output file if specified
+    # Добавление выходного файла при указании
     if args.output:
         asciinema_cmd.append(args.output)
 
-    print(f"Recording asciinema session for {args.jsonl_file} with delay {args.replay_delay}s...")
+    print(f"Запись сессии asciinema для {args.jsonl_file} с задержкой {args.replay_delay}s...")
     print(f"Running: {' '.join(asciinema_cmd)}")
 
     try:
-        # Execute the asciinema command
+        # Выполнение команды asciinema
         result = subprocess.run(asciinema_cmd, check=True)
         # result = subprocess.run(replay_command, check=True)
-        print("Recording completed successfully!")
+        print("Запись успешно завершена!")
         return result.returncode
     except subprocess.CalledProcessError as e:
-        print(f"Error: asciinema recording failed with exit code {e.returncode}", file=sys.stderr)
+        print(f"Ошибка: Запись asciinema не удалась с кодом выхода {e.returncode}", file=sys.stderr)
         sys.exit(e.returncode)
     except FileNotFoundError:
-        print("Error: asciinema not found. Please install asciinema first.", file=sys.stderr)
-        print("Install with: pip install asciinema", file=sys.stderr)
+        print("Ошибка: asciinema не найден. Пожалуйста, сначала установите asciinema.", file=sys.stderr)
+        print("Установите с помощью: pip install asciinema", file=sys.stderr)
         sys.exit(1)
 
 

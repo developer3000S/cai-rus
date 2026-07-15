@@ -1,33 +1,33 @@
-# Contributing to CAI
+# Участие в разработке CAI
 
-## Development Setup
+## Настройка среды разработки
 
-1. Clone the repository:
+1. Клонируйте репозиторий:
 ```bash
 git clone https://github.com/yourusername/cai.git
 cd cai
 ```
 
-2. Create and activate a virtual environment:
+2. Создайте и активируйте виртуальное окружение:
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # На Windows: venv\Scripts\activate
 ```
 
-3. Install development dependencies:
+3. Установите зависимости для разработки:
 ```bash
 pip install -e ".[dev]"
 ```
 
-## Code Style
+## Стиль кода
 
-CAI follows PEP 8 style guidelines. We use:
-- Black for code formatting
-- isort for import sorting
-- flake8 for linting
-- mypy for type checking
+CAI следует рекомендациям PEP 8. Мы используем:
+- Black для форматирования кода
+- isort для сортировки импортов
+- flake8 для линтинга
+- mypy для проверки типов
 
-To run the code quality checks:
+Для запуска проверок качества кода:
 ```bash
 black .
 isort .
@@ -35,32 +35,32 @@ flake8
 mypy .
 ```
 
-## Testing
+## Тестирование
 
-We use pytest for testing. To run the test suite:
+Мы используем pytest для тестирования. Чтобы запустить набор тестов:
 ```bash
 pytest
 ```
 
-## Documentation
+## Документация
 
-Documentation is built using MkDocs. To build and serve the documentation locally:
+Документация создается с помощью MkDocs. Чтобы собрать и запустить документацию локально:
 ```bash
 mkdocs serve
 ```
 
-## Pull Request Process
+## Процесс создания Pull Request
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run all tests and code quality checks
-5. Submit a pull request
+1. Сделайте форк репозитория
+2. Создайте ветку для новой функции (feature branch)
+3. Внесите изменения
+4. Запустите все тесты и проверки качества кода
+5. Отправьте pull request
 
-## Code of Conduct
+## Кодекс поведения
 
-Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md) when contributing to CAI.
+Пожалуйста, прочитайте и соблюдайте наш [Кодекс поведения](CODE_OF_CONDUCT.md) при участии в разработке CAI.
 
-## License
+## Лицензия
 
-By contributing to CAI, you agree that your contributions will be licensed under the project's [MIT License](LICENSE). 
+Внося вклад в CAI, вы соглашаетесь с тем, что ваши изменения будут лицензированы в соответствии с [Лицензией MIT](LICENSE) проекта.

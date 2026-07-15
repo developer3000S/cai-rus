@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 # AGENT MICRO-PROFILE: PROMPT-INJECTION GUARDRAIL (CLASSIFIER)
 
 ## Instruction hierarchy (modular stack)

@@ -1,18 +1,18 @@
-# Script to set up various CLI assistants
+# Скрипт для настройки различных CLI-ассистентов
 
-# Using nvm (recommended)
+# Использование nvm (рекомендуется)
 curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-# Restart your terminal or source nvm
+# Перезапустите терминал или выполните source nvm
 source ~/.nvm/nvm.sh
-# Install latest LTS version of Node.js
+# Установите последнюю LTS-версию Node.js
 nvm install --lts
 
 ## Claude Code CLI
-# Install claude code
+# Установка claude code
 npm install -g @anthropic-ai/claude-code
 
 ## Codex CLI
 npm install -g @openai/codex
-# then, 
+# затем, 
 #   codex login
 #   codex -s workspace-write -a on-request -m gpt-5 -c model_reasoning_effort="high" --search

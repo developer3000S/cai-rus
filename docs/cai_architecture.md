@@ -1,19 +1,19 @@
-CAI focuses on making cybersecurity agent **coordination** and **execution** lightweight, highly controllable, and useful for humans. To do so it builds upon 8 pillars: `Agent`s, `Tools`, `Handoffs`, `Patterns`, `Turns`, `Tracing`, `Guardrails` and `HITL`.
+CAI сфокусирован на том, чтобы сделать **координацию** и **выполнение** агентов кибербезопасности лёгкими, высокоуправляемыми и полезными для людей. Для этого он опирается на 8 столпов: `Агенты`, `Инструменты`, `Передачи`, `Паттерны`, `Ходы`, `Трассировка`, `Ограничители` и `HITL`.
 
 
 ```
                   ┌───────────────┐           ┌───────────┐
-                  │      HITL     │◀─────────▶│   Turns   │
+                  │      HITL     │◀─────────▶│   Ходы    │
                   └───────┬───────┘           └───────────┘
                           │
                           ▼
 ┌───────────┐       ┌───────────┐       ┌───────────┐      ┌───────────┐
-│  Patterns │◀─────▶│  Handoffs │◀────▶ │   Agents  │◀────▶│    LLMs   │
+│ Паттерны  │◀─────▶│ Передачи  │◀────▶ │  Агенты   │◀────▶│    LLMs   │
 └───────────┘       └─────┬─────┘       └─────┬─────┘      └───────────┘
                           │                   │
                           │                   ▼
 ┌────────────┐       ┌────┴──────┐       ┌───────────┐     ┌────────────┐
-│ Extensions │◀─────▶│  Tracing  │       │   Tools   │◀───▶│ Guardrails │
+│Расширения  │◀─────▶│Трассировка│       │Инструменты│◀───▶│Ограничители│
 └────────────┘       └───────────┘       └───────────┘     └────────────┘
                                               │
                           ┌─────────────┬─────┴────┬─────────────┐
@@ -26,151 +26,152 @@ CAI focuses on making cybersecurity agent **coordination** and **execution** lig
 
 ---
 
-## 📚 Research Foundation
+## 📚 Научная основа
 
-The CAI architecture is built on rigorous research establishing best practices for cybersecurity AI systems:
+Архитектура CAI построена на строгих исследованиях, устанавливающих лучшие практики для систем ИИ в области кибербезопасности:
 
-!!! tip "Key Research Papers"
-    - 🚀 [**CAI Framework**](https://arxiv.org/pdf/2504.06017) (2025) - Core architecture demonstrating 3,600× speedup over manual testing
-    - 🤖 [**Automation vs Autonomy**](https://www.arxiv.org/pdf/2506.23592) (2025) - 6-level taxonomy defining cybersecurity AI capabilities
-    - 🎯 [**Agentic Cybersecurity Evaluation**](https://arxiv.org/pdf/2510.17521) (2025) - Real-world validation of agent coordination patterns
-    - 🛡️ [**Prompt Injection Defense**](https://arxiv.org/pdf/2508.21669) (2025) - Four-layer guardrail system architecture
-    - 📊 [**CAIBench**](https://arxiv.org/pdf/2510.24317) (2025) - Meta-benchmark framework for evaluating agent performance
+!!! tip "Ключевые научные статьи"
+    - 🚀 [**Фреймворк CAI**](https://arxiv.org/pdf/2504.06017) (2025) — базовая архитектура, демонстрирующая ускорение в 3 600× по сравнению с ручным тестированием
+    - 🤖 [**Автоматизация и Автономность**](https://www.arxiv.org/pdf/2506.23592) (2025) — 6-уровневая таксономия, определяющая возможности ИИ в кибербезопасности
+    - 🎯 [**Агентная оценка кибербезопасности**](https://arxiv.org/pdf/2510.17521) (2025) — практическая валидация паттернов координации агентов
+    - 🛡️ [**Защита от инъекций промптов**](https://arxiv.org/pdf/2508.21669) (2025) — четырёхуровневая архитектура системы ограничителей
+    - 📊 [**CAIBench**](https://arxiv.org/pdf/2510.24317) (2025) — мета-бенчмарковый фреймворк для оценки производительности агентов
 
-**📖 Explore all research:** [Alias Robotics Research Library →](https://aliasrobotics.com/research-security.php#papers)
+**📖 Изучите все исследования:** [Библиотека исследований Alias Robotics →](https://aliasrobotics.com/research-security.php#papers)
 
-The architecture emphasizes **transparency**, **modularity**, and **human oversight** to ensure responsible and effective cybersecurity automation. Our [research demonstrates](https://arxiv.org/pdf/2506.23592) that semi-autonomous systems with human-in-the-loop capabilities significantly outperform fully autonomous approaches for complex security tasks.
+Архитектура подчёркивает **прозрачность**, **модульность** и **человеческий надзор** для обеспечения ответственной и эффективной автоматизации кибербезопасности. Наши [исследования](https://arxiv.org/pdf/2506.23592) показывают, что полуавтономные системы с возможностью человека в цикле значительно превосходят полностью автономные подходы для сложных задач безопасности.
 
 ---
 
-If you want to dive deeper into the code, check the following files as a start point for using CAI:
+Если вы хотите глубже изучить код, начните со следующих файлов для работы с CAI:
 
 ```
 cai
 ├── benchmarks
 ├── ci
 ├── docs
-├── examples                     # Basic use of CAI for start building on your own
+├── examples                     # Базовое использование CAI для начала собственной работы
 ├── src
 │   └── cai
 │        ├── __init__.py
 │        ├── agents
-│        │   ├── one_tool.py     # Agent definitions, one agent per file
+│        │   ├── one_tool.py     # Определения агентов, один агент на файл
 │        │   └── patterns
-│        ├── cli.py              # Entrypoint for CLI
+│        ├── cli.py              # Точка входа для CLI
 │        ├── prompts
-│        ├── repl                # CLI aesthetics and commands
+│        ├── repl                # Эстетика и команды CLI
 │        │   ├── commands
 │        │   └── ui
-│        ├── sdk                 # Necessary class for chat completions
+│        ├── sdk                 # Необходимый класс для chat completions
 │        │   └── agents
 │        │       └── model
-│        ├── tools               # Agent tools
+│        ├── tools               # Инструменты агентов
 │        │   └──common.py
-│        └── util.py             # Utility functions
+│        └── util.py             # Вспомогательные функции
 ├── tests
-└── tools                        # Usable tools
+└── tools                        # Используемые инструменты
 ```
 
 ---
 
-### 🔹 Agent
+### 🔹 Агент
 
-At its core, CAI abstracts its cybersecurity behavior via `Agents` and agentic `Patterns`. An Agent in *an intelligent system that interacts with some environment*. More technically, within CAI we embrace a robotics-centric definition wherein an agent is anything that can be viewed as a system perceiving its environment through sensors, reasoning about its goals and and acting accordingly upon that environment through actuators (*adapted* from Russel & Norvig, AI: A Modern Approach). In cybersecurity, an `Agent` interacts with systems and networks, using peripherals and network interfaces as sensors, reasons accordingly and then executes network actions as if actuators. Correspondingly, in CAI, `Agent`s implement the `ReACT` (Reasoning and Action) agent model[3].
+В основе CAI абстрагирует своё поведение в кибербезопасности через `Агенты` и агентные `Паттерны`. Агент — это *интеллектуальная система, взаимодействующая с некоторой средой*. Более технически, в CAI мы используем определение, ориентированное на робототехнику: агент — это всё, что можно рассматривать как систему, воспринимающую свою среду с помощью сенсоров, рассуждающую о своих целях и соответствующим образом действующую в этой среде через актуаторы (*адаптировано* из Russel & Norvig, AI: A Modern Approach). В кибербезопасности `Агент` взаимодействует с системами и сетями, используя периферийные устройства и сетевые интерфейсы в качестве сенсоров, рассуждает соответствующим образом, а затем выполняет сетевые действия как актуаторы. Соответственно, в CAI `Агенты` реализуют модель агента `ReACT` (Рассуждение и Действие)[3].
 
-For more details, including examples and implementation guidance, see the [Agents documentation](agents.md).
-
-
-### 🔹 Tools
-
-`Tools` let cybersecurity agents take actions by providing interfaces to execute system commands, run security scans, analyze vulnerabilities, and interact with target systems and APIs - they are the core capabilities that enable CAI agents to perform security tasks effectively; in CAI, tools include built-in cybersecurity utilities (like LinuxCmd for command execution, WebSearch for OSINT gathering, Code for dynamic script execution, and SSHTunnel for secure remote access), function calling mechanisms that allow integration of any Python function as a security tool, and agent-as-tool functionality that enables specialized security agents (such as reconnaissance or exploit agents) to be used by other agents, creating powerful collaborative security workflows without requiring formal handoffs between agents.
-
-You may find different [tools](src/cai/tools). They are grouped in 6 major categories inspired by the security kill chain[2]:
-
-1. Reconnaissance and weaponization - *reconnaissance*  (crypto, listing, etc)
-2. Exploitation - *exploitation*
-3. Privilege escalation - *escalation*
-4. Lateral movement - *lateral*
-5. Data exfiltration - *exfiltration*
-6. Command and control - *control*
-
-For more information, examples, and implementation details, please refer to the [Tools documentation](tools.md).
+Подробнее, включая примеры и руководство по реализации, см. в [документации по Агентам](agents.md).
 
 
-### 🔹 Patterns
+### 🔹 Инструменты
 
-An agentic `Pattern` is a *structured design paradigm* in artificial intelligence systems where autonomous or semi-autonomous agents operate within a defined *interaction framework* (the pattern) to achieve a goal. These `Patterns` specify the organization, coordination, and communication
-methods among agents, guiding decision-making, task execution, and delegation.
+`Инструменты` позволяют агентам кибербезопасности выполнять действия, предоставляя интерфейсы для запуска системных команд, выполнения сканирования безопасности, анализа уязвимостей и взаимодействия с целевыми системами и API — это ключевые возможности, позволяющие агентам CAI эффективно выполнять задачи безопасности; в CAI инструменты включают встроенные утилиты кибербезопасности (такие как LinuxCmd для выполнения команд, WebSearch для сбора OSINT, Code для динамического запуска скриптов и SSHTunnel для безопасного удалённого доступа), механизмы вызова функций, позволяющие интегрировать любую Python-функцию в качестве инструмента безопасности, и функциональность «агент как инструмент», которая позволяет специализированным агентам безопасности (таким как агенты разведки или эксплуатации) использоваться другими агентами, создавая мощные совместные рабочие процессы безопасности без необходимости формальных передач между агентами.
 
-An agentic pattern (`AP`) can be formally defined as a tuple:
+Вы можете найти различные [инструменты](src/cai/tools). Они сгруппированы в 6 основных категорий, вдохновлённых цепочкой уничтожения безопасности[2]:
+
+1. Разведка и вооружение - *reconnaissance*  (крипто, перечисление и т.д.)
+2. Эксплуатация - *exploitation*
+3. Эскалация привилегий - *escalation*
+4. Горизонтальное перемещение - *lateral*
+5. Эксфильтрация данных - *exfiltration*
+6. Управление и контроль - *control*
+
+Подробнее, включая примеры и детали реализации, см. в [документации по Инструментам](tools.md).
+
+
+### 🔹 Паттерны
+
+Агентный `Паттерн` — это *структурированный дизайн-парадигма* в системах искусственного интеллекта, где автономные или полуавтономные агенты работают в рамках определённого *взаимодействия* (паттерна) для достижения цели. Эти `Паттерны` определяют организацию, координацию и методы
+коммуникации между агентами, направляя принятие решений, выполнение задач и делегирование.
+
+Агентный паттерн (`AP`) можно формально определить как кортеж:
 
 \\[
 AP = (A, H, D, C, E)
 \\]
 
-wherein:
+где:
 
-- **\\(A\\) (Agents):** A set of autonomous entities, \\( A = \\{a_1, a_2, ..., a_n\\} \\), each with defined roles, capabilities, and internal states.
-- **\\(H\\) (Handoffs):** A function \\( H: A \times T \to A \\) that governs how tasks \\( T \\) are transferred between agents based on predefined logic (e.g., rules, negotiation, bidding).
-- **\\(D\\) (Decision Mechanism):** A decision function \\( D: S \to A \\) where \\( S \\) represents system states, and \\( D \\) determines which agent takes action at any given time.
-- **\\(C\\) (Communication Protocol):** A messaging function \\( C: A \times A \to M \\), where \\( M \\) is a message space, defining how agents share information.
-- **\\(E\\) (Execution Model):** A function \\( E: A \times I \to O \\) where \\( I \\) is the input space and \\( O \\) is the output space, defining how agents perform tasks.
+- **\\(A\\) (Агенты):** Множество автономных сущностей, \\( A = \\{a_1, a_2, ..., a_n\\} \\), каждая с определёнными ролями, возможностями и внутренними состояниями.
+- **\\(H\\) (Передачи):** Функция \\( H: A \times T \to A \\), которая управляет тем, как задачи \\( T \\) передаются между агентами на основе предопределённой логики (например, правила, согласование, торги).
+- **\\(D\\) (Механизм принятия решений):** Функция принятия решений \\( D: S \to A \\), где \\( S \\) представляет состояния системы, а \\( D \\) определяет, какой агент действует в любой данный момент.
+- **\\(C\\) (Протокол коммуникации):** Функция обмена сообщениями \\( C: A \times A \to M \\), где \\( M \\) — пространство сообщений, определяющее, как агенты делятся информацией.
+- **\\(E\\) (Модель выполнения):** Функция \\( E: A \times I \to O \\), где \\( I \\) — пространство входных данных, а \\( O \\) — пространство выходных данных, определяющая, как агенты выполняют задачи.
 
-When building `Patterns`, we generall y classify them among one of the following categories, though others exist:
+При построении `Паттернов` мы обычно классифицируем их по одной из следующих категорий, хотя существуют и другие:
 
-| **Agentic** `Pattern` **categories** | **Description** |
+| **Категории** агентных `Паттернов` | **Описание** |
 |--------------------|------------------------|
-| `Swarm` (Decentralized) | Agents share tasks and self-assign responsibilities without a central orchestrator. Handoffs occur dynamically. *An example of a peer-to-peer agentic pattern is the `CTF Agentic Pattern`, which involves a team of agents working together to solve a CTF challenge with dynamic handoffs.* |
-| `Hierarchical` | A top-level agent (e.g., "PlannerAgent") assigns tasks via structured handoffs to specialized sub-agents. Alternatively, the structure of the agents is harcoded into the agentic pattern with pre-defined handoffs. |
-| `Chain-of-Thought` (Sequential Workflow) | A structured pipeline where Agent A produces an output, hands it to Agent B for reuse or refinement, and so on. Handoffs follow a linear sequence. *An example of a chain-of-thought agentic pattern is the `ReasonerAgent`, which involves a Reasoning-type LLM that provides context to the main agent to solve a CTF challenge with a linear sequence.*[1] |
-| `Auction-Based` (Competitive Allocation) | Agents "bid" on tasks based on priority, capability, or cost. A decision agent evaluates bids and hands off tasks to the best-fit agent. |
-| `Recursive` | A single agent continuously refines its own output, treating itself as both executor and evaluator, with handoffs (internal or external) to itself. *An example of a recursive agentic pattern is the `CodeAgent` (when used as a recursive agent), which continuously refines its own output by executing code and updating its own instructions.* |
-| `Parallelization` | Multiple agents run in parallel, each handling different subtasks or independent inputs simultaneously. This approach speeds up processing when tasks do not depend on each other. *For example, you can launch several agents to analyze different log files or scan multiple IP addresses at the same time, leveraging concurrency to improve efficiency.* |
+| `Рой` (Децентрализованный) | Агенты распределяют задачи и назначают ответственность без центрального оркестратора. Передачи происходят динамически. *Примером децентрализованного агентного паттерна является `CTF Агентный Паттерн`, в котором команда агентов работает вместе для решения задачи CTF с динамическими передачами.* |
+| `Иерархический` | Агент верхнего уровня (например, "PlannerAgent") назначает задачи через структурированные передачи специализированным подагентам. Альтернативно, структура агентов задаётся в агентном паттерне с предопределёнными передачами. |
+| `Цепочка рассуждений` (Последовательный рабочий процесс) | Структурированный конвейер, где Агент A создаёт результат и передаёт его Агенту B для повторного использования или доработки, и так далее. Передачи следуют линейной последовательности. *Примером паттерна цепочки рассуждений является `ReasonerAgent`, который включает LLM-модель типа «Рассуждение», предоставляющую контекст основному агенту для решения задачи CTF с линейной последовательностью.*[1] |
+| `Аукционный` (Конкурентное распределение) | Агенты «базарятся» за задачи на основе приоритета, возможностей или стоимости. Агент принятия решений оценивает предложения и передаёт задачи наиболее подходящему агенту. |
+| `Рекурсивный` | Один агент непрерывно дорабатывает собственный результат, выступая одновременно исполнителем и оценщиком, с передачами (внутренними или внешними) к себе. *Примером рекурсивного агентного паттерна является `CodeAgent` (при использовании как рекурсивный агент), который непрерывно дорабатывает собственный результат, выполняя код и обновляя собственные инструкции.* |
+| `Параллелизация` | Несколько агентов работают параллельно, каждый обрабатывая различные подзадачи или независимые входные данные одновременно. Этот подход ускоряет обработку, когда задачи не зависят друг от друга. *Например, вы можете запустить несколько агентов для анализа различных файлов журнала или сканирования нескольких IP-адресов одновременно, используя параллелизм для повышения эффективности.* |
  
-Moreover in this new version we could orchestrate agents and add decision mechanism in several ways. See [Orchestrating multiple agents](multi_agent.md)
+Кроме того, в новой версии мы можем оркестрировать агентов и добавлять механизмы принятия решений различными способами. См. [Оркестрация нескольких агентов](multi_agent.md)
 
 
-### 🔹 Turns 
-During the agentic flow (conversation), we distinguish between **interactions** and **turns**.
+### 🔹 Ходы
+Во время агентного потока (диалога) мы различаем **взаимодействия** и **ходы**.
 
-- **Interactions** are sequential exchanges between one or multiple agents. Each agent executing its logic corresponds with one *interaction*. Since an `Agent` in CAI generally implements the `ReACT` agent model[3], each *interaction* consists of 1) a reasoning step via an LLM inference and 2) act by calling zero-to-n `Tools`. 
-- **Turns**: A turn represents a cycle of one ore more **interactions** which finishes when the `Agent` (or `Pattern`) executing returns `None`, judging there're no further actions to undertake.
-
-
-> CAI Agents are not related to Assistants in the Assistants API. They are named similarly for convenience, but are otherwise completely unrelated. CAI is entirely powered by the Chat Completions API and is hence stateless between calls.
+- **Взаимодействия** — это последовательные обмены между одним или несколькими агентами. Каждый агент, выполняющий свою логику, соответствует одному *взаимодействию*. Поскольку `Агент` в CAI обычно реализует модель агента `ReACT`[3], каждое *взаимодействие* состоит из 1) шага рассуждения через вывод LLM и 2) действия путём вызова от нуля до n `Инструментов`. 
+- **Ходы**: Ход представляет собой цикл из одного или более **взаимодействий**, который завершается, когда `Агент` (или `Паттерн`) возвращает `None`, полагая, что больше действий предпринимать не нужно.
 
 
-### 🔹 Tracing
-> ⚠️ TRACING IS STILL IN PROGRESS
+> Агенты CAI не связаны с Ассистентами в Assistants API. Они названы аналогично для удобства, но в остальном совершенно не связаны. CAI полностью работает на Chat Completions API и поэтому не сохраняет состояния между вызовами.
 
 
-### 🔹 Guardrails
-
-`Guardrails` provide a critical security layer for CAI agents, protecting against prompt injection attacks and preventing execution of dangerous commands. These guardrails run in parallel to agents, validating both input and output to ensure safe operation. The framework includes:
-
-- **Input Guardrails**: Detect and block prompt injection attempts before they reach agents, using pattern matching, Unicode homograph detection, and AI-powered analysis
-- **Output Guardrails**: Validate agent outputs before execution, preventing dangerous commands like reverse shells, fork bombs, or data exfiltration  
-- **Multi-layered Defense**: Protection at input, processing, and execution stages with tool-level validation
-- **Base64/Base32 Aware**: Automatically decodes and analyzes encoded payloads to detect hidden malicious commands
-- **Configurable**: Can be enabled/disabled via `CAI_GUARDRAILS` environment variable
-
-For detailed implementation and examples, see [Guardrails documentation](guardrails.md) and [Prompt Injection Mitigation](cai_prompt_injection.md).
+### 🔹 Трассировка
+> ⚠️ ТРАССИРОВКА ВСЁ ЕЩЁ В РАЗРАБОТКЕ
 
 
-### 🔹 Human-In-The-Loop (HITL)
+### 🔹 Ограничители
+
+`Ограничители` обеспечивают критический слой безопасности для агентов CAI, защищая от атак инъекции промптов и предотвращая выполнение опасных команд. Эти ограниители работают параллельно с агентами, проверяя как входные, так и выходные данные для обеспечения безопасной работы. Фреймворк включает:
+
+- **Входные ограниители**: Обнаруживают и блокируют попытки инъекции промптов до их попадания к агентам, используя сопоставление шаблонов, обнаружение одноглифов Unicode и анализ на основе ИИ
+- **Выходные ограниители**: Проверяют результаты агентов перед выполнением, предотвращая опасные команды, такие как обратные оболочки, fork-бомбы или эксфильтрация данных  
+- **Многоуровневая защита**: Защита на этапах ввода, обработки и выполнения с проверкой на уровне инструментов
+- **Поддержка Base64/Base32**: Автоматически декодирует и анализирует закодированные полезные нагрузки для обнаружения скрытых вредоносных команд
+- **Настраиваемость**: Может быть включена/отключена через переменную окружения `CAI_GUARDRAILS`
+
+Для подробной информации о реализации и примерах см. [документацию по Ограничителям](guardrails.md) и [Смягчение инъекций промптов](cai_prompt_injection.md).
+
+
+### 🔹 Человек в цикле (HITL)
 
 ```
                       ┌─────────────────────────────────┐
                       │                                 │
-                      │      Cybersecurity AI (CAI)     │
+                      │    Кибербезопасность ИИ (CAI)   │
                       │                                 │
                       │       ┌─────────────────┐       │
-                      │       │  Autonomous AI  │       │
+                      │       │   Автономный ИИ  │       │
                       │       └────────┬────────┘       │
                       │                │                │
                       │                │                │
                       │       ┌────────▼─────────┐      │
-                      │       │ HITL Interaction │      │
+                      │       │  Взаимодействие  │      │
+                      │       │     HITL         │      │
                       │       └────────┬─────────┘      │
                       │                │                │
                       └────────────────┼────────────────┘
@@ -178,19 +179,19 @@ For detailed implementation and examples, see [Guardrails documentation](guardra
                                        │ Ctrl+C (cli.py)
                                        │
                            ┌───────────▼───────────┐
-                           │   Human Operator(s)   │
-                           │  Expertise | Judgment │
-                           │    Teleoperation      │
+                           │   Оператор(ы)         │
+                           │  Экспертиза | Суд     │
+                           │    Телеуправление      │
                            └───────────────────────┘
 ```
 
-CAI delivers a framework for building Cybersecurity AIs with a strong emphasis on *semi-autonomous* operation, as the reality is that **fully-autonomous** cybersecurity systems remain premature and face significant challenges when tackling complex tasks. While CAI explores autonomous capabilities, we recognize that effective security operations still require human teleoperation providing expertise, judgment, and oversight in the security process.
+CAI предоставляет фреймворк для создания систем ИИ кибербезопасности с особым акцентом на *полуавтономную* работу, поскольку реальность такова, что **полностью автономные** системы кибербезопасности всё ещё находятся на ранней стадии развития и сталкиваются с серьёзными трудностями при решении сложных задач. Хотя CAI исследует автономные возможности, мы признаём, что эффективные операции безопасности по-прежнему требуют телеуправления человеком, обеспечивающего экспертизу, суждение и надзор в процессе безопасности.
 
-Accordingly, the Human-In-The-Loop (`HITL`) module is a core design principle of CAI, acknowledging that human intervention and teleoperation are essential components of responsible security testing. Through the `cli.py` interface, users can seamlessly interact with agents at any point during execution by simply pressing `Ctrl+C`. 
+Соответственно, модуль «Человек в цикле» (`HITL`) является ключевым принципом проектирования CAI, подтверждающим, что вмешательство человека и телеуправление являются неотъемлемой частью ответственного тестирования безопасности. Через интерфейс `cli.py` пользователи могут бесшовно взаимодействовать с агентами в любой момент во время выполнения, просто нажав `Ctrl+C`.
 
 
 ---
 
-[1] Arguably, the Chain-of-Thought agentic pattern is a special case of the Hierarchical agentic pattern.
+[1] По мнению некоторых, паттерн цепочки рассуждений является частным случаем иерархического агентного паттерна.
 [2] Kamhoua, C. A., Leslie, N. O., & Weisman, M. J. (2018). Game theoretic modeling of advanced persistent threat in internet of things. Journal of Cyber Security and Information Systems.
 [3] Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., & Cao, Y. (2023, January). React: Synergizing reasoning and acting in language models. In International Conference on Learning Representations (ICLR).

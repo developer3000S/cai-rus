@@ -1,7 +1,7 @@
 [project]
 name = "cai-framework"
 version = "1.1.5"
-description = "Cybersecurity AI Framework"
+description = "Фреймворк кибербезопасностной ИИ"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "Dual-licensed MIT and Proprietary"}

@@ -1,7 +1,7 @@
 """
-Save command for CAI REPL.
+Команда save для CAI REPL.
 
-Writes conversation histories to JSONL (round-trip with /load) or Markdown (human-readable).
+Записывает истории диалогов в JSONL (обратная совместимость с /load) или Markdown (для чтения).
 """
 
 import json
@@ -33,7 +33,7 @@ def _ensure_parent_dir(out_path: str) -> bool:
     try:
         os.makedirs(parent, exist_ok=True)
     except OSError as exc:
-        console.print(f"[red]Error creating directory: {exc}[/red]")
+        console.print(f"[red]Ошибка создания каталога: {exc}[/red]")
         return False
     return True
 

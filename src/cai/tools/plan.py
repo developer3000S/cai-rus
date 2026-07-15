@@ -1,15 +1,15 @@
 """
-Plan management tool to update per-agent plans (todo list).
+Инструмент управления планами для обновления планов (списка задач) отдельных агентов.
 
-Each agent maintains its own in-memory plan stored on the model instance
-(`agent.model._current_plan`). This prevents plan mixing across agents
-and avoids writing to shared JSON files under ~/.cai.
+Каждый агент поддерживает собственный план в памяти, хранимый на экземпляре модели
+(`agent.model._current_plan`). Это предотвращает смешивание планов между агентами
+и избегает записи в общие JSON-файлы в ~/.cai.
 
-Usage:
-  - Call this tool with a list of todo dictionaries to set/update the plan.
-  - Do not mix plan updates with command execution tools.
+Использование:
+  - Вызовите этот инструмент со списком словарей задач для установки/обновления плана.
+  - Не смешивайте обновления плана с инструментами выполнения команд.
 
-The tool is a no-op unless `CAI_PLAN=true` is set in the environment.
+Инструмент не действует, если в окружении не установлена переменная `CAI_PLAN=true`.
 """
 
 import os
@@ -35,33 +35,33 @@ except Exception:  # pragma: no cover
 @function_tool
 async def Todo_list(todos: list | None = None) -> str:
     """
-    Update the current agent's plan (todo list).
+    Обновление плана текущего агента (списка задач).
 
     Args:
-        todos: List of todo dicts with fields like:
+        todos: Список словарей задач с полями, такими как:
                {'content': str, 'status': 'pending'|'in_progress'|'completed', 'activeForm': str}
 
-    Behavior:
-        - Stores the plan in-memory on the current agent's model instance
-          (per-agent, not shared).
-        - Requires environment variable CAI_PLAN=true to take effect.
+    Поведение:
+        - Сохраняет план в памяти на экземпляре модели текущего агента
+          (отдельно для каждого агента, не общий).
+        - Требует переменную окружения CAI_PLAN=true для активации.
 
     Returns:
-        A confirmation with the formatted <todo_list> block, or an error message.
+        Подтверждение с отформатированным блоком <todo_list> или сообщение об ошибке.
     """
     from cai.config import get_config
     cfg = get_config()
     if not cfg.plan_enabled:
-        return "Plan feature disabled. Set CAI_PLAN=true to enable plan tracking."
+        return "Функция плана отключена. Установите CAI_PLAN=true для включения отслеживания планов."
 
     if todos is None:
-        return "Error: 'todos' is required (list of todo dicts)"
+        return "Ошибка: 'todos' обязателен (список словарей задач)"
 
     if not isinstance(todos, list) or len(todos) == 0:
-        return "Error: 'todos' must be a non-empty list"
+        return "Ошибка: 'todos' должен быть непустым списком"
 
     if not all(isinstance(item, dict) for item in todos):
-        return "Error: every item in 'todos' must be a dict"
+        return "Ошибка: каждый элемент в 'todos' должен быть словарём"
 
     # Resolve the current model instance, prioritizing the execution context
     model_instance = None
@@ -91,17 +91,17 @@ async def Todo_list(todos: list | None = None) -> str:
             model_instance = None
 
     if model_instance is None or not hasattr(model_instance, "_current_plan"):
-        return "Error: could not locate the current agent model to store the plan"
+        return "Ошибка: не удалось найти модель текущего агента для сохранения плана"
 
     # Store plan on the model instance (per-agent)
     try:
         model_instance._current_plan = todos  # type: ignore[attr-defined]
     except Exception as e:  # pragma: no cover - defensive
-        return f"Error updating plan: {e}"
+        return f"Ошибка обновления плана: {e}"
 
     # Produce a compact confirmation with the todo list for visibility
     lines = [
-        "Plan updated successfully. Keep using the todo list to track progress.",
+        "План успешно обновлён. Продолжайте использовать список задач для отслеживания прогресса.",
         "",
         "<todo_list>",
     ]

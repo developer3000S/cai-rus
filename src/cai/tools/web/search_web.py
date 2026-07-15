@@ -11,14 +11,14 @@ from cai.agents.guardrails import sanitize_external_content
 @function_tool
 def query_perplexity(query: str = "", context: str = "") -> str:
     """
-    Query the Perplexity AI API with a user prompt.
+    Запрос к API Perplexity AI с пользовательским запросом.
 
     Args:
-        query (str): The question to search for.
-        context (str): The full context of current CTF challenge.
+        query (str): Вопрос для поиска.
+        context (str): Полный контекст текущего задания CTF.
 
     Returns:
-        str: The response from Perplexity AI.
+        str: Ответ от Perplexity AI.
     """
     load_dotenv()
     api_key = os.getenv("PERPLEXITY_API_KEY")
@@ -65,19 +65,19 @@ def query_perplexity(query: str = "", context: str = "") -> str:
 @function_tool
 def make_web_search_with_explanation(context: str = "", query: str = "") -> str:
     """
-    Executes an intelligent web search via the AI service for relevant
-    cybersecurity and CTF-related information. This function sends the
-    provided query to the internet search engine and returns the response.
-    It also uses the full context of the current CTF challenge.
+    Выполняет интеллектуальный веб-поиск через AI-сервис для поиска
+    релевантной информации по кибербезопасности и CTF. Эта функция отправляет
+    указанный запрос в поисковую систему и возвращает ответ.
+    Она также использует полный контекст текущего задания CTF.
 
-    CONTEXT ALWAYS IS NEEDED
+    КОНТЕКСТ ВСЕГДА НЕОБХОДИМ
     Args:
-      context (str): The full context of the current CTF challenge.
-        query (str): The question or keywords to search for.
+      context (str): Полный контекст текущего задания CTF.
+        query (str): Вопрос или ключевые слова для поиска.
 
 
     Returns:
-        str: Search result.
+        str: Результат поиска.
     """
     return query_perplexity(query, context)
 
@@ -85,15 +85,15 @@ def make_web_search_with_explanation(context: str = "", query: str = "") -> str:
 @function_tool
 def make_google_search(query: str, dorks=False) -> str:
     """
-    Search Google for information.
+    Поиск информации в Google.
 
     Args:
-        query: The search query to look up on Google.
-        dorks: Whether to use Google dorks for advanced searching.
-            Default is False.
+        query: Поисковый запрос для Google.
+        dorks: Использовать ли Google dorks для расширенного поиска.
+            По умолчанию False.
 
     Returns:
-        A list of search results. Each result contains URL, title, and snippet.
+        Список результатов поиска. Каждый результат содержит URL, заголовок и фрагмент.
     """
     if dorks:
         result = google_dork_search(query)

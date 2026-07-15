@@ -1,125 +1,125 @@
-# Sidebar Features
+# Функции боковой панели
 
-> **⚡ CAI-Pro Exclusive Feature**  
-> The Terminal User Interface (TUI) is available exclusively in **CAI-Pro**. To access this feature and unlock advanced multi-agent workflows, visit [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) for more information.
-
----
-
-The CAI TUI sidebar is a powerful vertical panel that provides quick access to essential features and information. It can be toggled on/off to maximize screen space:
-
-- **Toggle button**: Click the sidebar toggle button in the top bar
-- **Keyboard shortcut**: Press `Ctrl+S` to show/hide the sidebar
-
-When hidden, the sidebar collapses completely, giving you full width for terminal content. Toggle it back to access teams, queue, stats, and API keys.
+> **⚡ Эксклюзивная функция CAI-Pro**  
+> Терминальный пользовательский интерфейс (TUI) доступен исключительно в **CAI-Pro**. Для получения доступа к этой функции и расблокировки продвинутых рабочих процессов с несколькими агентами посетите [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) для получения дополнительной информации.
 
 ---
 
-## Overview
+Боковая панель CAI TUI — это мощная вертикальная панель, обеспечивающая быстрый доступ к основным функциям и информации. Она может быть включена/выключена для максимизации пространства экрана:
 
-The sidebar is organized into four main tabs:
+- **Кнопка переключения**: Нажмите кнопку переключения боковой панели на верхней панели
+- **Горячая клавиша**: Нажмите `Ctrl+S` для показа/скрытия боковой панели
 
-1. **Teams** - Quick team selection for parallel multi-agent workflows
-2. **Queue** - Command queue management and execution control
-3. **Stats** - Real-time usage statistics and cost tracking
-4. **Keys** - API key management and configuration
+При скрытии боковая панель полностью сворачивается, предоставляя полную ширину для содержимого терминала. Переключите ее обратно для доступа к командам, очереди, статистике и API ключам.
 
 ---
 
-## Teams Tab
+## Обзор
 
-The **Teams** tab provides instant access to preconfigured multi-agent team setups. Each team automatically configures all four terminals with specific agent combinations optimized for different security workflows.
+Боковая панель организована в четыре основные вкладки:
 
-### Available Teams
+1. **Команды** - Быстрый выбор команды для параллельных рабочих процессов с несколькими агентами
+2. **Очередь** - Управление очередью команд и контроль выполнения
+3. **Статистика** - Статистика использования в реальном времени и отслеживание затрат
+4. **Ключи** - Управление и настройка API ключей
 
-**Team 1: 2 Red + 2 Bug**
-- Terminal 1: `redteam_agent`
-- Terminal 2: `redteam_agent`
-- Terminal 3: `bug_bounter_agent`
-- Terminal 4: `bug_bounter_agent`
-- **Use Case**: Penetration testing and vulnerability discovery with dual red team + bug bounty approach
+---
 
-**Team 2: 1 Red (T1) + 3 Bug**
-- Terminal 1: `redteam_agent`
-- Terminal 2: `bug_bounter_agent`
-- Terminal 3: `bug_bounter_agent`
-- Terminal 4: `bug_bounter_agent`
-- **Use Case**: Red team coordination with intensive bug bounty hunting
+## Вкладка Команды
 
-**Team 3: 2 Red + 2 Blue**
-- Terminal 1: `redteam_agent`
-- Terminal 2: `redteam_agent`
-- Terminal 3: `blueteam_agent`
-- Terminal 4: `blueteam_agent`
-- **Use Case**: Balanced offensive testing and defensive analysis
+Вкладка **Команды** обеспечивает мгновенный доступ к предустановленным конфигурациям команд с несколькими агентами. Каждая команда автоматически настраивает все четыре терминала с определенными комбинациями агентов, оптимизированными для различных рабочих процессов безопасности.
 
-**Team 4: 2 Blue + 2 Bug**
-- Terminal 1: `blueteam_agent`
-- Terminal 2: `blueteam_agent`
-- Terminal 3: `bug_bounter_agent`
-- Terminal 4: `bug_bounter_agent`
-- **Use Case**: Defensive analysis with vulnerability research
+### Доступные команды
 
-**Team 5: Red + Blue + Retester + Bug**
-- Terminal 1: `redteam_agent`
-- Terminal 2: `blueteam_agent`
-- Terminal 3: `retester_agent`
-- Terminal 4: `bug_bounter_agent`
-- **Use Case**: Comprehensive security workflow with offense, defense, validation, and research
+**Команда 1: 2 Red + 2 Bug**
+- Терминал 1: `redteam_agent`
+- Терминал 2: `redteam_agent`
+- Терминал 3: `bug_bounter_agent`
+- Терминал 4: `bug_bounter_agent`
+- **Случай использования**: Пентестинг и обнаружение уязвимостей с двойным подходом красная команда + bug bounty
 
-**Team 6: 2 Red + 2 Retester**
-- Terminal 1: `redteam_agent`
-- Terminal 2: `redteam_agent`
-- Terminal 3: `retester_agent`
-- Terminal 4: `retester_agent`
-- **Use Case**: Offensive testing with immediate vulnerability validation
+**Команда 2: 1 Red (T1) + 3 Bug**
+- Терминал 1: `redteam_agent`
+- Терминал 2: `bug_bounter_agent`
+- Терминал 3: `bug_bounter_agent`
+- Терминал 4: `bug_bounter_agent`
+- **Случай использования**: Координация красной команды с интенсивной охотой за наградами за ошибки
 
-**Team 7: 2 Blue + 2 Retester**
-- Terminal 1: `blueteam_agent`
-- Terminal 2: `blueteam_agent`
-- Terminal 3: `retester_agent`
-- Terminal 4: `retester_agent`
-- **Use Case**: Defensive validation with retesting confirmation
+**Команда 3: 2 Red + 2 Blue**
+- Терминал 1: `redteam_agent`
+- Терминал 2: `redteam_agent`
+- Терминал 3: `blueteam_agent`
+- Терминал 4: `blueteam_agent`
+- **Случай использования**: Сбалансированное наступательное тестирование и защитный анализ
 
-**Team 8: 4 Red**
-- Terminal 1: `redteam_agent`
-- Terminal 2: `redteam_agent`
-- Terminal 3: `redteam_agent`
-- Terminal 4: `redteam_agent`
-- **Use Case**: Full offensive operations with maximum red team coverage
+**Команда 4: 2 Blue + 2 Bug**
+- Терминал 1: `blueteam_agent`
+- Терминал 2: `blueteam_agent`
+- Терминал 3: `bug_bounter_agent`
+- Терминал 4: `bug_bounter_agent`
+- **Случай использования**: Защитный анализ с исследованием уязвимостей
 
-**Team 9: 4 Blue**
-- Terminal 1: `blueteam_agent`
-- Terminal 2: `blueteam_agent`
-- Terminal 3: `blueteam_agent`
-- Terminal 4: `blueteam_agent`
-- **Use Case**: Unified defensive posture analysis and hardening
+**Команда 5: Red + Blue + Retester + Bug**
+- Терминал 1: `redteam_agent`
+- Терминал 2: `blueteam_agent`
+- Терминал 3: `retester_agent`
+- Терминал 4: `bug_bounter_agent`
+- **Случай использования**: Комплексный рабочий процесс безопасности с наступлением, защитой, валидацией и исследованием
 
-**Team 10: 4 Bug**
-- Terminal 1: `bug_bounter_agent`
-- Terminal 2: `bug_bounter_agent`
-- Terminal 3: `bug_bounter_agent`
-- Terminal 4: `bug_bounter_agent`
-- **Use Case**: Intensive bug bounty hunting and vulnerability research
+**Команда 6: 2 Red + 2 Retester**
+- Терминал 1: `redteam_agent`
+- Терминал 2: `redteam_agent`
+- Терминал 3: `retester_agent`
+- Терминал 4: `retester_agent`
+- **Случай использования**: Наступательное тестирование с немедленной валидацией уязвимостей
 
-**Team 11: 4 Retester**
-- Terminal 1: `retester_agent`
-- Terminal 2: `retester_agent`
-- Terminal 3: `retester_agent`
-- Terminal 4: `retester_agent`
-- **Use Case**: Comprehensive vulnerability revalidation and verification
+**Команда 7: 2 Blue + 2 Retester**
+- Терминал 1: `blueteam_agent`
+- Терминал 2: `blueteam_agent`
+- Терминал 3: `retester_agent`
+- Терминал 4: `retester_agent`
+- **Случай использования**: Защитная валидация с подтверждением повторного тестирования
 
-### Team Button Features
+**Команда 8: 4 Red**
+- Терминал 1: `redteam_agent`
+- Терминал 2: `redteam_agent`
+- Терминал 3: `redteam_agent`
+- Терминал 4: `redteam_agent`
+- **Случай использования**: Полноценные наступательные операции с максимальным покрытием красной команды
 
-Each team button displays:
-- **Team number** (e.g., `#1`, `#2`)
-- **Compact agent composition** (e.g., `2 red + 2 bug`)
-- **Adaptive text**: Button labels automatically adjust based on available width
-  - **Full width**: Shows complete agent names without `_agent` suffix
-  - **Narrow width**: Abbreviates to short names (e.g., `red`, `blue`, `bug`, `retest`)
+**Команда 9: 4 Blue**
+- Терминал 1: `blueteam_agent`
+- Терминал 2: `blueteam_agent`
+- Терминал 3: `blueteam_agent`
+- Терминал 4: `blueteam_agent`
+- **Случай использования**: Единый анализ защитной позиции и укрепление
 
-### Team Tooltips
+**Команда 10: 4 Bug**
+- Терминал 1: `bug_bounter_agent`
+- Терминал 2: `bug_bounter_agent`
+- Терминал 3: `bug_bounter_agent`
+- Терминал 4: `bug_bounter_agent`
+- **Случай использования**: Интенсивная охота за наградами за ошибки и исследование уязвимостей
 
-Hover over any team button to see detailed information:
+**Команда 11: 4 Retester**
+- Терминал 1: `retester_agent`
+- Терминал 2: `retester_agent`
+- Терминал 3: `retester_agent`
+- Терминал 4: `retester_agent`
+- **Случай использования**: Комплексная повторная валидация и верификация уязвимостей
+
+### Функции кнопок команд
+
+Каждая кнопка команды отображает:
+- **Номер команды** (например, `#1`, `#2`)
+- **Компактный состав агентов** (например, `2 red + 2 bug`)
+- **Адаптивный текст**: Метки кнопок автоматически настраиваются в зависимости от доступной ширины
+  - **Полная ширина**: Показывает полные имена агентов без суффикса `_agent`
+  - **Узкая ширина**: Сокращает до коротких имен (например, `red`, `blue`, `bug`, `retest`)
+
+### Всплывающие подсказки команд
+
+Наведите на любую кнопку команды для просмотра подробной информации:
 
 ```
 #2: 2 redteam_agent + 2 bug_bounter_agent
@@ -129,183 +129,183 @@ T3: bug_bounter_agent
 T4: bug_bounter_agent
 ```
 
-**Tooltip features**:
-- Color-coded title with team composition
-- Terminal-by-terminal agent breakdown
-- Visual consistency with TUI color palette
+**Функции всплывающих подсказок**:
+- Цветная заголовок с составом команды
+- Разбивка агентов по терминалам
+- Визуальная согласованность с палитрой цветов TUI
 
-### Using Teams
+### Использование команд
 
-1. **Click any team button** to instantly configure all four terminals
-2. **Automatic synchronization**: Terminal headers update immediately
-3. **Preserved context**: Each terminal maintains its conversation history
-4. **No disruption**: Switch between teams without losing work
+1. **Нажмите любую кнопку команды** для мгновенной настройки всех четырех терминалов
+2. **Автоматическая синхронизация**: Заголовки терминалов обновляются немедленно
+3. **Сохраненный контекст**: Каждый терминал сохраняет свою историю беседы
+4. **Без сбоев**: Переключайтесь между командами без потери работы
 
-**Example workflow**:
+**Пример рабочего процесса**:
 
 ```
-1. Start with Team 1 (2 redteam + 2 bug_bounter)
-2. Conduct initial vulnerability scan
-3. Switch to Team 5 (2 redteam + 2 retester)
-4. Validate discovered vulnerabilities
-5. Switch to Team 3 (2 redteam + 2 blueteam)
-6. Analyze defensive implications
+1. Начните с Команды 1 (2 redteam + 2 bug_bounter)
+2. Проведите первоначальное сканирование уязвимостей
+3. Переключитесь на Команду 5 (2 redteam + 2 retester)
+4. Валидируйте обнаруженные уязвимости
+5. Переключитесь на Команду 3 (2 redteam + 2 blueteam)
+6. Проанализируйте защитные последствия
 ```
 
 ---
 
-## Queue Tab
+## Вкладка Очередь
 
-The **Queue** tab displays commands that are automatically queued when terminals are busy. This tab provides real-time visibility into pending operations.
+Вкладка **Очередь** отображает команды, которые автоматически ставятся в очередь, когда терминалы заняты. Эта вкладка обеспечивает видимость в реальном времени ожидающих операций.
 
-### Automatic Queuing
+### Автоматическая постановка в очередь
 
-Commands are automatically added to the queue when you:
-- **Send prompts to busy terminals**: New commands wait while previous ones execute
-- **Issue rapid commands**: Quick successive prompts queue automatically
-- **Work across terminals**: Commands accumulate independently per terminal
+Команды автоматически добавляются в очередь, когда вы:
+- **Отправляете промпты на занятые терминалы**: Новые команды ждут выполнения предыдущих
+- **Выпускаете быстрые команды**: Быстрые последовательные промпты автоматически ставятся в очередь
+- **Работаете на разных терминалах**: Команды накапливаются независимо для каждого терминала
 
-### Queue Display
+### Отображение очереди
 
-The queue shows:
-- **Pending commands**: Commands waiting to execute
-- **Command content**: Full text of each queued prompt
-- **Target terminal**: Which terminal will execute the command
-- **Execution order**: Commands execute in FIFO (First In, First Out) order
-- **Real-time updates**: Queue updates automatically as commands are added or completed
+Очередь показывает:
+- **Ожидающие команды**: Команды, ожидающие выполнения
+- **Содержимое команды**: Полный текст каждого промпта в очереди
+- **Целевой терминал**: Какой терминал выполнит команду
+- **Порядок выполнения**: Команды выполняются в порядке FIFO (первым пришел, первым обслужен)
+- **Обновления в реальном времени**: Очередь автоматически обновляется по мере добавления или завершения команд
 
-### How It Works
+### Как это работает
 
-**Automatic execution flow**:
-1. You send a prompt to a terminal that's already processing
-2. The new prompt is automatically added to that terminal's queue
-3. When the current operation completes, the queued prompt executes immediately
-4. No manual intervention required
+**Поток автоматического выполнения**:
+1. Вы отправляете промпт на терминал, который уже обрабатывает
+2. Новый промпт автоматически добавляется в очередь этого терминала
+3. Когда текущая операция завершается, промпт из очереди выполняется немедленно
+4. Ручное вмешательство не требуется
 
-**Visual feedback**:
-- **Pending**: Command waiting to execute (displayed in queue)
-- **Executing**: Command currently running (queue updates)
-- **Completed**: Command finished (removed from queue)
+**Визуальная обратная связь**:
+- **Ожидает**: Команда ожидает выполнения (отображается в очереди)
+- **Выполняется**: Команда в процессе выполнения (очередь обновляется)
+- **Завершено**: Команда завершена (удалена из очереди)
 
-### Monitoring the Queue
+### Мониторинг очереди
 
-Use the Queue tab to:
-- **Track pending work**: See what commands are waiting
-- **Verify execution order**: Confirm commands will run in the correct sequence
-- **Plan workflow**: Know when terminals will be available
-- **Avoid conflicts**: Prevent overloading terminals with too many commands
+Используйте вкладку Очередь для:
+- **Отслеживания ожидающей работы**: Смотрите, какие команды ждут
+- **Проверки порядка выполнения**: Подтвердите, что команды будут выполнены в правильной последовательности
+- **Планирования рабочего процесса**: Знайте, когда терминалы будут доступны
+- **Избежания конфликтов**: Предотвращайте перегрузку терминалов слишком большим количеством команд
 
-### Best Practices
+### Лучшие практики
 
-✅ **Monitor before sending**: Check the queue before adding more commands to busy terminals
+✅ **Мониторьте перед отправкой**: Проверяйте очередь перед добавлением команд на занятые терминалы
 
-✅ **Use multiple terminals**: Distribute work across terminals to avoid queue buildup
+✅ **Используйте несколько терминалов**: Распределяйте работу по терминалам для предотвращения накопления очереди
 
-✅ **Wait for completion**: For complex operations, wait until current task finishes before queuing more
-
----
-
-## Stats Tab
-
-The **Stats** tab provides real-time monitoring of your CAI usage, costs, and performance metrics.
-
-### Token Usage
-
-**Display metrics**:
-- **Input tokens**: Tokens sent to the model
-- **Output tokens**: Tokens received from the model
-- **Total tokens**: Combined input and output
-- **Token rate**: Tokens per request
-
-**Per-terminal breakdown**:
-
-```
-Terminal 1: 15,234 tokens
-Terminal 2: 8,956 tokens
-Terminal 3: 12,445 tokens
-Terminal 4: 6,789 tokens
-```
-
-### Cost Tracking
-
-**Real-time cost calculation**:
-- **Per-terminal costs**: Individual terminal spending
-- **Session total**: Combined cost for current session
-- **Model-specific rates**: Accurate pricing per model
-- **Currency**: Displayed in USD
-
-**Cost breakdown example**:
-
-```
-Terminal 1 (alias1): $0.45
-Terminal 2 (gpt-5): $0.32
-Terminal 3 (alias1): $0.08
-Terminal 4 (claude-sonnet-4.5): $0.51
-
-Session Total: $1.36
-```
-
-### Request Statistics
-
-**Tracked metrics**:
-- **Total requests**: Number of API calls made
-- **Successful requests**: Completed without errors
-- **Failed requests**: Errors or timeouts
-- **Average response time**: Mean latency per request
-
-### Session Information
-
-**Displayed data**:
-- **Session duration**: Total time elapsed
-- **Active terminals**: Number of terminals in use
-- **Current models**: Models assigned to each terminal
-- **Active agents**: Agents assigned to each terminal
-
-### Cost Optimization Tips
-
-The Stats tab helps you optimize costs by:
-1. **Monitoring usage patterns**: Identify high-cost terminals
-2. **Model selection**: Compare costs between models
-3. **Token awareness**: Track verbose responses
-4. **Budget management**: Set spending limits
+✅ **Дожидайтесь завершения**: Для сложных операций дождитесь завершения текущей задачи перед постановкой новых в очередь
 
 ---
 
-## Keys Tab
+## Вкладка Статистика
 
-The **Keys** tab allows you to manage API keys for different LLM providers directly from the TUI.
+Вкладка **Статистика** обеспечивает мониторинг в реальном времени использования CAI, затрат и показателей производительности.
 
-### Supported Providers
+### Использование токенов
 
-CAI supports API keys for:
-- **ALIAS1** (Alias model - Optimized for cybersecurity tasks)
-- **OpenAI** (GPT models)
-- **Anthropic** (Claude models)
-- **Google** (Gemini models)
-- **Groq** (Fast inference models)
-- **OpenRouter** (Multi-provider routing)
-- **Custom providers** (Self-hosted models)
+**Отображаемые метрики**:
+- **Входные токены**: Токены, отправленные модели
+- **Выходные токены**: Токены, полученные от модели
+- **Общее количество токенов**: Сумма входных и выходных
+- **Скорость токенов**: Токены на запрос
 
-#### About ALIAS1
+**Разбивка по терминалам**:
 
-**ALIAS1** is Alias Robotics' proprietary large language model, specifically fine-tuned and optimized for cybersecurity operations. It is the **default model** in CAI-Pro and offers:
+```
+Терминал 1: 15,234 токенов
+Терминал 2: 8,956 токенов
+Терминал 3: 12,445 токенов
+Терминал 4: 6,789 токенов
+```
 
-- **Specialized cybersecurity knowledge**: Deep understanding of offensive/defensive security
-- **Tool integration**: Native support for security tools and frameworks
-- **Cost efficiency**: Competitive pricing for professional security workflows
-- **Privacy**: Self-hosted option available for sensitive operations
-- **Performance**: Optimized response times for security tasks
-- **Default selection**: Pre-configured as the primary model for all terminals
+### Отслеживание затрат
 
-**Learn more**: [https://aliasrobotics.com/alias1](https://aliasrobotics.com/alias1)
+**Расчет стоимости в реальном времени**:
+- **Стоимость по терминалам**: Расходы отдельных терминалов
+- **Общая стоимость сессии**: Совокупная стоимость текущей сессии
+- **Тарифы для конкретных моделей**: Точное ценообразование для каждой модели
+- **Валюта**: Отображается в долларах США
 
-ALIAS1 is automatically configured when you launch the CAI --tui. To explicitly set or verify the model:
+**Пример разбивки затрат**:
+
+```
+Терминал 1 (alias1): $0.45
+Терминал 2 (gpt-5): $0.32
+Терминал 3 (alias1): $0.08
+Терминал 4 (claude-sonnet-4.5): $0.51
+
+Общая стоимость сессии: $1.36
+```
+
+### Статистика запросов
+
+**Отслеживаемые метрики**:
+- **Общее количество запросов**: Число выполненных API вызовов
+- **Успешные запросы**: Завершенные без ошибок
+- **Неудачные запросы**: Ошибки или тайм-ауты
+- **Среднее время ответа**: Средняя задержка на запрос
+
+### Информация о сессии
+
+**Отображаемые данные**:
+- **Длительность сессии**: Общее прошедшее время
+- **Активные терминалы**: Количество используемых терминалов
+- **Текущие модели**: Модели, назначенные каждому терминалу
+- **Активные агенты**: Агенты, назначенные каждому терминалу
+
+### Советы по оптимизации затрат
+
+Вкладка Статистика помогает оптимизировать затраты путем:
+1. **Мониторинга паттернов использования**: Определение терминалов с высокой стоимостью
+2. **Выбора модели**: Сравнение стоимости между моделями
+3. **Осведомленности о токенах**: Отслеживание длинных ответов
+4. **Управления бюджетом**: Установка лимитов расходов
+
+---
+
+## Вкладка Ключи
+
+Вкладка **Ключи** позволяет управлять API ключами для различных LLM провайдеров непосредственно из TUI.
+
+### Поддерживаемые провайдеры
+
+CAI поддерживает API ключи для:
+- **ALIAS1** (Модель Alias - Оптимизирована для задач кибербезопасности)
+- **OpenAI** (Модели GPT)
+- **Anthropic** (Модели Claude)
+- **Google** (Модели Gemini)
+- **Groq** (Модели быстрого вывода)
+- **OpenRouter** (Мультипровайдерная маршрутизация)
+- **Пользовательские провайдеры** (Самостоятельно развернутые модели)
+
+#### Об ALIAS1
+
+**ALIAS1** — это собственная большая языковая модель Alias Robotics, специально дообученная и оптимизированная для операций кибербезопасности. Она является **моделью по умолчанию** в CAI-Pro и предлагает:
+
+- **Специализированные знания кибербезопасности**: Глубокое понимание наступательной/защитной безопасности
+- **Интеграция инструментов**: Нативная поддержка инструментов и фреймворков безопасности
+- **Эффективность затрат**: Конкурентоспособные тарифы для профессиональных рабочих процессов безопасности
+- **Конфиденциальность**: Доступна опция самостоятельного развертывания для чувствительных операций
+- **Производительность**: Оптимизированное время отклика для задач безопасности
+- **Выбор по умолчанию**: Предварительно настроена как основная модель для всех терминалов
+
+**Подробнее**: [https://aliasrobotics.com/alias1](https://aliasrobotics.com/alias1)
+
+ALIAS1 автоматически настраивается при запуске CAI --tui. Для явной настройки или проверки модели:
 
 ```bash
 /model alias1
 ```
 
-To use ALIAS1 with your API key, configure it in the Keys tab or via `.env` file:
+Для использования ALIAS1 с вашим API ключом настройте его на вкладке Ключи или через файл `.env`:
 
 ```bash
 ALIAS_API_KEY=your-alias1-key-here
@@ -313,21 +313,21 @@ ALIAS_API_KEY=your-alias1-key-here
 
 ---
 
-### Adding API Keys
+### Добавление API ключей
 
-**Interactive method**:
-1. Navigate to the **Keys** tab
-2. Select the provider
-3. Enter your API key
-4. Press `Enter` to save
+**Интерактивный способ**:
+1. Перейдите на вкладку **Keys**
+2. Выберите провайдера
+3. Введите ваш API ключ
+4. Нажмите `Enter` для сохранения
 
-### Viewing Configured Keys
+### Просмотр настроенных ключей
 
-The Keys tab displays:
-- **Provider names**: Which providers are configured
-- **Masked keys**: Shows only last 4 characters for security
+Вкладка Ключи отображает:
+- **Имена провайдеров**: Какие провайдеры настроены
+- **Маскированные ключи**: Показывает только последние 4 символа для безопасности
 
-**Example display**:
+**Пример отображения**:
 
 ```
 ALIAS_API_KEY:sk-12hk......2t4
@@ -335,27 +335,27 @@ OpenAI_API_KEY: sk-...abc123
 ANTHROPIC_API_KEY: sk-ant-...xyz789 
 ```
 
-### Key Security
+### Безопасность ключей
 
-**Security features**:
-- **Encrypted storage**: Keys stored securely in `.env`
-- **Masked display**: Only last characters visible
-- **No logging**: Keys never written to logs
-- **Session-scoped**: Keys loaded at startup
+**Функции безопасности**:
+- **Шифрованное хранение**: Ключи безопасно хранятся в `.env`
+- **Маскированное отображение**: Видны только последние символы
+- **Без логирования**: Ключи никогда не записываются в логи
+- **Область сессии**: Ключи загружаются при запуске
 
-### Key Validation
+### Валидация ключей
 
-CAI automatically validates keys:
-- **On startup**: Checks if keys are properly formatted
-- **On first use**: Tests actual API connectivity
-- **Real-time feedback**: Immediate error messages for invalid keys
+CAI автоматически проверяет ключи:
+- **При запуске**: Проверяет правильность формата ключей
+- **При первом использовании**: Тестирует фактическую связность API
+- **Обратная связь в реальном времени**: Немедленные сообщения об ошибках для недействительных ключей
 
-### Managing Keys via Config File
+### Управление ключами через файл конфигурации
 
-You can also manage keys by editing the `.env` file directly:
+Вы также можете управлять ключами, напрямую редактируя файл `.env`:
 
 ```bash
-# .env file
+# .env файл
 ALIAS_API_KEY=sk-212...
 OPENAI_API_KEY=sk-...
 ANTHROPIC_API_KEY=sk-ant-...
@@ -365,99 +365,98 @@ GROQ_API_KEY=gsk-...
 
 ---
 
-## Sidebar Shortcuts
+## Горячие клавиши боковой панели
 
-### Navigation
+### Навигация
 
-- **Mouse click**: Click any tab to switch
-- **Scroll**: Use mouse wheel to scroll long lists (Queue, Stats)
-- **Hover**: Hover over team buttons for detailed tooltips
+- **Щелчок мыши**: Нажмите любую вкладку для переключения
+- **Прокрутка**: Используйте колесо мыши для прокрутки длинных списков (Очередь, Статистика)
+- **Наведение**: Наведите на кнопки команд для подробных всплывающих подсказок
 
-### Visibility
+### Видимость
 
-- **Always visible**: Sidebar remains visible at all times
-- **Responsive width**: Adapts to terminal window size
-- **Scrollable content**: Long lists scroll independently
-
----
-
-## Tips and Best Practices
-
-### Teams
-
-✅ **Use teams for consistent workflows**: Save time by using preconfigured teams instead of manually setting up agents
-
-✅ **Switch teams mid-session**: Change strategies without losing context
-
-✅ **Combine with commands**: Use `/agent` command in specific terminals to fine-tune team configurations
-
-### Queue
-
-✅ **Batch operations**: Queue multiple commands for unattended execution
-
-✅ **Parallel efficiency**: Let multiple terminals work simultaneously
-
-✅ **Strategic ordering**: Order commands to maximize parallelism
-
-### Stats
-
-✅ **Monitor costs regularly**: Keep an eye on spending during long sessions
-
-✅ **Compare models**: Use stats to find the best cost/performance ratio
-
-✅ **Track patterns**: Identify which workflows consume most tokens
-
-### Keys
-
-✅ **Configure on first launch**: Set up all keys before starting work
-
-✅ **Use environment variables**: For production, prefer `.env` over interactive input
+- **Всегда видна**: Боковая панель остается видимой все время
+- **Адаптивная ширина**: Настраивается под размер окна терминала
+- **Прокручиваемое содержимое**: Длинные списки прокручиваются независимо
 
 ---
 
-## Troubleshooting
+## Советы и лучшие практики
 
-### Teams not loading
+### Команды
 
-**Symptom**: Team buttons don't appear or don't respond
+✅ **Используйте команды для единообразных рабочих процессов**: Экономьте время, используя предустановленные команды вместо ручной настройки агентов
 
-**Solutions**:
-- Restart the TUI
-- Check that team configuration file exists
-- Verify agent names are correct
+✅ **Переключайте команды во время сессии**: Меняйте стратегии без потери контекста
 
+✅ **Комбинируйте с командами**: Используйте команду `/agent` в конкретных терминалах для тонкой настройки конфигураций команд
 
-### Stats showing zero
+### Очередь
 
-**Symptom**: Token counts and costs display as zero
+✅ **Пакетные операции**: Ставьте несколько команд в очередь для неуправляемого выполнения
 
-**Solutions**:
-- Execute at least one command to generate stats
-- Verify API keys are configured correctly
-- Check that model pricing data is loaded
+✅ **Параллельная эффективность**: Позвольте нескольким терминалам работать одновременно
 
-### Keys not saving
+✅ **Стратегический порядок**: Упорядочивайте команды для максимизации параллелизма
 
-**Symptom**: API keys don't persist after restart
+### Статистика
 
-**Solutions**:
-- Ensure `.env` file has write permissions
-- Check for errors in the status bar when saving
-- Manually edit `.env` file if interactive method fails
+✅ **Регулярно монорьте стоимость**: Следите за расходами во время длительных сессий
 
----
+✅ **Сравнивайте модели**: Используйте статистику для поиска лучшего соотношения стоимость/производительность
 
-## Related Documentation
+✅ **Отслеживайте паттерны**: Определяйте, какие рабочие процессы потребляют больше всего токенов
 
-- [User Interface Overview](user_interface.md) - Complete TUI layout guide
-- [Keyboard Shortcuts](keyboard_shortcuts.md) - All keyboard commands
-- [Commands Reference](commands_reference.md) - Complete command list
-- [Terminals Management](terminals_management.md) - Multi-terminal workflows
-- [Getting Started](getting_started.md) - Initial setup and configuration
+### Ключи
+
+✅ **Настраивайте при первом запуске**: Настройте все ключи перед началом работы
+
+✅ **Используйте переменные окружения**: Для продакшена предпочитайте `.env` интерактивному вводу
 
 ---
 
-*Last updated: October 2025 | CAI TUI v0.6+*
+## Решение проблем
 
-**Need help?** Press `F1` or type `/help` for context-sensitive assistance.
+### Команды не загружаются
 
+**Симптом**: Кнопки команд не появляются или не реагируют
+
+**Решения**:
+- Перезапустите TUI
+- Проверьте наличие файла конфигурации команд
+- Проверьте правильность имен агентов
+
+
+### Статистика показывает нули
+
+**Симптом**: Подсчет токенов и стоимость отображаются как нули
+
+**Решения**:
+- Выполните хотя бы одну команду для генерации статистики
+- Проверьте правильность настройки API ключей
+- Проверьте загрузку данных о ценах на модели
+
+### Ключи не сохраняются
+
+**Симптом**: API ключи не сохраняются после перезапуска
+
+**Решения**:
+- Убедитесь, что файл `.env` имеет права на запись
+- Проверьте наличие ошибок в строке состояния при сохранении
+- Вручную отредактируйте файл `.env`, если интерактивный способ не работает
+
+---
+
+## Связанная документация
+
+- [Обзор пользовательского интерфейса](user_interface.md) - Полное руководство по макету TUI
+- [Горячие клавиши](keyboard_shortcuts.md) - Все команды клавиатуры
+- [Справочник команд](commands_reference.md) - Полный список команд
+- [Управление терминалами](terminals_management.md) - Рабочие процессы с несколькими терминалами
+- [Начало работы](getting_started.md) - Первоначальная настройка и конфигурация
+
+---
+
+*Последнее обновление: Октябрь 2025 | CAI TUI v0.6+*
+
+**Нужна помощь?** Нажмите `F1` или введите `/help` для получения контекстной помощи.

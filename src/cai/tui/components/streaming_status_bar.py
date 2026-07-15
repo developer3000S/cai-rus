@@ -61,7 +61,7 @@ class StreamingStatusBar(Static):
     
     # Reactive properties
     animation_type = reactive("streaming")
-    status_text = reactive("Streaming...")
+    status_text = reactive("Стриминг...")
     is_active = reactive(False)
     frame_index = reactive(0)
     _render_as_markdown = reactive(False)
@@ -76,7 +76,7 @@ class StreamingStatusBar(Static):
         if self.is_active:
             self.set_interval(0.15, self._animate)
     
-    def start_streaming(self, text: str = "Streaming...", animation: str = "streaming") -> None:
+    def start_streaming(self, text: str = "Стриминг...", animation: str = "streaming") -> None:
         """Start the streaming animation"""
         self.status_text = text
         self.animation_type = animation
@@ -95,7 +95,7 @@ class StreamingStatusBar(Static):
         filename = str(filename or "exploit")
         language = str(language or "python")
         # Inline Markdown summary (single line)
-        md_summary = f"Executing: `execute_code` `{filename}` ({language})"
+        md_summary = f"Выполнение: `execute_code` `{filename}` ({language})"
         # Store text and switch to markdown rendering
         self.status_text = md_summary
         self.animation_type = "code"
@@ -105,7 +105,7 @@ class StreamingStatusBar(Static):
         self._render_as_markdown = True
         self.set_interval(0.1, self._animate)
         
-    def stop_streaming(self, final_text: str = "Complete") -> None:
+    def stop_streaming(self, final_text: str = "Завершено") -> None:
         """Stop the streaming animation"""
         self.is_active = False
         self.status_text = final_text
@@ -151,8 +151,8 @@ class ActualActionBar(VerticalScroll):
     """A scrollable action log showing all actions being performed"""
     
     BINDINGS = [
-        ("ctrl+shift+c", "copy_visible", "Copy ActionBar"),
-        ("ctrl+shift+a", "copy_all", "Copy ActionBar All"),
+        ("ctrl+shift+c", "copy_visible", "Копировать ActionBar"),
+        ("ctrl+shift+a", "copy_all", "Копировать ActionBar всё"),
     ]
     
     DEFAULT_CSS = """
@@ -386,7 +386,7 @@ class ActualActionBar(VerticalScroll):
             line.append(f"{datetime.now().strftime('%H:%M:%S')}", style="dim blue")
             line.append(" │ ", style="dim white")
             line.append("CAI> ", style="bold green")
-            line.append("Ready", style="green")
+            line.append("Готов", style="green")
             self._action_log.write(line)
             
     def on_scroll(self, event) -> None:
@@ -435,7 +435,7 @@ class ActualActionBar(VerticalScroll):
         
         # Track streaming lines in the log
         self._streaming_line_indices = []
-        # No "Executing..." line in action bar – keep it clean; output will stream directly
+        # No "Выполнение..." line in action bar – keep it clean; output will stream directly
         
         # Enable cursor blinking animation for streaming (store handle to stop later)
         try:
@@ -487,7 +487,7 @@ class ActualActionBar(VerticalScroll):
                     line.append("$ ", style="bold yellow")
                     line.append(str(command), style="bold white")
                     line.append(" ", style="dim")
-                    line.append("Executing...", style="dim")
+                    line.append("Выполнение...", style="dim")
                     self._action_log.write(line)
                     self._log_history.append(line)
                     self._tool_exec_line_index = len(self._log_history) - 1
@@ -603,7 +603,7 @@ class ActualActionBar(VerticalScroll):
             )
             code_title = f"execute_code: {filename} ({language})"
             # Markdown summary above the syntax block
-            md_summary = Markdown(f"**Executing** `execute_code` on `{filename}` ({language})")
+            md_summary = Markdown(f"**Выполнение** `execute_code` на `{filename}` ({language})")
             code_panel = Panel(Group(md_summary, Text("\n"), code_syntax), title=code_title, border_style="cyan", title_align="left", box=ROUNDED, padding=(0, 1))
 
             # Write code panel first (compact header + code)
@@ -642,7 +642,7 @@ class ActualActionBar(VerticalScroll):
                 except Exception:
                     pass
 
-            # Do NOT add the animated "Executing..." line here to ensure it stays at the bottom.
+            # Do NOT add the animated "Выполнение..." line here to ensure it stays at the bottom.
             # It will be appended after streaming has started by the streaming handler.
             # Store that we showed a code panel for this execution
             self._has_execute_code_panel = True
@@ -685,7 +685,7 @@ class ActualActionBar(VerticalScroll):
             # No arguments
             message = f"{tool_name}()"
         
-        # Add a tool call line with animated Executing...
+        # Add a tool call line with animated Выполнение...
         if self._action_log:
             timestamp = datetime.now().strftime("%H:%M:%S")
             line = Text()
@@ -696,7 +696,7 @@ class ActualActionBar(VerticalScroll):
             line.append(" ▸ ", style="dim")
             line.append(message, style="yellow")
             line.append(" ", style="dim")
-            line.append("Executing...", style="dim")
+            line.append("Выполнение...", style="dim")
             try:
                 self._action_log.write(line)
                 self._log_history.append(line)
@@ -925,7 +925,7 @@ class ActualActionBar(VerticalScroll):
         self._recent_tool_calls.append((current_time, tool_key))
         self._last_update = current_time
         
-        # Special handling for generic_linux_command - show as regular command with animated Executing...
+        # Special handling for generic_linux_command - show as regular command with animated Выполнение...
         if tool_name == "generic_linux_command":
             # Extract the actual command from args
             try:
@@ -958,7 +958,7 @@ class ActualActionBar(VerticalScroll):
                         line.append("$ ", style="bold yellow")
                         line.append(str(command), style="bold white")
                         line.append(" ", style="dim")
-                        line.append("Executing...", style="dim")
+                        line.append("Выполнение...", style="dim")
                         try:
                             self._action_log.write(line)
                             self._log_history.append(line)
@@ -979,7 +979,7 @@ class ActualActionBar(VerticalScroll):
             except Exception:
                 pass
                 
-        # Minimal, clean tool call display, but append an animated "Executing..."
+        # Minimal, clean tool call display, but append an animated "Выполнение..."
         if tool_name in ("generic_linux_command", "execute_code"):
             # For generic_linux_command, render a compact context line unless the streaming path is handling it
             try:
@@ -1013,7 +1013,7 @@ class ActualActionBar(VerticalScroll):
                         line.append(f"[{env}] ", style="magenta")
                     line.append("generic_linux_command", style="cyan")
                     line.append(" ", style="dim")
-                    line.append("Executing...", style="dim")
+                    line.append("Выполнение...", style="dim")
                     self._action_log.write(line)
                     self._log_history.append(line)
             except Exception:
@@ -1040,7 +1040,7 @@ class ActualActionBar(VerticalScroll):
             line.append(display_text, style="cyan")
             # Placeholder animated suffix; actual spinner is added in timer
             line.append(" ", style="dim")
-            line.append("Executing...", style="dim")
+            line.append("Выполнение...", style="dim")
             try:
                 self._action_log.write(line)
                 self._log_history.append(line)
@@ -1137,7 +1137,7 @@ class ActualActionBar(VerticalScroll):
                 # If an error was marked during streaming, show it here
                 if hasattr(self, '_stream_had_error') and getattr(self, '_stream_had_error', False):
                     status_line.append("  ✗ ", style="bold red")
-                    err_msg = getattr(self, '_stream_error_message', "Error")
+                    err_msg = getattr(self, '_stream_error_message', "Ошибка")
                     status_line.append(str(err_msg), style="red")
                 else:
                     status_line.append("  ✓", style="green")
@@ -1213,7 +1213,7 @@ class ActualActionBar(VerticalScroll):
         # Normalize message early
         if not isinstance(message, str):
             message = str(message)
-        message = (message or "Error").strip().splitlines()[0][:200]
+        message = (message or "Ошибка").strip().splitlines()[0][:200]
 
         # Store flags immediately (thread-safe enough for simple attrs)
         try:
@@ -1355,7 +1355,7 @@ class ActualActionBar(VerticalScroll):
             line = Text()
             line.append("CAI> ", style="bold green")
             line.append(f"[{self._stream_start_time.strftime('%H:%M:%S')}] ", style="dim")
-            line.append("⚡ Executing", style="bold yellow")
+            line.append("⚡ Выполнение", style="bold yellow")
             # Animated dots
             dots = "." * ((self._animation_frame % 3) + 1)
             line.append(dots.ljust(3), style="bold yellow")
@@ -1479,7 +1479,7 @@ class ActualActionBar(VerticalScroll):
         else:
             self.start_streaming("agent")
             
-    def complete_action(self, message: str = "Ready") -> None:
+    def complete_action(self, message: str = "Готов") -> None:
         """Legacy method for compatibility"""
         self.complete_streaming()
     
@@ -1540,7 +1540,7 @@ class ActualActionBar(VerticalScroll):
             line.append("CAI> ", style="bold green")
             line.append(f"[{datetime.now().strftime('%H:%M:%S')}] ", style="dim")
             line.append(f"{indicator} ", style="yellow")
-            line.append("Thinking...", style="dim")
+            line.append("Рассуждение...", style="dim")
             try:
                 if self._exec_line_index is None:
                     # Append once
@@ -1602,7 +1602,7 @@ class ActualActionBar(VerticalScroll):
             line.append(self._tool_exec_message or "tool()", style="cyan")
             line.append(" ", style="dim")
             line.append(f"{indicator} ", style="yellow")
-            line.append("Executing...", style="dim")
+            line.append("Выполнение...", style="dim")
 
             if 0 <= self._tool_exec_line_index < len(self._log_history):
                 self._log_history[self._tool_exec_line_index] = line
@@ -1626,7 +1626,7 @@ class ActualActionBar(VerticalScroll):
             pass
 
     def finish_tool_execution_indicator(self, status: str = "completed") -> None:
-        """Finalize the tool call indicator line (replace Executing... with result)."""
+        """Finalize the tool call indicator line (replace Выполнение... with result)."""
         try:
             # Stop timer if running
             try:
@@ -1649,10 +1649,10 @@ class ActualActionBar(VerticalScroll):
                 line.append(" ", style="dim")
                 if status in ("error", "timeout"):
                     line.append("✗ ", style="bold red")
-                    line.append("Failed", style="red")
+                    line.append("Ошибка", style="red")
                 else:
                     line.append("✓ ", style="green")
-                    line.append("Completed", style="dim")
+                    line.append("Завершено", style="dim")
                 self._log_history[self._tool_exec_line_index] = line
                 # BUGFIX: In-place update to prevent scroll flicker on completion
                 if self._action_log:
@@ -1684,7 +1684,7 @@ class ActualActionBar(VerticalScroll):
             pass
 
     def add_tool_exec_indicator_bottom(self, tool_name: str, args: dict | str | None = None) -> None:
-        """Append the animated Executing... indicator as the last line.
+        """Append the animated Выполнение... indicator as the last line.
 
         Useful when we have already printed other panels (like the execute_code block)
         and we want the thinking/indicator to stay beneath the streaming output.
@@ -1741,7 +1741,7 @@ class ActualActionBar(VerticalScroll):
             style = "magenta" if message.startswith("MCP:") else "cyan"
             line.append(message, style=style)
             line.append(" ", style="dim")
-            line.append("Executing...", style="dim")
+            line.append("Выполнение...", style="dim")
             if self._action_log:
                 self._action_log.write(line)
                 self._log_history.append(line)

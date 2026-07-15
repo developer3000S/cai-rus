@@ -1,4 +1,4 @@
-"""REPL ``/settings`` command: questionary UI for ``.env``, FAQ, validation, and language."""
+"""Команда REPL ``/settings``: интерфейс questionary для ``.env``, FAQ, валидации и языка."""
 
 # Standard library imports
 import os

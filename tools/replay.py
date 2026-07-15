@@ -1,30 +1,30 @@
 #!/usr/bin/env python3
 """
-Tool to convert JSONL files to a replay format that simulates the CLI output.
-This allows reviewing conversations in a more readable format.
+Инструмент для преобразования JSONL файлов в формат воспроизведения, имитирующий вывод CLI.
+Это позволяет просматривать разговоры в более читаемом формате.
 
-Usage:
+Использование:
     JSONL_FILE_PATH="path/to/file.jsonl" REPLAY_DELAY="0.5" python3 tools/replay.py
 
-    # Or using positional arguments:
+    # Или с использованием позиционных аргументов:
     python3 tools/replay.py path/to/file.jsonl 0.5
     cai-replay path/to/file.jsonl 0.5
 
-    # Or using command line arguments:
+    # Или с использованием аргументов командной строки:
     python3 tools/replay.py --jsonl-file-path path/to/file.jsonl --replay-delay 0.5
 
-Usage with asciinema rec, generating a .cast file and then converting it to a gif:
+Использование с asciinema rec, генерация .cast файла и его преобразование в gif:
     asciinema rec --command="python3 tools/replay.py path/to/file.jsonl 0.5" --overwrite
 
-Or alternatively:
+Или альтернативно:
     asciinema rec --command="JSONL_FILE_PATH='caiextensions-memory/caiextensions/memory/it/pentestperf/hackableii/hackableII_autonomo.jsonl' REPLAY_DELAY='0.05' cai-replay"
 
-Then convert the .cast file to a gif:
+Затем преобразуйте .cast файл в gif:
     agg /tmp/tmp6c4dxoac-ascii.cast demo.gif
 
-Environment Variables:
-    JSONL_FILE_PATH: Path to the JSONL file containing conversation history (required)
-    REPLAY_DELAY: Time in seconds to wait between actions (default: 0.5)
+Переменные окружения:
+    JSONL_FILE_PATH: Путь к JSONL файлу, содержащему историю разговоров (обязательно)
+    REPLAY_DELAY: Время в секундах ожидания между действиями (по умолчанию: 0.5)
 """
 
 import re
@@ -35,10 +35,10 @@ import time
 import argparse
 from typing import Dict, List, Tuple
 
-# Disable session recording for replay tool
+# Отключение записи сессии для инструмента воспроизведения
 os.environ["CAI_DISABLE_SESSION_RECORDING"] = "true"
 
-# Add the parent directory to the path to import cai modules
+# Добавляем родительскую директорию в путь для импорта модулей cai
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from rich.console import Console
@@ -54,26 +54,26 @@ from cai.sdk.agents.run_to_jsonl import get_token_stats, load_history_from_jsonl
 from cai.repl.ui.banner import display_banner
 from collections import defaultdict
 
-# Initialize console object for rich printing
+# Инициализация объекта консоли для вывода rich
 console = Console()
 
 
-# Create our own display_execution_time function that uses our local console
+# Создаем собственную функцию display_execution_time, использующую нашу локальную консоль
 def display_execution_time(metrics=None):
-    """Display the total execution time with our local console."""
+    """Отображение общего времени выполнения с нашей локальной консолью."""
     if metrics is None:
         return
 
-    # Create a panel for the execution time
+    # Создаем панель для времени выполнения
     content = []
-    content.append(f"Session Time: {metrics['session_time']}")
-    content.append(f"Active Time: {metrics['active_time']}")
-    content.append(f"Idle Time: {metrics['idle_time']}")
+    content.append(f"Время сессии: {metrics['session_time']}")
+    content.append(f"Активное время: {metrics['active_time']}")
+    content.append(f"Время простоя: {metrics['idle_time']}")
 
     if metrics.get("llm_time") and metrics["llm_time"] != "0.0s":
         content.append(
-            f"LLM Processing Time: [bold yellow]{metrics['llm_time']}[/bold yellow] "
-            f"[dim]({metrics['llm_percentage']:.1f}% of session)[/dim]"
+            f"Время обработки LLM: [bold yellow]{metrics['llm_time']}[/bold yellow] "
+            f"[dim]({metrics['llm_percentage']:.1f}% от сессии)[/dim]"
         )
 
     time_panel = Panel(
@@ -81,14 +81,14 @@ def display_execution_time(metrics=None):
         border_style="blue",
         box=ROUNDED,
         padding=(0, 1),
-        title="[bold]Session Statistics[/bold]",
+        title="[bold]Статистика сессии[/bold]",
         title_align="left",
     )
     console.print(time_panel)
 
 
 def load_jsonl(file_path: str) -> List[Dict]:
-    """Load a JSONL file and return its contents as a list of dictionaries."""
+    """Загрузка JSONL файла и возврат его содержимого в виде списка словарей."""
     data = []
     with open(file_path, "r", encoding="utf-8") as f:
         for line in f:
@@ -96,18 +96,18 @@ def load_jsonl(file_path: str) -> List[Dict]:
                 try:
                     data.append(json.loads(line))
                 except json.JSONDecodeError:
-                    print(f"Warning: Skipping invalid JSON line: {line[:50]}...")
+                    print(f"Предупреждение: Пропуск недопустимой строки JSON: {line[:50]}...")
     return data
 
 
 def normalize_content(content) -> str:
     """
-    Normalize message content from various formats to a simple string.
+    Нормализация содержимого сообщения из различных форматов в простую строку.
 
-    Handles:
-    - Simple strings: return as-is
-    - List of content blocks: extract text from each block
-    - None: return empty string
+    Обрабатывает:
+    - Простые строки: возврат как есть
+    - Список блоков содержимого: извлечение текста из каждого блока
+    - None: возврат пустой строки
     """
     if content is None:
         return ""
@@ -121,7 +121,7 @@ def normalize_content(content) -> str:
             if isinstance(item, str):
                 text_parts.append(item)
             elif isinstance(item, dict):
-                # Handle various content block types
+                # Обработка различных типов блоков содержимого
                 if "text" in item:
                     text_parts.append(item["text"])
                 elif "content" in item:
@@ -133,15 +133,15 @@ def normalize_content(content) -> str:
 
 def detect_parallel_agents(messages: List[Dict]) -> Dict[str, str]:
     """
-    Detect parallel agents from messages by analyzing sender field patterns.
-    Returns a mapping of agent_id to agent_name.
+    Обнаружение параллельных агентов из сообщений путем анализа паттернов поля отправителя.
+    Возвращает отображение agent_id на agent_name.
     """
     agents = {}
 
-    # Look for messages with sender field that follows parallel pattern
+    # Ищем сообщения с полем отправителя, следующим параллельному паттерну
     for msg in messages:
         sender = msg.get("sender", "")
-        # Match patterns like "Bug Bounter [P1]", "Red Team Agent [P2]" etc
+        # Совпадение паттернов типа "Bug Bounter [P1]", "Red Team Agent [P2]" и т.д.
         match = re.match(r"(.+?)\s*\[(P\d+)\]$", sender)
         if match:
             agent_name = match.group(1).strip()
@@ -159,28 +159,28 @@ def replay_conversation(
     full_data: List[Dict] = None,
 ) -> None:
     """
-    Replay a conversation from a list of messages, printing in real-time.
+    Воспроизведение разговора из списка сообщений с выводом в реальном времени.
 
-    Args:
-        messages: List of message dictionaries
-        replay_delay: Time in seconds to wait between actions
-        usage: Tuple containing (model_name, total_input_tokens, total_output_tokens,
+    Аргументы:
+        messages: Список словарей сообщений
+        replay_delay: Время в секундах ожидания между действиями
+        usage: Кортеж, содержащий (model_name, total_input_tokens, total_output_tokens,
                total_cost, active_time, idle_time)
-        jsonl_file_path: Path to the original JSONL file for graph display
-        full_data: Full JSONL data for additional metadata lookup
+        jsonl_file_path: Путь к исходному JSONL файлу для отображения графа
+        full_data: Полные данные JSONL для дополнительного поиска метаданных
     """
     turn_counter = 0
     interaction_counter = 0
     debug = 0  # Always set debug to 2
 
-    # Detect parallel agents
+    # Обнаружение параллельных агентов
     parallel_agents = detect_parallel_agents(messages)
     is_parallel = len(parallel_agents) > 0
 
-    # Store messages for graph display
+    # Сохранение сообщений для отображения графа
     agent_messages = defaultdict(list)
 
-    # Create a mapping of timestamps to agent names from full_data
+    # Создание отображения временных меток на имена агентов из full_data
     timestamp_to_agent = {}
     if full_data:
         for entry in full_data:
@@ -188,38 +188,38 @@ def replay_conversation(
                 timestamp_to_agent[entry["timestamp_iso"]] = entry["agent_name"]
 
     if not messages:
-        print(color("No valid messages found in the JSONL file", fg="yellow"))
+        print(color("Не найдено допустимых сообщений в JSONL файле", fg="yellow"))
         return
 
-    print(color(f"Replaying conversation with {len(messages)} messages...", fg="green"))
+    print(color(f"Воспроизведение разговора с {len(messages)} сообщениями...", fg="green"))
 
     if is_parallel:
-        print(color(f"Detected {len(parallel_agents)} parallel agents:", fg="cyan"))
+        print(color(f"Обнаружено {len(parallel_agents)} параллельных агентов:", fg="cyan"))
         for agent_id, agent_name in sorted(parallel_agents.items()):
             print(color(f"  • {agent_name} [{agent_id}]", fg="cyan"))
 
-    # Extract the usage stats from the usage tuple
-    # Handle both old format (4 elements) and new format (6 elements with timing)
+    # Извлечение статистики использования из кортежа usage
+    # Обработка как старого формата (4 элемента), так и нового (6 элементов с временем)
     file_model = usage[0]
     total_input_tokens = usage[1]
     total_output_tokens = usage[2]
     total_cost = usage[3]
 
-    # Check if timing information is available
+    # Проверка наличия информации о времени
     active_time = usage[4] if len(usage) > 4 else 0
     idle_time = usage[5] if len(usage) > 5 else 0
 
-    # Display timing information if available
+    # Отображение информации о времени при наличии
     if active_time > 0 or idle_time > 0:
-        print(color(f"Active time: {active_time:.2f}s", fg="cyan"))
-        print(color(f"Idle time: {idle_time:.2f}s", fg="cyan"))
+        print(color(f"Активное время: {active_time:.2f}s", fg="cyan"))
+        print(color(f"Время простоя: {idle_time:.2f}s", fg="cyan"))
 
-    print(color(f"Total cost: ${total_cost:.6f}", fg="cyan"))
+    print(color(f"Общая стоимость: ${total_cost:.6f}", fg="cyan"))
 
-    # Initialize COST_TRACKER with the total cost from the JSONL file
+    # Инициализация COST_TRACKER общей стоимостью из JSONL файла
     COST_TRACKER.session_total_cost = total_cost
 
-    # First pass: Process all tool outputs
+    # Первый проход: Обработка всех выводов инструментов
     tool_outputs = {}
     for idx, message in enumerate(messages):
         if message.get("role") == "tool" and message.get("tool_call_id"):
@@ -227,24 +227,24 @@ def replay_conversation(
             content = message.get("content", "")
             tool_outputs[tool_id] = content
 
-    # Process assistant messages to match tool calls with outputs
+    # Обработка сообщений ассистента для сопоставления вызовов инструментов с выводами
     for message in messages:
         if message.get("role") == "assistant" and message.get("tool_calls"):
             for tool_call in message.get("tool_calls", []):
                 call_id = tool_call.get("id", "")
                 if call_id in tool_outputs:
-                    # Add this output to the tool_outputs of the assistant message
+                    # Добавляем этот вывод к tool_outputs сообщения ассистента
                     if "tool_outputs" not in message:
                         message["tool_outputs"] = {}
                     message["tool_outputs"][call_id] = tool_outputs[call_id]
 
-    # Process all messages, including the last one
+    # Обработка всех сообщений, включая последнее
     total_messages = len(messages)
-    cumulative_cost = 0.0  # Track cumulative cost for progressive updates
+    cumulative_cost = 0.0  # Отслеживание кумулятивной стоимости для прогрессивных обновлений
 
     for i, message in enumerate(messages):
         try:
-            # Add delay between actions
+            # Добавление задержки между действиями
             if i > 0:
                 time.sleep(replay_delay)
 
@@ -253,11 +253,11 @@ def replay_conversation(
             sender = message.get("sender", role)
             model = message.get("model", file_model)
 
-            # Update COST_TRACKER with cumulative cost up to this message
-            # Calculate cost from tokens if interaction_cost not available
+            # Обновление COST_TRACKER кумулятивной стоимостью до этого сообщения
+            # Вычисление стоимости из токенов, если interaction_cost недоступен
             message_cost = message.get("interaction_cost", 0.0)
             if message_cost == 0 and role == "assistant":
-                # Estimate cost from tokens (rough estimate: $5/M input, $15/M output)
+                # Оценка стоимости из токенов (грубая оценка: $5/M входные, $15/M выходные)
                 input_tokens = message.get("input_tokens", 0)
                 output_tokens = message.get("output_tokens", 0)
                 if input_tokens > 0 or output_tokens > 0:
@@ -267,26 +267,26 @@ def replay_conversation(
                 COST_TRACKER.current_agent_total_cost = cumulative_cost
                 COST_TRACKER.session_total_cost = cumulative_cost
 
-            # Skip system messages
+            # Пропуск системных сообщений
             if role == "system":
                 continue
 
-            # Store message for graph if parallel agents detected
+            # Сохранение сообщения для графа при обнаружении параллельных агентов
             if is_parallel:
-                # Determine agent for this message
+                # Определение агента для этого сообщения
                 if role == "assistant":
-                    # Extract agent ID from sender if present
+                    # Извлечение ID агента из отправителя при наличии
                     agent_match = re.match(r"(.+?)\s*\[(P\d+)\]$", sender)
                     if agent_match:
                         agent_id = agent_match.group(2)
                         agent_messages[agent_id].append(message)
                 elif role == "user":
-                    # User messages go to all agents
+                    # Сообщения пользователей отправляются всем агентам
                     for agent_id in parallel_agents:
                         agent_messages[agent_id].append(message)
                 elif role == "tool":
-                    # Tool messages go to the agent that called them
-                    # Look back for the assistant message that made this tool call
+                    # Сообщения инструментов отправляются агенту, который их вызвал
+                    # Ищем предыдущее сообщение ассистента, которое выполнило этот вызов инструмента
                     tool_call_id = message.get("tool_call_id")
                     for j in range(i - 1, -1, -1):
                         prev_msg = messages[j]
@@ -298,36 +298,36 @@ def replay_conversation(
                                 agent_messages[agent_id].append(message)
                                 break
 
-            # Handle user messages
+            # Обработка сообщений пользователей
             if role == "user":
                 print(color(f"CAI> ", fg="cyan") + f"{content}")
                 turn_counter += 1
-                # Don't reset interaction_counter to maintain numbering across user prompts
+                # Не сбрасываем interaction_counter для сохранения нумерации между запросами пользователей
 
-            # Handle assistant messages
+            # Обработка сообщений ассистента
             elif role == "assistant":
-                # Check if there are tool calls
+                # Проверка наличия вызовов инструментов
                 tool_calls = message.get("tool_calls", [])
                 tool_outputs = message.get("tool_outputs", {})
 
-                # Extract the actual agent name
+                # Извлечение фактического имени агента
                 display_sender = sender
 
-                # First, check if we have agent_name in the message metadata
+                # Сначала проверяем наличие agent_name в метаданных сообщения
                 agent_name = message.get("agent_name")
                 if agent_name:
                     display_sender = agent_name
                 else:
-                    # If still not found, try to extract from content patterns
+                    # Если все еще не найдено, пытаемся извлечь из паттернов содержимого
                     if display_sender in ["assistant", role] and content:
-                        # Look for patterns like "Agent: Bug Bounter >>" or "[0] Agent: Bug Bounter"
+                        # Ищем паттерны типа "Agent: Bug Bounter >>" или "[0] Agent: Bug Bounter"
                         agent_match = re.search(
                             r"(?:\[\d+\]\s*)?Agent:\s*([^>]+?)(?:\s*>>|\s*\[|$)", content
                         )
                         if agent_match:
                             display_sender = agent_match.group(1).strip()
 
-                    # If still "assistant", default to a generic name
+                    # Если все еще "assistant", используем имя по умолчанию
                     if display_sender == "assistant" or display_sender == role:
                         display_sender = "Assistant"
 
@@ -353,27 +353,27 @@ def replay_conversation(
                             cache_creation_tokens=message.get("cache_creation_tokens", 0),
                         )
 
-                    # Print each tool call with its output
+                    # Печатаем каждый вызов инструмента с его выводом
                     for tool_call in tool_calls:
                         function = tool_call.get("function", {})
                         name = function.get("name", "")
                         arguments = function.get("arguments", "{}")
                         call_id = tool_call.get("id", "")
 
-                        # Get the tool output if available
+                        # Получаем вывод инструмента при наличии
                         tool_output = ""
                         if call_id and call_id in tool_outputs:
                             tool_output = tool_outputs[call_id]
-                            # Detect placeholder messages for empty outputs
+                            # Обнаружение заглушек для пустых выводов
                             if tool_output.startswith("Tool response for call_"):
-                                tool_output = "(Tool returned no output)"
+                                tool_output = "(Инструмент не вернул вывод)"
 
-                        # Skip empty tool calls
+                        # Пропуск пустых вызовов инструментов
                         if not name:
                             continue
 
                         try:
-                            # Try to parse arguments as JSON
+                            # Пытаемся разобрать аргументы как JSON
                             if (
                                 arguments
                                 and isinstance(arguments, str)
@@ -383,18 +383,18 @@ def replay_conversation(
                             else:
                                 args_obj = arguments
 
-                            # Special handling for execute_code to show full code
-                            # Don't modify args_obj for execute_code, we'll handle display separately
+                            # Специальная обработка для execute_code для отображения полного кода
+                            # Не изменяем args_obj для execute_code, мы обработаем отображение отдельно
                         except json.JSONDecodeError:
                             args_obj = arguments
 
-                        # Special handling for execute_code to show the code
+                        # Специальная обработка для execute_code для отображения кода
                         if (
                             name == "execute_code"
                             and isinstance(args_obj, dict)
                             and args_obj.get("code")
                         ):
-                            # Show execute_code with full code content
+                            # Показываем execute_code с полным содержимым кода
                             from rich.panel import Panel
                             from rich.syntax import Syntax
 
@@ -402,10 +402,10 @@ def replay_conversation(
                             language = args_obj.get("language", "python")
                             filename = args_obj.get("filename", "exploit")
 
-                            # Create syntax highlighted code
+                            # Создаем подсвеченный код
                             syntax = Syntax(code, language, theme="monokai", line_numbers=True)
 
-                            # Create the panel with code
+                            # Создаем панель с кодом
                             code_panel = Panel(
                                 syntax,
                                 title=f"[bold yellow]execute_code({filename}.{language})[/bold yellow]",
@@ -414,7 +414,7 @@ def replay_conversation(
                             )
                             console.print(code_panel)
 
-                            # If there's output, show it too
+                            # Если есть вывод, показываем его тоже
                             if tool_output:
                                 output_panel = Panel(
                                     tool_output,
@@ -424,9 +424,9 @@ def replay_conversation(
                                 )
                                 console.print(output_panel)
 
-                            console.print()  # Add spacing
+                            console.print()  # Добавляем отступ
                         else:
-                            # Print other tool calls normally
+                            # Печатаем другие вызовы инструментов нормально
                             cli_print_tool_output(
                                 tool_name=name,
                                 args=args_obj,
@@ -452,7 +452,7 @@ def replay_conversation(
                                 },
                             )
                 else:
-                    # Print regular assistant message
+                    # Печатаем обычное сообщение ассистента
                     cli_print_agent_messages(
                         display_sender,
                         content or "",
@@ -470,14 +470,14 @@ def replay_conversation(
                         cache_read_tokens=message.get("cache_read_tokens", 0),
                         cache_creation_tokens=message.get("cache_creation_tokens", 0),
                     )
-                interaction_counter += 1  # iterate the interaction counter
+                interaction_counter += 1  # инкремент счетчика взаимодействий
 
-            # Handle tool messages - only those not already displayed with assistant messages
+            # Обработка сообщений инструментов - только тех, которые не были уже отображены с сообщениями ассистента
             elif role == "tool":
-                # Check if we've already displayed this tool output with an assistant message
+                # Проверка, отображали ли мы уже этот вывод инструмента с сообщением ассистента
                 tool_call_id = message.get("tool_call_id", "")
 
-                # Skip tool messages that have been displayed with an assistant message
+                # Пропуск сообщений инструментов, которые уже были отображены с сообщением ассистента
                 is_already_displayed = False
                 for prev_msg in messages[:i]:
                     if prev_msg.get("role") == "assistant" and tool_call_id in prev_msg.get(
@@ -486,7 +486,7 @@ def replay_conversation(
                         is_already_displayed = True
                         break
 
-                if not is_already_displayed and content:  # Only show if there's actual content
+                if not is_already_displayed and content:  # Показываем только если есть фактическое содержимое
                     tool_name = message.get("name", message.get("tool_call_id", "unknown"))
                     cli_print_tool_output(
                         tool_name=tool_name,
@@ -507,13 +507,13 @@ def replay_conversation(
                         },
                     )
 
-            # Handle any other message types (including final messages)
+            # Обработка любых других типов сообщений (включая финальные сообщения)
             else:
-                # Always show the last message even if it seems empty
+                # Всегда показываем последнее сообщение, даже если оно кажется пустым
                 if content or (i == total_messages - 1 and role not in ["system", "tool"]):
                     cli_print_agent_messages(
                         sender or role,
-                        content or "[Session ended]",
+                        content or "[Сессия завершена]",
                         interaction_counter,
                         model,
                         debug,
@@ -527,16 +527,16 @@ def replay_conversation(
                         total_cost=total_cost,
                     )
 
-            # Force flush stdout to ensure immediate printing
+            # Принудительный сброс stdout для немедленного вывода
             sys.stdout.flush()
 
         except Exception as e:
-            # Handle any errors during message processing
-            print(color(f"Warning: Error processing message {i+1}: {str(e)}", fg="yellow"))
-            print(color("Continuing with next message...", fg="yellow"))
+            # Обработка любых ошибок при обработке сообщений
+            print(color(f"Предупреждение: Ошибка обработки сообщения {i+1}: {str(e)}", fg="yellow"))
+            print(color("Продолжаем со следующим сообщением...", fg="yellow"))
             continue
 
-    # Display graph at the end if parallel agents detected
+    # Отображение графа в конце при обнаружении параллельных агентов
     if is_parallel and agent_messages:
         display_parallel_graph(agent_messages, parallel_agents)
 
@@ -544,9 +544,9 @@ def replay_conversation(
 def display_parallel_graph(
     agent_messages: Dict[str, List[Dict]], parallel_agents: Dict[str, str]
 ) -> None:
-    """Display a graph showing the parallel agent interactions."""
+    """Отображение графа, показывающего взаимодействия параллельных агентов."""
     print("\n" + "=" * 80)
-    print(color("\n🎯 Parallel Agent Interaction Graph", fg="cyan", style="bold"))
+    print(color("\n🎯 Граф взаимодействий параллельных агентов", fg="cyan", style="bold"))
     print("=" * 80 + "\n")
 
     graphs = []
@@ -558,7 +558,7 @@ def display_parallel_graph(
         if not messages:
             continue
 
-        # Build graph for this agent
+        # Построение графа для этого агента
         graph_lines = []
         turn_counter = 0
 
@@ -567,7 +567,7 @@ def display_parallel_graph(
             content = msg.get("content", "")
 
             if role == "user":
-                # User messages don't get turn numbers
+                # Сообщения пользователей не получают номера ходов
                 if len(content) > 50:
                     content = content[:47] + "..."
                 graph_lines.append(f"[cyan]● User[/cyan]")
@@ -582,20 +582,20 @@ def display_parallel_graph(
                     if len(tool_calls) > 3:
                         tools_str += f" (+{len(tool_calls)-3})"
                     graph_lines.append(
-                        f"[bold red][{turn_counter}][/bold red] [yellow]▶ Agent[/yellow]"
+                        f"[bold red][{turn_counter}][/bold red] [yellow]▶ Агент[/yellow]"
                     )
-                    graph_lines.append(f"  [dim]Tools: {tools_str}[/dim]")
+                    graph_lines.append(f"  [dim]Инструменты: {tools_str}[/dim]")
                 else:
                     graph_lines.append(
-                        f"[bold red][{turn_counter}][/bold red] [yellow]▶ Agent[/yellow]"
+                        f"[bold red][{turn_counter}][/bold red] [yellow]▶ Агент[/yellow]"
                     )
                     if content and len(content.strip()) > 0:
                         preview = content[:50] + "..." if len(content) > 50 else content
                         graph_lines.append(f"  [dim]{preview}[/dim]")
             elif role == "tool":
-                # Tool responses get the same turn number as their assistant
+                # Ответы инструментов получают тот же номер хода, что и их ассистент
                 graph_lines.append(
-                    f"[bold red][{turn_counter}][/bold red] [magenta]◆ Tool[/magenta]"
+                    f"[bold red][{turn_counter}][/bold red] [magenta]◆ Инструмент[/magenta]"
                 )
                 if content:
                     preview = content[:50] + "..." if len(content) > 50 else content
@@ -604,7 +604,7 @@ def display_parallel_graph(
             if i < len(messages) - 1:
                 graph_lines.append("    ↓")
 
-        # Create panel for this agent
+        # Создание панели для этого агента
         agent_panel = Panel(
             "\n".join(graph_lines),
             title=f"[bold cyan]{agent_name} [{agent_id}][/bold cyan]",
@@ -614,14 +614,14 @@ def display_parallel_graph(
         )
         graphs.append(agent_panel)
 
-    # Display graphs in columns
+    # Отображение графов в колонках
     if len(graphs) > 1:
         console.print(Columns(graphs, equal=False, expand=False, padding=(1, 2)))
     elif graphs:
         console.print(graphs[0])
 
-    # Print summary
-    console.print("\n[bold]Summary:[/bold]")
+    # Печать сводки
+    console.print("\n[bold]Сводка:[/bold]")
     total_messages = sum(len(msgs) for msgs in agent_messages.values())
     unique_user_messages = len(
         set(
@@ -632,36 +632,36 @@ def display_parallel_graph(
         )
     )
 
-    console.print(f"• Total agents: {len(parallel_agents)}")
-    console.print(f"• Total messages: {total_messages}")
-    console.print(f"• User messages: {unique_user_messages}")
+    console.print(f"• Всего агентов: {len(parallel_agents)}")
+    console.print(f"• Всего сообщений: {total_messages}")
+    console.print(f"• Сообщений пользователей: {unique_user_messages}")
     console.print(
-        f"• Average messages per agent: {total_messages / len(parallel_agents) if parallel_agents else 0:.1f}"
+        f"• Среднее количество сообщений на агента: {total_messages / len(parallel_agents) if parallel_agents else 0:.1f}"
     )
     print("\n" + "=" * 80)
 
 
 def parse_arguments():
-    """Parse command line arguments."""
+    """Разбор аргументов командной строки."""
     parser = argparse.ArgumentParser(
-        description="Tool to convert JSONL files to a replay format that simulates the CLI output.",
+        description="Инструмент для преобразования JSONL файлов в формат воспроизведения, имитирующий вывод CLI.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
-Examples:
-  # Using environment variables:
+Примеры:
+  # С использованием переменных окружения:
   JSONL_FILE_PATH="path/to/file.jsonl" REPLAY_DELAY="0.5" python3 tools/replay.py
 
-  # Using positional arguments:
+  # С использованием позиционных аргументов:
   python3 tools/replay.py path/to/file.jsonl 0.5
   cai-replay path/to/file.jsonl 0.5
 
-  # Using command line arguments:
+  # С использованием аргументов командной строки:
   python3 tools/replay.py --jsonl-file-path path/to/file.jsonl --replay-delay 0.5
 
-  # Using positional argument for file only:
+  # С использованием позиционного аргумента только для файла:
   python3 tools/replay.py path/to/file.jsonl --replay-delay 0.5
 
-  # With asciinema:
+  # С asciinema:
   asciinema rec --command="python3 tools/replay.py path/to/file.jsonl 0.5" --overwrite
 """,
     )
@@ -670,7 +670,7 @@ Examples:
         "jsonl_file",
         nargs="?",
         default=None,
-        help="Path to the JSONL file containing conversation history",
+        help="Путь к JSONL файлу, содержащему историю разговоров",
     )
 
     parser.add_argument(
@@ -678,88 +678,88 @@ Examples:
         nargs="?",
         type=float,
         default=None,
-        help="Time in seconds to wait between actions (positional argument)",
+        help="Время в секундах ожидания между действиями (позиционный аргумент)",
     )
 
     parser.add_argument(
-        "--jsonl-file-path", type=str, help="Path to the JSONL file containing conversation history"
+        "--jsonl-file-path", type=str, help="Путь к JSONL файлу, содержащему историю разговоров"
     )
 
     parser.add_argument(
         "--replay-delay",
         type=float,
         default=0.5,
-        help="Time in seconds to wait between actions (default: 0.5)",
+        help="Время в секундах ожидания между действиями (по умолчанию: 0.5)",
     )
 
     return parser.parse_args()
 
 
 def main():
-    """Main function to process JSONL files and generate replay output."""
-    # Display banner
+    """Основная функция для обработки JSONL файлов и генерации вывода воспроизведения."""
+    # Отображение баннера
     display_banner(console)
     print("\n")
 
-    # Parse command line arguments
+    # Разбор аргументов командной строки
     args = parse_arguments()
 
-    # Get environment variables or command line arguments
-    # First check for --jsonl-file-path, then positional argument, then environment variable
+    # Получение переменных окружения или аргументов командной строки
+    # Сначала проверяем --jsonl-file-path, затем позиционный аргумент, затем переменную окружения
     jsonl_file_path = args.jsonl_file_path or args.jsonl_file or os.environ.get("JSONL_FILE_PATH")
 
-    # For replay delay, prioritize: positional arg > --replay-delay > environment variable > default
+    # Для задержки воспроизведения приоритет: позиционный аргумент > --replay-delay > переменная окружения > значение по умолчанию
     if args.replay_delay_pos is not None:
         replay_delay = args.replay_delay_pos
-    elif args.replay_delay != 0.5:  # Check if --replay-delay was explicitly set
+    elif args.replay_delay != 0.5:      # Проверка --replay-delay был ли явно установлен
         replay_delay = args.replay_delay
     else:
         replay_delay = float(os.environ.get("REPLAY_DELAY", "0.5"))
 
-    # Validate required parameters
+    # Валидация обязательных параметров
     if not jsonl_file_path:
         print(
             color(
-                "Error: JSONL file path is required. Use a positional argument, --jsonl-file-path option, or set JSONL_FILE_PATH environment variable.",
+                "Ошибка: Требуется путь к JSONL файлу. Используйте позиционный аргумент, опцию --jsonl-file-path или установите переменную окружения JSONL_FILE_PATH.",
                 fg="red",
             )
         )
         sys.exit(1)
 
-    print(color(f"Loading JSONL file: {jsonl_file_path}", fg="blue"))
+    print(color(f"Загрузка JSONL файла: {jsonl_file_path}", fg="blue"))
 
     try:
-        # Load the full JSONL file to extract tool outputs and agent names
+        # Загрузка полного JSONL файла для извлечения выводов инструментов и имен агентов
         full_data = load_jsonl(jsonl_file_path)
 
-        # Extract tool outputs from events and find last assistant message
+        # Извлечение выводов инструментов из событий и поиск последнего сообщения ассистента
         tool_outputs = {}
-        agent_names = {}  # Store agent names by timestamp or other identifier
+        agent_names = {}  # Сохранение имен агентов по временной метке или другому идентификатору
 
-        # Extract agent names from full data
+        # Извлечение имен агентов из полных данных
         current_agent_name = None
         for entry in full_data:
-            # Track the current agent name from various events
+            # Отслеживание текущего имени агента из различных событий
             if entry.get("agent_name"):
                 current_agent_name = entry.get("agent_name")
-                # Store agent name with timestamp or other identifier
+                # Сохранение имени агента с временной меткой или другим идентификатором
                 timestamp = entry.get("timestamp")
                 if timestamp:
                     agent_names[timestamp] = entry.get("agent_name")
 
-            # Also look for agent_run_start events which contain agent names
+            # Также ищем события agent_run_start, которые содержат имена агентов
             if entry.get("event") == "agent_run_start" and entry.get("agent_name"):
                 current_agent_name = entry.get("agent_name")
 
-        # Load the JSONL file for messages
+        # Загрузка JSONL файла для сообщений
         messages = load_history_from_jsonl(jsonl_file_path)
 
-        # Attach tool outputs and agent names to messages
-        # Also track current agent for messages without timestamps
+        # Присоединение выводов инструментов и имен агентов к сообщениям
+        # Также отслеживание текущего агента для сообщений без временных меток
         last_known_agent = current_agent_name
 
         for i, message in enumerate(messages):
-            # Try to match agent names by timestamp
+            # Попытка сопоставить имена агентов по временной метке
             msg_timestamp = message.get("timestamp")
             if msg_timestamp and msg_timestamp in agent_names:
                 message["agent_name"] = agent_names[msg_timestamp]
@@ -769,7 +769,7 @@ def main():
                 and not message.get("agent_name")
                 and last_known_agent
             ):
-                # If no timestamp match but we have a last known agent, use it
+                # Если совпадения временной метки нет, но у нас есть последний известный агент, используем его
                 message["agent_name"] = last_known_agent
 
             if message.get("role") == "assistant" and message.get("tool_calls"):
@@ -781,32 +781,32 @@ def main():
                     if call_id in tool_outputs:
                         message["tool_outputs"][call_id] = tool_outputs[call_id]
 
-        print(color(f"Loaded {len(messages)} messages from JSONL file", fg="blue"))
+        print(color(f"Загружено {len(messages)} сообщений из JSONL файла", fg="blue"))
 
-        # Get token stats and cost from the JSONL file
+        # Получение статистики токенов и стоимости из JSONL файла
         usage = get_token_stats(jsonl_file_path)
 
-        # Display timing information if available (new format)
+        # Отображение информации о времени при наличии (новый формат)
         if len(usage) > 4:
             print(color(f"Active time: {usage[4]:.2f}s", fg="blue"))
             print(color(f"Idle time: {usage[5]:.2f}s", fg="blue"))
 
-        # Pass full_data to replay_conversation for agent name lookup
+        # Передача full_data в replay_conversation для поиска имени агента
         replay_conversation(messages, replay_delay, usage, jsonl_file_path, full_data)
-        print(color("Replay completed successfully", fg="green"))
+        print(color("Воспроизведение успешно завершено", fg="green"))
 
-        # Display the total cost
+        # Отображение общей стоимости
         active_time = usage[4] if len(usage) > 4 else 0
         idle_time = usage[5] if len(usage) > 5 else 0
         total_time = active_time + idle_time
 
-        # Format time values as strings with units
+        # Форматирование значений времени как строк с единицами измерения
         def format_time(seconds):
-            """Format time in seconds to a human-readable string."""
+            """Форматирование времени в секундах в читаемую строку."""
             if seconds < 60:
                 return f"{seconds:.1f}s"
             else:
-                # Convert seconds to hours, minutes, seconds
+                # Преобразование секунд в часы, минуты, секунды
                 hours, remainder = divmod(seconds, 3600)
                 minutes, seconds = divmod(remainder, 60)
 
@@ -825,16 +825,16 @@ def main():
         display_execution_time(metrics)
 
     except FileNotFoundError:
-        print(color(f"Error: File {jsonl_file_path} not found", fg="red"))
+        print(color(f"Ошибка: Файл {jsonl_file_path} не найден", fg="red"))
         sys.exit(1)
     except json.JSONDecodeError:
-        print(color(f"Error: Invalid JSON in {jsonl_file_path}", fg="red"))
+        print(color(f"Ошибка: Недопустимый JSON в {jsonl_file_path}", fg="red"))
         sys.exit(1)
     except Exception as e:
-        print(color(f"Error: {str(e)}", fg="red"))
+        print(color(f"Ошибка: {str(e)}", fg="red"))
         sys.exit(1)
     finally:
-        # Clean up the environment variable to avoid polluting other processes
+        # Очистка переменной окружения для избежания загрязнения других процессов
         if "CAI_DISABLE_SESSION_RECORDING" in os.environ:
             del os.environ["CAI_DISABLE_SESSION_RECORDING"]
 

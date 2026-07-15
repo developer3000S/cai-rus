@@ -2,17 +2,17 @@ site_name: CAI
 theme:
   name: material
   features:
-    # Allows copying code blocks
+    # Позволяет копировать блоки кода
     - content.code.copy
-    # Allows selecting code blocks
+    # Позволяет выделять блоки кода
     - content.code.select
-    # Shows the current path in the sidebar
+    # Показывает текущий путь в боковой панели
     - navigation.path
-    # Shows sections in the sidebar
+    # Показывает разделы в боковой панели
     - navigation.sections
-    # Shows sections expanded by default
+    # Показывает разделы развёрнутыми по умолчанию
     - navigation.expand
-    # Enables annotations in code blocks
+    # Включает аннотации в блоках кода
     - content.code.annotate
   palette:
     primary: custom
@@ -23,161 +23,161 @@ theme:
 repo_url: https://github.com/aliasrobotics/cai
 repo_name: aliasrobotics/cai
 nav:
-  - Getting Started:
-      - Welcome: index.md
-      - Installation: cai_installation.md
-      - Quickstart: cai_quickstart.md
-      - Available Models: cai_list_of_models.md
-      - Model Providers:
+  - Начало работы:
+      - Добро пожаловать: index.md
+      - Установка: cai_installation.md
+      - Быстрый старт: cai_quickstart.md
+      - Доступные модели: cai_list_of_models.md
+      - Провайдеры моделей:
           - OpenRouter: providers/openrouter.md
           - Ollama: providers/ollama.md
           - Azure OpenAI: providers/azure.md
 
   - '🚀 CAI PRO': cai_pro.md
 
-  - Core Concepts:
-      - Architecture: cai_architecture.md
-      - Agents: agents.md
-      - Tools: tools.md
-      - Handoffs: handoffs.md
-      - Multi-Agent Systems: multi_agent.md
+  - Основные концепции:
+      - Архитектура: cai_architecture.md
+      - Агенты: agents.md
+      - Инструменты: tools.md
+      - Передача управления: handoffs.md
+      - Мультиагентные системы: multi_agent.md
 
-  - Models & Providers:
-      - Available Models: cai_list_of_models.md
-      - Model Providers:
+  - Модели и провайдеры:
+      - Доступные модели: cai_list_of_models.md
+      - Провайдеры моделей:
           - OpenRouter: providers/openrouter.md
           - Ollama: providers/ollama.md
           - Azure OpenAI: providers/azure.md
 
 
   # =================================
-  # GUIDES
+  # РУКОВОДСТВА
   # =================================
-  - Guides:
-      - Running Agents: running_agents.md
-      - Continue Mode: continue_mode.md
-      - Session Resume: session_resume.md
-      - Working with Results: results.md
-      - Streaming: streaming.md
-      - Tracing & Debugging: tracing.md
-      - Context Management: context.md
-      - Guardrails & Security: guardrails.md
-      - Environment Variables: environment_variables.md
+  - Руководства:
+      - Запуск агентов: running_agents.md
+      - Режим продолжения: continue_mode.md
+      - Возобновление сессии: session_resume.md
+      - Работа с результатами: results.md
+      - Потоковая передача: streaming.md
+      - Трассировка и отладка: tracing.md
+      - Управление контекстом: context.md
+      - Защитные механизмы: guardrails.md
+      - Переменные окружения: environment_variables.md
 
 
   # =================================
-  # MODELS & PROVIDERS (REORGANIZADO)
+  # МОДЕЛИ И ПРОВАЙДЕРЫ (РЕОРГАНИЗОВАНО)
   # =================================
-  - Models & Providers:
-      # TODO: Crear página destacada para Alias Models
-      # - '⭐ Alias Models (CAI PRO)': cai_alias_models.md
-      - Available Models: cai_list_of_models.md
-      - Model Providers:
+  - Модели и провайдеры:
+      # TODO: Создать отдельную страницу для моделей Alias
+      # - '⭐ Модели Alias (CAI PRO)': cai_alias_models.md
+      - Доступные модели: cai_list_of_models.md
+      - Провайдеры моделей:
           - OpenRouter: providers/openrouter.md
           - Ollama: providers/ollama.md
           - Azure OpenAI: providers/azure.md
 
   # =================================
-  # GUIDES
+  # РУКОВОДСТВА
   # =================================
-  - Guides:
-      - Running Agents: running_agents.md
-      - Continue Mode: continue_mode.md
-      - Session Resume: session_resume.md
-      - Working with Results: results.md
-      - Streaming: streaming.md
-      - Tracing & Debugging: tracing.md
-      - Context Management: context.md
-      - Guardrails & Security: guardrails.md
-      - LLM Council: council.md
-      - Environment Variables: environment_variables.md
+  - Руководства:
+      - Запуск агентов: running_agents.md
+      - Режим продолжения: continue_mode.md
+      - Возобновление сессии: session_resume.md
+      - Работа с результатами: results.md
+      - Потоковая передача: streaming.md
+      - Трассировка и отладка: tracing.md
+      - Управление контекстом: context.md
+      - Защитные механизмы: guardrails.md
+      - Совет LLM: council.md
+      - Переменные окружения: environment_variables.md
 
   # =================================
-  # BENCHMARKING (CREDIBILIDAD)
+  # БЕНЧМАРКИНГ (ДОСТОВЕРНОСТЬ)
   # =================================
 
-  - Benchmarking:
-      - Overview: benchmarking/overview.md
-      - Running Benchmarks: benchmarking/running_benchmarks.md
-      - Attack & Defense CTFs: benchmarking/attack_defense.md
-      - Jeopardy CTFs: benchmarking/jeopardy_ctfs.md
-      - Cyber Ranges: benchmarking/cyber_ranges.md
-      - Knowledge Benchmarks: benchmarking/knowledge_benchmarks.md
-      - Privacy Benchmarks: benchmarking/privacy_benchmarks.md
+  - Бенчмаркинг:
+      - Обзор: benchmarking/overview.md
+      - Запуск бенчмарков: benchmarking/running_benchmarks.md
+      - CTF атаки и защиты: benchmarking/attack_defense.md
+      - CTF Jeopardy: benchmarking/jeopardy_ctfs.md
+      - Кибер-тренажёры: benchmarking/cyber_ranges.md
+      - Бенчмарки знаний: benchmarking/knowledge_benchmarks.md
+      - Бенчмарки конфиденциальности: benchmarking/privacy_benchmarks.md
 
-  - Guides:
-      - Running Agents: running_agents.md
-      - Continue Mode: continue_mode.md
-      - Working with Results: results.md
-      - Streaming: streaming.md
-      - Tracing & Debugging: tracing.md
-      - Context Management: context.md
-      - Guardrails & Security: guardrails.md
-      - Environment Variables: environment_variables.md
-      - Packet Capture on WSL2: cai/getting-started/packet_capture_wsl.md
+  - Руководства:
+      - Запуск агентов: running_agents.md
+      - Режим продолжения: continue_mode.md
+      - Работа с результатами: results.md
+      - Потоковая передача: streaming.md
+      - Трассировка и отладка: tracing.md
+      - Управление контекстом: context.md
+      - Защитные механизмы: guardrails.md
+      - Переменные окружения: environment_variables.md
+      - Захват пакетов на WSL2: cai/getting-started/packet_capture_wsl.md
 
-  - Troubleshooting:
-      - Operator Feedback Reproduction: cai/troubleshooting/operator_feedback_reproduction.md
-      - Platform Limitations: cai/troubleshooting/platform_limitations.md
+  - Устранение неполадок:
+      - Воспроизведение отзывов оператора: cai/troubleshooting/operator_feedback_reproduction.md
+      - Ограничения платформы: cai/troubleshooting/platform_limitations.md
 
-  - Case Studies:
-      - Operator Artifact Evidence: cai/case-studies/operator-artifact-evidence.md
+  - Кейсы:
+      - Доказательства артефактов оператора: cai/case-studies/operator-artifact-evidence.md
 
-  - Mobile UI (iOS):
-      - Overview: mui/mui_index.md
-      - Getting Started: mui/getting_started.md
-      - User Interface: mui/user_interface.md
-      - Gestures & Shortcuts: mui/gestures_shortcuts.md
-      - Chat Features: mui/chat_features.md
+  - Мобильный интерфейс (iOS):
+      - Обзор: mui/mui_index.md
+      - Начало работы: mui/getting_started.md
+      - Пользовательский интерфейс: mui/user_interface.md
+      - Жесты и горячие клавиши: mui/gestures_shortcuts.md
+      - Функции чата: mui/chat_features.md
 
-  - Terminal UI (TUI) - Deprecated:
-      - Overview: tui/tui_index.md
-      - Getting Started: tui/getting_started.md
-      - User Interface: tui/user_interface.md
-      - Terminals Management: tui/terminals_management.md
-      - Teams & Parallel Execution: tui/teams_and_parallel_execution.md
-      - Sidebar Features: tui/sidebar_features.md
-      - Keyboard Shortcuts: tui/keyboard_shortcuts.md
-      - Commands Reference: tui/commands_reference.md
-      - Advanced Features: tui/advanced_features.md
-      - Troubleshooting: tui/troubleshooting.md
+  - Терминальный интерфейс (TUI) - Устаревший:
+      - Обзор: tui/tui_index.md
+      - Начало работы: tui/getting_started.md
+      - Пользовательский интерфейс: tui/user_interface.md
+      - Управление терминалами: tui/terminals_management.md
+      - Команды и параллельное выполнение: tui/teams_and_parallel_execution.md
+      - Функции боковой панели: tui/sidebar_features.md
+      - Горячие клавиши: tui/keyboard_shortcuts.md
+      - Справочник команд: tui/commands_reference.md
+      - Дополнительные функции: tui/advanced_features.md
+      - Устранение неполадок: tui/troubleshooting.md
 
-  - API Reference:
-      - Agents:
-          - Agent: ref/agent.md
-          - Runner: ref/run.md
-          - Tool: ref/tool.md
-          - Result: ref/result.md
-          - Stream Events: ref/stream_events.md
-          - Handoffs: ref/handoffs.md
-          - Lifecycle: ref/lifecycle.md
-          - Items: ref/items.md
-          - Run Context: ref/run_context.md
-          - Usage: ref/usage.md
-          - Exceptions: ref/exceptions.md
-          - Guardrail: ref/guardrail.md
-          - Model Settings: ref/model_settings.md
-          - Agent Output: ref/agent_output.md
-          - Function Schema: ref/function_schema.md
-      - Models:
-          - Interface: ref/models/interface.md
+  - Справочник API:
+      - Агенты:
+          - Агент: ref/agent.md
+          - Запуск: ref/run.md
+          - Инструмент: ref/tool.md
+          - Результат: ref/result.md
+          - События потока: ref/stream_events.md
+          - Передача управления: ref/handoffs.md
+          - Жизненный цикл: ref/lifecycle.md
+          - Элементы: ref/items.md
+          - Контекст запуска: ref/run_context.md
+          - Использование: ref/usage.md
+          - Исключения: ref/exceptions.md
+          - Защитный механизм: ref/guardrail.md
+          - Настройки модели: ref/model_settings.md
+          - Вывод агента: ref/agent_output.md
+          - Схема функции: ref/function_schema.md
+      - Модели:
+          - Интерфейс: ref/models/interface.md
           - OpenAI Chat Completions: ref/models/openai_chatcompletions.md
           - OpenAI Responses: ref/models/openai_responses.md
-      - Extensions:
-          - Handoff Filters: ref/extensions/handoff_filters.md
-          - Handoff Prompt: ref/extensions/handoff_prompt.md
+      - Расширения:
+          - Фильтры передачи управления: ref/extensions/handoff_filters.md
+          - Подсказки передачи управления: ref/extensions/handoff_prompt.md
 
-  - Advanced:
-      # - Benchmarks: cai_benchmark.md
-      - Development: cai_development.md
+  - Дополнительно:
+      # - Бенчмарки: cai_benchmark.md
+      - Разработка: cai_development.md
 
-  - Research:
-      - Overview: research.md
+  - Исследования:
+      - Обзор: research.md
 
-  - Resources:
-      - FAQ: cai_faq.md
-      - Find Us: cai_find_us.md
-      - Citation & Acknowledgments: cai_citation_and_acknowledgments.md
+  - Ресурсы:
+      - Часто задаваемые вопросы: cai_faq.md
+      - Найти нас: cai_find_us.md
+      - Цитирование и благодарности: cai_citation_and_acknowledgments.md
 plugins:
   - search
   - autorefs
@@ -188,21 +188,21 @@ plugins:
           selection:
             docstring_style: google
           options:
-            # Shows links to other members in signatures
+            # Показывает ссылки на другие элементы в сигнатурах
             signature_crossrefs: true
-            # Orders members by source order, rather than alphabetical
+            # Сортирует элементы по порядку в исходном коде, а не по алфавиту
             members_order: source
-            # Puts the signature on a separate line from the member name
+            # Размещает сигнатуру на отдельной строке от имени элемента
             separate_signature: true
-            # Shows type annotations in signatures
+            # Показывает аннотации типов в сигнатурах
             show_signature_annotations: true
-            # Makes the font sizes nicer
+            # Делает размеры шрифтов более приятными
             heading_level: 3
-            # Show inherited members
+            # Показывает унаследованные элементы
             inherited_members: true
 
 extra:
-  # Remove material generation message in footer
+  # Удаляет сообщение о генерации material в футере
   generator: false
 
 markdown_extensions:

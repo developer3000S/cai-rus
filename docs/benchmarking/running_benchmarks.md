@@ -1,34 +1,34 @@
-# Running Benchmarks
+# Запуск бенчмарков
 
-This guide explains how to set up and run CAIBench evaluations to assess AI model performance across cybersecurity tasks.
+В данном руководстве объясняется, как настроить и запустить оценки CAIBench для анализа производительности ИИ-моделей в задачах кибербезопасности.
 
 ---
 
-## 🔧 Prerequisites
+## 🔧 Предварительные требования
 
-### System Requirements
+### Системные требования
 
-- Python 3.8 or higher
-- Docker (for CTF and Cyber Range benchmarks)
-- Git with submodule support
-- At least 8GB RAM recommended
-- 20GB free disk space for benchmark containers
+- Python 3.8 или выше
+- Docker (для бенчмарков CTF и Cyber Range)
+- Git с поддержкой подмодулей
+- Рекомендуется не менее 8 ГБ оперативной памяти
+- 20 ГБ свободного места на диске для контейнеров бенчмарков
 
-### Required Packages
+### Необходимые пакеты
 
 ```bash
-# Install base dependencies
+# Установка базовых зависимостей
 pip install cai-framework
 
-# Install benchmark-specific requirements
+# Установка специфических требований для бенчмарков
 pip install cvss
 ```
 
 ---
 
-## 📦 Setup
+## 📦 Настройка
 
-### 1. Clone Repository with Submodules
+### 1. Клонирование репозитория с подмодулями
 
 ```bash
 git clone https://github.com/aliasrobotics/cai.git
@@ -36,46 +36,46 @@ cd cai
 git submodule update --init --recursive
 ```
 
-### 2. Configure API Keys
+### 2. Конфигурация API-ключей
 
-Create a `.env` file in the project root:
+Создайте файл `.env` в корне проекта:
 
 ```bash
-# For alias1 (CAI PRO)
+# Для alias1 (CAI PRO)
 ALIAS_API_KEY="sk-your-caipro-key"
 
-# For OpenAI models
+# Для моделей OpenAI
 OPENAI_API_KEY="sk-..."
 
-# For Anthropic models
+# Для моделей Anthropic
 ANTHROPIC_API_KEY="sk-ant-..."
 
-# For DeepSeek models
+# Для моделей DeepSeek
 DEEPSEEK_API_KEY="sk-..."
 
-# For OpenRouter (access to 200+ models)
+# Для OpenRouter (доступ к 200+ моделям)
 OPENROUTER_API_KEY="sk-or-..."
 OPENROUTER_API_BASE="https://openrouter.ai/api/v1"
 
-# For Ollama (local models)
+# Для Ollama (локальные модели)
 OLLAMA_API_BASE="http://localhost:11434/v1"
 ```
 
-### 3. Verify Setup
+### 3. Проверка настройки
 
 ```bash
-# Test basic functionality
+# Тест базового функционала
 python -c "from cai import cli; print('CAI installed successfully!')"
 
-# Check benchmarks directory
+# Проверка директории бенчмарков
 ls benchmarks/
 ```
 
 ---
 
-## 🚀 Running Benchmarks
+## 🚀 Запуск бенчмарков
 
-### Basic Command Structure
+### Базовая структура команды
 
 ```bash
 python benchmarks/eval.py \
@@ -86,41 +86,41 @@ python benchmarks/eval.py \
     [--save_interval N]
 ```
 
-### Parameters
+### Параметры
 
-| Parameter | Description | Required | Example |
+| Параметр | Описание | Обязателен | Пример |
 |-----------|-------------|----------|---------|
-| `--model` / `-m` | Model identifier | ✅ Yes | `alias1`, `gpt-4o`, `ollama/qwen2.5:14b` |
-| `--dataset_file` / `-d` | Path to benchmark dataset | ✅ Yes | `benchmarks/cybermetric/CyberMetric-2-v1.json` |
-| `--eval` / `-e` | Benchmark type | ✅ Yes | `cybermetric`, `seceval`, `cti_bench`, `cyberpii-bench` |
-| `--backend` / `-B` | API backend | ✅ Yes | `alias`, `openai`, `anthropic`, `ollama`, `openrouter` |
-| `--save_interval` / `-s` | Save results every N questions | ❌ No | `10` |
+| `--model` / `-m` | Идентификатор модели | ✅ Да | `alias1`, `gpt-4o`, `ollama/qwen2.5:14b` |
+| `--dataset_file` / `-d` | Путь к набору данных бенчмарка | ✅ Да | `benchmarks/cybermetric/CyberMetric-2-v1.json` |
+| `--eval` / `-e` | Тип бенчмарка | ✅ Да | `cybermetric`, `seceval`, `cti_bench`, `cyberpii-bench` |
+| `--backend` / `-B` | API-бэкенд | ✅ Да | `alias`, `openai`, `anthropic`, `ollama`, `openrouter` |
+| `--save_interval` / `-s` | Сохранять результаты каждые N вопросов | ❌ Нет | `10` |
 
 ---
 
-## 📊 Benchmark Types
+## 📊 Типы бенчмарков
 
-### Knowledge Benchmarks
+### Бенчмарки знаний (Knowledge Benchmarks)
 
 #### CyberMetric
-Measures performance on cybersecurity-specific question answering and contextual understanding.
+Измеряет производительность в ответах на вопросы по кибербезопасности и контекстуальное понимание.
 
 ```bash
-# Using alias1 (CAI PRO)
+# Использование alias1 (CAI PRO)
 python benchmarks/eval.py \
     --model alias1 \
     --dataset_file benchmarks/cybermetric/CyberMetric-2-v1.json \
     --eval cybermetric \
     --backend alias
 
-# Using Ollama with Qwen
+# Использование Ollama с Qwen
 python benchmarks/eval.py \
     --model ollama/qwen2.5:14b \
     --dataset_file benchmarks/cybermetric/CyberMetric-2-v1.json \
     --eval cybermetric \
     --backend ollama
 
-# Using OpenAI GPT-4o
+# Использование OpenAI GPT-4o
 python benchmarks/eval.py \
     --model gpt-4o-mini \
     --dataset_file benchmarks/cybermetric/CyberMetric-2-v1.json \
@@ -129,17 +129,17 @@ python benchmarks/eval.py \
 ```
 
 #### SecEval
-Evaluates LLMs on security-related tasks like phishing analysis and vulnerability classification.
+Оценивает LLM в задачах, связанных с безопасностью, таких как анализ фишинга и классификация уязвимостей.
 
 ```bash
-# Using Anthropic Claude
+# Использование Anthropic Claude
 python benchmarks/eval.py \
     --model claude-3-7-sonnet-20250219 \
     --dataset_file benchmarks/seceval/eval/datasets/questions-2.json \
     --eval seceval \
     --backend anthropic
 
-# Using alias1
+# Использование alias1
 python benchmarks/eval.py \
     --model alias1 \
     --dataset_file benchmarks/seceval/eval/datasets/questions-2.json \
@@ -148,17 +148,17 @@ python benchmarks/eval.py \
 ```
 
 #### CTI Bench
-Evaluates Cyber Threat Intelligence understanding and processing.
+Оценивает понимание и обработку данных разведки о киберугрозах (Cyber Threat Intelligence).
 
 ```bash
-# Using OpenRouter with Qwen
+# Использование OpenRouter с Qwen
 python benchmarks/eval.py \
     --model qwen/qwen3-32b:free \
     --dataset_file benchmarks/cti_bench/data/cti-mcq1.tsv \
     --eval cti_bench \
     --backend openrouter
 
-# Multiple CTI Bench variants
+# Несколько вариантов CTI Bench
 python benchmarks/eval.py \
     --model alias1 \
     --dataset_file benchmarks/cti_bench/data/cti-ate2.tsv \
@@ -166,13 +166,13 @@ python benchmarks/eval.py \
     --backend alias
 ```
 
-### Privacy Benchmarks
+### Бенчмарки приватности (Privacy Benchmarks)
 
 #### CyberPII-Bench
-Evaluates ability to identify and sanitize Personally Identifiable Information.
+Оценивает способность идентифицировать и очищать персонально идентифицируемую информацию (PII).
 
 ```bash
-# Using alias1 (recommended for best privacy protection)
+# Использование alias1 (рекомендуется для лучшей защиты приватности)
 python benchmarks/eval.py \
     --model alias1 \
     --dataset_file benchmarks/cyberPII-bench/memory01_gold.csv \
@@ -180,27 +180,27 @@ python benchmarks/eval.py \
     --backend alias
 ```
 
-**[Learn more about privacy benchmarks →](privacy_benchmarks.md)**
+**[Узнать больше о бенчмарках приватности →](privacy_benchmarks.md)**
 
 ---
 
-## 📁 Output Structure
+## 📁 Структура вывода
 
-Results are automatically saved to structured directories:
+Результаты автоматически сохраняются в структурированные директории:
 
 ```
 outputs/
 └── benchmark_name/
     └── model_YYYYMMDD_random-id/
-        ├── answers.json       # Complete test with LLM responses
-        ├── information.txt    # Performance metrics and metadata
-        ├── entity_performance.txt  # (Privacy benchmarks only)
-        ├── metrics.txt        # (Privacy benchmarks only)
-        ├── mistakes.txt       # (Privacy benchmarks only)
-        └── overall_report.txt # (Privacy benchmarks only)
+        ├── answers.json       # Полный тест с ответами LLM
+        ├── information.txt    # Метрики производительности и метаданные
+        ├── entity_performance.txt  # (Только для бенчмарков приватности)
+        ├── metrics.txt        # (Только для бенчмарков приватности)
+        ├── mistakes.txt       # (Только для бенчмарков приватности)
+        └── overall_report.txt # (Только для бенчмарков приватности)
 ```
 
-### Example Output Files
+### Примеры файлов вывода
 
 **information.txt:**
 ```
@@ -228,22 +228,22 @@ Date: 2025-01-15
 
 ---
 
-## 🎯 Best Practices
+## 🎯 Лучшие практики
 
-### 1. Model Selection
+### 1. Выбор модели
 
-!!! success "Recommended: Use alias1"
-    For all cybersecurity benchmarks, **`alias1` consistently achieves the highest scores**.
+!!! success "Рекомендуется: используйте alias1"
+    Во всех бенчмарках по кибербезопасности **`alias1` стабильно демонстрирует самые высокие результаты**.
 
-    - 🥇 Best performance across all benchmark categories
-    - ✅ Zero refusals for security-related questions
-    - 🚀 Optimized for cybersecurity tasks
+    - 🥇 Лучшая производительность во всех категориях бенчмарков
+    - ✅ Отсутствие отказов в ответах на вопросы по безопасности
+    - 🚀 Оптимизирована для задач кибербезопасности
 
-    **[Get alias1 with CAI PRO →](../cai_pro.md)**
+    **[Получить alias1 с CAI PRO →](../cai_pro.md)**
 
-### 2. Save Intervals
+### 2. Интервалы сохранения
 
-For long-running benchmarks, use `--save_interval` to save intermediate results:
+Для длительных бенчмарков используйте `--save_interval` для сохранения промежуточных результатов:
 
 ```bash
 python benchmarks/eval.py \
@@ -251,104 +251,104 @@ python benchmarks/eval.py \
     --dataset_file benchmarks/cybermetric/CyberMetric-2-v1.json \
     --eval cybermetric \
     --backend alias \
-    --save_interval 25  # Save every 25 questions
+    --save_interval 25  # Сохранять каждые 25 вопросов
 ```
 
-### 3. Parallel Execution
+### 3. Параллельное выполнение
 
-Run multiple benchmarks in parallel (different terminals):
+Запускайте несколько бенчмарков параллельно (в разных терминалах):
 
 ```bash
-# Terminal 1: CyberMetric
+# Терминал 1: CyberMetric
 python benchmarks/eval.py --model alias1 --dataset_file benchmarks/cybermetric/CyberMetric-2-v1.json --eval cybermetric --backend alias
 
-# Terminal 2: SecEval
+# Терминал 2: SecEval
 python benchmarks/eval.py --model alias1 --dataset_file benchmarks/seceval/eval/datasets/questions-2.json --eval seceval --backend alias
 
-# Terminal 3: CTI Bench
+# Терминал 3: CTI Bench
 python benchmarks/eval.py --model alias1 --dataset_file benchmarks/cti_bench/data/cti-mcq1.tsv --eval cti_bench --backend alias
 ```
 
-### 4. Docker Benchmarks (CAI PRO)
+### 4. Docker-бенчмарки (CAI PRO)
 
-For Jeopardy CTF, Attack & Defense, and Cyber Range benchmarks:
+Для бенчмарков Jeopardy CTF, Attack & Defense и Cyber Range:
 
-!!! warning "CAI PRO Exclusive"
-    Docker-based benchmarks (CTFs, A&D, Cyber Ranges) are available exclusively with **[CAI PRO](../cai_pro.md)**.
+!!! warning "Эксклюзивно для CAI PRO"
+    Бенчмарки на базе Docker (CTFs, A&D, Cyber Ranges) доступны исключительно в **[CAI PRO](../cai_pro.md)**.
 
-    Contact research@aliasrobotics.com for access.
-
----
-
-## 📊 Interpreting Results
-
-### Accuracy Metrics
-
-Different benchmarks use different metrics:
-
-- **Knowledge Benchmarks**: Accuracy (% correct answers)
-- **Privacy Benchmarks**: Precision, Recall, F1, F2 scores
-- **CTF Benchmarks**: Success rate (% challenges solved)
-- **A&D Benchmarks**: Points scored (offensive + defensive)
-
-### Comparing Models
-
-When comparing models, consider:
-
-1. **Overall Accuracy** - Higher is better
-2. **Response Quality** - Check answers.json for reasoning
-3. **Refusal Rate** - How often the model refuses to answer
-4. **Runtime** - Time to complete benchmark
-5. **Consistency** - Run multiple times for statistical significance
+    Для получения доступа свяжитесь с research@aliasrobotics.com.
 
 ---
 
-## 🔍 Troubleshooting
+## 📊 Интерпретация результатов
 
-### Common Issues
+### Метрики точности
 
-**Issue: "Module not found" errors**
+Разные бенчмарки используют разные метрики:
+
+- **Бенчмарки знаний**: Точность (Accuracy, % правильных ответов)
+- **Бенчмарки приватности**: Precision, Recall, F1, F2 scores
+- **Бенчмарки CTF**: Процент успеха (% решенных задач)
+- **Бенчмарки A&D**: Набранные очки (атака + защита)
+
+### Сравнение моделей
+
+При сравнении моделей учитывайте:
+
+1. **Общая точность** — чем выше, тем лучше
+2. **Качество ответов** — проверьте answers.json для анализа рассуждений
+3. **Частота отказов** — как часто модель отказывается отвечать
+4. **Время выполнения** — время завершения бенчмарка
+5. **Стабильность** — запустите несколько раз для статистической значимости
+
+---
+
+## 🔍 Устранение неполадок
+
+### Распространенные проблемы
+
+**Проблема: ошибки "Module not found"**
 ```bash
-# Solution: Update submodules
+# Решение: обновите подмодули
 git submodule update --init --recursive
 pip install cvss
 ```
 
-**Issue: "API key not found"**
+**Проблема: "API key not found"**
 ```bash
-# Solution: Verify .env file exists and has correct format
+# Решение: убедитесь, что файл .env существует и имеет правильный формат
 cat .env
-# Should show: BACKEND_API_KEY="sk-..."
+# Должно быть: BACKEND_API_KEY="sk-..."
 ```
 
-**Issue: Docker containers fail to start**
+**Проблема: Docker-контейнеры не запускаются**
 ```bash
-# Solution: Check Docker daemon
+# Решение: проверьте демон Docker
 docker ps
 sudo systemctl start docker  # Linux
 ```
 
-**Issue: Out of memory errors**
+**Проблема: ошибки нехватки памяти (Out of memory)**
 ```bash
-# Solution: Use smaller models or increase system RAM
-# Alternative: Run benchmarks with save intervals
+# Решение: используйте модели меньшего размера или увеличьте RAM системы
+# Альтернатива: запускайте бенчмарки с интервалами сохранения
 --save_interval 10
 ```
 
 ---
 
-## 📚 Additional Resources
+## 📚 Дополнительные ресурсы
 
-- 📊 [CAIBench Research Paper](https://arxiv.org/pdf/2510.24317)
-- 🎯 [A&D CTF Evaluation Paper](https://arxiv.org/pdf/2510.17521)
-- 💻 [GitHub Repository](https://github.com/aliasrobotics/cai/tree/main/benchmarks)
-- 📖 [Knowledge Benchmarks Guide](knowledge_benchmarks.md)
-- 🔒 [Privacy Benchmarks Guide](privacy_benchmarks.md)
+- 📊 [Научная статья CAIBench](https://arxiv.org/pdf/2510.24317)
+- 🎯 [Статья по оценке A&D CTF](https://arxiv.org/pdf/2510.17521)
+- 💻 [Репозиторий GitHub](https://github.com/aliasrobotics/cai/tree/main/benchmarks)
+- 📖 [Руководство по бенчмаркам знаний](knowledge_benchmarks.md)
+- 🔒 [Руководство по бенчмаркам приватности](privacy_benchmarks.md)
 
 ---
 
-## 🚀 Next Steps
+## 🚀 Следующие шаги
 
-1. **[View A&D Benchmark Results](attack_defense.md)** - See alias1's superior performance
-2. **[Explore Jeopardy CTFs](jeopardy_ctfs.md)** - Learn about CTF benchmarks
-3. **[Upgrade to CAI PRO](../cai_pro.md)** - Get unlimited alias1 access and exclusive benchmarks
+1. **[Посмотреть результаты бенчмарка A&D](attack_defense.md)** — оцените превосходство alias1
+2. **[Изучить Jeopardy CTFs](jeopardy_ctfs.md)** — узнайте о бенчмарках CTF
+3. **[Перейти на CAI PRO](../cai_pro.md)** — получите неограниченный доступ к alias1 и эксклюзивным бенчмаркам

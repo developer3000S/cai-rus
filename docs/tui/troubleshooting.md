@@ -1,168 +1,167 @@
-# Troubleshooting
+# Решение проблем
 
-> **⚡ CAI-Pro Exclusive Feature**  
-> The Terminal User Interface (TUI) is available exclusively in **CAI-Pro**. To access this feature and unlock advanced multi-agent workflows, visit [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) for more information.
-
----
-
-Common issues and solutions when using CAI TUI.
+> **⚡ Эксклюзивная функция CAI-Pro**  
+> Терминальный пользовательский интерфейс (TUI) доступен исключительно в **CAI-Pro**. Для получения доступа к этой функции и расблокировки продвинутых рабочих процессов с несколькими агентами посетите [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) для получения дополнительной информации.
 
 ---
 
-## API Configuration
-
-### API Key Not Working
-
-**Symptom**: Authentication errors or "invalid API key" messages
-
-**Solutions**:
-- Verify key in `.env`: `CAI_API_KEY=your_key`
-- Check key format and validity
-- Restart TUI after changes
-
-### Model Not Available
-
-**Symptom**: Selected model returns errors
-
-**Solutions**:
-- Verify API key has access to model
-- Check model name spelling
-- Review available models in dropdown
+Типичные проблемы и решения при использовании CAI TUI.
 
 ---
 
-## Agent Issues
+## Конфигурация API
 
-### Agent Not Responding
+### API ключ не работает
 
-**Symptom**: Prompts hang or no response from agent
+**Симптомы**: Ошибки аутентификации или сообщения "недействительный API ключ"
 
-**Solutions**:
-- Check API rate limits
-- Verify network connection
-- Try different model
-- Check cost limits not exceeded
+**Решения**:
+- Проверьте ключ в `.env`: `CAI_API_KEY=your_key`
+- Проверьте формат и действительность ключа
+- Перезапустите TUI после изменений
 
-### Wrong Agent Behavior
+### Модель недоступна
 
-**Symptom**: Agent doesn't follow expected workflow
+**Симптомы**: Выбранная модель возвращает ошибки
 
-**Solutions**:
-- Verify correct agent selected
-- Use `/compact` to reduce context 
-- Use `/flush` to clean conversation history
-- Check agent description matches your needs
+**Решения**:
+- Проверьте, что API ключ имеет доступ к модели
+- Проверьте написание имени модели
+- Просмотрите доступные модели в выпадающем списке
 
 ---
 
-## Terminal Management
+## Проблемы с агентами
 
-### Can't Create New Terminal
+### Агент не отвечает
 
-**Symptom**: New terminal button doesn't work
+**Симптомы**: Промпты зависают или нет ответа от агента
 
-**Solutions**:
-- Check maximum terminals reached (depends on layout)
-- Restart TUI
+**Решения**:
+- Проверьте лимиты скорости API
+- Проверьте сетевое подключение
+- Попробуйте другую модель
+- Проверьте, не превышены ли лимиты стоимости
 
-### Terminal Not Responding
+### Неправильное поведение агента
 
-**Symptom**: Input doesn't work in specific terminal
+**Симптомы**: Агент не следует ожидаемому рабочему процессу
 
-**Solutions**:
-- Click terminal to focus
-- Check if prompt is running
-
----
-
-## Performance Issues
-
-### Slow Response Times
-
-**Symptom**: Agent takes too long to respond
-
-**Solutions**:
-- Try faster model (e.g., gpt-4o-mini)
-- Reduce context with `/compact`
-- Clear conversation history with `/flush`
-- Check network latency
-
-### High Memory Usage
-
-**Symptom**: TUI consumes excessive RAM
-
-**Solutions**:
-- Clear conversation history: `/clear`
-- Reduce number of active terminals
-- Restart TUI periodically
+**Решения**:
+- Проверьте, что выбран правильный агент
+- Используйте `/compact` для уменьшения контекста
+- Используйте `/flush` для очистки истории беседы
+- Проверьте, что описание агента соответствует вашим потребностям
 
 ---
 
-## Session & Data Issues
+## Управление терминалами
 
-### Session Won't Load
+### Невозможно создать новый терминал
 
-**Symptom**: `/load` command fails
+**Симптомы**: Кнопка нового терминала не работает
 
-**Solutions**:
-- Verify file path is correct (paths like `~/file.jsonl` are expanded automatically)
-- Use **`.jsonl`** from `/save` or compatible session logs — **not** `/save` **`.md`** exports (those are read-only reports)
-- Ensure file permissions and that the file exists
+**Решения**:
+- Проверьте, достигнут ли максимум терминалов (зависит от компоновки)
+- Перезапустите TUI
 
-### Stats Not Updating
+### Терминал не отвечает
 
-**Symptom**: Stats tab shows stale or no data
+**Симптомы**: Ввод не работает в конкретном терминале
 
-**Solutions**:
-- Switch to different tab and back
-- Check API responses are completing
-- Restart TUI
+**Решения**:
+- Нажмите на терминал для фокусировки
+- Проверьте, не выполняется ли промпт
 
 ---
 
-## Cost & Billing
+## Проблемы производительности
 
-### Unexpected High Costs
+### Медленное время отклика
 
-**Symptom**: Token usage higher than expected
+**Симптомы**: Агент слишком долго отвечает
 
-**Solutions**:
-- Check Stats tab for breakdown
-- Review context length
-- Set cost limits in `.env`
-- Use cheaper models for reconnaissance
+**Решения**:
+- Попробуйте более быструю модель (например, gpt-4o-mini)
+- Уменьшите контекст с помощью `/compact`
+- Очистите историю беседы с помощью `/flush`
+- Проверьте сетевую задержку
 
----
+### Высокое использование памяти
 
-## Keyboard Shortcuts
+**Симптомы**: TUI потребляет чрезмерный объем ОЗУ
 
-### Shortcuts Not Working
-
-**Symptom**: Key combinations don't trigger actions
-
-**Solutions**:
-- Check terminal intercepts keys
-- Verify TUI has focus
-- Use alternative shortcuts (see [Keyboard Shortcuts](keyboard_shortcuts.md))
+**Решения**:
+- Очистите историю беседы: `/clear`
+- Уменьшите количество активных терминалов
+- Периодически перезапускайте TUI
 
 ---
 
-## Getting Help
+## Проблемы сессий и данных
 
-If your issue isn't covered here:
+### Сессия не загружается
 
-1. **Check logs**: `~/.cai/logs/latest.log`
-2. **Review documentation**: Other guides in `docs/tui/`
-3. **Report issues**: Contact support with error logs
+**Симптомы**: Команда `/load` не работает
+
+**Решения**:
+- Проверьте правильность пути к файлу (пути вроде `~/file.jsonl` расширяются автоматически)
+- Используйте **`.jsonl`** из `/save` или совместимые журналы сессий — **не** экспорт **`.md`** из `/save` (это доступные только для чтения отчеты)
+- Проверьте права доступа к файлу и его существование
+
+### Статистика не обновляется
+
+**Симптомы**: Вкладка Статистика показывает устаревшие или отсутствующие данные
+
+**Решения**:
+- Переключитесь на другую вкладку и обратно
+- Проверьте завершение ответов API
+- Перезапустите TUI
 
 ---
 
-## Related Documentation
+## Стоимость и расчеты
 
-- [Getting Started](getting_started.md) - Setup and configuration
-- [Commands Reference](commands_reference.md) - All available commands
-- [User Interface](user_interface.md) - UI components explained
-- [Advanced Features](advanced_features.md) - Environment variables and settings
+### Неожиданно высокие затраты
+
+**Симптомы**: Использование токенов выше ожидаемого
+
+**Решения**:
+- Проверьте вкладку Статистика для разбивки
+- Просмотрите длину контекста
+- Установите лимиты стоимости в `.env`
+- Используйте более дешевые модели для разведки
 
 ---
 
+## Горячие клавиши
+
+### Горячие клавиши не работают
+
+**Симптомы**: Комбинации клавиш не запускают действия
+
+**Решения**:
+- Проверьте, перехватывает ли терминал клавиши
+- Убедитесь, что TUI имеет фокус
+- Используйте альтернативные сочетания клавиш (см. [Горячие клавиши](keyboard_shortcuts.md))
+
+---
+
+## Получение помощи
+
+Если ваша проблема не описана здесь:
+
+1. **Проверьте логи**: `~/.cai/logs/latest.log`
+2. **Просмотрите документацию**: Другие руководства в `docs/tui/`
+3. **Сообщите о проблемах**: Свяжитесь с поддержкой, приложив логи ошибок
+
+---
+
+## Связанная документация
+
+- [Начало работы](getting_started.md) - Настройка и конфигурация
+- [Справочник команд](commands_reference.md) - Все доступные команды
+- [Пользовательский интерфейс](user_interface.md) - Объяснение компонентов UI
+- [Продвинутые функции](advanced_features.md) - Переменные окружения и настройки
+
+---

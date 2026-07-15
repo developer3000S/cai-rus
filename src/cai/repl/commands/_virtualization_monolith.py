@@ -1,7 +1,7 @@
 """
-Virtualization command for CAI cli.
-This module provides commands for setting up and managing Docker virtualization
-environments.
+Команда виртуализации для CAI CLI.
+Этот модуль предоставляет команды для настройки и управления
+окружениями виртуализации Docker.
 """
 
 import os
@@ -30,14 +30,14 @@ _VIRT_WARN = "yellow"
 DEFAULT_IMAGES = {
     "kalilinux/kali-rolling": {
         "image": "kalilinux/kali-rolling",
-        "description": "Official Kali Linux distribution for penetration testing and security audits",
-        "category": "Offensive Pentesting",
+        "description": "Официальный дистрибутив Kali Linux для пентестов и аудитов безопасности",
+        "category": "Наступательный пентестинг",
         "id": "pen1",
     },
     "parrotsec/security": {
         "image": "parrotsec/security",
-        "description": "Official Parrot Security OS image, popular for penetration testing and forensic analysis",
-        "category": "Offensive Pentesting",
+        "description": "Официальный образ Parrot Security OS, популярный для пентестов и forensic-анализа",
+        "category": "Наступательный пентестинг",
         "id": "pen2",
     },
 }

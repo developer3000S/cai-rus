@@ -244,7 +244,7 @@ curl -N \
   - `event: reasoning_step` для high-level шагов (та же схема, что и /messages/stream).
   - `event: final` с тем же summary payload, что и /messages/stream.
 
-Notes
+Примечания
 - Token streaming может быть довольно “шумным”; клиент должен обрабатывать backpressure и использовать API, совместимый со стримингом.
 - Для iOS предпочтительнее URLSession streaming (ниже пример); Safari’s EventSource не умеет задавать кастомные заголовки.
 
@@ -280,7 +280,7 @@ task.readData(ofMinLength: 1, maxLength: 8192, timeout: 0) { data, atEOF, error 
 }
 ```
 
-Implementation notes (для любопытных разработчиков)
+Примечания по реализации (для любопытных разработчиков)
 - Token streaming на API никогда не включает streaming токенов OpenAI chat completions. Вместо этого:
   - мы запускаем агента с non-streaming вызовами модели и отправляем события через RunHooks (start/end tools, handoffs, agent switches).
   - добавляем один message step после каждого хода ассистента (полный текст, без token deltas).
@@ -639,10 +639,10 @@ curl -s -X DELETE -H "X-CAI-API-Key: $ALIAS_API_KEY" http://localhost:8080/api/v
   - `event: reasoning_step` может появляться, если UX агент отправляет шаги
   - `event: final` с `{ "steps": [...], "final_message": "...", "final_output": ... }`
 
-Notes for iOS
+Примечания для iOS
 
 ### POST /api/v1/ux/title
-- Описание: generate a concise title через одну tool call в модели `alias1` через LiteLLM. Не использует сессии.
+- Описание: сгенерировать краткий заголовок через один tool call в модели `alias1` через LiteLLM. Не использует сессии.
 - Заголовки: `X-CAI-API-Key`, `Content-Type: application/json`
 - Тело:
 
@@ -662,7 +662,7 @@ Notes for iOS
 ```
 
 ### POST /api/v1/ux/summarize
-- Описание: вернуть однострочный summary через одну tool call в `alias1` через LiteLLM. Не использует сессии.
+- Описание: вернуть однострочный summary через один tool call в `alias1` через LiteLLM. Не использует сессии.
 - Заголовки: `X-CAI-API-Key`, `Content-Type: application/json`
 - Тело:
 
@@ -685,10 +685,9 @@ Notes for iOS
 {"summary_text": "Tool output procesado por Red Team"}
 ```
 
-Implementation notes
+Примечания по реализации
 - Оба endpoints принуждают `tool_choice: required` с одной функцией `produce_title_and_summary` и всегда используют `model: alias1` с Alias `api_base` и `ALIAS_API_KEY`.
 - Сервер не хранит и не читает state сессии.
-- Call this to stream the “final message” of a task. Use a UX prompt tuned to your voice (“Explain briefly in a friendly tone, with next steps”).
+- Вызывайте этот endpoint, чтобы стримить «финальное сообщение» задачи. Используйте UX-промпт, настроенный под ваш стиль («Кратко объясни в дружелюбном тоне, с указанием следующих шагов»).
 - Если вы уже собрали steps на клиенте — передайте их; иначе backend использует `session.last_steps`.
-- Рендерьте приходящие `token_delta` куски в чат-бабл; завершайте на `message_end`/`final`.
-
+- Рендерите приходящие `token_delta` куски в чат-бабл; завершайте на `message_end`/`final`.

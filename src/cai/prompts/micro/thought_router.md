@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 # AGENT MICRO-PROFILE: THOUGHT / PLANNING ROUTER
 
 ## Instruction hierarchy (modular stack)

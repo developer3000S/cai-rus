@@ -1,5 +1,5 @@
 """
-Here are the nmap tools.
+Инструменты nmap.
 """
 
 from cai.tools.common import run_command  # pylint: disable=E0401
@@ -9,14 +9,14 @@ from cai.sdk.agents import function_tool
 @function_tool
 def nmap(args: str, target: str, ctf=None) -> str:
     """
-    A simple nmap tool to scan a specified target.
+    Простой инструмент nmap для сканирования указанной цели.
 
     Args:
-        args: Additional arguments to pass to the nmap command
-        target: The target host or IP address to scan
+        args: Дополнительные аргументы для команды nmap
+        target: Целевой хост или IP-адрес для сканирования
 
     Returns:
-        str: The output of running the nmap command
+        str: Вывод выполнения команды nmap
     """
     command = f"nmap {args} {target}"
     return run_command(command, ctf=ctf, stream=True)

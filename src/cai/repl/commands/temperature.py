@@ -1,6 +1,6 @@
 """
-Temperature and Top-P commands for CAI REPL.
-This module provides /temperature (and /temp) plus /topp for nucleus sampling.
+Команды Temperature и Top-P для CAI REPL.
+Этот модуль предоставляет /temperature (и /temp), а также /topp для nucleus-семплирования.
 """
 
 import os
@@ -82,13 +82,13 @@ def _sync_repl_active_agent_top_p(value: float) -> None:
 
 
 class TemperatureCommand(Command):
-    """Command for viewing and changing the agent's temperature."""
+    """Команда для просмотра и изменения температуры агента."""
 
     def __init__(self):
         """Initialize the temperature command."""
         super().__init__(
             name="/temperature",
-            description="View or change the agent's temperature (0.0-2.0)",
+            description="Просмотреть или изменить температуру агента (0.0-2.0)",
             aliases=["/temp"],
         )
 
@@ -154,22 +154,22 @@ class TemperatureCommand(Command):
                 current_temp = _repl_resolved_temperature_for_display()
             z = _CAI_GREEN
             panel_body = (
-                f"Current temperature{terminal_info}: [bold {z}]{current_temp:.1f}[/bold {z}]\n"
-                f"\n[bold {z}]Reference scale[/bold {z}]\n"
-                f"  • [bold {z}]0.0[/bold {z}] [white]— deterministic[/white]\n"
-                f"  • [bold {z}]0.7[/bold {z}] [white]— balanced default[/white]\n"
-                f"  • [bold {z}]1.0[/bold {z}] [white]— more varied[/white]\n"
-                f"  • [bold {z}]2.0[/bold {z}] [white]— maximum randomness[/white]"
+                f"Текущая температура{terminal_info}: [bold {z}]{current_temp:.1f}[/bold {z}]\n"
+                f"\n[bold {z}]Справочная шкала[/bold {z}]\n"
+                f"  • [bold {z}]0.0[/bold {z}] [white]— детерминированная[/white]\n"
+                f"  • [bold {z}]0.7[/bold {z}] [white]— сбалансированная по умолчанию[/white]\n"
+                f"  • [bold {z}]1.0[/bold {z}] [white]— более разнообразная[/white]\n"
+                f"  • [bold {z}]2.0[/bold {z}] [white]— максимальная случайность[/white]"
             )
             if os.getenv("CAI_TUI_MODE") != "true":
                 panel_body += (
-                    f"\n\n[dim]REPL: updates [bold {z}]CAI_TEMPERATURE[/bold {z}] and the active "
-                    "agent's model_settings; some providers may clamp or ignore.[/dim]"
+                    f"\n\n[dim]REPL: обновляет [bold {z}]CAI_TEMPERATURE[/bold {z}] и model_settings "
+                    "активного агента; некоторые провайдеры могут ограничивать или игнорировать.[/dim]"
                 )
-            console.print(_cai_panel(panel_body, title="Temperature"))
-            console.print(f"\n[bold {z}]Usage:[/bold {z}]")
-            console.print(f"  [bold {z}]/temperature <value>[/bold {z}] [dim]— set (0.0–2.0)[/dim]")
-            console.print(f"  [bold {z}]/temp <value>[/bold {z}]        [dim]— alias[/dim]")
+            console.print(_cai_panel(panel_body, title="Температура"))
+            console.print(f"\n[bold {z}]Использование:[/bold {z}]")
+            console.print(f"  [bold {z}]/temperature <value>[/bold {z}] [dim]— установить (0.0–2.0)[/dim]")
+            console.print(f"  [bold {z}]/temp <value>[/bold {z}]        [dim]— псевдоним[/dim]")
             return True
 
         # Parse temperature value
@@ -180,9 +180,9 @@ class TemperatureCommand(Command):
             if not 0.0 <= new_temp <= 2.0:
                 console.print(
                     _cai_panel(
-                        f"[bold bright_red]Invalid temperature:[/bold bright_red] {new_temp}\n"
-                        "[white]Use a value between 0.0 and 2.0.[/white]",
-                        title="Error",
+                        f"[bold bright_red]Неверная температура:[/bold bright_red] {new_temp}\n"
+                        "[white]Используйте значение от 0.0 до 2.0.[/white]",
+                        title="Ошибка",
                         border_style="red",
                     )
                 )
@@ -191,9 +191,9 @@ class TemperatureCommand(Command):
         except ValueError:
             console.print(
                 _cai_panel(
-                    f"[bold bright_red]Invalid value:[/bold bright_red] {args[0]!r}\n"
-                    "[white]Enter a number between 0.0 and 2.0.[/white]",
-                    title="Error",
+                    f"[bold bright_red]Неверное значение:[/bold bright_red] {args[0]!r}\n"
+                    "[white]Введите число от 0.0 до 2.0.[/white]",
+                    title="Ошибка",
                     border_style="red",
                 )
             )
@@ -203,17 +203,17 @@ class TemperatureCommand(Command):
 
         # Determine temperature description
         if new_temp <= 0.2:
-            desc = "Very focused and deterministic"
+            desc = "Очень сфокусированная и детерминированная"
         elif new_temp <= 0.5:
-            desc = "Focused with slight variation"
+            desc = "Фокусированная с небольшими вариациями"
         elif new_temp <= 0.8:
-            desc = "Balanced creativity"
+            desc = "Сбалансированная креативность"
         elif new_temp <= 1.2:
-            desc = "Creative and varied"
+            desc = "Креативная и разнообразная"
         elif new_temp <= 1.5:
-            desc = "Very creative"
+            desc = "Очень креативная"
         else:
-            desc = "Maximum creativity and randomness"
+            desc = "Максимальная креативность и случайность"
 
         # In TUI mode, only update the current terminal's temperature
         if os.getenv("CAI_TUI_MODE") == "true":

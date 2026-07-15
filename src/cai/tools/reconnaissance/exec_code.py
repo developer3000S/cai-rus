@@ -1,5 +1,5 @@
 """
-Tool for executing code via LLM tool calls.
+Инструмент для выполнения кода через вызовы инструментов LLM.
 """
 
 import os
@@ -9,16 +9,16 @@ from cai.sdk.agents import function_tool
 
 
 def _resolve_execute_code_output_dir(output_directory: str | None) -> tuple[str | None, str | None]:
-    """Return (cwd for run_command, None) or (None, error). Creates directory if missing."""
+    """Возвращает (cwd для run_command, None) или (None, ошибка). Создаёт директорию, если она не существует."""
     if output_directory is None or not str(output_directory).strip():
         return None, None
     path = os.path.abspath(os.path.expanduser(str(output_directory).strip()))
     try:
         os.makedirs(path, exist_ok=True)
     except OSError as exc:
-        return None, f"Error: cannot create output_directory {path}: {exc}"
+        return None, f"Ошибка: невозможно создать output_directory {path}: {exc}"
     if not os.path.isdir(path):
-        return None, f"Error: output_directory is not a directory: {path}"
+        return None, f"Ошибка: output_directory не является директорией: {path}"
     return path, None
 
 
@@ -32,32 +32,32 @@ def execute_code(
     output_directory: str | None = None,
 ) -> str:
     """
-    Create a file code store it and execute it
+    Создаёт файл с кодом, сохраняет его и выполняет
 
-    This tool allows for executing code provided in different
-    programming languages. It creates a permanent file with the provided code
-    and executes it using the appropriate interpreter. You can exec this
-code as many times as you want using `generic_linux_command` tool.
+    Этот инструмент позволяет выполнять код на различных
+    языках программирования. Он создаёт постоянный файл с предоставленным кодом
+    и выполняет его с помощью соответствующего интерпретатора. Вы можете выполнять этот
+    код сколько угодно раз, используя инструмент `generic_linux_command`.
 
-    Priorize: Python and Perl
+    Приоритет: Python и Perl
 
     Args:
-        code: The code snippet to execute
-        language: Programming language to use (default: python)
-        filename: Base name for the file without extension (default: exploit)
-        timeout: Timeout for the execution (default: 100 seconds)
-                Use high timeout for long running code
-                Use low timeout for short running code
-        output_directory: Optional directory where the source file is created and commands run
-                (local host). Use when the user specifies an absolute folder for artifacts.
-                The directory is created if it does not exist.
+        code: Фрагмент кода для выполнения
+        language: Язык программирования для использования (по умолчанию: python)
+        filename: Базовое имя файла без расширения (по умолчанию: exploit)
+        timeout: Тайм-аут выполнения (по умолчанию: 100 секунд)
+                Используйте большой тайм-аут для длительно выполняющегося кода
+                Используйте малый тайм-аут для коротко выполняющегося кода
+        output_directory: Необязательная директория, где создаётся исходный файл и выполняются команды
+                (локальный хост). Используйте, когда пользователь указывает абсолютную папку для артефактов.
+                Директория создаётся, если она не существует.
 
     Returns:
-        Command output or error message from execution
+        Вывод команды или сообщение об ошибке выполнения
     """
 
     if not code:
-        return "No code provided to execute"
+        return "Код для выполнения не предоставлен"
 
     cwd_pass, cwd_err = _resolve_execute_code_output_dir(output_directory)
     if cwd_err:
@@ -98,7 +98,7 @@ code as many times as you want using `generic_linux_command` tool.
         create_cmd, ctf=ctf, stream=False, tool_name="_internal_file_creation", workspace_dir=cwd_pass
     )
     if "error" in result.lower():
-        return f"Failed to create code file: {result}"
+        return f"Не удалось создать файл кода: {result}"
 
     # Prepare execution command based on language
     if language in ["python", "py"]:
@@ -180,7 +180,7 @@ code as many times as you want using `generic_linux_command` tool.
         )
         exec_cmd = f"./{filename}"
     else:
-        return f"Unsupported language: {language}"
+        return f"Неподдерживаемый язык: {language}"
 
     # Execute the code with syntax-highlighted output
     # Create a custom tool args dictionary to send language and code info to the tool output function

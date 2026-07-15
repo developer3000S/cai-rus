@@ -58,9 +58,9 @@ def _get_timing_info(execution_info=None):
     # Format timing info for display
     timing_info = []
     if total_time:
-        timing_info.append(f"Total: {format_time(total_time)}")
+        timing_info.append(f"Итого: {format_time(total_time)}")
     if tool_time:
-        timing_info.append(f"Tool: {format_time(tool_time)}")
+        timing_info.append(f"Инструмент: {format_time(tool_time)}")
 
     return timing_info, tool_time
 
@@ -344,12 +344,12 @@ def format_time(seconds):
     """
     try:
         if seconds is None:
-            return "N/A"
+            return "Н/Д"
         if isinstance(seconds, (list, tuple)) and seconds:
             seconds = seconds[0]
         seconds = float(seconds)
     except Exception:
-        return "N/A"
+        return "Н/Д"
 
     if seconds < 60:
         return f"{seconds:.1f}s"
@@ -563,7 +563,7 @@ def _print_simple_tool_output(tool_name, args, output, execution_info=None, toke
         output_str = str(output)
         first_part = output_str[:5000]
         last_part = output_str[-5000:]
-        output = f"{first_part}\n\n... TRUNCATED ...\n\n{last_part}"
+        output = f"{first_part}\n\n... ОБРЕЗАНО ...\n\n{last_part}"
 
     # Print the actual output (but not in TUI mode where it's already shown in panels)
     if os.getenv("CAI_TUI_MODE") != "true":
@@ -591,7 +591,7 @@ def _create_tool_panel_content(
         output_str = str(output)
         first_part = output_str[:5000]
         last_part = output_str[-5000:]
-        output = f"{first_part}\n\n... TRUNCATED ...\n\n{last_part}"
+        output = f"{first_part}\n\n... ОБРЕЗАНО ...\n\n{last_part}"
 
     # Sanitize output; strip trailing newlines so we do not render blank lines under tool output
     if output and isinstance(output, str):
@@ -604,11 +604,11 @@ def _create_tool_panel_content(
     cmd_display = _tool_command_line_display(tool_name, args)
     t_cmd = Text()
     t_cmd.append("  >> ", style=f"bold {CAI_GREEN}")
-    t_cmd.append(cmd_display if cmd_display else "(no command)", style="bold white")
+    t_cmd.append(cmd_display if cmd_display else "(нет команды)", style="bold white")
     body_parts.append(t_cmd)
 
-    body_parts.append(Text("  Result", style="bold white"))
-    body_parts.append(Text("  captured", style=GREY_TEXT))
+    body_parts.append(Text("  Результат", style="bold white"))
+    body_parts.append(Text("  захвачено", style=GREY_TEXT))
 
     pipe_style = f"dim {PIPE_GREY}"
     term_w = max(40, shutil.get_terminal_size((100, 24)).columns)
@@ -626,8 +626,8 @@ def _create_tool_panel_content(
             and (execution_info or {}).get("status") == "running"
         ):
             cmd = _tool_command_line_display(tool_name, args)
-            if cmd and cmd.strip() and cmd != "(no command)":
-                wait_msg = f"Executing: {cmd}"
+            if cmd and cmd.strip() and cmd != "(нет команды)":
+                wait_msg = f"Выполнение: {cmd}"
         if wait_msg and str(wait_msg).strip():
             wstrip = str(wait_msg).strip()
             out_first = ""
@@ -657,7 +657,7 @@ def _create_tool_panel_content(
             head = lines[: max_lines // 2]
             tail = lines[-(max_lines // 2) :]
             omitted = len(lines) - max_lines
-            lines = head + [f"  ... ({omitted} lines omitted) ..."] + tail
+            lines = head + [f"  ... ({omitted} строк пропущено) ..."] + tail
         joined = "\n".join(lines)
         if _tool_capture_output_looks_like_markdown(joined):
             body_parts.append(Padding(Markdown(joined), (0, 2, 0, 2)))
@@ -929,7 +929,7 @@ def is_tool_output_message(message):
 
 
 
-def print_message_history(messages, title="Message History"):
+def print_message_history(messages, title="История сообщений"):
     """
     Pretty-print a sequence of messages with enhanced debug information.
 
@@ -1099,13 +1099,13 @@ def check_flag(output, ctf, challenge=None):
         if ctf.check_flag(output, challenge):  # check if the flag is in the output
             flag = ctf.flags[challenge]
             print(
-                color(f"Flag found: {flag}", fg="green")
-                + " in output "
+                color(f"Флаг найден: {flag}", fg="green")
+                + " в выводе "
                 + color(f"{output}", fg="blue")
             )
             return True, flag
     else:
-        print(color("CTF environment not found or provided", fg="yellow"))
+        print(color("Среда CTF не найдена или не предоставлена", fg="yellow"))
     return False, None
 
 

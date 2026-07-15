@@ -170,12 +170,12 @@ class AgentSelectorPanel(Container):
     }
     """
 
-    BINDINGS = [
-        Binding("enter", "confirm", "Send"),
-        Binding("escape", "cancel", "Cancel"),
-        Binding("space", "toggle", "Toggle"),
-        Binding("a", "select_all", "Select All"),
-        Binding("n", "select_none", "Select None"),
+        BINDINGS = [
+        Binding("enter", "confirm", "Отправить"),
+        Binding("escape", "cancel", "Отмена"),
+        Binding("space", "toggle", "Переключить"),
+        Binding("a", "select_all", "Выбрать все"),
+        Binding("n", "select_none", "Снять выбор"),
     ]
 
     visible = reactive(False)
@@ -198,9 +198,9 @@ class AgentSelectorPanel(Container):
 
                 # Simple action buttons - centered
                 with Horizontal(id="selector-buttons"):
-                    yield Button("All", id="btn-select-all", variant="primary")
-                    yield Button("None", id="btn-select-none", variant="primary")
-                    yield Button("Send", id="btn-send", variant="success")
+                    yield Button("Все", id="btn-select-all", variant="primary")
+                    yield Button("Нет", id="btn-select-none", variant="primary")
+                    yield Button("Отправить", id="btn-send", variant="success")
 
     def show_for_prompt(self, prompt: str, available_agents: list[str]) -> None:
         """Show the panel for selecting agents to send a prompt to"""
@@ -210,7 +210,7 @@ class AgentSelectorPanel(Container):
         # Update prompt preview - show more text
         preview = self.query_one("#prompt-preview", Static)
         truncated_prompt = prompt[:70] + "..." if len(prompt) > 70 else prompt
-        preview.update(f"Prompt: {truncated_prompt}")
+        preview.update(f"Запрос: {truncated_prompt}")
 
         # Clear and populate agent list
         list_view = self.query_one("#agent-list-view", ListView)

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-CAI License Check (single-machine binding with cryptographic signature verification)
+Проверка лицензии CAI (привязка к одному компьютеру с проверкой криптографической подписи)
 
-Flow:
-- Saves provided API key encrypted locally (OpenSSL AES-256-CBC with local key file).
-- Computes a machine fingerprint.
-- Calls Alias validation endpoint and verifies cryptographic signature.
-- Server signs: system_hash + nonce + "true"/"false"
-- Client verifies signature and only accepts if message ends with "true"
+Процесс:
+- Сохраняет предоставленный API ключ в зашифрованном виде локально (OpenSSL AES-256-CBC с локальным ключевым файлом).
+- Вычисляет отпечаток компьютера.
+- Вызывает конечную точку проверки Alias и проверяет криптографическую подпись.
+- Сервер подписывает: system_hash + nonce + "true"/"false"
+- Клиент проверяет подпись и принимает только если сообщение заканчивается на "true"
 """
 
 import base64
@@ -25,7 +25,7 @@ import uuid
 from pathlib import Path
 from typing import Any, Dict
 
-# Try to import from both pycryptodome (Crypto) and python3-pycryptodome (Cryptodome)
+# Попытка импорта из pycryptodome (Crypto) и python3-pycryptodome (Cryptodome)
 try:
     from Crypto.Hash import SHA256
     from Crypto.PublicKey import RSA
@@ -36,10 +36,10 @@ except ImportError:
         from Cryptodome.PublicKey import RSA
         from Cryptodome.Signature import pkcs1_15
     except ImportError:
-        print("Error: pycryptodome library not installed. Install with: pip3 install pycryptodome", file=sys.stderr)
+        print("Ошибка: Библиотека pycryptodome не установлена. Установите с помощью: pip3 install pycryptodome", file=sys.stderr)
         sys.exit(1)
 
-# Embedded server public key
+# Встроенный публичный ключ сервера
 SERVER_PUBLIC_KEY_PEM = """-----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA98imbEha/70cxkfXIbyJ
 dbpM6y7X+MWMVcdSTwAeb+jzLRfKzMZVXeEaYzkzH+STlDiqmb+XufX+guhmpyKz
@@ -103,7 +103,7 @@ def _openssl(args: list[str]) -> subprocess.CompletedProcess[str]:
 
 def save_encrypted_key(api_key: str) -> None:
     if not isinstance(api_key, str) or not api_key.strip():
-        raise APIValidationError("API key cannot be empty")
+        raise APIValidationError("API ключ не может быть пустым")
     _ensure_key_material()
     with tempfile.NamedTemporaryFile("w", delete=False) as tmp_plain:
         tmp_plain.write(api_key.strip())
@@ -131,9 +131,9 @@ def save_encrypted_key(api_key: str) -> None:
 
 def load_encrypted_key() -> str:
     if not ENC_FILE.exists():
-        raise CryptographyError(f"Encrypted key file not found: {ENC_FILE}")
+        raise CryptographyError(f"Файл зашифрованного ключа не найден: {ENC_FILE}")
     if not KEY_FILE.exists():
-        raise CryptographyError(f"Encryption key file not found: {KEY_FILE}")
+        raise CryptographyError(f"Файл ключа шифрования не найден: {KEY_FILE}")
     with tempfile.NamedTemporaryFile(delete=False) as tmp_plain:
         tmp_plain_path = Path(tmp_plain.name)
     try:
@@ -238,24 +238,24 @@ def check_key_info_status(api_key: str) -> bool:
 
 def verify_signature(signature_b64: str, message: str) -> bool:
     """
-    Verify RSA signature using server's public key.
-    Returns True if signature is valid for the given message.
+    Проверка RSA подписи с помощью публичного ключа сервера.
+    Возвращает True, если подпись действительна для данного сообщения.
     """
     try:
-        # Load public key
+        # Загрузка публичного ключа
         public_key = RSA.import_key(SERVER_PUBLIC_KEY_PEM)
         
-        # Decode signature
+        # Декодирование подписи
         signature_bytes = base64.b64decode(signature_b64)
         
-        # Hash the message
+        # Хеширование сообщения
         msg_hash = SHA256.new(message.encode('utf-8'))
         
-        # Verify signature
+        # Проверка подписи
         pkcs1_15.new(public_key).verify(msg_hash, signature_bytes)
         return True
     except Exception:
-        # Signature verification failed
+        # Проверка подписи не удалась
         return False
 
 
@@ -264,51 +264,49 @@ def validate_encrypted_api_key() -> bool:
     system_hash = generate_system_hash()
     nonce = generate_nonce()
     
-    # Send validation request to server
+    # Отправка запроса на проверку серверу
     response = send_validation_request(create_payload(api_key, system_hash, nonce))
 
     if not isinstance(response, dict):
-        raise APIValidationError("Validation server returned unexpected payload")
+        raise APIValidationError("Сервер проверки вернул неожиданные данные")
 
-    # Get signature from response
+    # Получение подписи из ответа
     signature = response.get("validation")
     if not signature or not isinstance(signature, str):
-        raise APIValidationError("Server response missing 'validation' signature")
+        raise APIValidationError("Ответ сервера не содержит подписи 'validation'")
 
-    # Construct expected message with "true" (server signs: system_hash + nonce + "true"/"false")
+    # Конструирование ожидаемого сообщения с "true" (сервер подписывает: system_hash + nonce + "true"/"false")
     expected_message_true = system_hash + nonce + "true"
     
-    # Verify cryptographic signature
+    # Проверка криптографической подписи
     if not verify_signature(signature, expected_message_true):
-        raise APIValidationError("API key rejected: signature verification failed (hardware mismatch or invalid key)")
+        raise APIValidationError("API ключ отклонен: проверка подписи не удалась (несовпадение оборудования или недействительный ключ)")
 
-    # Additional check: verify key is valid via /key/info endpoint
+    # Дополнительная проверка: проверка действительности ключа через конечную точку /key/info
     if not check_key_info_status(api_key):
-        raise APIValidationError("API key validation failed (key/info rejected or invalid)")
+        raise APIValidationError("Проверка API ключа не удалась (key/info отклонен или недействителен)")
 
     return True
 
 
 def _main(argv: list[str]) -> int:
     if len(argv) != 2:
-        print("Error: API key not provided")
+        print("Ошибка: API ключ не предоставлен")
         return 1
     key = argv[1]
     try:
-        print("Encrypting and saving API key...")
+        print("Шифрование и сохранение API ключа...")
         save_encrypted_key(key)
-        print("API key encrypted and saved successfully.")
-        print("Validating API key...")
+        print("API ключ успешно зашифрован и сохранен.")
+        print("Проверка API ключа...")
         if validate_encrypted_api_key():
-            print("API key validation successful.")
+            print("Проверка API ключа успешна.")
             return 0
     except (CryptographyError, APIValidationError) as exc:
-        print(f"Error: {exc}")
-        return 1
+        print(f"Ошибка: {exc}")
     except Exception as exc:
-        print(f"Unexpected error: {exc}")
-        return 1
-    print("API key validation failed.")
+        print(f"Непредвиденная ошибка: {exc}")
+    print("Проверка API ключа не удалась.")
     return 1
 
 

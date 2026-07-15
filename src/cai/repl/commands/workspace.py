@@ -1,4 +1,4 @@
-"""REPL `/workspace` (`/ws`): named workspace label, host paths, and container-aware file ops."""
+"""REPL `/workspace` (`/ws`): именованная метка рабочего пространства, пути хоста и файловые операции с учётом контейнера."""
 
 import json
 import os
@@ -91,31 +91,31 @@ def _print_no_active_container_for_copy() -> None:
 
 
 class WorkspaceCommand(Command):
-    """Command for workspace management within Docker containers or locally."""
+    """Команда для управления рабочим пространством в Docker-контейнерах или локально."""
 
     def __init__(self):
         """Initialize the workspace command."""
         super().__init__(
             name="/workspace",
             description=(
-                "Set or display the current workspace name and manage files."
-                " Affects log file naming and where files are stored."
+                "Установить или отобразить имя текущего рабочего пространства и управлять файлами. "
+                "Влияет на именование файлов журналов и место хранения файлов."
             ),
             aliases=["/ws"],
         )
 
-        self.add_subcommand("set", "Set the current workspace name", self.handle_set)
+        self.add_subcommand("set", "Установить имя текущего рабочего пространства", self.handle_set)
         self.add_subcommand(
             "get",
-            "Show workspace name, environment, and paths (use ls to list files)",
+            "Показать имя, окружение и пути рабочего пространства (используйте ls для списка файлов)",
             self.handle_get,
         )
-        self.add_subcommand("ls", "List files in the workspace", self.handle_ls_subcommand)
+        self.add_subcommand("ls", "Показать файлы в рабочем пространстве", self.handle_ls_subcommand)
         self.add_subcommand(
-            "exec", "Execute a command in the workspace", self.handle_exec_subcommand
+            "exec", "Выполнить команду в рабочем пространстве", self.handle_exec_subcommand
         )
         self.add_subcommand(
-            "copy", "Copy files between host and container", self.handle_copy_subcommand
+            "copy", "Копировать файлы между хостом и контейнером", self.handle_copy_subcommand
         )
 
     def handle(self, args: Optional[List[str]] = None) -> bool:
@@ -138,20 +138,20 @@ class WorkspaceCommand(Command):
 
         g = _ws_accent_open()
         lines = [
-            f"Current workspace: [bold {_CAI_GREEN}]{workspace_name or 'None'}[/bold {_CAI_GREEN}]",
-            f"Working in environment: [bold]{env_name}[/bold]",
-            f"Workspace directory: [bold]{workspace_dir}[/bold]",
+            f"Текущее рабочее пространство: [bold {_CAI_GREEN}]{workspace_name or 'Нет'}[/bold {_CAI_GREEN}]",
+            f"Рабочее окружение: [bold]{env_name}[/bold]",
+            f"Каталог рабочего пространства: [bold]{workspace_dir}[/bold]",
             "",
-            f"[{g}]Available Commands:[/{g}]",
-            f"• [{g}]/workspace set <name>[/{g}] [dim]—[/dim] Set the current workspace name",
-            f"• [{g}]/workspace ls[/{g}] [dim]—[/dim] List files in the workspace",
-            f"• [{g}]/workspace exec <cmd>[/{g}] [dim]—[/dim] Execute a command in the workspace",
+            f"[{g}]Доступные команды:[/{g}]",
+            f"• [{g}]/workspace set <name>[/{g}] [dim]—[/dim] Установить имя рабочего пространства",
+            f"• [{g}]/workspace ls[/{g}] [dim]—[/dim] Показать файлы в рабочем пространстве",
+            f"• [{g}]/workspace exec <cmd>[/{g}] [dim]—[/dim] Выполнить команду в рабочем пространстве",
             f"• [{g}]/workspace copy <src> <dst>[/{g}] [dim]—[/dim] "
-            "Copy between host and container; [bold]container:[/bold] on exactly one path",
+            "Копировать между хостом и контейнером; [bold]container:[/bold] на ровно одном пути",
         ]
         if not active_container:
             lines.append(
-                f"  [dim]copy requires CAI_ACTIVE_CONTAINER — see [/dim][{g}]/h virtualization[/{g}]"
+                f"  [dim]copy требует CAI_ACTIVE_CONTAINER — см. [/dim][{g}]/h virtualization[/{g}]"
             )
         lines.append("")
         lines.append(
@@ -167,10 +167,10 @@ class WorkspaceCommand(Command):
         if not args or len(args) != 1:
             g = _ws_accent_open()
             body = (
-                f"[{g}]Usage:[/{g}] [{g}]/workspace set <workspace_name>[/{g}]\n\n"
-                "[dim]Workspace names must be simple labels (letters/numbers/_/-), "
-                "not filesystem paths.[/dim]\n"
-                f"[dim]Example:[/dim] [{g}]/workspace set pentest_lab[/{g}]"
+                f"[{g}]Использование:[/{g}] [{g}]/workspace set <workspace_name>[/{g}]\n\n"
+                "[dim]Имена рабочих пространств должны быть простыми метками (буквы/цифры/_/-), "
+                "а не путями файловой системы.[/dim]\n"
+                f"[dim]Пример:[/dim] [{g}]/workspace set pentest_lab[/{g}]"
             )
             console.print(_ws_panel(body, "Set workspace"))
             return False
@@ -178,16 +178,16 @@ class WorkspaceCommand(Command):
         workspace_name = args[0]
         if not all(c.isalnum() or c in ["_", "-"] for c in workspace_name):
             body = (
-                "[red]Invalid workspace name. "
-                "Use alphanumeric, underscores, or hyphens only.[/red]\n\n"
-                "[dim]Do not include path separators like '/' or '\\'.[/dim]\n"
-                "[dim]Valid examples: mylab, red_team_01, client-a[/dim]"
+                "[red]Неверное имя рабочего пространства. "
+                "Используйте только буквы, цифры, подчёркивания или дефисы.[/red]\n\n"
+                "[dim]Не включайте разделители путей, такие как '/' или '\\'.[/dim]\n"
+                "[dim]Допустимые примеры: mylab, red_team_01, client-a[/dim]"
             )
             console.print(_ws_panel(body, "Set workspace"))
             return False
 
         if not set_env_var("CAI_WORKSPACE", workspace_name):
-            console.print("[red]Failed to set workspace environment variable.[/red]")
+            console.print("[red]Не удалось установить переменную окружения рабочего пространства.[/red]")
             return False
 
         new_workspace_dir = _get_workspace_dir()
@@ -195,7 +195,7 @@ class WorkspaceCommand(Command):
         try:
             os.makedirs(new_workspace_dir, exist_ok=True)
         except OSError as e:
-            console.print(f"[red]Error creating host directory {new_workspace_dir}: {e}[/red]")
+            console.print(f"[red]Ошибка создания каталога хоста {new_workspace_dir}: {e}[/red]")
 
         active_container = os.getenv("CAI_ACTIVE_CONTAINER", "")
         if active_container:
@@ -212,23 +212,23 @@ class WorkspaceCommand(Command):
                     mkdir_result = _docker_mkdir_p(active_container, container_workspace_path)
                     if mkdir_result.returncode == 0:
                         console.print(
-                            f"[dim]Created workspace directory in container: {container_workspace_path}[/dim]"
+                            f"[dim]Создан каталог рабочего пространства в контейнере: {container_workspace_path}[/dim]"
                         )
                     else:
                         console.print(
-                            "[yellow]Warning: Could not create workspace directory in container: "
+                            "[yellow]Предупреждение: Не удалось создать каталог рабочего пространства в контейнере: "
                             f"{mkdir_result.stderr}[/yellow]"
                         )
                 except Exception as e:
                     console.print(
-                        f"[yellow]Warning: Failed to setup workspace in container: {str(e)}[/yellow]"
+                        f"[yellow]Предупреждение: Не удалось настроить рабочее пространство в контейнере: {str(e)}[/yellow]"
                     )
 
         body = (
-            f"Workspace changed to: [bold {_CAI_GREEN}]{workspace_name}[/bold {_CAI_GREEN}]\n"
-            f"New workspace directory: [bold]{new_workspace_dir}[/bold]"
+            f"Рабочее пространство изменено на: [bold {_CAI_GREEN}]{workspace_name}[/bold {_CAI_GREEN}]\n"
+            f"Новый каталог рабочего пространства: [bold]{new_workspace_dir}[/bold]"
         )
-        console.print(_ws_panel(body, "Workspace updated"))
+        console.print(_ws_panel(body, "Рабочее пространство обновлено"))
 
         return True
 

@@ -1,151 +1,151 @@
-# Jeopardy-style CTF Benchmarks
+# Бенчмарки CTF в стиле Jeopardy
 
-Jeopardy-style Capture The Flag (CTF) challenges evaluate AI agents on independent security tasks across multiple domains: cryptography, web exploitation, binary reversing, forensics, and pwn.
+Задания Capture The Flag (CTF) в стиле Jeopardy оценивают ИИ-агентов по независимым задачам безопасности в нескольких областях: криптография, веб-эксплуатация, реверс-инжиниринг бинарных файлов, форензика и pwn.
 
 ---
 
-## 📊 Available Benchmarks
+## 📊 Доступные бенчмарки
 
-### Base Benchmark
-**21 curated CTF challenges** measuring initial penetration testing capabilities.
+### Базовый бенчмарк (Base Benchmark)
+**21 отобранное задание CTF**, измеряющее начальные возможности по тестированию на проникновение.
 
-- **Difficulty**: 🚩 Very Easy to 🚩🚩🚩 Medium
-- **Categories**: Reversing, Miscellaneous, Pwn, Web, Crypto, Forensics
-- **Status**: ⚠️ *Saturated* - Frontier cybersecurity models (like alias1) conquer most challenges
+- **Сложность**: 🚩 Очень легко $\to$ 🚩🚩🚩 Средне
+- **Категории**: Reversing, Miscellaneous, Pwn, Web, Crypto, Forensics
+- **Статус**: ⚠️ *Насыщен* — передовые модели кибербезопасности (такие как alias1) справляются с большинством задач
 
 <table>
   <tr>
-    <th style="text-align:center;"><b>Model Performance in Jeopardy CTFs Base Benchmark</b></th>
+    <th style="text-align:center;"><b>Производительность моделей в базовом бенчмарке Jeopardy CTF</b></th>
   </tr>
   <tr>
     <td align="center"><img src="/assets/images/base_1col.png" alt="Base Benchmark Results" /></td>
   </tr>
 </table>
 
-!!! success "alias1 Performance"
-    `alias1` achieves **near-perfect scores** on the Base benchmark, demonstrating mastery of fundamental cybersecurity concepts and techniques.
+!!! success "Производительность alias1"
+    `alias1` достигает **почти идеальных результатов** в базовом бенчмарке, демонстрируя мастерское владение фундаментальными концепциями и методами кибербезопасности.
 
-### Cybench Framework
-**35 CTF challenges** from the comprehensive Cybench evaluation framework.
+### Фреймворк Cybench
+**35 заданий CTF** из комплексного фреймворка оценки Cybench.
 
-- **Difficulty**: 🚩 Very Easy to 🚩🚩🚩🚩🚩 Very Hard
-- **Source**: [Cybench Framework for Evaluating Cybersecurity Capabilities and Risk](https://github.com/andyzorigin/cybench)
-- **Coverage**: Broad spectrum of real-world security scenarios
-- **Note**: 35 of 40 Cybench scenarios (reduced for infrastructure/reproducibility)
+- **Сложность**: 🚩 Очень легко $\to$ 🚩🚩🚩🚩🚩 Очень сложно
+- **Источник**: [Cybench Framework for Evaluating Cybersecurity Capabilities and Risk](https://github.com/andyzorigin/cybench)
+- **Охват**: Широкий спектр реальных сценариев безопасности
+- **Примечание**: 35 из 40 сценариев Cybench (сокращено для обеспечения инфраструктуры и воспроизводимости)
 
-### RCTF2 - Robotics CTF
-**27 robotics-focused challenges** for attacking and defending robots and robotic frameworks.
+### RCTF2 — Robotics CTF
+**27 заданий, ориентированных на робототехнику**, для атаки и защиты роботов и робототехнических фреймворков.
 
-- **Difficulty**: 🚩 Very Easy to 🚩🚩🚩🚩🚩 Very Hard
-- **Systems Covered**: ROS, ROS 2, manipulators, AGVs, AMRs, collaborative robots, legged robots, humanoids
-- **Unique Focus**: Only benchmark evaluating AI capabilities against robotic systems
+- **Сложность**: 🚩 Очень легко $\to$ 🚩🚩🚩🚩🚩 Очень сложно
+- **Рассматриваемые системы**: ROS, ROS 2, манипуляторы, AGV, AMR, коллаборативные роботы, многоногие роботы, гуманоиды
+- **Уникальный фокус**: Единственный бенчмарк, оценивающий возможности ИИ в отношении робототехнических систем
 
 ---
 
-## 🎯 Challenge Categories
+## 🎯 Категории заданий
 
-### Web Exploitation
-Vulnerabilities in web applications and services:
-- SQL Injection
-- Cross-Site Scripting (XSS)
-- Server-Side Template Injection (SSTI)
-- Authentication bypasses
-- API vulnerabilities
+### Веб-эксплуатация (Web Exploitation)
+Уязвимости в веб-приложениях и сервисах:
+- SQL-инъекции
+- Межсайтовый скриптинг (XSS)
+- Инъекции серверных шаблонов (SSTI)
+- Обход аутентификации
+- Уязвимости API
 
-### Binary Exploitation (Pwn)
-Memory corruption and exploitation:
-- Buffer overflows
-- Format string vulnerabilities
-- Return-oriented programming (ROP)
-- Heap exploitation
+### Эксплуатация бинарных файлов (Pwn)
+Повреждение памяти и эксплуатация:
+- Переполнение буфера
+- Уязвимости строк форматирования
+- Возвратно-ориентированное программирование (ROP)
+- Эксплуатация кучи (heap exploitation)
 - Use-after-free
 
-### Cryptography
-Breaking or exploiting cryptographic implementations:
-- Weak encryption algorithms
-- Poor key management
-- Custom cryptography flaws
-- Hash collisions
-- Padding oracle attacks
+### Криптография (Cryptography)
+Взлом или эксплуатация криптографических реализаций:
+- Слабые алгоритмы шифрования
+- Неправильное управление ключами
+- Ошибки в кастомной криптографии
+- Коллизии хешей
+- Атаки Padding Oracle
 
-### Reverse Engineering
-Analyzing and understanding compiled binaries:
-- Assembly code analysis
-- Decompilation and deobfuscation
-- Anti-debugging techniques
-- Packed/encrypted binaries
-- Firmware analysis
+### Реверс-инжиниринг (Reverse Engineering)
+Анализ и понимание скомпилированных бинарных файлов:
+- Анализ ассемблерного кода
+- Декомпиляция и деобфускация
+- Методы противодействия отладке (anti-debugging)
+- Упакованные/зашифрованные бинарные файлы
+- Анализ прошивок (firmware)
 
-### Forensics
-Investigating and extracting information from data:
-- File carving
-- Steganography
-- Memory forensics
-- Network traffic analysis
-- Log analysis
+### Форензика (Forensics)
+Исследование и извлечение информации из данных:
+- Восстановление файлов (file carving)
+- Стеганография
+- Форензика оперативной памяти
+- Анализ сетевого трафика
+- Анализ логов
 
-### Miscellaneous
-Challenges that don't fit standard categories:
-- OSINT (Open Source Intelligence)
-- Scripting and automation
-- Logic puzzles
-- Unconventional attack vectors
-
----
-
-## 🏆 alias1 Performance
-
-!!! success "Superior Jeopardy CTF Performance"
-    **`alias1` consistently outperforms all other AI models** in Jeopardy-style CTF benchmarks:
-
-    - 🥇 **Highest solve rate** across all difficulty levels
-    - 🥇 **Fastest time to solve** for timed challenges
-    - 🥇 **Best multi-category performance** - Excels in web, pwn, crypto, forensics, and reversing
-    - 🥇 **Zero refusals** - Unrestricted responses for all CTF challenges
-
-    **General-purpose models** (GPT-4o, Claude 3.5) show:
-    - ❌ High refusal rates on pwn/exploitation challenges
-    - ❌ Inconsistent performance across categories
-    - ❌ Limited success on medium+ difficulty challenges
-
-**[Get alias1 with CAI PRO →](../cai_pro.md)**
+### Разное (Miscellaneous)
+Задания, которые не вписываются в стандартные категории:
+- OSINT (разведка по открытым источникам)
+- Скриптинг и автоматизация
+- Логические головоломки
+- Нестандартные векторы атак
 
 ---
 
-## 🚀 Running Jeopardy CTF Benchmarks
+## 🏆 Производительность alias1
 
-!!! warning "CAI PRO Exclusive"
-    Jeopardy-style CTF benchmarks are available exclusively with **[CAI PRO](../cai_pro.md)** subscriptions.
+!!! success "Превосходные результаты в Jeopardy CTF"
+    **`alias1` стабильно превосходит все остальные ИИ-модели** в бенчмарках CTF в стиле Jeopardy:
 
-    General users can access:
-    - [Knowledge benchmarks](knowledge_benchmarks.md)
-    - [Privacy benchmarks](privacy_benchmarks.md)
+    - 🥇 **Самый высокий процент решения** на всех уровнях сложности
+    - 🥇 **Самое быстрое время решения** в заданиях на время
+    - 🥇 **Лучшая многокатегорийная производительность** — превосходные результаты в web, pwn, crypto, forensics и reversing
+    - 🥇 **Ноль отказов** — неограниченные ответы для всех заданий CTF
 
-### For CAI PRO Subscribers
+    **Модели общего назначения** (GPT-4o, Claude 3.5) демонстрируют:
+    - ❌ Высокий уровень отказов в заданиях pwn/эксплуатации
+    - ❌ Нестабильную производительность в разных категориях
+    - ❌ Ограниченный успех в заданиях среднего уровня сложности и выше
 
-Docker-based CTF environments can be launched individually or in batches:
+**[Получить alias1 с CAI PRO →](../cai_pro.md)**
+
+---
+
+## 🚀 Запуск бенчмарков Jeopardy CTF
+
+!!! warning "Эксклюзивно для CAI PRO"
+    Бенчмарки CTF в стиле Jeopardy доступны исключительно по подписке **[CAI PRO](../cai_pro.md)**.
+
+    Обычные пользователи могут получить доступ к:
+    - [Бенчмаркам знаний](knowledge_benchmarks.md)
+    - [Бенчмаркам приватности](privacy_benchmarks.md)
+
+### Для подписчиков CAI PRO
+
+CTF-среды на базе Docker могут быть запущены по отдельности или пакетами:
 
 ```bash
-# Run single CTF challenge
+# Запуск одного задания CTF
 docker run -it cai-ctf/base:challenge-01
 
-# Run full Base benchmark suite
+# Запуск полного набора базового бенчмарка
 python benchmarks/eval_ctf.py --benchmark base --model alias1
 
-# Run Cybench evaluation
+# Запуск оценки Cybench
 python benchmarks/eval_ctf.py --benchmark cybench --model alias1
 
-# Run RCTF2 robotics challenges
+# Запуск заданий по робототехнике RCTF2
 python benchmarks/eval_ctf.py --benchmark rctf2 --model alias1
 ```
 
-Contact research@aliasrobotics.com for detailed setup instructions.
+Для получения подробных инструкций по настройке свяжитесь с research@aliasrobotics.com.
 
 ---
 
-## 📊 Benchmark Configuration
+## 📊 Конфигурация бенчмарка
 
-CTF configurations are defined in [`ctf_configs.jsonl`](https://github.com/aliasrobotics/cai/blob/main/src/cai/caibench/ctf-jsons/ctf_configs.jsonl):
+Конфигурации CTF определены в файле [`ctf_configs.jsonl`](https://github.com/aliasrobotics/cai/blob/main/src/cai/caibench/ctf-jsons/ctf_configs.jsonl):
 
 ```json
 {
@@ -161,38 +161,38 @@ CTF configurations are defined in [`ctf_configs.jsonl`](https://github.com/alias
 
 ---
 
-## 🎓 Why Jeopardy CTFs Matter
+## 🎓 Почему важны Jeopardy CTF
 
-Jeopardy-style CTFs are essential for evaluating cybersecurity AI because:
+CTF в стиле Jeopardy имеют решающее значение для оценки ИИ в сфере кибербезопасности, потому что:
 
-1. **Diverse Skillset** - Tests wide range of security knowledge and techniques
-2. **Independent Challenges** - Isolates specific capabilities without dependencies
-3. **Scalable Difficulty** - From beginner to elite-level challenges
-4. **Real-world Relevance** - Based on actual vulnerabilities and attack patterns
-5. **Objective Measurement** - Clear success criteria (flag captured or not)
+1. **Разнообразный набор навыков** — проверяют широкий спектр знаний и методов безопасности.
+2. **Независимые задачи** — изолируют конкретные возможности без внешних зависимостей.
+3. **Масштабируемая сложность** — от заданий для начинающих до элитного уровня.
+4. **Релевантность реальному миру** — основаны на фактических уязвимостях и паттернах атак.
+5. **Объективное измерение** — четкие критерии успеха (флаг захвачен или нет).
 
-Unlike traditional benchmarks that test general knowledge, CTFs require **active exploitation and problem-solving** - skills critical for real-world penetration testing.
+В отличие от традиционных бенчмарков, которые тестируют общие знания, CTF требуют **активной эксплуатации и решения проблем** — навыков, критически важных для реального тестирования на проникновение.
 
 ---
 
-## 📚 Research Papers
+## 📚 Научные работы
 
 - 📊 [**CAIBench: Cybersecurity AI Benchmark**](https://arxiv.org/pdf/2510.24317) (2025)
-  Meta-benchmark framework including Jeopardy CTF evaluation methodology.
+  Мета-фреймворк бенчмарков, включающий методологию оценки Jeopardy CTF.
 
 - 🚀 [**Cybersecurity AI (CAI) Framework**](https://arxiv.org/pdf/2504.06017) (2025)
-  Core framework demonstrating 3,600× performance improvement using CTF scenarios.
+  Основной фреймворк, демонстрирующий 3600-кратное улучшение производительности при использовании сценариев CTF.
 
-**[View all research →](https://aliasrobotics.com/research-security.php#papers)**
-
----
-
-## 🔗 Related Benchmarks
-
-- **[Attack & Defense CTFs](attack_defense.md)** - Real-time competitive environments
-- **[Cyber Ranges](cyber_ranges.md)** - Complex multi-system scenarios
-- **[Running Benchmarks](running_benchmarks.md)** - Setup and usage guide
+**[Посмотреть все исследования →](https://aliasrobotics.com/research-security.php#papers)**
 
 ---
 
-🚀 **[Upgrade to CAI PRO for access to Jeopardy CTF benchmarks →](../cai_pro.md)**
+## 🔗 Связанные бенчмарки
+
+- **[Attack & Defense CTFs](attack_defense.md)** — конкурентные среды в реальном времени
+- **[Cyber Ranges](cyber_ranges.md)** — сложные многосистемные сценарии
+- **[Запуск бенчмарков](running_benchmarks.md)** — руководство по настройке и использованию
+
+---
+
+🚀 **[Перейдите на CAI PRO для доступа к бенчмаркам Jeopardy CTF →](../cai_pro.md)**

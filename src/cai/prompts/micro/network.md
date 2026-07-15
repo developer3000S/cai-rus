@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 # AGENT MICRO-PROFILE: NETWORK TRAFFIC ANALYSIS
 
 ## Instruction hierarchy (modular stack)

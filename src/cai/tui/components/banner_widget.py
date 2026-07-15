@@ -70,8 +70,8 @@ class BannerWidget(Container):
             "[bold #03fcb1]             CCC::::::::::::C             +++++             I::::::::I[/bold #03fcb1]",
             "[bold #03fcb1]                CCCCCCCCCCCCC               ++              IIIIIIIIII[/bold #03fcb1]",
             "",
-            f"[bold #03fcb1 on #111111]  ◆ Cybersecurity AI (CAI), v{version} ◆  [/bold #03fcb1 on #111111]",
-            "[#03fcb1]Bug bounty-ready AI framework[/#03fcb1]",
+            f"[bold #03fcb1 on #111111]  ◆ Кибербезопасность AI (CAI), v{version} ◆  [/bold #03fcb1 on #111111]",
+            "[#03fcb1]AI-фреймворк для баг-охоты[/#03fcb1]",
         ]
 
         # Display all lines instantly
@@ -80,7 +80,7 @@ class BannerWidget(Container):
 
         output.write("")
         output.write("[#03fcb180]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[/#03fcb180]")
-        output.write("[dim #03fcb1]💡 Type [bold]/help[/bold] for commands or chat with the AI[/dim #03fcb1]")
+        output.write("[dim #03fcb1]💡 Введите [bold]/help[/bold] для команд или общайтесь с AI[/dim #03fcb1]")
         output.write("[#03fcb180]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[/#03fcb180]")
         output.write("")
 

@@ -1,4 +1,4 @@
-"""Verify CSV/YAML-style inventories were fully covered in agent output."""
+"""Проверка полноты покрытия инвентаризаций в стиле CSV/YAML в выводе агента."""
 
 from __future__ import annotations
 
@@ -68,30 +68,30 @@ def verify_csv_inventory(
     response_text: str = "",
 ) -> str:
     """
-    Count inventory IDs in a CSV/text file and compare with IDs mentioned in agent output.
+    Подсчет ID инвентаризации в CSV/текстовом файле и сравнение с ID, упомянутыми в выводе агента.
 
-    Use when the user asks to assess every PAsset-XX (or similar) in a spreadsheet:
-    1) Run this tool with the CSV path before closing the task.
-    2) Pass your latest assessment text in response_text.
-    3) Report missing IDs to the user and continue until missing is empty.
+    Используйте, когда пользователь просит проверить каждый PAsset-XX (или аналогичный) в таблице:
+    1) Запустите этот инструмент с путем к CSV перед завершением задачи.
+    2) Передайте ваш последний текст оценки в response_text.
+    3) Сообщите пользователю о пропущенных ID и продолжайте, пока пропущенных не останется.
 
     Args:
-        file_path: Path to CSV or text inventory (absolute or relative to workspace).
-        id_pattern: Regex for one ID token (default PAsset-NN).
-        id_column: Optional CSV column name containing IDs; auto-detected when empty.
-        response_text: Optional agent reply text to check coverage against the file.
+        file_path: Путь к CSV или текстовой инвентаризации (абсолютный или относительно рабочей области).
+        id_pattern: Регулярное выражение для одного токена ID (по умолчанию PAsset-NN).
+        id_column: Необязательное имя столбца CSV, содержащего ID; определяется автоматически, если пусто.
+        response_text: Необязательный текст ответа агента для проверки покрытия файла.
 
     Returns:
-        Summary with total IDs in file, IDs found in response_text, and missing IDs.
+        Сводка с общим количеством ID в файле, найденными ID в response_text и пропущенными ID.
     """
     path = Path(os.path.expanduser(file_path.strip()))
     if not path.is_file():
-        return f"Error: inventory file not found: {path}"
+        return f"Ошибка: файл инвентаризации не найден: {path}"
 
     try:
         pattern = re.compile(id_pattern)
     except re.error as exc:
-        return f"Error: invalid id_pattern regex: {exc}"
+        return f"Ошибка: недопустимое регулярное выражение id_pattern: {exc}"
 
     col = id_column.strip() or None
     file_ids = sorted(_extract_ids_from_csv(path, pattern, col), key=str)
@@ -99,14 +99,14 @@ def verify_csv_inventory(
 
     if not file_ids:
         return (
-            f"No IDs matched pattern {id_pattern!r} in {path}.\n"
-            "Check id_pattern/id_column or file encoding."
+            f"Нет ID, соответствующих шаблону {id_pattern!r} в {path}.\n"
+            "Проверьте id_pattern/id_column или кодировку файла."
         )
 
     lines = [
-        f"Inventory file: {path}",
-        f"ID pattern: {id_pattern}",
-        f"Total unique IDs in file: {total}",
+        f"Файл инвентаризации: {path}",
+        f"Шаблон ID: {id_pattern}",
+        f"Всего уникальных ID в файле: {total}",
     ]
 
     if response_text.strip():
@@ -116,24 +116,24 @@ def verify_csv_inventory(
         covered = total - len(missing)
         lines.extend(
             [
-                f"IDs referenced in response_text: {len(response_ids)}",
-                f"Covered (in file ∩ response): {covered}/{total}",
+                f"ID упомянуто в response_text: {len(response_ids)}",
+                f"Покрыто (в файле ∩ ответе): {covered}/{total}",
             ]
         )
         if missing:
             preview = ", ".join(missing[:30])
             suffix = f" ... (+{len(missing) - 30} more)" if len(missing) > 30 else ""
-            lines.append(f"MISSING from response ({len(missing)}): {preview}{suffix}")
+            lines.append(f"ОТСУТСТВУЕТ в ответе ({len(missing)}): {preview}{suffix}")
         else:
-            lines.append("MISSING from response: none — full coverage.")
+            lines.append("ОТСУТСТВУЕТ в ответе: нет — полное покрытие.")
         if extra:
-            lines.append(f"Extra IDs in response (not in file): {', '.join(extra[:20])}")
+            lines.append(f"Лишние ID в ответе (нет в файле): {', '.join(extra[:20])}")
     else:
         preview = ", ".join(file_ids[:40])
         suffix = f" ... (+{total - 40} more)" if total > 40 else ""
-        lines.append(f"ID list (first 40): {preview}{suffix}")
+        lines.append(f"Список ID (первые 40): {preview}{suffix}")
         lines.append(
-            "Tip: re-run with response_text set to your assessment to get missing IDs."
+            "Совет: запустите снова с response_text, установленным на вашу оценку, чтобы получить пропущенные ID."
         )
 
     return "\n".join(lines)

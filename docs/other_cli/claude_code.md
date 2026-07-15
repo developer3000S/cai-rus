@@ -1,59 +1,59 @@
 # Claude Code
 
-!!! danger "Third-Party Scaffolding — Privacy & Security Warning"
-    Third-party scaffoldings may be serving your data outside your environment.
-    For **privacy** and **cybersecurity refusal optimization**, use **CAI** to obtain the best performance.
+!!! danger "Сторонние каркасы — Предупреждение о конфиденциальности и безопасности"
+    Сторонние каркасы могут обрабатывать ваши данные за пределами вашей среды.
+    Для **конфиденциальности** и **оптимизации отказа от кибербезопасности** используйте **CAI** для получения лучшей производительности.
 
-!!! warning "Support Disclaimer"
-    Alias Robotics **does not provide support** for developments or integrations related to Claude Code. This page documents API compatibility only. Alias simply allows usage of the Alias API through your preferred scaffolding.
+!!! warning "Отказ от поддержки"
+    Alias Robotics **не предоставляет поддержку** для разработок или интеграций, связанных с Claude Code. Эта страница документирует только совместимость API. Alias просто разрешает использование API Alias через ваш предпочтительный каркас.
 
 ---
 
-## Step 1: Install Claude Code
+## Шаг 1: Установка Claude Code
 
-### Prerequisites
+### Предварительные требования
 
-- **Node.js 18** or newer
-- For **macOS**, use [nvm](https://github.com/nvm-sh/nvm) to install Node.js — installing the package directly may cause permission issues
-- For **Windows**, additionally install [Git for Windows](https://gitforwindows.org/)
+- **Node.js 18** или новее
+- Для **macOS** используйте [nvm](https://github.com/nvm-sh/nvm) для установки Node.js — установка пакета напрямую может вызвать проблемы с разрешениями
+- Для **Windows** дополнительно установите [Git for Windows](https://gitforwindows.org/)
 
 ```bash
-# Install Claude Code
+# Установка Claude Code
 npm install -g @anthropic-ai/claude-code
 
-# Navigate to your project
+# Перейдите в ваш проект
 cd your-awesome-project
 
-# Launch
+# Запуск
 claude
 ```
 
 !!! note
-    If macOS users encounter permission issues during installation, use `nvm` to install Node.js.
+    Если пользователи macOS встречают проблемы с разрешениями при установке, используйте `nvm` для установки Node.js.
 
 ---
 
-## Step 2: Configure the Alias API
+## Шаг 2: Настройка API Alias
 
-### 1. Get your Alias API Key
+### 1. Получите ваш API ключ Alias
 
-An `ALIAS_API_KEY` (format: `sk-...`) can be obtained from either of the following:
+`ALIAS_API_KEY` (формат: `sk-...`) можно получить из одного из следующих источников:
 
-- **[CAI PRO](https://aliasrobotics.com/cybersecurityai.php)** — full cybersecurity AI platform with access to `alias1` and other models.
-- **[Alias LLMs](https://aliasrobotics.com/aliasLLMs.php)** — acquire `alias2-mini` and other Alias language models directly.
+- **[CAI PRO](https://aliasrobotics.com/cybersecurityai.php)** — полная платформа кибербезопасности с доступом к `alias1` и другим моделям.
+- **[Alias LLMs](https://aliasrobotics.com/aliasLLMs.php)** — приобретите `alias2-mini` и другие языковые модели Alias напрямую.
 
-### 2. Configure Environment Variables
+### 2. Настройка переменных окружения
 
-Set up environment variables using one of the following methods for macOS/Linux or Windows.
+Настройте переменные окружения, используя один из следующих способов для macOS/Linux или Windows.
 
 !!! note
-    Some commands show no output when setting environment variables — that's normal as long as no errors appear. A new terminal window may be required for the changes to take effect.
+    Некоторые команды не выводят результат при установке переменных окружения — это нормально, пока не появляются ошибки. Может потребоваться новое окно терминала для вступления изменений в силу.
 
 #### macOS & Linux
 
-Edit the Claude Code configuration file `~/.claude/settings.json`. Add or modify the `env` fields `ANTHROPIC_BASE_URL` and `ANTHROPIC_AUTH_TOKEN`.
+Отредактируйте файл конфигурации Claude Code `~/.claude/settings.json`. Добавьте или измените поля `env` `ANTHROPIC_BASE_URL` и `ANTHROPIC_AUTH_TOKEN`.
 
-Replace `your_alias_api_key` with the API Key you obtained in the previous step.
+Замените `your_alias_api_key` на API ключ, полученный на предыдущем шаге.
 
 ```json
 {
@@ -67,7 +67,7 @@ Replace `your_alias_api_key` with the API Key you obtained in the previous step.
 
 #### Windows Cmd
 
-Run the following commands in Cmd. Replace `your_alias_api_key` with the API Key you obtained in the previous step.
+Выполните следующие команды в Cmd. Замените `your_alias_api_key` на API ключ, полученный на предыдущем шаге.
 
 ```cmd
 setx ANTHROPIC_AUTH_TOKEN your_alias_api_key
@@ -76,7 +76,7 @@ setx ANTHROPIC_BASE_URL https://api.aliasrobotics.com:666/
 
 #### Windows PowerShell
 
-Run the following commands in PowerShell. Replace `your_alias_api_key` with the API Key you obtained in the previous step.
+Выполните следующие команды в PowerShell. Замените `your_alias_api_key` на API ключ, полученный на предыдущем шаге.
 
 ```powershell
 [System.Environment]::SetEnvironmentVariable('ANTHROPIC_AUTH_TOKEN', 'your_alias_api_key', 'User')
@@ -85,21 +85,21 @@ Run the following commands in PowerShell. Replace `your_alias_api_key` with the 
 
 ---
 
-## Step 3: Start with Claude Code
+## Шаг 3: Начало работы с Claude Code
 
-Once the configuration is complete, start using Claude Code in your terminal:
+После завершения настройки начните использовать Claude Code в вашем терминале:
 
 ```bash
 cd your-project-directory
 claude
 ```
 
-Token usage and billing will appear in your Alias account.
+Использование токенов и расчеты появятся в вашем аккаунте Alias.
 
 ---
 
-## Related
+## Связанная информация
 
-- [CAI PRO Quickstart](../cai_pro_quickstart.md)
-- [Available Models](../cai_list_of_models.md)
-- [Environment Variables](../environment_variables.md)
+- [Быстрый старт CAI PRO](../cai_pro_quickstart.md)
+- [Доступные модели](../cai_list_of_models.md)
+- [Переменные окружения](../environment_variables.md)

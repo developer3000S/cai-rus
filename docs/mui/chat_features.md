@@ -1,340 +1,340 @@
-# Chat Features - CAI Mobile UI
+# Функции чата - Мобильный интерфейс CAI
 
-> **⚡ CAI-Pro Exclusive**  
-> Advanced chat capabilities for professional security testing on mobile.
+> **⚡ Эксклюзивная функция CAI-Pro**  
+> Продвинутые возможности чата для профессионального тестирования безопасности на мобильных устройствах.
 
-## Message Composition
+## Компоновка сообщений
 
-### Rich Text Input
+### Ввод форматированного текста
 
-The CAI Mobile UI supports advanced text formatting:
+Мобильный интерфейс CAI поддерживает продвинутое форматирование текста:
 
-**Markdown Support**
-- **Bold**: Surround with `**text**` or `__text__`
-- *Italic*: Use `*text*` or `_text_`
-- `Code`: Wrap with backticks
-- Lists: Start lines with `-` or `1.`
-- Links: `[text](url)` format
+**Поддержка Markdown**
+- **Полужирный**: Оберните текст `**текст**` или `__текст__`
+- *Курсив*: Используйте `*текст*` или `_текст_`
+- `Код`: Оберните обратными кавычками
+- Списки: Начинайте строки с `-` или `1.`
+- Ссылки: Формат `[текст](url)`
 
-**Code Blocks**
+**Блоки кода**
 ````
 ```python
-# Language-specific highlighting
+# Подсветка для конкретного языка
 def scan_target(ip):
     return results
 ```
 ````
 
-### Smart Completions
+### Умные подсказки
 
-**Agent Mentions**
-- Type `@` to see available agents
-- Quick switch context mid-conversation
-- Example: `@red_teamer scan this endpoint`
+**Упоминания агентов**
+- Введите `@` для просмотра доступных агентов
+- Быстрое переключение контекста во время беседы
+- Пример: `@red_teamer просканируй этот эндпоинт`
 
-**File References**
-- Type `/` for file browser
-- Drag & drop from Files app
-- Paste images directly
+**Ссылки на файлы**
+- Введите `/` для обзора файлов
+- Перетаскивание из приложения Файлы
+- Вставка изображений напрямую
 
-**Command Shortcuts**
-- Type `!` for saved commands
-- Create custom shortcuts in settings
-- Example: `!nmap` → `Run nmap scan on target`
+**Горячие клавиши команд**
+- Введите `!` для сохраненных команд
+- Создайте пользовательские сочетания клавиш в настройках
+- Пример: `!nmap` → `Запустить сканирование nmap на цели`
 
-### Voice Input
+### Голосовой ввод
 
-**Dictation Features**
-- Tap microphone icon
-- Automatic punctuation
-- Technical term recognition
-- Multi-language support
+**Функции диктовки**
+- Нажмите на значок микрофона
+- Автоматическая пунктуация
+- Распознавание технических терминов
+- Поддержка нескольких языков
 
-**Voice Commands**
-- "Send message"
-- "New conversation"
-- "Switch to [agent name]"
-- "Cancel generation"
+**Голосовые команды**
+- "Отправить сообщение"
+- "Новый разговор"
+- "Переключиться на [имя агента]"
+- "Отменить генерацию"
 
-## Message Display
+## Отображение сообщений
 
-### Streaming Responses
+### Стриминговые ответы
 
-![CAI Streaming Response](../media/MUI/cai_app_ios_reasoning.png)
+![Стриминговый ответ CAI](../media/MUI/cai_app_ios_reasoning.png)
 
-**Real-time Indicators**
-- Typing animation
-- Progress estimation
-- Token counter
-- Time elapsed
+**Индикаторы в реальном времени**
+- Анимация набора текста
+- Оценка прогресса
+- Счетчик токенов
+- Прошедшее время
 
-**Partial Rendering**
-- See results as they generate
-- Syntax highlighting updates live
-- Tables render incrementally
-- Images load progressively
+**Частичный рендеринг**
+- Просмотр результатов по мере их генерации
+- Подсветка синтаксиса обновляется в реальном времени
+- Таблицы рендерятся постепенно
+- Изображения загружаются прогрессивно
 
-### Content Types
+### Типы контента
 
-**Security Reports**
+**Отчеты безопасности**
 ```
 ╔══════════════════════════════════════╗
-║        VULNERABILITY REPORT          ║
+║       ОТЧЕТ ОБ УЯЗВИМОСТИ           ║
 ╠══════════════════════════════════════╣
-║ Target: example.com                  ║
-║ Risk Level: HIGH                     ║
-║ CVSS Score: 8.5                      ║
+║ Цель: example.com                   ║
+║ Уровень риска: ВЫСОКИЙ              ║
+║ Оценка CVSS: 8.5                    ║
 ╚══════════════════════════════════════╝
 ```
 
-**Code Analysis**
-- Syntax highlighting for 100+ languages
-- Line numbers for reference
-- Diff view for changes
-- Copy button per code block
+**Анализ кода**
+- Подсветка синтаксиса для 100+ языков
+- Номера строк для ссылок
+- Представление diff для изменений
+- Кнопка копирования для каждого блока кода
 
-**Structured Data**
-- Tables with sorting
-- Collapsible JSON trees
-- Chart rendering
-- CSV preview with scrolling
+**Структурированные данные**
+- Таблицы с сортировкой
+- Сворачиваемые деревья JSON
+- Рендеринг графиков
+- Предварительный просмотр CSV с прокруткой
 
-### Interactive Elements
+### Интерактивные элементы
 
-**Expandable Sections**
-- Tap to expand/collapse
-- Remembers state
-- Smooth animations
-- Section summaries
+**Расширяемые секции**
+- Нажмите для раскрытия/сворачивания
+- Запоминает состояние
+- Плавные анимации
+- Резюме секций
 
-**Tool Outputs**
-- Real-time tool execution status
-- Collapsible verbose output
-- Error highlighting
-- Retry failed tools
+**Вывод инструментов**
+- Статус выполнения инструментов в реальном времени
+- Сворачиваемый подробный вывод
+- Подсветка ошибок
+- Повтор неудачных инструментов
 
-**Links & References**
-- In-app browser for links
-- CVE database lookups
-- Documentation tooltips
-- External app handoff
+**Ссылки и уточнения**
+- Встроенный браузер для ссылок
+- Поиск в базе данных CVE
+- Всплывающие подсказки документации
+- Передача во внешние приложения
 
-## Advanced Features
+## Продвинутые функции
 
-### Message Actions
+### Действия с сообщениями
 
-**Quick Actions Bar**
-Swipe left on any message:
-- 🔄 Retry - Re-run with same prompt
-- 📋 Copy - Copy to clipboard
-- 📤 Share - Share via iOS share sheet
-- 🗑️ Delete - Remove from history
+**Панель быстрых действий**
+Проведите влево по любому сообщению:
+- 🔄 Повторить - Перезапустить с тем же промптом
+- 📋 Копировать - Скопировать в буфер обмена
+- 📤 Поделиться - Поделиться через лист шаринга iOS
+- 🗑️ Удалить - Удалить из истории
 
-**Long Press Menu**
-- Copy Text
-- Copy as Markdown
-- Copy as JSON
-- Share Message
-- Save to Files
-- Create Template
-- Report Issue
+**Контекстное меню (длительное нажатие)**
+- Копировать текст
+- Копировать как Markdown
+- Копировать как JSON
+- Поделиться сообщением
+- Сохранить в Файлы
+- Создать шаблон
+- Сообщить о проблеме
 
-### Conversation Management
+### Управление беседами
 
-**Search Within Chat**
-- `⌘ + F` or tap search icon
-- Real-time highlighting
-- Previous/Next navigation
-- Case sensitive option
-- Regex support
+**Поиск в чате**
+- `⌘ + F` или нажмите значок поиска
+- Подсветка в реальном времени
+- Навигация предыдущее/следующее
+- Опция учета регистра
+- Поддержка регулярных выражений
 
-**Message Filtering**
-- Show only user messages
-- Show only agent responses
-- Filter by date range
-- Filter by content type
-- Export filtered results
+**Фильтрация сообщений**
+- Показать только сообщения пользователя
+- Показать только ответы агентов
+- Фильтр по диапазону дат
+- Фильтр по типу контента
+- Экспорт отфильтрованных результатов
 
-### Context Preservation
+### Сохранение контекста
 
-**Auto-Save**
-- Every message saved locally
-- Cloud sync (optional)
-- Crash recovery
-- Version history
+**Автосохранение**
+- Каждое сообщение сохраняется локально
+- Синхронизация в облаке (опционально)
+- Восстановление после сбоя
+- История версий
 
-**Session Continuity**
-- Resume mid-generation
-- Restore agent state
-- Maintain context across app restarts
-- Background task completion
+**Непрерывность сессий**
+- Возобновление во время генерации
+- Восстановление состояния агента
+- Сохранение контекста между перезапусками приложения
+- Завершение фоновых задач
 
-## Collaboration Features
+## Функции совместной работы
 
-### Sharing & Export
+### Шаринг и экспорт
 
-**Export Formats**
-- Plain Text (.txt)
+**Форматы экспорта**
+- Простой текст (.txt)
 - Markdown (.md)
 - JSON (.json)
-- PDF with formatting
-- HTML with styling
+- PDF с форматированием
+- HTML со стилями
 
-**Share Options**
-- AirDrop to nearby devices
-- Email with formatting preserved
-- Slack/Discord webhooks
-- GitHub Gist integration
-- Custom share extensions
+**Опции шаринга**
+- AirDrop на ближние устройства
+- Email с сохраненным форматированием
+- Вебхуки Slack/Discord
+- Интеграция с GitHub Gist
+- Пользовательские расширения шаринга
 
-### Templates & Snippets
+### Шаблоны и фрагменты
 
-**Message Templates**
-Create reusable prompts:
+**Шаблоны сообщений**
+Создание многоразовых промптов:
 ```
-Template: Web App Test
+Шаблон: Тест веб-приложения
 ---
-Perform security assessment on [URL]:
-1. Check for common vulnerabilities
-2. Test authentication
-3. Scan for exposed endpoints
-4. Generate detailed report
+Выполни оценку безопасности [URL]:
+1. Проверь распространенные уязвимости
+2. Протестируй аутентификацию
+3. Просканируй на открытые эндпоинты
+4. Сгенерируй подробный отчет
 ```
 
-**Code Snippets**
-Save frequently used code:
-- Payloads library
-- Script templates
-- Command shortcuts
-- Custom exploits
+**Фрагменты кода**
+Сохранение часто используемого кода:
+- Библиотека полезных нагрузок
+- Шаблоны скриптов
+- Горячие клавиши команд
+- Пользовательские эксплойты
 
-## Performance Features
+## Функции производительности
 
-### Offline Mode
+### Автономный режим
 
-**Available Offline**
-- Read previous conversations
-- Search message history
-- Export conversations
-- View cached responses
+**Доступно офлайн**
+- Чтение предыдущих бесед
+- Поиск в истории сообщений
+- Экспорт бесед
+- Просмотр кэшированных ответов
 
-**Sync When Connected**
-- Queue messages for sending
-- Auto-retry failed messages
-- Merge offline changes
-- Conflict resolution
+**Синхронизация при подключении**
+- Постановка сообщений в очередь для отправки
+- Автоповтор неудачных сообщений
+- Объединение офлайн изменений
+- Разрешение конфликтов
 
-### Message Optimization
+### Оптимизация сообщений
 
-**Smart Loading**
-- Lazy load old messages
-- Virtualized scrolling
-- Image placeholder loading
-- Incremental search indexing
+**Умная загрузка**
+- Ленивая загрузка старых сообщений
+- Виртуализированная прокрутка
+- Загрузка заглушек изображений
+- Инкрементная индексация поиска
 
-**Memory Management**
-- Auto-archive old conversations
-- Compress stored messages
-- Clear cache options
-- Storage usage analytics
+**Управление памятью**
+- Автоархивация старых бесед
+- Сжатие сохраненных сообщений
+- Опции очистки кэша
+- Аналитика использования хранилища
 
-## Security Features
+## Функции безопасности
 
-### Privacy Controls
+### Контроль конфиденциальности
 
-**Message Security**
-- End-to-end encryption option
-- Biometric lock for sensitive chats
-- Auto-delete timers
-- Screenshot prevention mode
+**Безопасность сообщений**
+- Опция сквозного шифрования
+- Биометрическая блокировка для чувствительных чатов
+- Таймеры автоудаления
+- Режим предотвращения скриншотов
 
-**Data Protection**
-- Local encryption at rest
-- Secure keychain storage
-- No cloud sync option
-- Export password protection
+**Защита данных**
+- Локальное шифрование при хранении
+- Безопасное хранение в связке ключей
+- Нет опции синхронизации в облаке
+- Парольная защита экспорта
 
-### Audit Trail
+### Журнал аудита
 
-**Activity Logging**
-- Message timestamps
-- Edit history
-- Access logs
-- Export audit trail
+**Логирование активности**
+- Временные метки сообщений
+- История редактирования
+- Журналы доступа
+- Экспорт журнала аудита
 
-## Customization
+## Пользовательские настройки
 
-### Display Preferences
+### Настройки отображения
 
-**Message Appearance**
-- Bubble style (iOS/Android/Minimal)
-- Color themes
-- Font selection
-- Spacing options
+**Внешний вид сообщений**
+- Стиль пузырьков (iOS/Android/Минималистичный)
+- Цветовые темы
+- Выбор шрифта
+- Опции интервалов
 
-**Timestamp Display**
-- Always visible
-- On tap
-- Grouped by time
-- Relative/Absolute
+**Отображение временных меток**
+- Всегда видимы
+- При нажатии
+- Группировка по времени
+- Относительные/Абсолютные
 
-### Behavior Settings
+### Настройки поведения
 
-**Send Options**
-- Enter to send
-- Shift+Enter for new line
-- Alt+Enter for new line (terminal fallback)
-- Send button confirmation
-- Draft auto-save
+**Опции отправки**
+- Enter для отправки
+- Shift+Enter для новой строки
+- Alt+Enter для новой строки (резервный вариант для терминалов)
+- Подтверждение кнопкой отправки
+- Автосохранение черновика
 
-**Notification Settings**
-- Message previews
-- Sound selection
-- Vibration patterns
-- Do Not Disturb respect
+**Настройки уведомлений**
+- Предварительный просмотр сообщений
+- Выбор звука
+- Паттерны вибрации
+- Уважение режима "Не беспокоить"
 
-## Keyboard Enhancements
+## Улучшения клавиатуры
 
-### Text Shortcuts
+### Текстовые сочетания клавиш
 
-| Shortcut | Expands To |
+| Сочетание клавиш | Расширяется до |
 |----------|------------|
-| `@@` | Current date/time |
-| `##` | Last command output |
-| `$$` | Previous agent response |
-| `%%` | System information |
+| `@@` | Текущая дата/время |
+| `##` | Вывод последней команды |
+| `$$` | Предыдущий ответ агента |
+| `%%` | Системная информация |
 
-### Quick Commands
+### Быстрые команды
 
-| Command | Action |
+| Команда | Действие |
 |---------|--------|
-| `/clear` | Clear conversation |
-| `/export` | Export chat |
-| `/stats` | Show session stats |
-| `/help` | Show help |
+| `/clear` | Очистить беседу |
+| `/export` | Экспорт чата |
+| `/stats` | Показать статистику сессии |
+| `/help` | Показать справку |
 
-## Tips & Tricks
+## Советы и хитрости
 
-### Power User Features
+### Функции для продвинутых пользователей
 
-1. **Multi-Message Select**: Two-finger tap and drag
-2. **Quick Quote**: Swipe right on message to quote
-3. **Batch Operations**: Select multiple messages for bulk actions
-4. **Smart Paste**: Automatically formats pasted code
+1. **Выбор нескольких сообщений**: Двухпальцевое нажатие и перетаскивание
+2. **Быстрая цитата**: Проведите вправо по сообщению для цитирования
+3. **Групповые операции**: Выбор нескольких сообщений для массовых действий
+4. **Умная вставка**: Автоматическое форматирование вставленного кода
 
-### Hidden Features
+### Скрытые функции
 
-1. **Developer Console**: Triple-tap status bar
-2. **Message Inspector**: Long press + 3D touch
-3. **Network Monitor**: Shake in settings
-4. **Debug Logging**: Five taps on version
+1. **Консоль разработчика**: Тройное нажатие на строку состояния
+2. **Инспектор сообщений**: Длительное нажатие + 3D touch
+3. **Монитор сети**: Тряска в настройках
+4. **Логирование отладки**: Пять нажатий на версию
 
-## Next Steps
+## Следующие шаги
 
-- 🎯 [Master Agent Selection](agent_selection.md)
-- 🌐 [Configure Network & MCP](network_mcp.md)
-- 📊 [Understand Session Management](session_management.md)
+- 🎯 [Освойте выбор агентов](agent_selection.md)
+- 🌐 [Настройте сеть и MCP](network_mcp.md)
+- 📊 [Понимайте управление сессиями](session_management.md)
 
 ---
 
-*Advanced chat features enable professional-grade mobile security testing*
+*Продвинутые функции чата обеспечивают профессиональное мобильное тестирование безопасности*

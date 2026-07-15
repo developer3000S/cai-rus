@@ -1,3 +1,3 @@
-# `Creating traces/spans`
+# `Создание трассировок/спанов`
 
 ::: cai.sdk.agents.tracing.create

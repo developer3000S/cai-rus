@@ -231,8 +231,8 @@ def _flat_agent_header(agent_name: str, counter: int, model: str = "",
     if os.getenv("CAI_UNRESTRICTED", "false").strip().lower() in ("true", "1", "yes"):
         t.append(
             Text.from_markup(
-                "  [bold bright_red]Unrestricted Mode [/bold bright_red]"
-                "[bold white on bright_red] BETA [/]"
+                "  [bold bright_red]Без ограничений [/bold bright_red]"
+                "[bold white on bright_red] БЕТА [/]"
             )
         )
     return t
@@ -276,13 +276,13 @@ def _flat_tool_header(tool_name: str, args_str: str, execution_info: dict = None
         # Status
         status = execution_info.get("status", "")
         if status == "completed":
-            t.append(" [Completed]", style=CAI_GREEN)
+            t.append(" [Завершено]", style=CAI_GREEN)
         elif status == "error":
-            t.append(" [Error]", style="bold red")
+            t.append(" [Ошибка]", style="bold red")
         elif status == "timeout":
-            t.append(" [Timeout]", style="bold red")
+            t.append(" [Тайм-аут]", style="bold red")
         elif status == "running":
-            t.append(" [Running]", style="yellow")
+            t.append(" [Выполняется]", style="yellow")
 
     return t
 
@@ -299,7 +299,7 @@ def _flat_tool_output_block(output: str, max_lines: int = 40) -> Text:
         head = lines[:max_lines // 2]
         tail = lines[-(max_lines // 2):]
         omitted = len(lines) - max_lines
-        lines = head + [f"  ... ({omitted} lines omitted) ..."] + tail
+        lines = head + [f"  ... ({omitted} строк пропущено) ..."] + tail
 
     for i, line in enumerate(lines):
         prefix = "  └ " if i == 0 else "    "
@@ -703,17 +703,17 @@ def _build_pricing_footer_renderable(final=False, *, framed: bool = True):
     pricing_text = Text()
     pricing_text.append(f"${last_cost:.4f}", style=f"bold {CAI_GREEN}")
     pricing_text.append("  │  ", style="dim white")
-    pricing_text.append("In:", style=f"italic {GREY_TEXT}")
+    pricing_text.append("Вход:", style=f"italic {GREY_TEXT}")
     pricing_text.append(f"{inp:,}", style="bold white")
     pricing_text.append(" ", style="")
-    pricing_text.append("Out:", style=f"italic {GREY_TEXT}")
+    pricing_text.append("Выход:", style=f"italic {GREY_TEXT}")
     pricing_text.append(f"{out:,}", style="bold white")
     pricing_text.append("  │  ", style="dim white")
-    pricing_text.append("Session: ", style=f"italic {GREY_TEXT}")
+    pricing_text.append("Сессия: ", style=f"italic {GREY_TEXT}")
     pricing_text.append(f"${session_cost:.4f}", style=f"bold {CAI_GREEN}")
 
     # Context bar pieces
-    ctx_label = f" {ctx_pct:.1f}% context"
+    ctx_label = f" {ctx_pct:.1f}% контекст"
     bar_color = CAI_GREEN if ctx_pct < 50 else "yellow" if ctx_pct < 80 else "bold red"
     pct_style = f"italic {GREY_HINT}" if ctx_pct < 80 else "bold red"
 
@@ -1537,7 +1537,7 @@ def cleanup_all_streaming_resources(
             )
 
         except Exception as e:
-            print(f"\nError during streaming cleanup: {e}", file=sys.stderr)
+            print(f"\nОшибка при очистке стриминга: {e}", file=sys.stderr)
             restore_terminal_state(
                 leave_alternate_screen=leave_alternate_screen,
                 emit_trailing_newline=emit_trailing_newline,
@@ -1683,12 +1683,12 @@ def cli_print_tool_call(
     effective_args = tool_args if tool_args is not None else args
     effective_output = tool_output if tool_output is not None else output
 
-    print(f"{prefix}{color('Tool Call:', fg='cyan')}")
-    print(f"{prefix}{color('Name:', fg='cyan')} {tool_name}")
+    print(f"{prefix}{color('Вызов инструмента:', fg='cyan')}")
+    print(f"{prefix}{color('Имя:', fg='cyan')} {tool_name}")
     if effective_args:
-        print(f"{prefix}{color('Args:', fg='cyan')} {effective_args}")
+        print(f"{prefix}{color('Аргументы:', fg='cyan')} {effective_args}")
     if effective_output:
-        print(f"{prefix}{color('Output:', fg='cyan')} {effective_output}")
+        print(f"{prefix}{color('Вывод:', fg='cyan')} {effective_output}")
 
 
 def _prepare_terminal_for_final_agent_output() -> None:
@@ -1952,10 +1952,10 @@ def cli_print_agent_messages(
             if summary_lines:
                 parsed_message = (
                     "\n".join(summary_lines).strip()
-                    + "\n\n[Execute code output already shown in panels above]"
+                    + "\n\n[Вывод выполнения кода уже показан в панелях выше]"
                 )
             else:
-                parsed_message = "[Execute code output already shown in panels above]"
+                parsed_message = "[Вывод выполнения кода уже показан в панелях выше]"
 
     # Special handling for async session messages
     if tool_output and ("Started async session" in tool_output or "session" in tool_output.lower()):
@@ -2151,8 +2151,8 @@ def create_agent_streaming_context(agent_name, counter, model):
         if os.getenv("CAI_UNRESTRICTED", "false").strip().lower() in ("true", "1", "yes"):
             header.append(
                 Text.from_markup(
-                    "  [bold bright_red]Unrestricted Mode [/bold bright_red]"
-                    "[bold white on bright_red] BETA [/]"
+                    "  [bold bright_red]Без ограничений [/bold bright_red]"
+                    "[bold white on bright_red] БЕТА [/]"
                 )
             )
         # No trailing \\n — Group already stacks children; extra \\n doubled vertical gaps.
@@ -2194,7 +2194,7 @@ def create_agent_streaming_context(agent_name, counter, model):
         # If rich display fails, return None and log the error
         import sys
 
-        print(f"Error creating streaming context: {e}", file=sys.stderr)
+        print(f"Ошибка создания контекста стриминга: {e}", file=sys.stderr)
         return None
 
 
@@ -2293,7 +2293,7 @@ def update_agent_streaming_content(context, text_delta, token_stats=None):
                     # Simply add a marker that output was shown in panels
                     if not hasattr(context, "_execute_code_noted"):
                         context["_execute_code_noted"] = True
-                        context["content"].append("[Execute code output shown in panels above]\n")
+                        context["content"].append("[Вывод выполнения кода показан в панелях выше]\n")
                     # Skip the actual execute_code narrative output
                     if any(
                         marker in parsed_delta.lower()
@@ -2361,7 +2361,7 @@ def update_agent_streaming_content(context, text_delta, token_stats=None):
                     footer_stats.append(f" (${interaction_cost:.4f})", style="bold cyan")
 
                 # Add the total cost information on the same line
-                footer_stats.append(" | Session: ", style="dim")
+                footer_stats.append(" | Сессия: ", style="dim")
                 footer_stats.append(f"${session_total_cost:.4f}", style="bold magenta")
 
                 # Add context usage indicator (current interaction input)
@@ -3789,7 +3789,7 @@ def start_tool_streaming(tool_name, args, call_id=None, token_info=None):
         code_header = Text()
         code_header.append("• ", style=CAI_GREEN)
         code_header.append(f"{agent_name}", style=f"bold {CAI_GREEN}")
-        code_header.append(f" - Code saved to: ", style="dim")
+        code_header.append(f" - Код сохранён в: ", style="dim")
         code_header.append(f"{full_path}", style="yellow")
         console.print(Group(code_header, code_syntax))
 
@@ -3927,7 +3927,7 @@ def start_tool_streaming(tool_name, args, call_id=None, token_info=None):
         code_header = Text()
         code_header.append("• ", style=CAI_GREEN)
         code_header.append(f"{agent_name}", style=f"bold {CAI_GREEN}")
-        code_header.append(f" - Code saved to: ", style="dim")
+        code_header.append(f" - Код сохранён в: ", style="dim")
         code_header.append(f"{full_path}", style="yellow")
         console.print(Group(code_header, code_syntax))
 
@@ -3942,12 +3942,12 @@ def start_tool_streaming(tool_name, args, call_id=None, token_info=None):
     else:
         # Show initial message with "Starting..." output
         # In parallel mode, customize the initial message
-        initial_message = "Starting tool execution..."
+        initial_message = "Запуск выполнения инструмента..."
         if is_parallel and tool_name == "generic_linux_command" and isinstance(args, dict):
             command = args.get("command", "")
             cmd_args = args.get("args", "")
             if command:
-                initial_message = f"Executing: {command} {cmd_args}".strip()
+                initial_message = f"Выполнение: {command} {cmd_args}".strip()
 
         cli_print_tool_output(
             tool_name=tool_name,
@@ -4064,7 +4064,7 @@ def finish_tool_streaming(tool_name, args, output, call_id, execution_info=None,
         # In finish_tool_streaming, we only show the output
         # The code was already shown in start_tool_streaming
         output_syntax = Syntax(
-            output or "No output", "text", theme="monokai",
+            output or "Нет вывода", "text", theme="monokai",
             background_color="#272822", word_wrap=True,
         )
 
@@ -4074,9 +4074,9 @@ def finish_tool_streaming(tool_name, args, output, call_id, execution_info=None,
         out_header.append("• ", style=CAI_GREEN)
         out_header.append(f"{agent_name}", style=f"bold {CAI_GREEN}")
         if status == "completed":
-            out_header.append(" - Output", style="dim")
+            out_header.append(" - Вывод", style="dim")
         else:
-            out_header.append(" - Output (Error)", style="bold red")
+            out_header.append(" - Вывод (Ошибка)", style="bold red")
         _erase_pricing_footer()
         console.print(Group(out_header, output_syntax))
         # Print pricing footer after execute_code output
@@ -4191,12 +4191,12 @@ def create_claude_thinking_context(agent_name, counter, model):
         # Create the thinking panel header
         header = Text()
         header.append("🧠 ", style="bold yellow")
-        header.append(f"{model_display} Reasoning [{counter}]", style="bold yellow")
+        header.append(f"Рассуждение {model_display} [{counter}]", style="bold yellow")
         header.append(f" | {agent_name}", style="bold cyan")
         header.append(f" | {timestamp}", style="dim")
 
         # Initial thinking content
-        thinking_content = Text("Thinking...", style="italic dim")
+        thinking_content = Text("Мыслю...", style="italic dim")
 
         # Flat renderable (no Panel box)
         flat_content = Group(header, Text("\n"), thinking_content)
@@ -4226,7 +4226,7 @@ def create_claude_thinking_context(agent_name, counter, model):
         return context
 
     except Exception as e:
-        print(f"Error creating {model_display} thinking context: {e}")
+        print(f"Ошибка создания контекста мышления {model_display}: {e}")
         return None
 
 
@@ -4281,7 +4281,7 @@ def update_claude_thinking_content(context, thinking_delta):
                 context["is_started"] = True
             except Exception as e:
                 model_display = context.get("model_display", "AI")
-                print(f"Error starting {model_display} thinking display: {e}")
+                print(f"Ошибка запуска отображения мышления {model_display}: {e}")
                 return False
 
         # Update the live display with flat content
@@ -4291,7 +4291,7 @@ def update_claude_thinking_content(context, thinking_delta):
 
     except Exception as e:
         model_display = context.get("model_display", "AI")
-        print(f"Error updating {model_display} thinking content: {e}")
+        print(f"Ошибка обновления содержимого мышления {model_display}: {e}")
         return False
 
 
@@ -4322,7 +4322,7 @@ def finish_claude_thinking_display(context):
         # Add final formatting to show completion
         final_header = Text()
         final_header.append("🧠 ", style="bold green")
-        final_header.append(f"{model_display} Reasoning Complete", style="bold green")
+        final_header.append(f"Рассуждение {model_display} завершено", style="bold green")
         final_header.append(f" | {context['agent_name']}", style="bold cyan")
         final_header.append(f" | {context['timestamp']}", style="dim")
 
@@ -4339,7 +4339,7 @@ def finish_claude_thinking_display(context):
                 line_numbers=False,
             )
         else:
-            final_thinking_display = Text("No reasoning captured", style="dim italic")
+            final_thinking_display = Text("Рассуждение не захвачено", style="dim italic")
 
         # Create final flat content
         final_content = Group(final_header, Text("\n"), final_thinking_display)
@@ -4354,7 +4354,7 @@ def finish_claude_thinking_display(context):
 
     except Exception as e:
         model_display = context.get("model_display", "AI")
-        print(f"Error finishing {model_display} thinking display: {e}")
+        print(f"Ошибка завершения отображения мышления {model_display}: {e}")
         return False
 
 
@@ -4428,7 +4428,7 @@ def print_claude_reasoning_simple(reasoning_content, agent_name, model_name):
 
     # Simple text output without Rich formatting
     timestamp = datetime.now().strftime("%H:%M:%S")
-    print(f"\n🧠 {model_display} Reasoning | {agent_name} | {model_name} | {timestamp}")
+    print(f"\n🧠 Рассуждение {model_display} | {agent_name} | {model_name} | {timestamp}")
     print("=" * 60)
     print(reasoning_content)
     print("=" * 60 + "\n")

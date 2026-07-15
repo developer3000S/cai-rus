@@ -1,50 +1,50 @@
-# Quickstart
+# Быстрый старт
 
-## Prerequisites
+## Предварительные требования
 
-Make sure you've followed the base [quickstart instructions](../quickstart.md) for the Agents SDK, and set up a virtual environment. Then, install the optional voice dependencies from the SDK:
+Убедитесь, что вы следуете базовым [инструкциям по быстрому старту](../quickstart.md) для Agents SDK и настроили виртуальное окружение. Затем установите дополнительные голосовые зависимости из SDK:
 
 ```bash
 pip install 'openai-agents[voice]'
 ```
 
-## Concepts
+## Концепции
 
-The main concept to know about is a [`VoicePipeline`][cai.sdk.agents.voice.pipeline.VoicePipeline], which is a 3 step process:
+Основная концепция, которую стоит знать — это [`VoicePipeline`][cai.sdk.agents.voice.pipeline.VoicePipeline], который представляет собой 3-шаговый процесс:
 
-1. Run a speech-to-text model to turn audio into text.
-2. Run your code, which is usually an agentic workflow, to produce a result.
-3. Run a text-to-speech model to turn the result text back into audio.
+1. Запуск модели преобразования речи в текст для превращения аудио в текст.
+2. Запуск вашего кода, который обычно является рабочим процессом с агентами, для получения результата.
+3. Запуск модели преобразования текста в речь для превращения текста результата обратно в аудио.
 
 ```mermaid
 graph LR
-    %% Input
-    A["🎤 Audio Input"]
+    %% Вход
+    A["🎤 Аудио ввод"]
 
-    %% Voice Pipeline
-    subgraph Voice_Pipeline [Voice Pipeline]
+    %% Голосовой конвейер
+    subgraph Voice_Pipeline [Голосовой конвейер]
         direction TB
-        B["Transcribe (speech-to-text)"]
-        C["Your Code"]:::highlight
-        D["Text-to-speech"]
+        B["Транскрипция (речь-в-текст)"]
+        C["Ваш код"]:::highlight
+        D["Текст-в-речь"]
         B --> C --> D
     end
 
-    %% Output
-    E["🎧 Audio Output"]
+    %% Выход
+    E["🎧 Аудио выход"]
 
-    %% Flow
+    %% Поток
     A --> Voice_Pipeline
     Voice_Pipeline --> E
 
-    %% Custom styling
+    %% Пользовательские стили
     classDef highlight fill:#ffcc66,stroke:#333,stroke-width:1px,font-weight:700;
 
 ```
 
-## Agents
+## Агенты
 
-First, let's set up some Agents. This should feel familiar to you if you've built any agents with this SDK. We'll have a couple of Agents, a handoff, and a tool.
+Сначала давайте настроим несколько Агентов. Это должно быть вам знакомо, если вы создавали агентов с этим SDK. У нас будет несколько Агентов, передача управления и инструмент.
 
 ```python
 import asyncio
@@ -60,17 +60,17 @@ from agents.extensions.handoff_prompt import prompt_with_handoff_instructions
 
 @function_tool
 def get_weather(city: str) -> str:
-    """Get the weather for a given city."""
-    print(f"[debug] get_weather called with city: {city}")
-    choices = ["sunny", "cloudy", "rainy", "snowy"]
-    return f"The weather in {city} is {random.choice(choices)}."
+    """Получить погоду для указанного города."""
+    print(f"[debug] get_weather вызван для города: {city}")
+    choices = ["солнечно", "облачно", "дождливо", "снежно"]
+    return f"Погода в {city} — {random.choice(choices)}."
 
 
 spanish_agent = Agent(
     name="Spanish",
-    handoff_description="A spanish speaking agent.",
+    handoff_description="Агент, говорящий по-испански.",
     instructions=prompt_with_handoff_instructions(
-        "You're speaking to a human, so be polite and concise. Speak in Spanish.",
+        "Вы разговариваете с человеком, поэтому будьте вежливы и лаконичны. Говорите по-испански.",
     ),
     model="gpt-4o-mini",
 )
@@ -78,7 +78,7 @@ spanish_agent = Agent(
 agent = Agent(
     name="Assistant",
     instructions=prompt_with_handoff_instructions(
-        "You're speaking to a human, so be polite and concise. If the user speaks in Spanish, handoff to the spanish agent.",
+        "Вы разговариваете с человеком, поэтому будьте вежливы и лаконичны. Если пользователь говорит по-испански, передайте управление испанскому агенту.",
     ),
     model="gpt-4o-mini",
     handoffs=[spanish_agent],
@@ -86,41 +86,41 @@ agent = Agent(
 )
 ```
 
-## Voice pipeline
+## Голосовой конвейер
 
-We'll set up a simple voice pipeline, using [`SingleAgentVoiceWorkflow`][cai.sdk.agents.voice.workflow.SingleAgentVoiceWorkflow] as the workflow.
+Мы настроим простой голосовой конвейер, используя [`SingleAgentVoiceWorkflow`][cai.sdk.agents.voice.workflow.SingleAgentVoiceWorkflow] в качестве рабочего процесса.
 
 ```python
 from agents.voice import SingleAgentVoiceWorkflow, VoicePipeline
 pipeline = VoicePipeline(workflow=SingleAgentVoiceWorkflow(agent))
 ```
 
-## Run the pipeline
+## Запуск конвейера
 
 ```python
 import numpy as np
 import sounddevice as sd
 from agents.voice import AudioInput
 
-# For simplicity, we'll just create 3 seconds of silence
-# In reality, you'd get microphone data
+# Для простоты мы просто создадим 3 секунды тишины
+# В реальности вы бы получали данные с микрофона
 buffer = np.zeros(24000 * 3, dtype=np.int16)
 audio_input = AudioInput(buffer=buffer)
 
 result = await pipeline.run(audio_input)
 
-# Create an audio player using `sounddevice`
+# Создайте аудиоплеер с помощью `sounddevice`
 player = sd.OutputStream(samplerate=24000, channels=1, dtype=np.int16)
 player.start()
 
-# Play the audio stream as it comes in
+# Воспроизводите аудиопоток по мере его поступления
 async for event in result.stream():
     if event.type == "voice_stream_event_audio":
         player.write(event.data)
 
 ```
 
-## Put it all together
+## Соберем все вместе
 
 ```python
 import asyncio
@@ -144,17 +144,17 @@ from agents.extensions.handoff_prompt import prompt_with_handoff_instructions
 
 @function_tool
 def get_weather(city: str) -> str:
-    """Get the weather for a given city."""
-    print(f"[debug] get_weather called with city: {city}")
-    choices = ["sunny", "cloudy", "rainy", "snowy"]
-    return f"The weather in {city} is {random.choice(choices)}."
+    """Получить погоду для указанного города."""
+    print(f"[debug] get_weather вызван для города: {city}")
+    choices = ["солнечно", "облачно", "дождливо", "снежно"]
+    return f"Погода в {city} — {random.choice(choices)}."
 
 
 spanish_agent = Agent(
     name="Spanish",
-    handoff_description="A spanish speaking agent.",
+    handoff_description="Агент, говорящий по-испански.",
     instructions=prompt_with_handoff_instructions(
-        "You're speaking to a human, so be polite and concise. Speak in Spanish.",
+        "Вы разговариваете с человеком, поэтому будьте вежливы и лаконичны. Говорите по-испански.",
     ),
     model="gpt-4o-mini",
 )
@@ -162,7 +162,7 @@ spanish_agent = Agent(
 agent = Agent(
     name="Assistant",
     instructions=prompt_with_handoff_instructions(
-        "You're speaking to a human, so be polite and concise. If the user speaks in Spanish, handoff to the spanish agent.",
+        "Вы разговариваете с человеком, поэтому будьте вежливы и лаконичны. Если пользователь говорит по-испански, передайте управление испанскому агенту.",
     ),
     model="gpt-4o-mini",
     handoffs=[spanish_agent],
@@ -177,11 +177,11 @@ async def main():
 
     result = await pipeline.run(audio_input)
 
-    # Create an audio player using `sounddevice`
+    # Создайте аудиоплеер с помощью `sounddevice`
     player = sd.OutputStream(samplerate=24000, channels=1, dtype=np.int16)
     player.start()
 
-    # Play the audio stream as it comes in
+    # Воспроизводите аудиопоток по мере его поступления
     async for event in result.stream():
         if event.type == "voice_stream_event_audio":
             player.write(event.data)
@@ -191,4 +191,4 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-If you run this example, the agent will speak to you! Check out the example in [examples/voice/static](https://github.com/openai/openai-agents-python/tree/main/examples/voice/static) to see a demo where you can speak to the agent yourself.
+Если вы запустите этот пример, агент будет говорить с вами! Ознакомьтесь с примером в [examples/voice/static](https://github.com/openai/openai-agents-python/tree/main/examples/voice/static), чтобы увидеть демо, где вы можете говорить с агентом самостоятельно.

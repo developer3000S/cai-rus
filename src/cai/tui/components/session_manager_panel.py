@@ -12,9 +12,9 @@ class SessionManagerPanel(Static):
     def compose(self) -> ComposeResult:
         """Compose the panel UI."""
         yield Vertical(
-            Label("Sessions", classes="panel-title"),
+            Label("Сессии", classes="panel-title"),
             ListView(
-                ListItem(Label("No sessions active.")),
+                ListItem(Label("Нет активных сессий.")),
                 id="session-list"
             ),
             id="session-manager-panel-content"

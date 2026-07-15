@@ -205,10 +205,10 @@ class AgentCreatorPanel(Container):
     }
     """
 
-    BINDINGS = [
-        Binding("ctrl+g", "generate", "Generate Config"),
-        Binding("ctrl+s", "save", "Save Agent"),
-        Binding("escape", "cancel", "Cancel"),
+        BINDINGS = [
+        Binding("ctrl+g", "generate", "Сгенерировать конфиг"),
+        Binding("ctrl+s", "save", "Сохранить агента"),
+        Binding("escape", "cancel", "Отмена"),
     ]
 
     visible = reactive(False)
@@ -233,27 +233,27 @@ class AgentCreatorPanel(Container):
         with Container(id="agent-creator-overlay"):
             with Vertical(id="agent-creator-content"):
                 # Header
-                yield Static("🤖 Create New Agent", id="creator-header")
+                yield Static("🤖 Создать нового агента", id="creator-header")
                 
                 # Scrollable body
                 with ScrollableContainer(id="creator-body-scroll"):
                     with Container(id="creator-body"):
                         # Description section - User only enters what they want
                         with Vertical(classes="form-section"):
-                            yield Label("Describe what you want your agent to do:", classes="form-label")
-                            yield Static("Write in any language. I'll create everything for you.", classes="hint-text")
+                            yield Label("Опишите, что должен делать ваш агент:", classes="form-label")
+                            yield Static("Пишите на любом языке. Я создам всё за вас.", classes="hint-text")
                             yield TextArea(id="agent-description")
                         
                         # Tool selection section
                         with Vertical(id="tools-section", classes="form-section"):
-                            yield Label("Select tools for your agent:", classes="form-label")
-                            yield Static("Click to toggle selection", classes="hint-text")
+                            yield Label("Выберите инструменты для агента:", classes="form-label")
+                            yield Static("Нажмите для переключения выбора", classes="hint-text")
                             yield ListView(
-            ListItem(Label("☑ generic_linux_command - Execute commands"), name="generic_linux_command"),
-                                ListItem(Label("□ execute_code - Execute Python/other code"), name="execute_code"),
-                                ListItem(Label("□ shodan_search - Search Shodan for hosts"), name="shodan_search"),
-                                ListItem(Label("□ shodan_host_info - Get Shodan host details"), name="shodan_host_info"),
-                                ListItem(Label("□ make_web_search_with_explanation - AI-powered web search"), name="make_web_search_with_explanation"),
+            ListItem(Label("☑ generic_linux_command - Выполнение команд"), name="generic_linux_command"),
+                                ListItem(Label("□ execute_code - Выполнение Python/другого кода"), name="execute_code"),
+                                ListItem(Label("□ shodan_search - Поиск хостов в Shodan"), name="shodan_search"),
+                                ListItem(Label("□ shodan_host_info - Информация о хосте из Shodan"), name="shodan_host_info"),
+                                ListItem(Label("□ make_web_search_with_explanation - AI-поиск в интернете"), name="make_web_search_with_explanation"),
                                 id="tools-list"
                             )
                         
@@ -262,8 +262,8 @@ class AgentCreatorPanel(Container):
                 
                 # Button bar (outside scrollable area)
                 with Horizontal(id="creator-buttons"):
-                    yield Button("Create Agent", id="btn-create", variant="success")
-                    yield Button("Cancel", id="btn-cancel", variant="error")
+                    yield Button("Создать агента", id="btn-create", variant="success")
+                    yield Button("Отмена", id="btn-cancel", variant="error")
 
     def on_mount(self) -> None:
         """Initialize the panel when mounted"""
@@ -319,7 +319,7 @@ class AgentCreatorPanel(Container):
         
         return {
             "name": agent_name,
-            "description": f"Agent specialized in: {description}",
+            "description": f"Агент, специализирующийся на: {description}",
             "system_prompt": system_prompt,
             "suggested_tools": suggested_tools,
             "temperature": 0.7
@@ -368,7 +368,7 @@ class AgentCreatorPanel(Container):
         """Create the agent with current configuration"""
         if not self.generated_config:
             config_preview = self.query_one("#config-preview", Static)
-            config_preview.update("[red]Please generate configuration first![/red]")
+            config_preview.update("[red]Сначала сгенерируйте конфигурацию![/red]")
             return
         
         # Build final agent configuration with selected tools
@@ -402,18 +402,18 @@ class AgentCreatorPanel(Container):
         
         if not description:
             status_msg = self.query_one("#status-message", Static)
-            status_msg.update("[red]Please enter a description first![/red]")
+            status_msg.update("[red]Сначала введите описание![/red]")
             return
         
         # Get selected tools
         if not self.selected_tools:
             status_msg = self.query_one("#status-message", Static)
-            status_msg.update("[red]Please select at least one tool![/red]")
+            status_msg.update("[red]Выберите хотя бы один инструмент![/red]")
             return
         
         # Update status
         status_msg = self.query_one("#status-message", Static)
-        status_msg.update("[yellow]🤖 Creating your agent...[/yellow]")
+        status_msg.update("[yellow]🤖 Создание вашего агента...[/yellow]")
         
         try:
             # Use meta agent to generate complete configuration
@@ -435,7 +435,7 @@ class AgentCreatorPanel(Container):
                     f.write(agent_file_content)
                 
                 # Update status with success
-                status_msg.update(f"[green]✅ Agent '{config['name']}' created successfully![/green]")
+                status_msg.update(f"[green]✅ Агент '{config['name']}' успешно создан![/green]")
                 
                 # Refresh the agent list in the sidebar
                 try:
@@ -448,10 +448,10 @@ class AgentCreatorPanel(Container):
                 # Post success message and close after delay
                 self.set_timer(2.0, self.hide)
             else:
-                status_msg.update("[red]❌ Failed to generate agent configuration[/red]")
+                status_msg.update("[red]❌ Не удалось сгенерировать конфигурацию агента[/red]")
         
         except Exception as e:
-            status_msg.update(f"[red]❌ Error: {str(e)}[/red]")
+            status_msg.update(f"[red]❌ Ошибка: {str(e)}[/red]")
     
     # This method is no longer needed since we're not pre-generating configs
 

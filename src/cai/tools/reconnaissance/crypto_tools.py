@@ -1,5 +1,5 @@
 """
-Here are crypto tools
+Криптоинструменты
 """
 
 from cai.tools.common import run_command
@@ -16,14 +16,14 @@ from cai.sdk.agents import function_tool
 @function_tool
 def strings_command(file_path: str, ctf=None) -> str:
     """
-        Extract printable strings from a binary file.
+        Извлечение печатаемых строк из бинарного файла.
 
     #     Args:
     #         args: Additional arguments to pass to the strings command
     #         file_path: Path to the binary file to extract strings from
 
     #     Returns:
-            str: The output of running the strings command
+            str: Вывод выполнения команды strings
     """
     command = f"strings {file_path}"
     return run_command(command, ctf=ctf)
@@ -32,14 +32,14 @@ def strings_command(file_path: str, ctf=None) -> str:
 @function_tool
 def decode64(input_data: str, ctf=None) -> str:
     """
-    Decode a base64-encoded string.
+    Декодирование строки, закодированной в base64.
 
     Args:
-        input_data: The base64-encoded string to decode
-        args: Additional arguments (not used in this function)
+        input_data: Строка в формате base64 для декодирования
+        args: Дополнительные аргументы (не используются в этой функции)
 
     Returns:
-        str: The decoded string
+        str: Декодированная строка
     """
     command = f"base64 --decode {input_data}"
     return run_command(command, ctf=ctf)
@@ -48,15 +48,15 @@ def decode64(input_data: str, ctf=None) -> str:
 @function_tool
 def decode_hex_bytes(input_data: str) -> str:
     """
-    Decode a string of hex bytes into ASCII text.
+    Декодирование строки шестнадцатеричных байтов в текст ASCII.
 
-    Input Format:
+    Формат ввода:
     "0xFF 0x00 0x63..."
     Args:
-        input_data: String containing hex bytes
+        input_data: Строка, содержащая шестнадцатеричные байты
 
     Returns:
-        str: The decoded ASCII text
+        str: Декодированный текст ASCII
     """
     try:
         # Split the input string and convert hex strings to bytes
@@ -65,7 +65,7 @@ def decode_hex_bytes(input_data: str) -> str:
         decoded = bytes(hex_bytes).decode("ascii")
         return decoded
     except (ValueError, UnicodeDecodeError) as e:
-        return f"Error decoding hex bytes: {str(e)}"
+        return f"Ошибка декодирования шестнадцатеричных байтов: {str(e)}"
 
 
 # --- Auto-register with ToolRegistry ---

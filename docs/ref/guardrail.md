@@ -1,3 +1,3 @@
-# `Guardrails`
+# `Ограничители`
 
 ::: cai.sdk.agents.guardrail

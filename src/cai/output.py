@@ -1,22 +1,22 @@
-"""CAI Output Manager.
+"""Менеджер вывода CAI.
 
-Event-driven output system replacing 13+ mutable globals in util.py.
-Inspired by Codex's event channel pattern (tx_event + typed deltas).
+Система вывода на основе событий, заменяющая 13+ изменяемых глобальных переменных в util.py.
+Вдохновлено паттерном каналов событий Codex (tx_event + типизированные дельты).
 
-Created in Day 0 as shared contract between 3 refactoring streams.
-- Stream 1 (Core Engine): emits events from tool execution and LLM calls
-- Stream 3 (Interface): implements handlers for TUI, CLI, API display
-- Stream 2 (Foundation): removes old globals from util.py once migration complete
+Создано в Day 0 как общий контракт между 3 потоками рефакторинга.
+- Поток 1 (Core Engine): генерирует события из выполнения инструментов и вызовов LLM
+- Поток 3 (Interface): реализует обработчики для TUI, CLI, API
+- Поток 2 (Foundation): удаляет старые глобальные переменные из util.py после завершения миграции
 
-Compact REPL extension (orchestration-ready):
-- ``Task*`` events represent agent activity at the *task* granularity. A task is
-  one tool invocation by an agent (or a logical unit emitted by a future planner).
-  They are higher-level than ``Tool*`` events and drive the single-line Live
-  renderer + Ctrl+O expand popup.
-- ``Turn*`` events bracket a user turn so the renderer can collapse the Live
-  area cleanly between turns.
-- ``TaskRegistry`` keeps the in-RAM task state (capped FIFO) consumed by the
-  Ctrl+O expand popup.
+Компактное расширение REPL (готовое к оркестрации):
+- События ``Task*`` представляют активность агента на гранулярности *задачи*. Задача — это
+  один вызов инструмента агентом (или логическая единица, генерируемая будущим планировщиком).
+  Они находятся на более высоком уровне, чем события ``Tool*``, и управляют однострочным
+  рендерером Live и всплывающим окном раскрытия Ctrl+O.
+- События ``Turn*`` обрамляют ход пользователя, чтобы рендерер мог корректно
+  сворачивать область Live между ходами.
+- ``TaskRegistry`` хранит состояние задач в ОЗУ (FIFO с ограничением), потребляемое
+  всплывающим окном раскрытия Ctrl+O.
 """
 
 from __future__ import annotations
@@ -32,12 +32,12 @@ from pathlib import Path
 from typing import Any, Protocol, TextIO
 
 
-# --- Event Types ---
+# --- Типы событий ---
 
 
 @dataclass
 class OutputEvent:
-    """Base output event."""
+    """Базовое событие вывода."""
 
     timestamp: float = field(default_factory=time.time)
     agent_id: str | None = None
@@ -45,7 +45,7 @@ class OutputEvent:
 
 @dataclass
 class ToolStartEvent(OutputEvent):
-    """Tool execution has started."""
+    """Выполнение инструмента началось."""
 
     tool_name: str = ""
     call_id: str = ""
@@ -53,7 +53,7 @@ class ToolStartEvent(OutputEvent):
 
 @dataclass
 class ToolStreamEvent(OutputEvent):
-    """Incremental tool output (streaming)."""
+    """Пошаговый вывод инструмента (стриминг)."""
 
     tool_name: str = ""
     call_id: str = ""
@@ -62,7 +62,7 @@ class ToolStreamEvent(OutputEvent):
 
 @dataclass
 class ToolCompleteEvent(OutputEvent):
-    """Tool execution completed."""
+    """Выполнение инструмента завершено."""
 
     tool_name: str = ""
     call_id: str = ""
@@ -73,7 +73,7 @@ class ToolCompleteEvent(OutputEvent):
 
 @dataclass
 class ToolErrorEvent(OutputEvent):
-    """Tool execution failed."""
+    """Выполнение инструмента завершилось ошибкой."""
 
     tool_name: str = ""
     call_id: str = ""
@@ -83,7 +83,7 @@ class ToolErrorEvent(OutputEvent):
 
 @dataclass
 class LLMStreamEvent(OutputEvent):
-    """Incremental LLM response chunk."""
+    """Пошаговый фрагмент ответа LLM."""
 
     content: str = ""
     is_reasoning: bool = False
@@ -91,7 +91,7 @@ class LLMStreamEvent(OutputEvent):
 
 @dataclass
 class LLMCompleteEvent(OutputEvent):
-    """LLM response completed."""
+    """Ответ LLM завершён."""
 
     content: str = ""
     usage: dict = field(default_factory=dict)
@@ -101,7 +101,7 @@ class LLMCompleteEvent(OutputEvent):
 
 @dataclass
 class StatusEvent(OutputEvent):
-    """General status update."""
+    """Общее обновление статуса."""
 
     message: str = ""
     level: str = "info"
@@ -109,18 +109,18 @@ class StatusEvent(OutputEvent):
 
 @dataclass
 class AgentHandoffEvent(OutputEvent):
-    """Agent handoff occurred."""
+    """Произошла передача агента."""
 
     from_agent: str = ""
     to_agent: str = ""
 
 
-# --- Compact / orchestration events ---
+# --- События компактного/оркестрационного режима ---
 
 
 @dataclass
 class TurnStartEvent(OutputEvent):
-    """A user turn has just started."""
+    """Ход пользователя только что начался."""
 
     turn_id: str = ""
     user_input: str = ""
@@ -128,10 +128,10 @@ class TurnStartEvent(OutputEvent):
 
 @dataclass
 class TurnSummaryEvent(OutputEvent):
-    """A user turn has just finished. Used by the compact handler to collapse
-    the transient Live block between turns. ``tasks`` is preserved so future
-    consumers (telemetry, JSON sinks, orchestrator) can attach a snapshot
-    without re-deriving it from :data:`TASK_REGISTRY`."""
+    """Ход пользователя только что завершился. Используется компактным обработчиком для сворачивания
+    переходного блока Live между ходами. ``tasks`` сохраняется, чтобы будущие
+    потребители (телеметрия, JSON-стоки, оркестратор) могли прикрепить снимок
+    без повторного вычисления из :data:`TASK_REGISTRY`."""
 
     turn_id: str = ""
     tasks: list[dict[str, Any]] = field(default_factory=list)
@@ -139,11 +139,11 @@ class TurnSummaryEvent(OutputEvent):
 
 @dataclass
 class TaskStartEvent(OutputEvent):
-    """An agent task has started.
+    """Задача агента началась.
 
-    ``task_id`` is unique per turn. ``label`` is the human-readable description
-    rendered on the live row (inferred deterministically today; emitted by a
-    planner agent in the future).
+    ``task_id`` уникален в рамках хода. ``label`` — описание для человека,
+    отображаемое на строке live (сегодня определяется детерминированно; в будущем
+    будет генерироваться агентом-планировщиком).
     """
 
     task_id: str = ""
@@ -158,7 +158,7 @@ class TaskStartEvent(OutputEvent):
 
 @dataclass
 class TaskUpdateEvent(OutputEvent):
-    """Incremental task progress (output chunk and/or label override)."""
+    """Пошаговый прогресс задачи (фрагмент вывода и/или переопределение метки)."""
 
     task_id: str = ""
     chunk: str = ""
@@ -167,7 +167,7 @@ class TaskUpdateEvent(OutputEvent):
 
 @dataclass
 class TaskCompleteEvent(OutputEvent):
-    """A task finished successfully."""
+    """Задача успешно завершена."""
 
     task_id: str = ""
     output: str = ""
@@ -179,7 +179,7 @@ class TaskCompleteEvent(OutputEvent):
 
 @dataclass
 class TaskErrorEvent(OutputEvent):
-    """A task failed; carries error info for the JSONL sink and the expand popup."""
+    """Задача завершилась ошибкой; содержит информацию об ошибке для JSONL-стока и всплывающего окна."""
 
     task_id: str = ""
     output: str = ""
@@ -188,27 +188,27 @@ class TaskErrorEvent(OutputEvent):
     duration_seconds: float = 0.0
 
 
-# --- Output Handler Protocol ---
+# --- Протокол обработчика вывода ---
 
 
 class OutputHandler(Protocol):
-    """Interface for output consumers (TUI, CLI, API, file)."""
+    """Интерфейс для потребителей вывода (TUI, CLI, API, файл)."""
 
     def handle(self, event: OutputEvent) -> None: ...
 
 
-# --- Output Manager ---
+# --- Менеджер вывода ---
 
 
 class OutputManager:
-    """Central output bus replacing global mutable state.
+    """Центральная шина вывода, заменяющая глобальное изменяемое состояние.
 
-    Usage:
-        # At startup (Stream 3 wires handlers)
+    Использование:
+        # При запуске (Поток 3 подключает обработчики)
         output = OutputManager()
         output.subscribe(TUIOutputHandler(...))
 
-        # During execution (Stream 1 emits)
+        # Во время выполнения (Поток 1 генерирует)
         output.emit(ToolStartEvent(tool_name="nmap", call_id="abc"))
         output.emit(ToolStreamEvent(tool_name="nmap", call_id="abc", chunk="..."))
         output.emit(ToolCompleteEvent(tool_name="nmap", call_id="abc", output="..."))
@@ -228,7 +228,7 @@ class OutputManager:
             try:
                 handler.handle(event)
             except Exception:
-                pass  # Handlers must not crash the pipeline
+                pass  # Обработчики не должны ломать конвейер
 
     def flush(self) -> None:
         for handler in self._handlers:
@@ -236,14 +236,14 @@ class OutputManager:
                 handler.flush()
 
 
-# --- Concrete Handlers ---
+# --- Конкретные обработчики ---
 
 
 class CLIOutputHandler:
-    """Renders output events to Rich console (headless/CLI mode).
+    """Отрисовывает события вывода в консоль Rich (headless/CLI режим).
 
-    Designed for non-TUI sessions where output goes directly to the terminal.
-    Uses Rich formatting when available, falls back to plain text.
+    Разработан для не-TUI сессий, где вывод идёт напрямую в терминал.
+    Использует форматирование Rich если доступно, иначе — простой текст.
     """
 
     def __init__(self, file: TextIO | None = None) -> None:
@@ -265,17 +265,17 @@ class CLIOutputHandler:
 
     def handle(self, event: OutputEvent) -> None:  # noqa: C901
         if isinstance(event, ToolStartEvent):
-            # Suppressed: tool start/output/complete are rendered by the flat-style
-            # display in cli_print_tool_output / _create_tool_panel_content.
+            # Подавлено: запуск/вывод/завершение инструмента отрисовывается
+            # плоским стилем в cli_print_tool_output / _create_tool_panel_content.
             pass
         elif isinstance(event, ToolStreamEvent):
-            # Suppressed: streaming chunks handled by Rich Live display
+            # Подавлено: фрагменты стриминга обрабатываются дисплеем Rich Live
             pass
         elif isinstance(event, ToolCompleteEvent):
-            # Suppressed: completion rendered by flat-style display in streaming.py
+            # Подавлено: завершение отрисовывается плоским стилем в streaming.py
             pass
         elif isinstance(event, ToolErrorEvent):
-            # Errors are still shown to avoid silent failures
+            # Ошибки всё ещё показываются, чтобы избежать молчаливых сбоев
             self._print(
                 f"[bold red]!! {event.tool_name}: {event.error}[/bold red]"
                 if self._rich
@@ -302,9 +302,9 @@ class CLIOutputHandler:
             )
         elif isinstance(event, AgentHandoffEvent):
             self._print(
-                f"[bold magenta]>> Handoff: {event.from_agent} -> {event.to_agent}[/bold magenta]"
+                f"[bold magenta]>> Передача: {event.from_agent} -> {event.to_agent}[/bold magenta]"
                 if self._rich
-                else f">> Handoff: {event.from_agent} -> {event.to_agent}"
+                else f">> Передача: {event.from_agent} -> {event.to_agent}"
             )
 
     def flush(self) -> None:
@@ -312,10 +312,10 @@ class CLIOutputHandler:
 
 
 class FileOutputHandler:
-    """Logs output events to a JSONL file for replay/audit.
+    """Логирует события вывода в JSONL-файл для воспроизведения/аудита.
 
-    Each line is a JSON object with ``type``, event fields, and a timestamp.
-    Non-serializable values are converted via ``str()``.
+    Каждая строка — JSON-объект с ``type``, полями события и временной меткой.
+    Несериализуемые значения преобразуются через ``str()``.
     """
 
     def __init__(self, filepath: str | Path) -> None:
@@ -323,12 +323,12 @@ class FileOutputHandler:
         self._file: TextIO = open(self._path, "a", encoding="utf-8")
 
     def _serialize(self, obj: Any) -> Any:
-        """Make dataclass fields JSON-safe."""
+        """Сделать поля dataclass безопасными для JSON."""
         if isinstance(obj, dict):
             return {k: self._serialize(v) for k, v in obj.items()}
         if isinstance(obj, (list, tuple)):
             return [self._serialize(v) for v in obj]
-        # Primitives pass through; everything else becomes str
+        # Примитивы проходят как есть; всё остальное становится str
         if isinstance(obj, (str, int, float, bool, type(None))):
             return obj
         return str(obj)
@@ -346,13 +346,13 @@ class FileOutputHandler:
         self._file.close()
 
 
-# --- Task Registry ---
+# --- Реестр задач ---
 
 
 @dataclass
 class TaskRecord:
-    """Snapshot of a single task lifecycle. Consumed by the Ctrl+O expand popup
-    and any future telemetry / orchestrator subscribers."""
+    """Снимок жизненного цикла одной задачи. Потребляется всплывающим окном раскрытия Ctrl+O
+    и любыми будущими подписчиками телеметрии/оркестратора."""
 
     task_id: str
     turn_id: str
@@ -399,15 +399,15 @@ class TaskRecord:
 
 
 class TaskRegistry:
-    """In-memory registry of task records, capped FIFO.
+    """Реестр записей задач в памяти, FIFO с ограничением.
 
-    Thread-safe; consumed by the Ctrl+O expand popup and the live renderer.
-    The full ``output`` payload is kept here so the LLM context (handled
-    separately) and the UI never share buffers.
+    Потокобезопасный; потребляется всплывающим окном раскрытия Ctrl+O и live-рендерером.
+    Полный ``output`` хранится здесь, чтобы контекст LLM (обрабатывается отдельно)
+    и UI никогда не разделяли буферы.
 
-    Records persist across turns until evicted by FIFO; ``begin_turn`` only
-    rotates ``current_turn_id`` so the popup can scope to "this turn" without
-    losing prior data when needed.
+    Записи сохраняются между ходами до вытеснения FIFO; ``begin_turn`` только
+    вращает ``current_turn_id``, чтобы окно могло ограничиться «этим ходом» без
+    потери предыдущих данных при необходимости.
     """
 
     def __init__(self, max_size: int = 200) -> None:
@@ -500,7 +500,7 @@ class TaskRegistry:
             return [r for r in self._tasks.values() if r.status == "running"]
 
     def for_turn(self, turn_id: str | None = None) -> list[TaskRecord]:
-        """Return tasks belonging to ``turn_id`` (defaults to current)."""
+        """Вернуть задачи, принадлежащие ``turn_id`` (по умолчанию текущий)."""
         target = turn_id or self._current_turn_id
         if target is None:
             return []
@@ -513,6 +513,6 @@ class TaskRegistry:
             self._current_turn_id = None
 
 
-# Singleton for current session
+# Синглтон для текущей сессии
 OUTPUT = OutputManager()
 TASK_REGISTRY = TaskRegistry()

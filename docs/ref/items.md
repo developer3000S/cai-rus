@@ -1,3 +1,3 @@
-# `Items`
+# `Элементы`
 
 ::: cai.sdk.agents.items

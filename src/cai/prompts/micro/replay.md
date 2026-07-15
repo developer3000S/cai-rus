@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 # AGENT MICRO-PROFILE: REPLAY / TRAFFIC MANIPULATION
 
 ## Instruction hierarchy (modular stack)

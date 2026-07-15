@@ -1,8 +1,8 @@
 """
-C99.nl Subdomain Finder utility for reconnaissance.
+Утилита поиска поддоменов C99.nl для разведки.
 
-This module provides a function to enumerate subdomains for a given domain
-using the C99.nl Subdomain Finder and CloudFlare Resolver API.
+Этот модуль предоставляет функцию для перечисления поддоменов заданного домена
+с помощью API C99.nl Subdomain Finder и CloudFlare Resolver.
 """
 
 import os
@@ -17,28 +17,28 @@ from cai.sdk.agents import function_tool
 @function_tool
 def c99_subdomain_enum(domain: str, realtime: bool = False) -> str:
     """
-    Enumerate subdomains for a given domain using the C99.nl API.
+    Перечисление поддоменов для заданного домена с помощью API C99.nl.
 
     Args:
-        domain (str): The target domain (e.g., example.com).
-        realtime (bool): Whether to request realtime / fresh results from C99.nl.
-                         This may consume more credits. Defaults to False.
+        domain (str): Целевой домен (например, example.com).
+        realtime (bool): Запрашивать ли результаты в реальном времени / свежие результаты от C99.nl.
+                         Может потребовать больше кредитов. По умолчанию False.
 
     Returns:
-        str: A formatted string containing discovered subdomains and, when
-             available, associated metadata.
+        str: Отформатированная строка с обнаруженными поддоменами и, при наличии,
+             связанной метаданными.
     """
     results = _perform_c99_subdomain_lookup(domain, realtime=realtime)
 
     if not results:
-        return "No subdomains found or API error occurred."
+        return "Поддомены не найдены или произошла ошибка API."
 
     formatted_results = ""
 
     # If the API returned a list of strings, treat each as a subdomain.
     if isinstance(results, list) and all(isinstance(item, str) for item in results):
         for subdomain in results:
-            formatted_results += f"Subdomain: {subdomain}\n"
+            formatted_results += f"Поддомен: {subdomain}\n"
         return formatted_results
 
     # If the API returned a list of dicts, try to extract common fields.
@@ -54,7 +54,7 @@ def c99_subdomain_enum(domain: str, realtime: bool = False) -> str:
             ip = entry.get("ip") or entry.get("ip_address") or entry.get("address")
             cloudflare = entry.get("cloudflare") or entry.get("is_cloudflare")
 
-            formatted_results += f"Subdomain: {subdomain}\n"
+            formatted_results += f"Поддомен: {subdomain}\n"
             if ip:
                 formatted_results += f"IP: {ip}\n"
             if cloudflare is not None:
@@ -78,7 +78,7 @@ def c99_subdomain_enum(domain: str, realtime: bool = False) -> str:
                 }
             }
             if extra_keys:
-                formatted_results += f"Extra: {extra_keys}\n"
+                formatted_results += f"Дополнительно: {extra_keys}\n"
 
             formatted_results += "\n"
 
@@ -97,24 +97,24 @@ def _perform_c99_subdomain_lookup(
     domain: str, realtime: bool = False
 ) -> Optional[List[Any] | Dict[str, Any]]:
     """
-    Helper function to perform the C99.nl subdomain lookup.
+    Вспомогательная функция для выполнения поиска поддоменов C99.nl.
 
-    The C99.nl Subdomain Finder API is typically used via:
+    API C99.nl Subdomain Finder обычно используется через:
         https://api.c99.nl/subdomainfinder?key=API_KEY&domain=example.com&json
 
     Args:
-        domain (str): The target domain.
-        realtime (bool): Whether to request realtime results.
+        domain (str): Целевой домен.
+        realtime (bool): Запрашивать ли результаты в реальном времени.
 
     Returns:
-        Optional[List[Any] | Dict[str, Any]]: Parsed JSON response, or None
-        if an error occurs.
+        Optional[List[Any] | Dict[str, Any]]: Разобранный ответ JSON или None
+        в случае ошибки.
     """
     load_dotenv()
     api_key = os.getenv("C99_API_KEY")
 
     if not api_key:
-        raise ValueError("C99.nl API key (C99_API_KEY) must be set in environment variables.")
+        raise ValueError("Ключ API C99.nl (C99_API_KEY) должен быть установлен в переменных окружения.")
 
     base_url = "https://api.c99.nl/subdomainfinder"
 

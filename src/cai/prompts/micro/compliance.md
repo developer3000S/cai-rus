@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 # AGENT MICRO-PROFILE: RISK & COMPLIANCE (GRC)
 
 ## Instruction hierarchy (modular stack)

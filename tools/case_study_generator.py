@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-Example:
+Пример:
 
 CAI_MODEL="claude-sonnet-4-20250514" CAI_STREAM=True python3 case_study_generator.py --jsonl_file logs/cai_b97af8fc-3d51-45d3-8393-6c3341d33807_20250602_201144_luijait_darwin_24.5.0_81_38_189_27.jsonl --output_php_file alias_web/case_study_test.php
 
-CAI Case Study Generator - Generate PHP case studies from JSONL files.
+Генератор кейсов CAI - Генерация PHP кейсов из JSONL файлов.
 
-This script loads context from JSONL files using the same mechanism as CAI's /load command,
-runs the UseCase agent with streaming output, and generates PHP case studies.
+Этот скрипт загружает контекст из JSONL файлов с помощью того же механизма, что и команда /load CAI,
+запускает агент UseCase с потоковым выводом и генерирует PHP кейсы.
 
-Usage:
+Использование:
     python case_study_generator.py --jsonl_file logs/session.jsonl --output_php_file output.php
     python case_study_generator.py --jsonl_file logs/last --output_php_file case_studies/latest.php
 """
@@ -17,11 +17,11 @@ Usage:
 import os
 from dotenv import load_dotenv
 
-# Load .env from current directory only, not from parent directories
+# Загрузка .env только из текущей директории, не из родительских директорий
 dotenv_path = os.path.join(os.getcwd(), '.env')
 load_dotenv(dotenv_path=dotenv_path, verbose=False)
 
-# Set default for OPENAI_API_KEY if not already set
+# Установка значения по умолчанию для OPENAI_API_KEY, если он еще не установлен
 if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = ""
 
@@ -33,17 +33,17 @@ import json
 import re
 from typing import List, Dict, Any, Optional
 
-# Import CAI SDK components
+# Импорт компонентов CAI SDK
 from cai.sdk.agents import Runner
 from cai.sdk.agents.models.openai_chatcompletions import message_history, add_to_message_history
 from cai.sdk.agents.run_to_jsonl import load_history_from_jsonl
 from cai.sdk.agents.stream_events import RunItemStreamEvent
 from cai.sdk.agents.items import ToolCallOutputItem
 
-# Import UseCase agent
+# Импорт агента UseCase
 from src.cai.agents.usecase import use_case_agent
 
-# Rich console for better output
+# Rich консоль для лучшего вывода
 from rich.console import Console
 from rich.panel import Panel
 from rich.live import Live
@@ -54,16 +54,16 @@ console = Console()
 
 
 def extract_php_code(text: str) -> Optional[str]:
-    """Extract PHP code from markdown code blocks."""
+    """Извлечение PHP кода из блоков кода markdown."""
     if not text:
         return None
 
-    # Try to extract PHP code between ```php and ```
+    # Попытка извлечения PHP кода между ```php и ```
     php_matches = re.findall(r"```php\n(.*?)```", text, re.DOTALL)
     if php_matches:
         return php_matches[0].strip()
 
-    # If no code blocks, check if the entire text looks like PHP
+    # Если блоков кода нет, проверяем, не выглядит ли весь текст как PHP
     if text.strip().startswith("<?php") or text.strip().startswith("<!doctype"):
         return text.strip()
 
@@ -72,54 +72,54 @@ def extract_php_code(text: str) -> Optional[str]:
 
 async def generate_case_study(jsonl_file: str, output_php_file: str) -> Optional[str]:
     """
-    Generate a PHP case study from a JSONL file using streaming output.
+    Генерация PHP кейса из JSONL файла с использованием потокового вывода.
 
-    Args:
-        jsonl_file: Path to the JSONL file to load context from
-        output_php_file: Path to save the PHP output to
+    Аргументы:
+        jsonl_file: Путь к JSONL файлу для загрузки контекста
+        output_php_file: Путь для сохранения PHP вывода
 
-    Returns:
-        Path to the saved PHP file or None if failed
+    Возвращает:
+        Путь к сохраненному PHP файлу или None в случае неудачи
     """
-    # Clear any existing messages in message_history to start fresh
+    # Очистка любых существующих сообщений в message_history для начала с чистого листа
     message_history.clear()
 
-    # Load context from JSONL file (simulating /load command)
+    # Загрузка контекста из JSONL файла (имитация команды /load)
     try:
-        console.print(f"[yellow]Loading JSONL file: {jsonl_file}[/yellow]")
+        console.print(f"[yellow]Загрузка JSONL файла: {jsonl_file}[/yellow]")
         messages = load_history_from_jsonl(jsonl_file)
 
         if not messages:
-            console.print("[red]Error: No messages found in JSONL file[/red]")
+            console.print("[red]Ошибка: Сообщения не найдены в JSONL файле[/red]")
             return None
 
-        console.print(f"[green]✓ Loaded {len(messages)} messages from JSONL[/green]")
+        console.print(f"[green]✓ Загружено {len(messages)} сообщений из JSONL[/green]")
 
-        # Add messages to message_history (exactly like /load command does)
+        # Добавление сообщений в message_history (точно как делает команда /load)
         for message in messages:
             message_history.append(message)
 
-        # Display loaded context summary
+        # Отображение сводки загруженного контекста
         user_messages = sum(1 for msg in messages if msg.get("role") == "user")
         assistant_messages = sum(1 for msg in messages if msg.get("role") == "assistant")
         tool_messages = sum(1 for msg in messages if msg.get("role") == "tool")
 
         console.print(
             Panel(
-                f"Context loaded:\n"
-                f"• User messages: {user_messages}\n"
-                f"• Assistant messages: {assistant_messages}\n"
-                f"• Tool messages: {tool_messages}",
-                title="[bold]JSONL Context Summary[/bold]",
+                f"Контекст загружен:\n"
+                f"• Сообщений пользователей: {user_messages}\n"
+                f"• Сообщений ассистента: {assistant_messages}\n"
+                f"• Сообщений инструментов: {tool_messages}",
+                title="[bold]Сводка контекста JSONL[/bold]",
                 border_style="blue",
             )
         )
 
     except Exception as e:
-        console.print(f"[red]Error loading JSONL file: {str(e)}[/red]")
+        console.print(f"[red]Ошибка загрузки JSONL файла: {str(e)}[/red]")
         return None
 
-    # Analyze the loaded context to provide better guidance
+    # Анализ загруженного контекста для предоставления лучших рекомендаций
     context_summary = []
     if messages:
         # Find the main topic/challenge from user messages
@@ -131,41 +131,41 @@ async def generate_case_study(jsonl_file: str, output_php_file: str) -> Optional
                     if len(context_summary) >= 5:  # Get first few meaningful messages
                         break
 
-    # Generate case study prompt with context
-    prompt = "Generate the PHP code for a cybersecurity case study based on the template. "
-    prompt += "Analyze the conversation context that has been loaded and create a comprehensive case study. "
-    prompt += "Fill in all TEMPLATE-TODO sections with relevant information from the session. "
-    prompt += "Explain step by step the problem and the solution in this escenario"
-    prompt += "The output should be complete PHP code ready to save to a file."
+    # Генерация промпта для кейса с контекстом
+    prompt = "Сгенерируйте PHP код для кейса по кибербезопасности на основе шаблона. "
+    prompt += "Проанализируйте загруженный контекст разговора и создайте подробный кейс. "
+    prompt += "Заполните все разделы TEMPLATE-TODO соответствующей информацией из сессии. "
+    prompt += "Подробно объясните проблему и решение в этом сценарии"
+    prompt += "Вывод должен быть полным PHP кодом, готовым к сохранению в файл."
 
-    # Add a summary of the JSONL conversation to the prompt
+    # Добавление сводки разговора JSONL к промпту
     if messages:
-        prompt += "\n\n## Conversation Context from JSONL:\n"
+        prompt += "\n\n## Контекст разговора из JSONL:\n"
 
-        # Get key information from the conversation
+        # Получение ключевой информации из разговора
         user_msgs = [msg for msg in messages if msg.get("role") == "user"]
         assistant_msgs = [msg for msg in messages if msg.get("role") == "assistant"]
         tool_msgs = [msg for msg in messages if msg.get("role") == "tool"]
 
-        # Add user messages
+        # Добавление сообщений пользователей
         if user_msgs:
-            prompt += "\n### User Messages:\n"
+            prompt += "\n### Сообщения пользователей:\n"
             for i, msg in enumerate(user_msgs[:5], 1):
                 content = msg.get("content", "")[:500]
                 if content:
                     prompt += f"{i}. {content}\n"
 
-        # Add key assistant responses
+        # Добавление ключевых ответов ассистента
         if assistant_msgs:
-            prompt += "\n### Key Assistant Responses:\n"
+            prompt += "\n### Ключевые ответы ассистента:\n"
             for i, msg in enumerate(assistant_msgs[:3], 1):
                 content = msg.get("content", "")[:500]
-                if content and "I'll help" not in content:  # Skip generic responses
+                if content and "I'll help" not in content:  # Пропуск универсальных ответов
                     prompt += f"{i}. {content}\n"
 
-        # Add tool outputs that might contain important data
+        # Добавление выводов инструментов, которые могут содержать важные данные
         if tool_msgs:
-            prompt += "\n### Tool Outputs (key findings):\n"
+            prompt += "\n### Выводы инструментов (ключевые находки):\n"
             important_tools = []
             for msg in tool_msgs:
                 content = msg.get("content", "")
@@ -187,22 +187,22 @@ async def generate_case_study(jsonl_file: str, output_php_file: str) -> Optional
             for i, content in enumerate(important_tools[:5], 1):
                 prompt += f"{i}. {content}\n"
 
-    console.print(f"\n[cyan]Generating case study with UseCase agent...[/cyan]")
+    console.print(f"\n[cyan]Генерация кейса с агентом UseCase...[/cyan]")
 
-    # Configure streaming mode based on environment variable
+    # Настройка потокового режима на основе переменной окружения
     stream_mode = os.getenv("CAI_STREAM", "true").lower() != "false"
 
     try:
         if stream_mode:
-            # Streaming mode - similar to CLI implementation
-            console.print("[dim]Using streaming mode...[/dim]")
+            # Потоковый режим - аналогично реализации CLI
+            console.print("[dim]Использование потокового режима...[/dim]")
 
-            # Track if we've seen any output
+            # Отслеживание наличия вывода
             has_output = False
             accumulated_text = []
             php_code = None
 
-            # Run the streaming process like CLI does
+            # Запуск потокового процесса как в CLI
             async def process_streamed_response():
                 try:
                     result_stream = Runner.run_streamed(use_case_agent, prompt)
@@ -217,7 +217,7 @@ async def generate_case_study(jsonl_file: str, output_php_file: str) -> Optional
                             "[cyan]Processing with UseCase agent...", total=None
                         )
 
-                        # Consume events so the async generator is executed
+                        # Потребление событий для выполнения асинхронного генератора
                         async for event in result_stream.stream_events():
                             if isinstance(event, RunItemStreamEvent):
                                 # Handle tool outputs
@@ -229,7 +229,7 @@ async def generate_case_study(jsonl_file: str, output_php_file: str) -> Optional
                                         description=f"[cyan]Tool: {event.item.raw_item.get('name', 'unknown')}...",
                                     )
 
-                                    # Add tool message to history (like CLI does)
+                                    # Добавление сообщения инструмента в историю (как в CLI)
                                     tool_msg = {
                                         "role": "tool",
                                         "tool_call_id": event.item.raw_item["call_id"],
@@ -237,13 +237,13 @@ async def generate_case_study(jsonl_file: str, output_php_file: str) -> Optional
                                     }
                                     add_to_message_history(tool_msg)
 
-                        progress.update(task, description="[green]Finalizing output...")
+                        progress.update(task, description="[green]Завершение вывода...")
 
-                    # The result is available after streaming completes
-                    # But we need to extract the output from message_history
-                    # since streaming doesn't provide direct access to final output
+                    # Результат доступен после завершения потоковой передачи
+                    # Но нам нужно извлечь вывод из message_history
+                    # поскольку потоковая передача не обеспечивает прямой доступ к финальному выводу
 
-                    # Get the last assistant message from message_history
+                    # Получение последнего сообщения ассистента из message_history
                     for msg in reversed(message_history):
                         if msg.get("role") == "assistant" and msg.get("content"):
                             return msg.get("content")
@@ -251,13 +251,13 @@ async def generate_case_study(jsonl_file: str, output_php_file: str) -> Optional
                     return None
 
                 except Exception as e:
-                    console.print(f"[red]Error in streaming: {str(e)}[/red]")
+                    console.print(f"[red]Ошибка в потоковой передаче: {str(e)}[/red]")
                     import traceback
 
                     console.print(f"[red]{traceback.format_exc()}[/red]")
                     return None
 
-            # Run the streaming process
+            # Запуск потокового процесса
             final_output = await process_streamed_response()
 
             if final_output:
@@ -266,32 +266,32 @@ async def generate_case_study(jsonl_file: str, output_php_file: str) -> Optional
                     php_code = final_output
 
             if php_code:
-                console.print(f"[green]✓ Generated {len(php_code)} characters of output[/green]")
+                console.print(f"[green]✓ Сгенерировано {len(php_code)} символов вывода[/green]")
             else:
-                console.print("[red]Error: No output from UseCase agent[/red]")
+                console.print("[red]Ошибка: Нет вывода от агента UseCase[/red]")
                 return None
 
         else:
-            # Non-streaming mode (simpler, like in examples)
-            console.print("[dim]Using non-streaming mode...[/dim]")
+            # Непотоковый режим (проще, как в примерах)
+            console.print("[dim]Использование непотокового режима...[/dim]")
 
-            # Show progress
-            with console.status("[bold green]Generating case study...") as status:
-                # Instead of passing the conversation history directly,
-                # just use the prompt with all the context embedded in it
-                # This avoids issues with incomplete tool call/response pairs
+            # Показ прогресса
+            with console.status("[bold green]Генерация кейса...") as status:
+                # Вместо передачи истории разговоров напрямую,
+                # просто используем промпт со всем встроенным контекстом
+                # Это избегает проблем с неполными парами вызов/ответ инструмента
 
-                # Run with just the prompt
+                # Запуск только с промптом
                 result = await Runner.run(use_case_agent, prompt)
 
-            # Extract PHP code from result
+            # Извлечение PHP кода из результата
             if hasattr(result, "final_output") and result.final_output:
                 output_text = result.final_output
 
-                # Process the output to handle tool outputs
+                # Обработка вывода для обработки выводов инструментов
                 for item in result.new_items:
                     if isinstance(item, ToolCallOutputItem):
-                        # Add tool messages to history
+                        # Добавление сообщений инструментов в историю
                         tool_msg = {
                             "role": "tool",
                             "tool_call_id": item.raw_item["call_id"],
@@ -301,24 +301,24 @@ async def generate_case_study(jsonl_file: str, output_php_file: str) -> Optional
 
                 php_code = extract_php_code(output_text)
                 if not php_code:
-                    # If extraction failed, use the raw output
+                    # Если извлечение не удалось, используем необработанный вывод
                     php_code = output_text
 
-                console.print(f"[green]✓ Generated {len(php_code)} characters of output[/green]")
+                console.print(f"[green]✓ Сгенерировано {len(php_code)} символов вывода[/green]")
             else:
-                console.print("[red]Error: No output from UseCase agent[/red]")
+                console.print("[red]Ошибка: Нет вывода от агента UseCase[/red]")
                 return None
 
     except Exception as e:
-        console.print(f"[red]Error generating case study: {str(e)}[/red]")
+        console.print(f"[red]Ошибка генерации кейса: {str(e)}[/red]")
         import traceback
 
         console.print(f"[red]{traceback.format_exc()}[/red]")
         return None
 
-    # Validate PHP code
+    # Валидация PHP кода
     if not php_code or len(php_code) < 100:
-        console.print("[red]Error: Generated output is too short or invalid[/red]")
+        console.print("[red]Ошибка: Сгенерированный вывод слишком короткий или недопустимый[/red]")
         return None
 
     # Save PHP code to file
@@ -329,47 +329,47 @@ async def generate_case_study(jsonl_file: str, output_php_file: str) -> Optional
         with open(output_path, "w", encoding="utf-8") as f:
             f.write(php_code)
 
-        console.print(f"\n[green]✓ PHP case study saved to: {output_php_file}[/green]")
+        console.print(f"\n[green]✓ PHP кейс сохранен в: {output_php_file}[/green]")
 
-        # Display file size and preview
+        # Отображение размера файла и предварительного просмотра
         file_size = output_path.stat().st_size
         console.print(f"[dim]File size: {file_size:,} bytes[/dim]")
 
-        # Show first few lines as preview
+        # Показ первых строк как предварительный просмотр
         lines = php_code.split("\n")[:15]
         preview = "\n".join(lines)
         if len(php_code.split("\n")) > 15:
             preview += "\n..."
 
-        console.print(Panel(preview, title="[bold]PHP File Preview[/bold]", border_style="blue"))
+        console.print(Panel(preview, title="[bold]Предварительный просмотр PHP файла[/bold]", border_style="blue"))
 
         return str(output_path)
 
     except Exception as e:
-        console.print(f"[red]Error saving PHP file: {str(e)}[/red]")
+        console.print(f"[red]Ошибка сохранения PHP файла: {str(e)}[/red]")
         return None
 
 
 def parse_args():
-    """Parse command line arguments."""
+    """Разбор аргументов командной строки."""
     parser = argparse.ArgumentParser(
-        description="Generate PHP case studies from JSONL files using CAI UseCase agent.",
+        description="Генерация PHP кейсов из JSONL файлов с помощью агента CAI UseCase.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
-Examples:
-  # Generate case study from a specific JSONL file
+Примеры:
+  # Генерация кейса из конкретного JSONL файла
   python case_study_generator.py --jsonl_file logs/session_20240102_123456.jsonl --output_php_file case_studies/ctf_writeup.php
   
-  # Use the last session log (default behavior like /load command)
+  # Использование последнего журнала сессии (поведение по умолчанию, как команда /load)
   python case_study_generator.py --jsonl_file logs/last --output_php_file case_studies/latest.php
   
-  # Generate with custom output directory
+  # Генерация с пользовательской директорией вывода
   python case_study_generator.py --jsonl_file logs/last --output_php_file ~/Documents/case_studies/analysis.php
   
-  # Override the model
+  # Переопределение модели
   python case_study_generator.py --jsonl_file logs/last --output_php_file output.php --model gpt-4o
   
-  # Disable streaming
+  # Отключение потоковой передачи
   CAI_STREAM=false python case_study_generator.py --jsonl_file logs/last --output_php_file output.php
         """,
     )
@@ -377,65 +377,65 @@ Examples:
         "--jsonl_file",
         type=str,
         default="logs/last",
-        help="Path to the JSONL file containing conversation context (default: logs/last)",
+        help="Путь к JSONL файлу, содержащему контекст разговора (по умолчанию: logs/last)",
     )
     parser.add_argument(
         "--output_php_file",
         type=str,
         required=True,
-        help="Path where the generated PHP file will be saved",
+        help="Путь, по которому будет сохранен сгенерированный PHP файл",
     )
     parser.add_argument(
         "--model",
         type=str,
         default=None,
-        help="Override the model to use (e.g., claude-sonnet-4-20250514, gpt-4o)",
+        help="Переопределение используемой модели (например, claude-sonnet-4-20250514, gpt-4o)",
     )
     return parser.parse_args()
 
 
 async def main():
-    """Main entry point for the script."""
+    """Основная точка входа для скрипта."""
     args = parse_args()
 
-    # Display banner
+    # Отображение баннера
     console.print(
         Panel(
-            "[bold cyan]CAI Case Study Generator[/bold cyan]\n"
-            "Generate professional cybersecurity case studies from JSONL session logs\n\n"
-            "[dim]This tool uses the CAI UseCase agent to analyze session context and generate\n"
-            "comprehensive PHP case studies based on the conversation history.[/dim]",
+            "[bold cyan]Генератор кейсов CAI[/bold cyan]\n"
+            "Генерация профессиональных кейсов по кибербезопасности из журналов сессий JSONL\n\n"
+            "[dim]Этот инструмент использует агент CAI UseCase для анализа контекста сессии и генерации\n"
+            "подробных PHP кейсов на основе истории разговоров.[/dim]",
             border_style="cyan",
         )
     )
 
-    # Override model if specified
+    # Переопределение модели при указании
     if args.model:
         os.environ["CAI_MODEL"] = args.model
-        console.print(f"[yellow]Using model override: {args.model}[/yellow]")
+        console.print(f"[yellow]Использование переопределения модели: {args.model}[/yellow]")
 
     current_model = os.getenv("CAI_MODEL", "alias1")
-    console.print(f"[yellow]Model: {current_model}[/yellow]")
+    console.print(f"[yellow]Модель: {current_model}[/yellow]")
 
-    # Check if JSONL file exists
+    # Проверка существования JSONL файла
     jsonl_path = Path(args.jsonl_file)
     if not jsonl_path.exists() and args.jsonl_file != "logs/last":
-        console.print(f"[red]Error: JSONL file not found: {args.jsonl_file}[/red]")
+        console.print(f"[red]Ошибка: JSONL файл не найден: {args.jsonl_file}[/red]")
         return 1
 
-    # Generate the case study
+    # Генерация кейса
     result = await generate_case_study(args.jsonl_file, args.output_php_file)
 
     if result:
-        console.print("\n[bold green]✨ Case study generation completed successfully![/bold green]")
-        console.print(f"[dim]You can now open {result} in your browser or editor[/dim]")
+        console.print("\n[bold green]✨ Генерация кейса успешно завершена![/bold green]")
+        console.print(f"[dim]Теперь вы можете открыть {result} в браузере или редакторе[/dim]")
         return 0
     else:
-        console.print("\n[bold red]❌ Case study generation failed[/bold red]")
-        console.print("[dim]Please check the error messages above and ensure:[/dim]")
-        console.print("[dim]1. The JSONL file contains valid session data[/dim]")
-        console.print("[dim]2. The UseCase agent has access to the template file[/dim]")
-        console.print("[dim]3. Your API keys are properly configured[/dim]")
+        console.print("\n[bold red]❌ Генерация кейса не удалась[/bold red]")
+        console.print("[dim]Пожалуйста, проверьте сообщения об ошибках выше и убедитесь:[/dim]")
+        console.print("[dim]1. JSONL файл содержит допустимые данные сессии[/dim]")
+        console.print("[dim]2. Агент UseCase имеет доступ к файлу шаблона[/dim]")
+        console.print("[dim]3. Ваши API ключи правильно настроены[/dim]")
         return 1
 
 

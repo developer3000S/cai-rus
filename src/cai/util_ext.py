@@ -1,4 +1,4 @@
-"""Extended utilities for CAI"""
+"""Расширенные утилиты для CAI"""
 import base64
 import hashlib
 import json
@@ -13,7 +13,7 @@ import uuid
 from pathlib import Path
 from typing import Optional, Dict, Any
 
-# Embedded server public key
+# Встроенный публичный ключ сервера
 _K = """-----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA98imbEha/70cxkfXIbyJ
 dbpM6y7X+MWMVcdSTwAeb+jzLRfKzMZVXeEaYzkzH+STlDiqmb+XufX+guhmpyKz
@@ -48,7 +48,7 @@ except ImportError:
 
 
 def _h() -> str:
-    """Generate system fingerprint"""
+    """Сгенерировать отпечаток системы"""
     p: list[str] = []
     try:
         n = uuid.getnode()
@@ -80,13 +80,13 @@ def _h() -> str:
 
 
 def _n(l: int = 32) -> str:
-    """Generate nonce"""
+    """Сгенерировать одноразовый ключ"""
     a = string.ascii_letters + string.digits
     return ''.join(random.choice(a) for _ in range(l))
 
 
 def _s(sig_b64: str, msg: str) -> bool:
-    """Verify signature"""
+    """Проверить подпись"""
     if not _crypto_available:
         return False
     try:
@@ -100,7 +100,7 @@ def _s(sig_b64: str, msg: str) -> bool:
 
 
 def _c(k: str) -> bool:
-    """Check key via info endpoint (httpx; same status semantics as legacy curl check)."""
+    """Проверить ключ через конечную точку info (httpx; та же семантика статусов что и legacy curl)."""
     try:
         import httpx
 
@@ -111,50 +111,50 @@ def _c(k: str) -> bool:
                 headers={"Authorization": f"Bearer {k}"},
             )
         code = r.status_code
-        # 403 = virtual key (valid for LLM routes), 500/502/429 = proxy/rate-limit
+        # 403 = виртуальный ключ (действителен для маршрутов LLM), 500/502/429 = прокси/лимит частоты
         return code in (200, 403, 500, 502, 429)
     except Exception:
         return False
 
 
 def _v(k: str) -> bool:
-    """Validate key"""
+    """Проверить ключ"""
     if not k or not k.strip():
         return False
-    # Only check if key is valid via /key/info endpoint (HTTP 200 = valid)
-    # No machine-specific validation
+    # Проверяем только действительность ключа через конечную точку /key/info (HTTP 200 = действителен)
+    # Без машинно-специфичной проверки
     return _c(k)
 
 
 def _license_off() -> bool:
-    """Return True when ``CAI_LICENSE_OFF`` is set to a truthy value.
+    """Вернуть True если ``CAI_LICENSE_OFF`` установлен в истинное значение.
 
-    When enabled, CAI runs in open-source mode: the startup license check is
-    bypassed and update operations target the public PyPI ``cai-framework``
-    package instead of the private Alias package index.
+    При включении CAI работает в режиме открытого кода: проверка лицензии при запуске
+    пропускается, а операции обновления направлены на публичный пакет PyPI ``cai-framework``
+    вместо приватного индекса пакетов Alias.
     """
     return os.getenv("CAI_LICENSE_OFF", "").strip().lower() in ("1", "true", "yes")
 
 
 def _chk() -> bool:
-    """Check license validity.
+    """Проверить действительность лицензии.
 
-    Set ``CAI_LICENSE_OFF=1`` in the environment to bypass the license check
-    entirely (e.g. for open-source builds or local development).
+    Установите ``CAI_LICENSE_OFF=1`` в окружении для полного пропуска проверки лицензии
+    (например, для сборок с открытым кодом или локальной разработки).
     """
     if _license_off():
         return True
     k = os.getenv("ALIAS_API_KEY", "").strip()
     if not k:
-        return False  # No key set, deny operation
+        return False  # Ключ не установлен, отказ в операции
     return _v(k)
 
 
 def check_system_dependencies() -> tuple[bool, list[str]]:
-    """Check for required system dependencies.
+    """Проверить наличие необходимых системных зависимостей.
     
-    Returns:
-        Tuple of (all_ok, missing_dependencies)
+    Возвращает:
+        Кортеж (всё_ок, отсутствующие_зависимости)
     """
     import shutil
     required = ["curl"]
@@ -163,7 +163,7 @@ def check_system_dependencies() -> tuple[bool, list[str]]:
 
 
 def display_missing_dependencies_error(missing: list[str]) -> None:
-    """Display friendly error message for missing dependencies."""
+    """Отобразить понятное сообщение об ошибке для отсутствующих зависимостей."""
     from rich.console import Console
     from rich.panel import Panel
     
@@ -173,25 +173,25 @@ def display_missing_dependencies_error(missing: list[str]) -> None:
     install_hint = ""
     if "curl" in missing:
         install_hint = (
-            "\n[yellow]Installation hints:[/yellow]\n"
+            "\n[yellow]Подсказки по установке:[/yellow]\n"
             "  • Debian/Ubuntu: [cyan]sudo apt-get install curl[/cyan]\n"
             "  • macOS:         [cyan]brew install curl[/cyan]"
         )
     
     console.print(
         Panel(
-            f"[bold red]Missing Required System Dependencies[/bold red]\n\n"
-            f"The following system commands are required:\n\n"
+            f"[bold red]Отсутствуют необходимые системные зависимости[/bold red]\n\n"
+            f"Требуются следующие системные команды:\n\n"
             f"{deps_list}\n"
             f"{install_hint}",
-            title="[red]Dependency Error[/red]",
+            title="[red]Ошибка зависимости[/red]",
             border_style="red"
         )
     )
 
 
 def pip_index_timeout_seconds() -> int:
-    """Timeout for ``pip index`` in :func:`check_for_updates` (``CAI_UPDATE_PIP_TIMEOUT``, default 10)."""
+    """Тайм-аут для ``pip index`` в :func:`check_for_updates` (``CAI_UPDATE_PIP_TIMEOUT``, по умолчанию 10)."""
     try:
         v = int(os.getenv("CAI_UPDATE_PIP_TIMEOUT", "10"))
     except ValueError:
@@ -200,13 +200,13 @@ def pip_index_timeout_seconds() -> int:
 
 
 def user_env_requests_auto_framework_update() -> bool:
-    """Return True only if the user explicitly enabled auto-install via environment.
+    """Вернуть True только если пользователь явно включил автоустановку через окружение.
 
-    ``CAI_AUTO_UPDATE`` must be **present** in :data:`os.environ` (e.g. from ``export`` or
-    ``.env`` before process start). If the key is missing, startup always prompts.
-    When present, the value must be truthy (``1``, ``true``, ``yes``, ``on``); any other
-    value (including empty) is treated as off so accidental ``CAI_AUTO_UPDATE=`` does not
-    auto-upgrade.
+    ``CAI_AUTO_UPDATE`` должен быть **наличествовать** в :data:`os.environ` (например, из ``export`` или
+    ``.env`` перед запуском процесса). Если ключ отсутствует, при запуске всегда будет запрос.
+    При наличии значение должно быть истинным (``1``, ``true``, ``yes``, ``on``); любое другое
+    значение (включая пустое) считается выключенным, чтобы случайный ``CAI_AUTO_UPDATE=``
+    не приводил к автообновлению.
     """
     if "CAI_AUTO_UPDATE" not in os.environ:
         return False
@@ -214,10 +214,10 @@ def user_env_requests_auto_framework_update() -> bool:
 
 
 def check_for_updates() -> Optional[Dict[str, Any]]:
-    """Check if there's an update available for cai-framework.
+    """Проверить, доступно ли обновление для cai-framework.
     
-    Returns:
-        Dict with update info if available, None if no update or on error
+    Возвращает:
+        Словарь с информацией об обновлении если доступно, None если обновления нет или при ошибке
         {
             "current_version": "x.x.x",
             "latest_version": "y.y.y",
@@ -228,15 +228,15 @@ def check_for_updates() -> Optional[Dict[str, Any]]:
         import importlib.metadata
         import re
         
-        # Get current installed version
+        # Получить текущую установленную версию
         try:
             current_version = importlib.metadata.version("cai-framework")
         except importlib.metadata.PackageNotFoundError:
-            # Development installation
+            # Установка для разработки
             return None
             
-        # In OSS mode, check against public PyPI (no ALIAS_API_KEY required).
-        # Otherwise, use the private Alias index gated by the API key.
+        # В режиме OSS проверяем относительно публичного PyPI (ALIAS_API_KEY не требуется).
+        # В противном случае используем приватный индекс Alias с проверкой API-ключа.
         oss_mode = _license_off()
         if oss_mode:
             pip_args = [
@@ -256,7 +256,7 @@ def check_for_updates() -> Optional[Dict[str, Any]]:
                 "cai-framework",
             ]
 
-        # Use pip index to check for latest version without downloading
+        # Использовать pip index для проверки последней версии без скачивания
         result = subprocess.run(
             pip_args,
             capture_output=True,
@@ -267,16 +267,16 @@ def check_for_updates() -> Optional[Dict[str, Any]]:
         if result.returncode != 0:
             return None
             
-        # Parse output to find available versions
+        # Разобрать вывод для поиска доступных версий
         output = result.stdout
-        # Look for version numbers in the output
+        # Искать номера версий в выводе
         version_pattern = r'(\d+\.\d+\.\d+(?:\.\w+)?)'
         versions = re.findall(version_pattern, output)
         
         if not versions:
             return None
             
-        # Sort versions and get the latest
+        # Отсортировать версии и получить последнюю
         from packaging import version as pkg_version
         sorted_versions = sorted(versions, key=pkg_version.parse, reverse=True)
         latest_version = sorted_versions[0] if sorted_versions else None
@@ -284,7 +284,7 @@ def check_for_updates() -> Optional[Dict[str, Any]]:
         if not latest_version:
             return None
             
-        # Compare versions
+        # Сравнить версии
         update_available = pkg_version.parse(latest_version) > pkg_version.parse(current_version)
         return {
             "current_version": current_version,
@@ -293,14 +293,14 @@ def check_for_updates() -> Optional[Dict[str, Any]]:
         }
 
     except Exception:
-        # Silently fail - don't interrupt normal operation
+        # Молча завершать — не прерывать нормальную работу
         pass
 
     return None
 
 
 def prompt_for_update(update_info: Dict[str, Any]) -> bool:
-    """Prompt user to update CAI (Rich chrome matches session banner: CAI green / #004433 / grey)."""
+    """Предложить пользователю обновить CAI (стиль Rich совпадает с баннером сессии: CAI green / #004433 / серый)."""
     from rich import box
     from rich.console import Console
     from rich.panel import Panel
@@ -317,7 +317,7 @@ def prompt_for_update(update_info: Dict[str, Any]) -> bool:
 
     title = Text()
     title.append(" CAI ", style="bold #0d1117 on #00ff9d")
-    title.append(" New version available ", style="bold white on #004433")
+    title.append(" Доступна новая версия ", style="bold white on #004433")
     title.append(" ", style="on #004433")
 
     table = Table(
@@ -330,11 +330,11 @@ def prompt_for_update(update_info: Dict[str, Any]) -> bool:
     table.add_column(style=_grey, no_wrap=True)
     table.add_column()
     table.add_row(
-        "Installed",
+        "Установлена",
         Text(update_info["current_version"], style="italic white"),
     )
     table.add_row(
-        "Latest",
+        "Последняя",
         Text(update_info["latest_version"], style=f"bold {CAI_GREEN}"),
     )
 
@@ -345,7 +345,7 @@ def prompt_for_update(update_info: Dict[str, Any]) -> bool:
         border_style=CAI_GREEN,
         expand=False,
         padding=(0, 1),
-        subtitle="[dim white]From your Alias package index[/dim white]",
+        subtitle="[dim white]Из вашего индекса пакетов Alias[/dim white]",
         subtitle_align="left",
     )
 
@@ -359,22 +359,22 @@ def prompt_for_update(update_info: Dict[str, Any]) -> bool:
         "prompt.default": CAI_GREEN,
     }))
     return Confirm.ask(
-        f"[bold {CAI_GREEN}]Update now?[/bold {CAI_GREEN}] [dim white](default: no — explicit yes required)[/dim white]",
+        f"[bold {CAI_GREEN}]Обновить сейчас?[/bold {CAI_GREEN}] [dim white](по умолчанию: нет — требуется явное подтверждение)[/dim white]",
         default=False,
         console=styled_console,
     )
 
 
 def perform_update(api_key: str) -> bool:
-    """Perform the pip update for cai-framework.
+    """Выполнить обновление через pip для cai-framework.
 
-    Args:
-        api_key: The ALIAS_API_KEY for authentication against the private Alias
-            package index. Ignored when ``CAI_LICENSE_OFF=1`` is set, in which
-            case the update is fetched from public PyPI.
+    Аргументы:
+        api_key: ALIAS_API_KEY для аутентификации в приватном индексе пакетов Alias.
+            Игнорируется при установленном ``CAI_LICENSE_OFF=1``, в котором
+            случае обновление загружается из публичного PyPI.
 
-    Returns:
-        True if update succeeded, False otherwise
+    Возвращает:
+        True если обновление успешно, False в противном случае
     """
     from rich.console import Console
     from rich.panel import Panel
@@ -414,7 +414,7 @@ def perform_update(api_key: str) -> bool:
         console=console,
     ) as progress:
         task = progress.add_task(
-            f"[bold {CAI_GREEN}]Updating cai-framework…[/bold {CAI_GREEN}]",
+            f"[bold {CAI_GREEN}]Обновление cai-framework…[/bold {CAI_GREEN}]",
             total=None,
         )
 
@@ -429,19 +429,19 @@ def perform_update(api_key: str) -> bool:
     if result.returncode == 0:
         ok_line = Text()
         ok_line.append("✓ ", style=f"bold {CAI_GREEN}")
-        ok_line.append("Update completed", style="bold white")
+        ok_line.append("Обновление завершено", style="bold white")
         sub = Text()
         try:
             import importlib.metadata
 
             installed = importlib.metadata.version("cai-framework")
             sub.append(
-                f"Installed cai-framework {installed} (same as cai --version). ",
+                f"Установлен cai-framework {installed} (то же что и cai --version). ",
                 style="dim white",
             )
         except Exception:
             pass
-        sub.append("Restart CAI to load the new version.", style="italic dim white")
+        sub.append("Перезапустите CAI для загрузки новой версии.", style="italic dim white")
         console.print(
             Panel(
                 Text.assemble(ok_line, "\n", sub),
@@ -449,7 +449,7 @@ def perform_update(api_key: str) -> bool:
                 padding=(0, 1),
                 title=Text.assemble(
                     (" CAI ", "bold #0d1117 on #00ff9d"),
-                    (" Done ", "bold white on #004433"),
+                    (" Готово ", "bold white on #004433"),
                     (" ", "on #004433"),
                 ),
                 title_align="left",
@@ -458,9 +458,9 @@ def perform_update(api_key: str) -> bool:
         return True
 
     err = Text()
-    err.append("Update failed", style="bold white")
+    err.append("Обновление не удалось", style="bold white")
     err.append("\n", "")
-    err.append(result.stderr or "(no details)", style="dim white")
+    err.append(result.stderr or "(нет деталей)", style="dim white")
     console.print(
         Panel(
             err,

@@ -1,58 +1,58 @@
-# Pipelines and workflows
+# Конвейеры и рабочие процессы
 
-[`VoicePipeline`][cai.sdk.agents.voice.pipeline.VoicePipeline] is a class that makes it easy to turn your agentic workflows into a voice app. You pass in a workflow to run, and the pipeline takes care of transcribing input audio, detecting when the audio ends, calling your workflow at the right time, and turning the workflow output back into audio.
+[`VoicePipeline`][cai.sdk.agents.voice.pipeline.VoicePipeline] — это класс, который упрощает превращение ваших рабочих процессов с агентами в голосовое приложение. Вы передаете рабочий процесс для запуска, а конвейер берет на себя транскрипцию входного аудио, определение окончания аудио, вызов вашего рабочего процесса в нужное время и превращение вывода рабочего процесса обратно в аудио.
 
 ```mermaid
 graph LR
-    %% Input
-    A["🎤 Audio Input"]
+    %% Вход
+    A["🎤 Аудио ввод"]
 
-    %% Voice Pipeline
-    subgraph Voice_Pipeline [Voice Pipeline]
+    %% Голосовой конвейер
+    subgraph Voice_Pipeline [Голосовой конвейер]
         direction TB
-        B["Transcribe (speech-to-text)"]
-        C["Your Code"]:::highlight
-        D["Text-to-speech"]
+        B["Транскрипция (речь-в-текст)"]
+        C["Ваш код"]:::highlight
+        D["Текст-в-речь"]
         B --> C --> D
     end
 
-    %% Output
-    E["🎧 Audio Output"]
+    %% Выход
+    E["🎧 Аудио выход"]
 
-    %% Flow
+    %% Поток
     A --> Voice_Pipeline
     Voice_Pipeline --> E
 
-    %% Custom styling
+    %% Пользовательские стили
     classDef highlight fill:#ffcc66,stroke:#333,stroke-width:1px,font-weight:700;
 
 ```
 
-## Configuring a pipeline
+## Настройка конвейера
 
-When you create a pipeline, you can set a few things:
+При создании конвейера вы можете настроить несколько параметров:
 
-1. The [`workflow`][cai.sdk.agents.voice.workflow.VoiceWorkflowBase], which is the code that runs each time new audio is transcribed.
-2. The [`speech-to-text`][cai.sdk.agents.voice.model.STTModel] and [`text-to-speech`][cai.sdk.agents.voice.model.TTSModel] models used
-3. The [`config`][cai.sdk.agents.voice.pipeline_config.VoicePipelineConfig], which lets you configure things like:
-    - A model provider, which can map model names to models
-    - Tracing, including whether to disable tracing, whether audio files are uploaded, the workflow name, trace IDs etc.
-    - Settings on the TTS and STT models, like the prompt, language and data types used.
+1. [`workflow`][cai.sdk.agents.voice.workflow.VoiceWorkflowBase] — код, который запускается каждый раз при транскрипции нового аудио.
+2. Модели [`speech-to-text`][cai.sdk.agents.voice.model.STTModel] и [`text-to-speech`][cai.sdk.agents.voice.model.TTSModel], используемые для преобразования.
+3. [`config`][cai.sdk.agents.voice.pipeline_config.VoicePipelineConfig], который позволяет настроить такие параметры, как:
+    - Провайдер моделей, который может сопоставлять имена моделей с моделями.
+    - Трассировка, включая возможность отключения трассировки, загрузку аудиофайлов, имя рабочего процесса, ID трассировки и т.д.
+    - Настройки моделей TTS и STT, такие как промпт, язык и используемые типы данных.
 
-## Running a pipeline
+## Запуск конвейера
 
-You can run a pipeline via the [`run()`][cai.sdk.agents.voice.pipeline.VoicePipeline.run] method, which lets you pass in audio input in two forms:
+Вы можете запустить конвейер с помощью метода [`run()`][cai.sdk.agents.voice.pipeline.VoicePipeline.run], который позволяет передавать аудио ввод в двух формах:
 
-1. [`AudioInput`][cai.sdk.agents.voice.input.AudioInput] is used when you have a full audio transcript, and just want to produce a result for it. This is useful in cases where you don't need to detect when a speaker is done speaking; for example, when you have pre-recorded audio or in push-to-talk apps where it's clear when the user is done speaking.
-2. [`StreamedAudioInput`][cai.sdk.agents.voice.input.StreamedAudioInput] is used when you might need to detect when a user is done speaking. It allows you to push audio chunks as they are detected, and the voice pipeline will automatically run the agent workflow at the right time, via a process called "activity detection".
+1. [`AudioInput`][cai.sdk.agents.voice.input.AudioInput] используется, когда у вас есть полная аудио транскрипция и вы просто хотите получить результат. Это полезно в случаях, когда вам не нужно определять, когда говорящий закончил говорить; например, когда у вас есть предварительно записанное аудио или в приложениях push-to-talk, где ясно, когда пользователь закончил говорить.
+2. [`StreamedAudioInput`][cai.sdk.agents.voice.input.StreamedAudioInput] используется, когда вам может потребоваться определить, когда пользователь закончил говорить. Он позволяет отправлять аудио блоки по мере их обнаружения, и голосовой конвейер автоматически запустит рабочий процесс агента в нужное время через процесс, называемый "детекция активности".
 
-## Results
+## Результаты
 
-The result of a voice pipeline run is a [`StreamedAudioResult`][cai.sdk.agents.voice.result.StreamedAudioResult]. This is an object that lets you stream events as they occur. There are a few kinds of [`VoiceStreamEvent`][cai.sdk.agents.voice.events.VoiceStreamEvent], including:
+Результат запуска голосового конвейера — это [`StreamedAudioResult`][cai.sdk.agents.voice.result.StreamedAudioResult]. Это объект, который позволяет стримить события по мере их возникновения. Существует несколько типов [`VoiceStreamEvent`][cai.sdk.agents.voice.events.VoiceStreamEvent], включая:
 
-1. [`VoiceStreamEventAudio`][cai.sdk.agents.voice.events.VoiceStreamEventAudio], which contains a chunk of audio.
-2. [`VoiceStreamEventLifecycle`][cai.sdk.agents.voice.events.VoiceStreamEventLifecycle], which informs you of lifecycle events like a turn starting or ending.
-3. [`VoiceStreamEventError`][cai.sdk.agents.voice.events.VoiceStreamEventError], is an error event.
+1. [`VoiceStreamEventAudio`][cai.sdk.agents.voice.events.VoiceStreamEventAudio], который содержит блок аудио.
+2. [`VoiceStreamEventLifecycle`][cai.sdk.agents.voice.events.VoiceStreamEventLifecycle], который информирует о событиях жизненного цикла, таких как начало или окончание хода.
+3. [`VoiceStreamEventError`][cai.sdk.agents.voice.events.VoiceStreamEventError] — событие ошибки.
 
 ```python
 
@@ -60,16 +60,16 @@ result = await pipeline.run(input)
 
 async for event in result.stream():
     if event.type == "voice_stream_event_audio":
-        # play audio
+        # воспроизвести аудио
     elif event.type == "voice_stream_event_lifecycle":
-        # lifecycle
+        # жизненный цикл
     elif event.type == "voice_stream_event_error"
-        # error
+        # ошибка
     ...
 ```
 
-## Best practices
+## Лучшие практики
 
-### Interruptions
+### Прерывания
 
-The Agents SDK currently does not support any built-in interruptions support for [`StreamedAudioInput`][cai.sdk.agents.voice.input.StreamedAudioInput]. Instead for every detected turn it will trigger a separate run of your workflow. If you want to handle interruptions inside your application you can listen to the [`VoiceStreamEventLifecycle`][cai.sdk.agents.voice.events.VoiceStreamEventLifecycle] events. `turn_started` will indicate that a new turn was transcribed and processing is beginning. `turn_ended` will trigger after all the audio was dispatched for a respective turn. You could use these events to mute the microphone of the speaker when the model starts a turn and unmute it after you flushed all the related audio for a turn.
+Agents SDK в настоящее время не поддерживает встроенную поддержку прерываний для [`StreamedAudioInput`][cai.sdk.agents.voice.input.StreamedAudioInput]. Вместо этого для каждого обнаруженного хода будет запускаться отдельный запуск вашего рабочего процесса. Если вы хотите обрабатывать прерывания внутри вашего приложения, вы можете слушать события [`VoiceStreamEventLifecycle`][cai.sdk.agents.voice.events.VoiceStreamEventLifecycle]. `turn_started` укажет, что новый ход был транскрибирован и обработка начинается. `turn_ended` будет запущен после того, как все аудио было отправлено для соответствующего хода. Вы можете использовать эти события для отключения микрофона говорящего, когда модель начинает ход, и включения его после того, как вы очистили все связанное аудио для хода.

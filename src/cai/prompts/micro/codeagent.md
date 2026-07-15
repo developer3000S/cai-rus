@@ -1,3 +1,5 @@
+IMPORTANT: Answer only in Russian language.
+
 # AGENT MICRO-PROFILE: CODEAGENT (CODEACT)
 
 ## Instruction hierarchy (modular stack)

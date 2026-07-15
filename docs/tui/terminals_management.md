@@ -1,685 +1,684 @@
-# CAI TUI Terminals Management
+# Управление терминалами CAI TUI
 
-> **⚡ CAI-Pro Exclusive Feature**  
-> The Terminal User Interface (TUI) is available exclusively in **CAI-Pro**. To access this feature and unlock advanced multi-agent workflows, visit [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) for more information.
-
----
-
-This guide covers advanced terminal management in the CAI TUI, including multi-terminal workflows, layouts, team configurations, and parallel execution strategies.
+> **⚡ Эксклюзивная функция CAI-Pro**  
+> Терминальный пользовательский интерфейс (TUI) доступен исключительно в **CAI-Pro**. Для получения доступа к этой функции и расблокировки продвинутых рабочих процессов с несколькими агентами посетите [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) для получения дополнительной информации.
 
 ---
 
-## Table of Contents
-
-1. [Terminal Basics](#terminal-basics)
-2. [Multi-Terminal Workflows](#multi-terminal-workflows)
-3. [Terminal Layouts](#terminal-layouts)
-4. [Terminal Operations](#terminal-operations)
-5. [Team-Based Configurations](#team-based-configurations)
-6. [Parallel Execution Patterns](#parallel-execution-patterns)
-7. [Terminal State Management](#terminal-state-management)
-8. [Advanced Techniques](#advanced-techniques)
+Это руководство охватывает продвинутое управление терминалами в CAI TUI, включая рабочие процессы с несколькими терминалами, компоновки, конфигурации команд и стратегии параллельного выполнения.
 
 ---
 
-## Terminal Basics
+## Содержание
 
-### What is a Terminal?
-
-In CAI TUI, a **terminal** is an independent execution environment where:
-- A single agent processes user prompts
-- Conversation history is maintained separately
-- Model selection can be configured independently
-- Cost tracking is isolated
-
-### Terminal Anatomy
-
-Each terminal consists of:
-
-![Terminal Anatomy](../media/CAI-1terminal.png)
-
-**Header Components**:
-- **Terminal Number** (T1, T2, T3, T4)
-- **Agent Name** with dropdown selector
-- **Model Name** with dropdown selector
-- **Container Icon** (if running in container mode)
-
-**Output Area**:
-- Streaming agent responses
-- Tool call displays
-- Execution results
-- Error messages
-
-**Status Bar** (global, not per-terminal):
-- Current agent
-- Active model
-- Session cost
-- Token count
-
-### Default Behavior
-
-- **Terminal 1 (T1)** is always the main terminal and cannot be closed
-- New terminals start with `redteam_agent` and the default model (`Alias1`)
-- Each terminal maintains independent conversation history
-- Terminals can run different agents and models simultaneously
+1. [Основы терминалов](#основы-терминалов)
+2. [Рабочие процессы с несколькими терминалами](#рабочие-процессы-с-несколькими-терминалами)
+3. [Компоновки терминалов](#компонентовки-терминалов)
+4. [Операции с терминалами](#операции-с-терминалами)
+5. [Конфигурации на основе команд](#конфигурации-на-основе-команд)
+6. [Шаблоны параллельного выполнения](#шаблоны-параллельного-выполнения)
+7. [Управление состоянием терминалов](#управление-состоянием-терминалов)
+8. [Продвинутые техники](#продвинутые-техники)
 
 ---
 
-## Multi-Terminal Workflows
+## Основы терминалов
 
-### Why Use Multiple Terminals?
+### Что такое терминал?
 
-Multiple terminals enable:
+В CAI TUI **терминал** — это независимая среда выполнения, где:
+- Один агент обрабатывает промпты пользователя
+- История беседы ведется отдельно
+- Выбор модели может быть настроен независимо
+- Отслеживание затрат изолировано
 
-1. **Parallel Agent Execution**: Run different agents simultaneously on the same task
-2. **Perspective Comparison**: Compare red team vs. blue team approaches
-3. **Specialization**: Assign specific roles to different agents
-4. **Efficiency**: Execute independent tasks in parallel
-5. **Collaboration Simulation**: Model team-based security workflows
+### Строение терминала
 
-### Common Multi-Terminal Patterns
+Каждый терминал состоит из:
 
-#### Pattern 1: Offensive + Defensive (2 Terminals)
+![Строение терминала](../media/CAI-1terminal.png)
 
-**Use Case**: Adversarial testing with real-time defense validation
+**Компоненты заголовка**:
+- **Номер терминала** (T1, T2, T3, T4)
+- **Имя агента** с выпадающим селектором
+- **Имя модели** с выпадающим селектором
+- **Значок контейнера** (если запущен в контейнерном режиме)
 
-**Setup**:
-- **T1**: `redteam_agent` - Performs offensive testing
-- **T2**: `blueteam_agent` - Analyzes defensive posture
+**Область вывода**:
+- Стриминговые ответы агентов
+- Отображение вызовов инструментов
+- Результаты выполнения
+- Сообщения об ошибках
 
-**Workflow**:
+**Строка состояния** (глобальная, не для каждого терминала):
+- Текущий агент
+- Активная модель
+- Стоимость сессии
+- Количество токенов
 
-```
-T1 > Identify attack vectors on target web application
-T2 > Evaluate defensive controls for the same application
-```
+### Поведение по умолчанию
 
-**Benefits**:
-- Immediate validation of findings
-- Balanced security assessment
-- Real-time trade-off analysis
-
-#### Pattern 2: Discover + Validate + Report (3 Terminals)
-
-**Use Case**: Complete vulnerability lifecycle from discovery to documentation
-
-**Setup**:
-- **T1**: `bug_bounter_agent` - Discover vulnerabilities
-- **T2**: `retester_agent` - Validate findings
-- **T3**: `reporting_agent` - Document results
-
-**Workflow**:
-
-```
-T1 > Hunt for authentication bypasses in target.com
-T2 > <Wait for T1 findings>
-T2 > Retest the authentication bypass found in T1
-T3 > <After validation>
-T3 > Generate report for confirmed authentication bypass
-```
-
-**Benefits**:
-- Clear separation of concerns
-- Quality assurance built-in
-- Professional documentation
-
-#### Pattern 3: Full Security Team (4 Terminals)
-
-**Use Case**: Comprehensive security assessment with maximum parallelization
-
-**Setup** (Use Team #1 from sidebar):
-- **T1**: `redteam_agent` - Web application attacks
-- **T2**: `redteam_agent` - Network-level exploitation
-- **T3**: `bug_bounter_agent` - OWASP Top 10 focus
-- **T4**: `bug_bounter_agent` - API security testing
-
-**Workflow**:
-
-```
-<Select Team #1 in sidebar>
-Prompt > Perform comprehensive security assessment of target.com all
-```
-
-**Benefits**:
-- Maximum parallel execution
-- Different attack surfaces covered
-- Diverse perspectives
-- Faster overall completion
+- **Терминал 1 (T1)** всегда является основным терминалом и не может быть закрыт
+- Новые терминалы начинают с `redteam_agent` и модели по умолчанию (`Alias1`)
+- Каждый терминал ведет независимую историю беседы
+- Терминалы могут запускать различных агентов и модели одновременно
 
 ---
 
-## Terminal Layouts
+## Рабочие процессы с несколькими терминалами
 
-CAI TUI automatically adjusts terminal layouts based on the number of active terminals.
+### Зачем использовать несколько терминалов?
 
-### Single Terminal Layout
+Несколько терминалов обеспечивают:
 
-**Display**: Full-width terminal
+1. **Параллельное выполнение агентов**: Запуск различных агентов одновременно над одной задачей
+2. **Сравнение перспектив**: Сравнение подходов красной и синей команд
+3. **Специализация**: Назначение конкретных ролей различным агентам
+4. **Эффективность**: Выполнение независимых задач параллельно
+5. **Моделирование сотрудничества**: Моделирование командных рабочих процессов безопасности
 
-![Single Terminal Layout](../media/CAI-1terminal.png)
+### Распространенные шаблоны с несколькими терминалами
 
-**When to Use**:
-- Single-agent workflows
-- Learning and experimentation
-- Detailed analysis requiring maximum screen space
-- Report generation
+#### Шаблон 1: Наступательный + Защитный (2 терминала)
 
-**Keyboard Shortcuts**:
-- `Ctrl+T` to toggle fullscreen mode
+**Случай использования**: Адверсионное тестирование с валидацией защиты в реальном времени
 
-### Split (Two Terminal) Layout
+**Настройка**:
+- **T1**: `redteam_agent` - Выполняет наступательное тестирование
+- **T2**: `blueteam_agent` - Анализирует защитную позицию
 
-**Display**: Side-by-side terminals
+**Рабочий процесс**:
 
-![Split Terminal Layout](../media/CAI-2terminals.png)
+```
+T1 > Определи векторы атаки на целевое веб-приложение
+T2 > Оцени защитные контрольные меры для того же приложения
+```
 
-**When to Use**:
-- Comparing two approaches
-- Red team vs. Blue team analysis
-- Model comparison (same agent, different models)
-- Master-worker patterns
+**Преимущества**:
+- Немедленная валидация находок
+- Сбалансированная оценка безопасности
+- Анализ компромиссов в реальном времени
 
-**Activation**: Automatically triggered when 2 terminals are active
+#### Шаблон 2: Обнаружение + Валидация + Отчет (3 терминала)
 
-### Triple Terminal Layout
+**Случай использования**: Полный жизненный цикл уязвимости от обнаружения до документации
 
-**Display**: Three-column vertical split
+**Настройка**:
+- **T1**: `bug_bounter_agent` - Обнаружение уязвимостей
+- **T2**: `retester_agent` - Валидация находок
+- **T3**: `reporting_agent` - Документирование результатов
 
-![Triple Terminal Layout](../media/CAI-3terminals.png)
+**Рабочий процесс**:
 
-**When to Use**:
-- Three parallel perspectives on the same task
-- Comparing three different agents or models
-- Balanced multi-agent workflows
-- Mid-complexity security assessments
+```
+T1 > Поиск обходов аутентификации на target.com
+T2 > <Ожидание находок T1>
+T2 > Повторное тестирование обхода аутентификации, найденного в T1
+T3 > <После валидации>
+T3 > Генерация отчета по подтвержденному обходу аутентификации
+```
 
-**Activation**: Automatically triggered when 3 terminals are active
+**Преимущества**:
+- Четкое разделение ответственности
+- Встроенное обеспечение качества
+- Профессиональная документация
 
-### Quad (Four Terminal) Layout
+#### Шаблон 3: Полная команда безопасности (4 терминала)
 
-**Display**: 2×2 grid
+**Случай использования**: Комплексная оценка безопасности с максимальной параллелизацией
 
-![Quad Terminal Layout](../media/cai-tui-main.png)
+**Настройка** (Используйте Команду #1 из боковой панели):
+- **T1**: `redteam_agent` - Атаки на веб-приложения
+- **T2**: `redteam_agent` - Эксплуатация на уровне сети
+- **T3**: `bug_bounter_agent` - Фокус на OWASP Top 10
+- **T4**: `bug_bounter_agent` - Тестирование безопасности API
 
-**When to Use**:
-- Full team operations
-- Maximum parallelization
-- Preconfigured team execution (Teams #1-#11)
-- Multi-dimensional analysis
+**Рабочий процесс**:
 
-**Activation**: Default for preconfigured teams
+```
+<Выберите Команду #1 в боковой панели>
+Промпт > Выполни комплексную оценку безопасности target.com все
+```
 
-### Scrollable Layout (5+ Terminals)
-
-**Display**: Scrollable 2-column grid
-
-![Scrollable Terminal Layout](../media/CAI-5+terminals.png)
-
-**When to Use**:
-- Large-scale testing campaigns
-- Custom advanced workflows
-- Experimental configurations
-
-**Notes**:
-- Scrollbar appears on the right
-- Keyboard navigation still works
+**Преимущества**:
+- Максимальное параллельное выполнение
+- Различные поверхности атаки охвачены
+- Разнообразные перспективы
+- Более быстрое общее завершение
 
 ---
 
-## Terminal Operations
+## Компоновки терминалов
 
-### Creating Terminals
+CAI TUI автоматически настраивает компоновки терминалов в зависимости от количества активных терминалов.
 
-#### Method 1: Manual Addition
+### Компоновка одного терминала
 
-**Keyboard Shortcut**: Click `[Add+]` button in top bar
+**Отображение**: Полноширинный терминал
 
-**Example Workflow**:
+![Компоновка одного терминала](../media/CAI-1terminal.png)
 
-```
-1. Start CAI TUI (1 terminal by default)
-2. Click [+]
-3. New terminal appears (T2)
-4. Select agent from dropdown
-5. Start working
-```
+**Когда использовать**:
+- Рабочие процессы с одним агентом
+- Обучение и эксперименты
+- Детальный анализ, требующий максимального пространства экрана
+- Генерация отчетов
 
-#### Method 2: Team Selection
+**Горячие клавиши**:
+- `Ctrl+T` для переключения полноэкранного режима
 
-**Steps**:
-1. Open sidebar (`Ctrl+S`)
-2. Navigate to Teams tab
-3. Click desired team button (e.g., "#1: 2 red + 2 bug")
-4. All 4 terminals are configured automatically
+### Раздельная комповка (два терминала)
 
-**Benefits of Team Selection**:
-- Instant configuration of all terminals
-- Predefined agent assignments
-- Optimized for common workflows
-- One-click setup
+**Отображение**: Терминалы бок о бок
 
-### Removing Terminals
+![Раздельная комповка терминалов](../media/CAI-2terminals.png)
 
-#### Close Focused Terminal
+**Когда использовать**:
+- Сравнение двух подходов
+- Анализ красной vs. синей команды
+- Сравнение моделей (один агент, разные модели)
+- Шаблоны "мастер-работник"
 
-**Keyboard Shortcut**: `Ctrl+E`
+**Активация**: Автоматически запускается при 2 активных терминалах
 
-**Behavior**:
-- Closes currently focused terminal
-- Terminal 1 (T1) cannot be closed
-- Terminal numbers do not shift
-- History is lost (save session first if needed)
+### Тройная комповка терминалов
 
-### Focusing Terminals
+**Отображение**: Трехколоночное вертикальное разделение
 
-#### Keyboard Navigation
+![Тройная комповка терминалов](../media/CAI-3terminals.png)
 
-**Shortcuts**:
-- `Ctrl+N` - Focus next terminal (T1 → T2 → T3 → T4 → T1)
-- `Ctrl+B` - Focus previous terminal (T1 → T4 → T3 → T2 → T1)
+**Когда использовать**:
+- Три параллельные перспективы по одной задаче
+- Сравнение трех различных агентов или моделей
+- Сбалансированные рабочие процессы с несколькими агентами
+- Оценки безопасности средней сложности
 
-#### Mouse Click
+**Активация**: Автоматически запускается при 3 активных терминалах
 
-Click anywhere in the terminal output area to focus it.
+### Четверная комповка (четыре терминала)
 
+**Отображение**: Сетка 2×2
 
-### Visual Focus Indicators
+![Четверная комповка терминалов](../media/cai-tui-main.png)
 
-**Focused Terminal**:
-- Highlighted terminal header
-- Brighter output area
-- Active input cursor
+**Когда использовать**:
+- Полноценная работа команды
+- Максимальная параллелизация
+- Выполнение предустановленных команд (Команды #1-#11)
+- Многомерный анализ
 
-**Inactive Terminals**:
-- Dimmed header
-- Normal output area
-- Background execution continues
+**Активация**: По умолчанию для предустановленных команд
+
+### Прокручиваемая комповка (5+ терминалов)
+
+**Отображение**: Прокручиваемая двухколоночная сетка
+
+![Прокручиваемая комповка терминалов](../media/CAI-5+terminals.png)
+
+**Когда использовать**:
+- Масштабные кампании тестирования
+- Пользовательские продвинутые рабочие процессы
+- Экспериментальные конфигурации
+
+**Примечания**:
+- Полоса прокрутки появляется справа
+- Навигация клавиатурой по-прежнему работает
 
 ---
 
-## Team-Based Configurations
+## Операции с терминалами
 
-CAI TUI includes 11 preconfigured teams optimized for common security workflows.
+### Создание терминалов
 
-### Accessing Teams
+#### Способ 1: Ручное добавление
 
-1. Open sidebar (`Ctrl+S`)
-2. Click Teams tab
-3. Browse available teams
-4. Click team button to apply
+**Горячая клавиша**: Нажмите кнопку `[Add+]` на верхней панели
 
-### Team Composition Reference
+**Пример рабочего процесса**:
 
-| Team | Composition | Best For |
+```
+1. Запустите CAI TUI (1 терминал по умолчанию)
+2. Нажмите [+]
+3. Появляется новый терминал (T2)
+4. Выберите агента из выпадающего списка
+5. Начните работу
+```
+
+#### Способ 2: Выбор команды
+
+**Шаги**:
+1. Откройте боковую панель (`Ctrl+S`)
+2. Перейдите на вкладку Команды
+3. Нажмите нужную кнопку команды (например, "#1: 2 red + 2 bug")
+4. Все 4 терминала настраиваются автоматически
+
+**Преимущества выбора команды**:
+- Мгновенная настройка всех терминалов
+- Предопределенные назначения агентов
+- Оптимизировано для распространенных рабочих процессов
+- Настройка в один клик
+
+### Удаление терминалов
+
+#### Закрытие активного терминала
+
+**Горячая клавиша**: `Ctrl+E`
+
+**Поведение**:
+- Закрывает текущий активный терминал
+- Терминал 1 (T1) не может быть закрыт
+- Номера терминалов не сдвигаются
+- История теряется (сначала сохраните сессию при необходимости)
+
+### Фокусировка терминалов
+
+#### Навигация клавиатурой
+
+**Сочетания клавиш**:
+- `Ctrl+N` - Фокусировка на следующем терминале (T1 → T2 → T3 → T4 → T1)
+- `Ctrl+B` - Фокусировка на предыдущем терминале (T1 → T4 → T3 → T2 → T1)
+
+#### Щелчок мыши
+
+Нажмите в любом месте области вывода терминала для фокусировки.
+
+
+### Визуальные индикаторы фокуса
+
+**Активный терминал**:
+- Подсвеченный заголовок терминала
+- Яркая область вывода
+- Активный курсор ввода
+
+**Неактивные терминалы**:
+- Приглушенный заголовок
+- Обычная область вывода
+- Фоновое выполнение продолжается
+
+---
+
+## Конфигурации на основе команд
+
+CAI TUI включает 11 предустановленных команд, оптимизированных для распространенных рабочих процессов безопасности.
+
+### Доступ к командам
+
+1. Откройте боковую панель (`Ctrl+S`)
+2. Нажмите вкладку Команды
+3. Просмотрите доступные команды
+4. Нажмите кнопку команды для применения
+
+### Справочник состава команд
+
+| Команда | Состав | Лучше всего для |
 |------|-------------|----------|
-| **#1** | 2 redteam + 2 bug_bounter | Comprehensive vulnerability discovery |
-| **#2** | 1 redteam + 3 bug_bounter | Bug bounty with red team leadership |
-| **#3** | 2 redteam + 2 blueteam | Adversarial offense + defense testing |
-| **#4** | 2 blueteam + 2 bug_bounter | Defense-focused with validation |
-| **#5** | red + blue + retester + bug | Full security lifecycle coverage |
-| **#6** | 2 redteam + 2 retester | Aggressive testing with validation |
-| **#7** | 2 blueteam + 2 retester | Defensive validation and retesting |
-| **#8** | 4 redteam | Maximum offensive power  |
-| **#9** | 4 blueteam | Comprehensive defensive analysis |
-| **#10** | 4 bug_bounter | Intense bug bounty hunting |
-| **#11** | 4 retester | Large-scale retesting campaigns |
+| **#1** | 2 redteam + 2 bug_bounter | Комплексное обнаружение уязвимостей |
+| **#2** | 1 redteam + 3 bug_bounter | Bug bounty с руководством красной команды |
+| **#3** | 2 redteam + 2 blueteam | Адверсионное наступательное + защитное тестирование |
+| **#4** | 2 blueteam + 2 bug_bounter | Защитно-ориентированное с валидацией |
+| **#5** | red + blue + retester + bug | Полный охват жизненного цикла безопасности |
+| **#6** | 2 redteam + 2 retester | Агрессивное тестирование с валидацией |
+| **#7** | 2 blueteam + 2 retester | Защитная валидация и повторное тестирование |
+| **#8** | 4 redteam | Максимальная наступательная мощность |
+| **#9** | 4 blueteam | Комплексный защитный анализ |
+| **#10** | 4 bug_bounter | Интенсивная охота за наградами за ошибки |
+| **#11** | 4 retester | Масштабные кампании повторного тестирования |
 
-### Team Application Behavior
+### Поведение применения команды
 
-When you select a team:
+При выборе команды:
 
-1. **All terminals are reconfigured** with designated agents
-2. **Agent dropdowns update** to reflect new assignments
-3. **Previous conversations are preserved** in output areas
-4. **Each terminal is ready** to receive prompts immediately
-5. **No cost impact** - configuration is free
+1. **Все терминалы переконфигурируются** с назначенными агентами
+2. **Выпадающие списки агентов обновляются** для отражения новых назначений
+3. **Предыдущие беседы сохраняются** в областях вывода
+4. **Каждый терминал готов** получать промпты немедленно
+5. **Нет влияния на стоимость** - конфигурация бесплатна
 
-### Customizing Teams
+### Настройка команд
 
-To create custom team configurations:
+Чтобы создать пользовательские конфигурации команд:
 
-1. Manually configure each terminal with desired agents
-2. Save the session: `/save my_custom_team.jsonl` (or `/save summary.md` for a readable Markdown export)
-3. Load it later with `/load my_custom_team.jsonl` (JSONL only; `.md` is not for `/load`)
+1. Настройте каждый терминал вручную с нужными агентами
+2. Сохраните сессию: `/save my_custom_team.jsonl` (или `/save summary.md` для читаемого экспорта Markdown)
+3. Загрузите позже с `/load my_custom_team.jsonl` (только JSONL; `.md` не для `/load`)
 
 ---
 
-## Parallel Execution Patterns
+## Шаблоны параллельного выполнения
 
-### Pattern 1: Broadcast to All Terminals
+### Шаблон 1: Трансляция на все терминалы
 
-**Use Case**: Execute the same task with different agent perspectives
+**Случай использования**: Выполнение одной задачи с различными перспективами агентов
 
-**Steps**:
-1. Select a team (e.g., Team #3: 2 Red + 2 Blue)
-2. Type prompt in input area
-3. Add "all" flag at the end of the prompt
-4. Watch all terminals execute simultaneously
+**Шаги**:
+1. Выберите команду (например, Команда #3: 2 Red + 2 Blue)
+2. Введите промпт в области ввода
+3. Добавьте флаг "all" в конце промпта
+4. Наблюдайте за выполнением всех терминалов одновременно
 
-**Example**:
-
-```
-Prompt: Assess the security of https://target.com/api
-Broadcast to: T1 (redteam), T2 (redteam), T3 (blueteam), T4 (blueteam)
-Result: Four different perspectives on API security
-```
-
-### Pattern 2: Sequential Terminal Execution
-
-**Use Case**: Pass results from one terminal to another
-
-**Steps**:
-1. Execute in T1
-2. Wait for completion
-3. Reference T1 results in T2 prompt
-4. Continue chain
-
-**Example**:
+**Пример**:
 
 ```
-T1 (bug_bounter) > Find all input fields on target.com
-<Wait for results>
-T2 (redteam) > Test the 5 input fields found by T1 for XSS vulnerabilities
-<Wait for results>
-T3 (retester) > Validate the XSS findings from T2
-<Wait for results>
-T4 (reporting) > Create report from T1, T2, and T3 findings
+Промпт: Оцени безопасность https://target.com/api
+Трансляция на: T1 (redteam), T2 (redteam), T3 (blueteam), T4 (blueteam)
+Результат: Четыре различных перспективы безопасности API
 ```
 
-### Pattern 3: Parallel Independent Tasks
+### Шаблон 2: Последовательное выполнение терминалов
 
-**Use Case**: Execute completely different tasks simultaneously
+**Случай использования**: Передача результатов от одного терминала к другому
 
-**Setup**:
-- **T1**: Scan network (nmap)
-- **T2**: Enumerate web dirs (ffuf)
-- **T3**: Check DNS records
-- **T4**: Analyze SSL/TLS config
+**Шаги**:
+1. Выполните в T1
+2. Дождитесь завершения
+3. Ссылайтесь на результаты T1 в промпте T2
+4. Продолжайте цепочку
 
-**Execution**:
+**Пример**:
+
+```
+T1 (bug_bounter) > Найди все поля ввода на target.com
+<Ожидание результатов>
+T2 (redteam) > Протестируй 5 полей ввода, найденных T1, на уязвимости XSS
+<Ожидание результатов>
+T3 (retester) > Валидируй находки XSS из T2
+<Ожидание результатов>
+T4 (reporting) > Создай отчет из находок T1, T2 и T3
+```
+
+### Шаблон 3: Параллельные независимые задачи
+
+**Случай использования**: Выполнение совершенно различных задач одновременно
+
+**Настройка**:
+- **T1**: Сканирование сети (nmap)
+- **T2**: Перечисление веб-каталогов (ffuf)
+- **T3**: Проверка DNS записей
+- **T4**: Анализ конфигурации SSL/TLS
+
+**Выполнение**:
 
 ```
 T1 > nmap -sV -A target.com
 T2 > ffuf -w wordlist.txt -u https://target.com/FUZZ
-T3 > Enumerate all DNS records for target.com
-T4 > Analyze SSL/TLS configuration of target.com
+T3 > Перечисли все DNS записи для target.com
+T4 > Проанализируй конфигурацию SSL/TLS target.com
 ```
 
-**Benefits**:
-- Maximizes parallelization
-- Reduces total execution time
-- Efficient resource utilization
+**Преимущества**:
+- Максимизирует параллелизацию
+- Сокращает общее время выполнения
+- Эффективное использование ресурсов
 
-### Pattern 4: Focused Execution with Monitoring
+### Шаблон 4: Целевое выполнение с мониторингом
 
-**Use Case**: One agent works while others monitor specific aspects
+**Случай использования**: Один агент работает, пока другие мониторят определенные аспекты
 
-**Setup**:
-- **T1**: `redteam_agent` (main executor)
-- **T2**: `blueteam_agent` (monitors defensive gaps)
-- **T3**: `dfir_agent` (monitors artifacts/logs)
-- **T4**: `reporting_agent` (live documentation)
+**Настройка**:
+- **T1**: `redteam_agent` (основной исполнитель)
+- **T2**: `blueteam_agent` (мониторит защитные бреши)
+- **T3**: `dfir_agent` (мониторит артефакты/логи)
+- **T4**: `reporting_agent` (документирование в реальном времени)
 
-**Workflow**:
+**Рабочий процесс**:
 
 ```
-T1 > Perform full penetration test on target.com
-<While T1 works:>
-T2 > Monitor defensive weaknesses as T1 progresses
-T3 > Track and analyze artifacts generated by T1
-T4 > Document findings in real-time from T1, T2, T3
+T1 > Выполни полный пентест target.com
+<Пока T1 работает:>
+T2 > Мониторь защитные слабости по мере продвижения T1
+T3 > Отслеживай и анализируй артефакты, сгенерированные T1
+T4 > Документируй находки в реальном времени от T1, T2, T3
 ```
 
 ---
 
-## Terminal State Management
+## Управление состоянием терминалов
 
-### Terminal States
+### Состояния терминалов
 
-Each terminal can be in one of four states:
+Каждый терминал может находиться в одном из четырех состояний:
 
-#### 1. Active State
+#### 1. Активное состояние
 
-- **Visual**: Normal border, bright colors
-- **Behavior**: Ready to receive input
-- **Actions**: Can send prompts, change agent/model
+- **Визуально**: Обычная рамка, яркие цвета
+- **Поведение**: Готовность к приему ввода
+- **Действия**: Может отправлять промпты, менять агента/модель
 
-#### 2. Focused State
+#### 2. Состояние фокуса
 
-- **Visual**: Highlighted border (accent color)
-- **Behavior**: Receives keyboard input
-- **Actions**: All actions available, input directed here
+- **Визуально**: Подсвеченная рамка (акцентный цвет)
+- **Поведение**: Принимает ввод с клавиатуры
+- **Действия**: Все действия доступны, ввод направляется сюда
 
-#### 3. Busy State
+#### 3. Занятое состояние
 
-- **Visual**: Spinner/progress indicator
-- **Behavior**: Agent is executing
-- **Actions**: Can cancel (`Ctrl+C`), cannot send new prompts
+- **Визуально**: Индикатор загрузки/прогресса
+- **Поведение**: Агент выполняет работу
+- **Действия**: Можно отменить (`Ctrl+C`), нельзя отправлять новые промпты
 
-#### 4. Error State
+#### 4. Состояние ошибки
 
-- **Visual**: Red border or error indicator
-- **Behavior**: Execution failed
-- **Actions**: Can retry, clear error, or continue
+- **Визуально**: Красная рамка или индикатор ошибки
+- **Поведение**: Выполнение завершилось неудачно
+- **Действия**: Можно повторить, очистить ошибку или продолжить
 
-### State Transitions
+### Переходы состояний
 
 ```
-Active ──[Send Prompt]──> Busy ──[Complete]──> Active
+Активно ──[Отправить промпт]──> Занято ──[Завершено]──> Активно
    │
-   └──[Error]──> Error ──[Clear]──> Active
+   └──[Ошибка]──> Ошибка ──[Очистить]──> Активно
 
-Active ──[Focus Terminal]──> Focused ──[Focus Other]──> Active
+Активно ──[Фокус терминала]──> Фокус ──[Фокус другого]──> Активно
 ```
 
-### Managing Terminal State
+### Управление состоянием терминала
 
-#### Canceling Execution
+#### Отмена выполнения
 
-**Method 1**: `Ctrl+C` (focused terminal only)
+**Способ 1**: `Ctrl+C` (только для активного терминала)
 
-**Method 2**: `Escape` twice (all terminals)
+**Способ 2**: `Escape` дважды (все терминалы)
 
-#### Clearing Errors
+#### Очистка ошибок
 
-**Command**: `/clear` (clears visual errors, preserves history)
+**Команда**: `/clear` (очищает визуальные ошибки, сохраняет историю)
 
-**Alternative**: Click error message dismiss button (if shown)
+**Альтернатива**: Нажмите кнопку закрытия сообщения об ошибке (если отображается)
 
-#### Resetting Terminal
+#### Сброс терминала
 
-**Steps**:
-1. `/flush` - Clear conversation history
-2. `/clear` - Clear visual output
-3. Select new agent (if desired)
-4. Start fresh
+**Шаги**:
+1. `/flush` - Очистить историю беседы
+2. `/clear` - Очистить визуальный вывод
+3. Выберите нового агента (при необходимости)
+4. Начните заново
 
 ---
 
-## Advanced Techniques
+## Продвинутые техники
 
-### Terminal-Specific Commands
+### Команды для конкретных терминалов
 
-Target commands to specific terminals without focusing them.
+Направляйте команды в конкретные терминалы без их фокусировки.
 
-**Syntax**: `T<num>:<command>`
+**Синтаксис**: `T<номер>:<команда>`
 
-**Examples**:
+**Примеры**:
 ```bash
-# Change agent in T2 without leaving T1
+# Сменить агента в T2 без выхода из T1
 T2:/agent blueteam_agent
 
-# Clear T3 output
+# Очистить вывод T3
 T3:/clear
 
-# Check T4 cost
+# Проверить стоимость T4
 T4:/cost
 
-# Execute prompt in T2
-T2:Scan target.com for open ports
+# Выполнить промпт в T2
+T2:Просканируй target.com на открытые порты
 ```
 
-**Benefits**:
-- No context switching required
-- Efficient multi-terminal management
-- Script-friendly
+**Преимущества**:
+- Не требуется переключение контекста
+- Эффективное управление несколькими терминалами
+- Дружелюбно к скриптам
 
-### Dynamic Terminal Allocation
+### Динамическое распределение терминалов
 
-Adjust terminal count based on task complexity.
+Настройте количество терминалов в зависимости от сложности задачи.
 
-**Simple Task** (1-2 terminals):
-- Single perspective sufficient
-- Limited scope
-- Quick execution
+**Простая задача** (1-2 терминала):
+- Одной перспективы достаточно
+- Ограниченный объем
+- Быстрое выполнение
 
-**Medium Task** (2-3 terminals):
-- Multiple perspectives valuable
-- Moderate complexity
-- Benefit from specialization
+**Средняя задача** (2-3 терминала):
+- Несколько перспектив ценны
+- Умеренная сложность
+- Выгода от специализации
 
-**Complex Task** (4 terminals):
-- Full team required
-- High complexity
-- Maximum parallelization needed
+**Сложная задача** (4 терминала):
+- Требуется полная команда
+- Высокая сложность
+- Необходима максимальная параллелизация
 
 
-### Terminal Output Management
+### Управление выводом терминала
 
-#### Copy Terminal Output
+#### Копирование вывода терминала
 
-**Method 1**: Mouse selection + `Ctrl+C`
+**Способ 1**: Выделение мышью + `Ctrl+C`
 
-**Method 2**: Export session + extract terminal data
+**Способ 2**: Экспорт сессии + извлечение данных терминала
 
-**Method 3**: `/save` and process saved file
+**Способ 3**: `/save` и обработка сохраненного файла
 
-#### Terminal Output Filtering
+#### Фильтрация вывода терминала
 
-**Technique**: Use agent's built-in filtering
+**Техника**: Используйте встроенную фильтрацию агента
 
 ```
-Prompt: Summarize key findings from previous responses
+Промпт: Обобщи ключевые находки из предыдущих ответов
 ```
 
-#### Clear Old Output
+#### Очистка старого вывода
 
-**Command**: `/clear` (visual only)
+**Команда**: `/clear` (только визуально)
 
-**Alternative**: `/flush` (history too)
+**Альтернатива**: `/flush` (и история тоже)
 
 ---
 
-## Best Practices
+## Лучшие практики
 
-### 1. Start Small, Scale Up
+### 1. Начинайте с малого, масштабируйтесь
 
-Begin with 1-2 terminals. Add more only when parallelization provides clear benefit.
+Начните с 1-2 терминалов. Добавляйте больше только тогда, когда параллелизация дает явную выгоду.
 
-### 2. Use Preconfigured Teams
+### 2. Используйте предустановленные команды
 
-Leverage the 11 built-in teams instead of manual configuration.
+Используйте 11 встроенных команд вместо ручной настройки.
 
-### 3. Name Your Sessions
+### 3. Давайте имена своим сессиям
 
-Save sessions with descriptive names:
+Сохраняйте сессии с описательными именами:
 ```bash
 /save 2025-10-27_webapp_pentest_team3.jsonl
 ```
 
-### 4. Monitor Costs Per Terminal
+### 4. Мониторьте стоимость по терминалам
 
-Check costs regularly:
+Регулярно проверяйте стоимость:
 ```bash
-/cost    # Current terminal
-/cost all  # All terminals
+/cost    # Текущий терминал
+/cost all  # Все терминалы
 ```
 
-### 5. Clear Between Tasks
+### 5. Очищайте между задачами
 
-Reset terminals between unrelated tasks:
+Сбрасывайте терминалы между несвязанными задачами:
 ```bash
 /flush all
 /clear
 ```
 
-### 6. Document Terminal Roles
+### 6. Документируйте роли терминалов
 
-Add a comment in the first prompt of each terminal:
+Добавьте комментарий в первый промпт каждого терминала:
 
 ```
-T1 > [RECON] Enumerate target.com infrastructure
-T2 > [EXPLOIT] Test for authentication bypass
-T3 > [VALIDATE] Confirm findings from T2
-T4 > [REPORT] Document all findings
+T1 > [РАЗВЕДКА] Перечисли инфраструктуру target.com
+T2 > [ЭКСПЛОТАЦИЯ] Протестируй на обход аутентификации
+T3 > [ВАЛИДАЦИЯ] Подтверди находки из T2
+T4 > [ОТЧЕТ] Задокументируй все находки
 ```
 
-### 7. Use Broadcast Wisely
+### 7. Используйте трансляцию с умом
 
-Broadcast is powerful but expensive. Use it when you truly need multiple perspectives on the same task.
+Трансляция мощна, но дорога. Используйте ее, когда вам действительно нужны различные перспективы по одной задаче.
 
-### 8. Leverage Terminal Independence
+### 8. Используйте независимость терминалов
 
-Each terminal is independent - use this for:
-- Different phases of testing
-- Completely separate tasks
-- Long-running operations in background terminals
-
----
-
-## Troubleshooting
-
-### Terminal Not Responding
-
-**Symptoms**: Terminal stuck in busy state, no output
-
-**Solutions**:
-1. Wait (some operations take time)
-2. Cancel with `Ctrl+C`
-3. Check `/mcp status` if using MCP tools
-4. Restart terminal: `/flush`, `/clear`, then retry
-
-### Terminals Not Syncing with Team Selection
-
-**Symptoms**: Agent dropdowns don't update after selecting team
-
-**Solutions**:
-1. Check that sidebar is visible (`Ctrl+S`)
-2. Click team button again
-3. Manually update agent dropdowns if issue persists
-4. Report bug with `cai --version` output
-
-### Layout Not Adjusting
-
-**Symptoms**: Terminal layout doesn't change when adding terminals
-
-**Solutions**:
-1. Resize terminal window (trigger layout recalc)
-2. Toggle fullscreen mode (`Ctrl+T`) and back
-3. Restart TUI if issue persists
-
-### Cost Tracking Incorrect
-
-**Symptoms**: Cost numbers seem wrong or don't update
-
-**Solutions**:
-1. Check `/cost all` for complete breakdown
-2. Verify model pricing with `/env`
-3. Check if multiple terminals using expensive models
-4. Save session and review cost data offline
+Каждый терминал независим — используйте это для:
+- Различных фаз тестирования
+- Полностью отдельных задач
+- Длительных операций в фоновых терминалах
 
 ---
 
-## Next Steps
+## Решение проблем
 
-- [Commands Reference](commands_reference.md) - Complete command documentation
-- [Keyboard Shortcuts](keyboard_shortcuts.md) - All keyboard shortcuts
-- [Sidebar Features](sidebar_features.md) - Teams tab and other sidebar capabilities
-- [Advanced Features](advanced_features.md) - MCP, ICL, and session management
+### Терминал не отвечает
 
-For questions or issues, visit [CAI GitHub Issues](https://github.com/aliasrobotics/cai/issues).
+**Симптомы**: Терминал застрял в занятом состоянии, нет вывода
+
+**Решения**:
+1. Подождите (некоторые операции занимают время)
+2. Отмените с помощью `Ctrl+C`
+3. Проверьте `/mcp status`, если используете инструменты MCP
+4. Перезапустите терминал: `/flush`, `/clear`, затем повторите попытку
+
+### Терминалы не синхронизируются с выбором команды
+
+**Симптомы**: Выпадающие списки агентов не обновляются после выбора команды
+
+**Решения**:
+1. Убедитесь, что боковая панель видна (`Ctrl+S`)
+2. Снова нажмите кнопку команды
+3. Вручную обновите выпадающие списки агентов, если проблема сохраняется
+4. Сообщите об ошибке с выводом `cai --version`
+
+### Компоновка не настраивается
+
+**Симптомы**: Компоновка терминала не меняется при добавлении терминалов
+
+**Решения**:
+1. Измените размер окна терминала (запуск пересчета компоновки)
+2. Переключите полноэкранный режим (`Ctrl+T`) и обратно
+3. Перезапустите TUI, если проблема сохраняется
+
+### Неправильное отслеживание стоимости
+
+**Симптомы**: Числа стоимости кажутся неправильными или не обновляются
+
+**Решения**:
+1. Проверьте `/cost all` для полной разбивки
+2. Проверьте цены на модели с `/env`
+3. Проверьте, не используют ли несколько терминалов дорогие модели
+4. Сохраните сессию и просмотрите данные о стоимости в автономном режиме
 
 ---
 
-*Last updated: October 2025 | CAI TUI v0.6+*
+## Следующие шаги
 
+- [Справочник команд](commands_reference.md) - Полная документация по командам
+- [Горячие клавиши](keyboard_shortcuts.md) - Все сочетания клавиш
+- [Функции боковой панели](sidebar_features.md) - Вкладка Команды и другие возможности боковой панели
+- [Продвинутые функции](advanced_features.md) - MCP, ICL и управление сессиями
+
+По вопросам или проблемам посетите [CAI GitHub Issues](https://github.com/aliasrobotics/cai/issues).
+
+---
+
+*Последнее обновление: Октябрь 2025 | CAI TUI v0.6+*

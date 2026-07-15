@@ -1,54 +1,54 @@
-# Common agentic patterns
+# Распространенные паттерны агентов
 
-This folder contains examples of different common patterns for agents.
+В этой папке содержатся примеры различных распространенных паттернов для агентов.
 
-## Deterministic flows
+## Детерминированные потоки
 
-A common tactic is to break down a task into a series of smaller steps. Each task can be performed by an agent, and the output of one agent is used as input to the next. For example, if your task was to generate a story, you could break it down into the following steps:
+Распространенная тактика — разбить задачу на серию более мелких шагов. Каждую задачу может выполнять агент, а выходные данные одного агента используются как входные для следующего. Например, если ваша задача — сгенерировать рассказ, вы можете разбить ее на следующие шаги:
 
-1. Generate an outline
-2. Generate the story
-3. Generate the ending
+1. Сгенерировать контур
+2. Сгенерировать рассказ
+3. Сгенерировать финал
 
-Each of these steps can be performed by an agent. The output of one agent is used as input to the next.
+Каждый из этих шагов может выполняться агентом. Выходные данные одного агента используются как входные для следующего.
 
-See the [`deterministic.py`](./deterministic.py) file for an example of this.
+Смотрите файл [`deterministic.py`](./deterministic.py) для примера этого.
 
-## Handoffs and routing
+## Передача и маршрутизация
 
-In many situations, you have specialized sub-agents that handle specific tasks. You can use handoffs to route the task to the right agent.
+Во многих ситуациях у вас есть специализированные подагенты, которые обрабатывают конкретные задачи. Вы можете использовать передачу для маршрутизации задачи нужному агенту.
 
-For example, you might have a frontline agent that receives a request, and then hands off to a specialized agent based on the language of the request.
-See the [`routing.py`](./routing.py) file for an example of this.
+Например, у вас может быть агент общего приема, который получает запрос, а затем передает его специализированному агенту в зависимости от языка запроса.
+Смотрите файл [`routing.py`](./routing.py) для примера этого.
 
-## Agents as tools
+## Агенты как инструменты
 
-The mental model for handoffs is that the new agent "takes over". It sees the previous conversation history, and owns the conversation from that point onwards. However, this is not the only way to use agents. You can also use agents as a tool - the tool agent goes off and runs on its own, and then returns the result to the original agent.
+Ментальная модель передачи заключается в том, что новый агент «перенимает управление». Он видит предыдущую историю разговора и владеет разговором с этого момента. Однако это не единственный способ использования агентов. Вы также можете использовать агенты как инструмент — агент-инструмент запускается и работает самостоятельно, а затем возвращает результат исходному агенту.
 
-For example, you could model the translation task above as tool calls instead: rather than handing over to the language-specific agent, you could call the agent as a tool, and then use the result in the next step. This enables things like translating multiple languages at once.
+Например, вы можете смоделировать задачу перевода выше как вызовы инструментов: вместо передачи агенту определенного языка вы можете вызвать агента как инструмент, а затем использовать результат на следующем шаге. Это позволяет, например, переводить на несколько языков одновременно.
 
-See the [`agents_as_tools.py`](./agents_as_tools.py) file for an example of this.
+Смотрите файл [`agents_as_tools.py`](./agents_as_tools.py) для примера этого.
 
-## LLM-as-a-judge
+## LLM в роли судьи
 
-LLMs can often improve the quality of their output if given feedback. A common pattern is to generate a response using a model, and then use a second model to provide feedback. You can even use a small model for the initial generation and a larger model for the feedback, to optimize cost.
+LLM часто могут улучшить качество своего вывода при получении обратной связи. Распространенный паттерн — сгенерировать ответ с помощью модели, а затем использовать вторую модель для предоставления обратной связи. Вы даже можете использовать маленькую модель для начальной генерации и большую модель для обратной связи, чтобы оптимизировать стоимость.
 
-For example, you could use an LLM to generate an outline for a story, and then use a second LLM to evaluate the outline and provide feedback. You can then use the feedback to improve the outline, and repeat until the LLM is satisfied with the outline.
+Например, вы можете использовать LLM для генерации контура рассказа, а затем использовать вторую LLM для оценки контура и предоставления обратной связи. Затем вы можете использовать обратную связь для улучшения контура и повторять до тех пор, пока LLM не будет удовлетворена контуром.
 
-See the [`llm_as_a_judge.py`](./llm_as_a_judge.py) file for an example of this.
+Смотрите файл [`llm_as_a_judge.py`](./llm_as_a_judge.py) для примера этого.
 
-## Parallelization
+## Параллелизация
 
-Running multiple agents in parallel is a common pattern. This can be useful for both latency (e.g. if you have multiple steps that don't depend on each other) and also for other reasons e.g. generating multiple responses and picking the best one.
+Запуск нескольких агентов параллельно — распространенный паттерн. Это может быть полезно как для задержки (например, если у вас есть несколько шагов, которые не зависят друг от друга), так и по другим причинам, например, для генерации нескольких ответов и выбора лучшего.
 
-See the [`parallelization.py`](./parallelization.py) file for an example of this. It runs a translation agent multiple times in parallel, and then picks the best translation.
+Смотрите файл [`parallelization.py`](./parallelization.py) для примера этого. Он запускает агент перевода несколько раз параллельно, а затем выбирает лучший перевод.
 
-## Guardrails
+## Ограждения
 
-Related to parallelization, you often want to run input guardrails to make sure the inputs to your agents are valid. For example, if you have a customer support agent, you might want to make sure that the user isn't trying to ask for help with a math problem.
+В связи с параллелизацией, вы часто хотите запускать входные ограждения, чтобы убедиться, что входные данные для ваших агентов являются допустимыми. Например, если у вас есть агент поддержки клиентов, вы можете убедиться, что пользователь не пытается попросить помощи с математической задачей.
 
-You can definitely do this without any special Agents SDK features by using parallelization, but we support a special guardrail primitive. Guardrails can have a "tripwire" - if the tripwire is triggered, the agent execution will immediately stop and a `GuardrailTripwireTriggered` exception will be raised.
+Вы определенно можете сделать это без каких-либо специальных функций Agents SDK, используя параллелизацию, но мы поддерживаем специальный примитив ограждения. Ограждения могут иметь «срабатывание» — если срабатывание активируется, выполнение агента немедленно остановится и будет вызвано исключение `GuardrailTripwireTriggered`.
 
-This is really useful for latency: for example, you might have a very fast model that runs the guardrail and a slow model that runs the actual agent. You wouldn't want to wait for the slow model to finish, so guardrails let you quickly reject invalid inputs.
+Это действительно полезно для задержки: например, у вас может быть очень быстрая модель, которая запускает ограждение, и медленная модель, которая запускает основного агента. Вы не хотите ждать завершения работы медленной модели, поэтому ограждения позволяют быстро отклонять недопустимые входные данные.
 
-See the [`input_guardrails.py`](./input_guardrails.py) and [`output_guardrails.py`](./output_guardrails.py) files for examples.
+Смотрите файлы [`input_guardrails.py`](./input_guardrails.py) и [`output_guardrails.py`](./output_guardrails.py) для примеров.

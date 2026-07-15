@@ -54,9 +54,9 @@ def _safe_console_width(console: Console) -> int:
         return 120
 
 
-_MODEL_HINT_FULL = "(Use alias models for best Cybersecurity performance)"
-_MODEL_HINT_MED = "(Alias models · Cybersecurity)"
-_MODEL_HINT_SHORT = "(Models · Cybersec.)"
+_MODEL_HINT_FULL = "(Используйте модели alias для оптимальной работы в кибербезопасности)"
+_MODEL_HINT_MED = "(Модели alias · Кибербезопасность)"
+_MODEL_HINT_SHORT = "(Модели · Кибербез.)"
 
 # For reading TOML files
 if sys.version_info >= (3, 11):
@@ -71,7 +71,7 @@ else:
 
 def _version_from_pyproject_cwd() -> str:
     """Read ``[project].version`` from ``./pyproject.toml`` (cwd). Fallback for dev layouts."""
-    version = "unknown"
+    version = "неизвестно"
     try:
         if sys.version_info >= (3, 11):
             toml_parser = tomllib
@@ -182,10 +182,10 @@ def _banner_model_cell(model: str, hint: str) -> Text:
 
 def _banner_command_rows():
     return [
-        ("/agent", "agents · list, select, info"),
-        ("/model", "change AI model"),
-        ("/sessions", "last sessions list"),
-        ("/env", "env / settings"),
+        ("/agent", "агенты · список, выбор, инфо"),
+        ("/model", "сменить модель ИИ"),
+        ("/sessions", "список прошлых сессий"),
+        ("/env", "окружение / настройки"),
     ]
 
 
@@ -215,12 +215,12 @@ def _build_session_banner_panel(
     _unrestricted = os.getenv("CAI_UNRESTRICTED", "false").strip().lower() in ("true", "1", "yes")
     _yolo = os.getenv("CAI_YOLO", "").strip().lower() in ("true", "1", "yes")
     sess_parts: list = [
-        ("Model  ", _GREY),
+        ("Модель  ", _GREY),
         (model, f"bold {_CAI_GREEN}"),
         (" ", ""),
         (hint, _GREY),
         "\n",
-        ("Agent  ", _GREY),
+        ("Агент  ", _GREY),
         (agent_type, "italic white"),
     ]
     if is_orchestration_agent(agent_type):
@@ -233,7 +233,7 @@ def _build_session_banner_panel(
         sess_parts += [
             "\n",
             Text.from_markup(
-                "[bold bright_red]Unrestricted Mode [/bold bright_red]"
+                "[bold bright_red]Без ограничений [/bold bright_red]"
                 "[bold white on bright_red] BETA [/]"
             ),
         ]
@@ -246,8 +246,8 @@ def _build_session_banner_panel(
         padding=(0, 1),
         collapse_padding=True,
     )
-    cmds.add_column("Command", style=f"bold {_CAI_GREEN}", no_wrap=True)
-    cmds.add_column("Summary", style=_GREY)
+    cmds.add_column("Команда", style=f"bold {_CAI_GREEN}", no_wrap=True)
+    cmds.add_column("Описание", style=_GREY)
     for c, h in rows:
         cmds.add_row(c, h)
     # Promo lines above /help subtitle (same style: bold yellow + highlighted invocation)
@@ -255,17 +255,17 @@ def _build_session_banner_panel(
     if not _unrestricted:
         _promo_rows.append(
             Text.assemble(
-                ("Try ", "bold yellow"),
+                ("Попробуйте ", "bold yellow"),
                 ("cai --unrestricted", "bold black on bright_yellow"),
-                (" BETA for uncensored mode", "bold yellow"),
+                (" BETA для нецензурированного режима", "bold yellow"),
             )
         )
     if not _yolo:
         _promo_rows.append(
             Text.assemble(
-                ("Try ", "bold yellow"),
+                ("Попробуйте ", "bold yellow"),
                 ("cai --yolo", "bold black on bright_yellow"),
-                (" — YOLO: skip command prompts", "bold yellow"),
+                (" — YOLO: пропустить запросы команд", "bold yellow"),
             )
         )
     inner = Group(Padding(sess, (1, 0, 0, 0)), Rule(style=_GREY_MID), cmds, *_promo_rows)
@@ -278,7 +278,7 @@ def _build_session_banner_panel(
             title_align="left",
             border_style=_CAI_GREEN,
             padding=(0, 1),
-            subtitle=f"[bold {_CAI_GREEN}]/help[/bold {_CAI_GREEN}] [italic white]for everything else[/italic white]",
+            subtitle=f"[bold {_CAI_GREEN}]/help[/bold {_CAI_GREEN}] [italic white]для всего остального[/italic white]",
             subtitle_align="left",
         )
     return Panel(
@@ -287,7 +287,7 @@ def _build_session_banner_panel(
         title_align="left",
         border_style=_CAI_GREEN,
         padding=(0, 1),
-        subtitle=f"[bold {_CAI_GREEN}]/help[/bold {_CAI_GREEN}] [italic white]for everything else[/italic white]",
+        subtitle=f"[bold {_CAI_GREEN}]/help[/bold {_CAI_GREEN}] [italic white]для всего остального[/italic white]",
         subtitle_align="left",
     )
 
@@ -373,7 +373,7 @@ def get_supported_models_count():
         logging.warning("Could not fetch model data from LiteLLM")
 
     # Default count if we can't fetch the data
-    return "many"
+    return "много"
 
 
 def count_tools():
@@ -493,15 +493,15 @@ def display_framework_capabilities(console: Console):
         padding=(0, 2)
     )
 
-    table.add_column("Category", style="bold cyan")
-    table.add_column("Count", style="bold yellow")
-    table.add_column("Description", style="white")
+    table.add_column("Категория", style="bold cyan")
+    table.add_column("Количество", style="bold yellow")
+    table.add_column("Описание", style="white")
 
     # Add rows for different capabilities
     table.add_row(
-        "AI Models",
+        "Модели ИИ",
         str(get_supported_models_count()),
-        "Supported AI models including GPT-4, Claude, Llama"
+        "Поддерживаемые модели ИИ, включая GPT-4, Claude, Llama"
     )
 
     # table.add_row(
@@ -511,15 +511,15 @@ def display_framework_capabilities(console: Console):
     # )
 
     table.add_row(
-        "Agents",
+        "Агенты",
         str(count_agents()),
-        "Specialized AI agents for different cybersecurity tasks"
+        "Специализированные агенты ИИ для различных задач кибербезопасности"
     )
 
     # Add the table to a panel for better visual separation
     capabilities_panel = Panel(
         table,
-        title="[bold blue]CAI Features[/bold blue]",
+        title="[bold blue]Возможности CAI[/bold blue]",
         border_style="blue",
         padding=(1, 2)
     )
@@ -535,15 +535,15 @@ def display_welcome_tips(console: Console):
         console: Rich console for output
     """
     console.print(Panel(
-        "[white]• Use arrow keys ↑↓ to navigate command history[/white]\n"
-        "[white]• Press Tab for command completion[/white]\n"
-        "[white]• Type /help for available commands[/white]\n"
-        "[white]• Press ? on an empty line for input shortcuts (no Enter needed)[/white]\n"
-        "[white]• Type /help aliases for slash-command aliases[/white]\n"
-        "[white]• Press Ctrl+L to clear the screen[/white]\n"
-        "[white]• Press Alt+Enter or Shift+Enter to add a new line (multiline input)[/white]\n"
-        "[white]• Press Ctrl+C to exit[/white]",
-        title="Quick Tips",
+        "[white]• Используйте стрелки ↑↓ для навигации по истории команд[/white]\n"
+        "[white]• Нажмите Tab для автодополнения команд[/white]\n"
+        "[white]• Введите /help для списка доступных команд[/white]\n"
+        "[white]• Нажмите ? на пустой строке для ярлыков ввода (без Enter)[/white]\n"
+        "[white]• Введите /help aliases для псевдонимов слеш-команд[/white]\n"
+        "[white]• Нажмите Ctrl+L для очистки экрана[/white]\n"
+        "[white]• Нажмите Alt+Enter или Shift+Enter для новой строки (многострочный ввод)[/white]\n"
+        "[white]• Нажмите Ctrl+C для выхода[/white]",
+        title="Быстрые советы",
         border_style="blue"
     ))
 
@@ -567,21 +567,21 @@ def display_agent_overview(console: Console):
         padding=(0, 1)
     )
     
-    agents_table.add_column("Agent", style="cyan", width=25)
-    agents_table.add_column("Specialization", style="white")
-    agents_table.add_column("Best For", style="green")
+    agents_table.add_column("Агент", style="cyan", width=25)
+    agents_table.add_column("Специализация", style="white")
+    agents_table.add_column("Лучше всего для", style="green")
     
     # Add agent rows
     agents = [
-        ("one_tool_agent", "Basic CTF solver", "CTF challenges, Linux operations"),
-        ("red_teamer", "Offensive security", "Penetration testing, exploitation"),
-        ("blue_teamer", "Defensive security", "System defense, monitoring"),
-        ("bug_bounter", "Bug bounty hunter", "Web security, API testing"),
-        ("dfir", "Digital forensics", "Incident response, analysis"),
-        ("network_traffic_analyzer", "Network security", "Traffic analysis, monitoring"),
-        ("flag_discriminator", "CTF flag extraction", "Finding and validating flags"),
-        ("codeagent", "Code specialist", "Exploit development, analysis"),
-        ("thought", "Strategic planning", "High-level analysis, planning"),
+        ("one_tool_agent", "Базовый решатель CTF", "CTF-задачи, Linux-операции"),
+        ("red_teamer", "Наступательная безопасность", "Пентесты, эксплуатация"),
+        ("blue_teamer", "Оборонительная безопасность", "Защита систем, мониторинг"),
+        ("bug_bounter", "Багбаунти-охотник", "Веб-безопасность, тестирование API"),
+        ("dfir", "Цифровая криминалистика", "Реагирование на инциденты, анализ"),
+        ("network_traffic_analyzer", "Безопасность сетей", "Анализ трафика, мониторинг"),
+        ("flag_discriminator", "Извлечение CTF-флагов", "Поиск и валидация флагов"),
+        ("codeagent", "Специалист по коду", "Разработка эксплойтов, анализ"),
+        ("thought", "Стратегическое планирование", "Анализ высокого уровня, планирование"),
     ]
     
     for agent, spec, best_for in agents:
@@ -590,7 +590,7 @@ def display_agent_overview(console: Console):
     # Create the panel
     agent_panel = Panel(
         agents_table,
-        title="[bold yellow]🤖 Available Security Agents[/bold yellow]",
+        title="[bold yellow]🤖 Доступные агенты безопасности[/bold yellow]",
         border_style="yellow",
         padding=(1, 2),
         title_align="center"
@@ -603,7 +603,7 @@ def session_summary_panel_title() -> Text:
     """Panel title strip for the headless/TUI exit summary (matches session banner chrome)."""
     t = Text()
     t.append(" CAI ", style="bold #0d1117 on #00ff9d")
-    t.append(" Session Summary ", style="bold white on #004433")
+    t.append(" Итоги сессии ", style="bold white on #004433")
     return t
 
 
@@ -611,8 +611,8 @@ def _quick_guide_outer_title() -> Text:
     """Title strip matching the session banner bar (no emoji)."""
     t = Text()
     t.append(" CAI ", style="bold #0d1117 on #00ff9d")
-    t.append(" defacto scaffolding for cybersecurity agents ", style="bold white on #004433")
-    t.append("— /help <topic> for detailed docs ", style=f"bold {_CAI_GREEN} on #004433")
+    t.append(" де-факто каркас для агентов кибербезопасности ", style="bold white on #004433")
+    t.append("— /help <тема> для подробной документации ", style=f"bold {_CAI_GREEN} on #004433")
     return t
 
 
@@ -620,8 +620,8 @@ def environment_reference_outer_title() -> Text:
     """Outer title strip for the environment reference panel (same chrome as ``display_quick_guide``)."""
     t = Text()
     t.append(" CAI ", style="bold #0d1117 on #00ff9d")
-    t.append(" environment reference ", style="bold white on #004433")
-    t.append("— /env list + runtime hints ", style=f"bold {_CAI_GREEN} on #004433")
+    t.append(" справочник окружения ", style="bold white on #004433")
+    t.append("— /env list + подсказки времени выполнения ", style=f"bold {_CAI_GREEN} on #004433")
     return t
 
 
@@ -629,15 +629,15 @@ def help_topics_outer_title() -> Text:
     """Outer title for ``/help topics`` (same chrome as other CAI help panels)."""
     t = Text()
     t.append(" CAI ", style="bold #0d1117 on #00ff9d")
-    t.append(" topics ", style="bold white on #004433")
-    t.append("— commands by category + /help <topic> ", style=f"bold {_CAI_GREEN} on #004433")
+    t.append(" темы ", style="bold white on #004433")
+    t.append("— команды по категориям + /help <тема> ", style=f"bold {_CAI_GREEN} on #004433")
     return t
 
 
 def _quick_guide_alias_panel_title() -> Text:
     t = Text()
     t.append(" Alias1 ", style="bold #0d1117 on #00ff9d")
-    t.append(" — best model for cybersecurity ", style="bold white on #004433")
+    t.append(" — лучшая модель для кибербезопасности ", style="bold white on #004433")
     return t
 
 
@@ -675,27 +675,27 @@ def display_help_topics_index(console: Console):
 
     intro_block = Text.assemble(
         (
-            "CAI (Cybersecurity AI): penetration testing, bug bounty hunting, and security research.\n\n",
+            "CAI (Cybersecurity AI): пентесты, багбаунти и исследования в области безопасности.\n\n",
             "white",
         ),
         (
-            "CLI under active development—report issues if something looks wrong.\n\n",
+            "CLI в активной разработке — сообщайте о проблемах, если что-то работает неправильно.\n\n",
             _GREY,
         ),
         (
-            "The tables list registered slash commands by category (live registry). "
-            "For a longer help panel, run ",
+            "В таблицах перечислены зарегистрированные слеш-команды по категориям (реестр в реальном времени). "
+            "Для более подробной панели помощи выполните ",
             "white",
         ),
-        ("/help <topic>", g),
+        ("/help <тема>", g),
         (
-            " — usually the command name without the slash (e.g. ",
+            " — обычно имя команды без слеша (например, ",
             "white",
         ),
         ("/help agent", g),
-        (" for ", "white"),
+        (" для ", "white"),
         ("/agent", g),
-        ("). Special topics: ", "white"),
+        ("). Специальные темы: ", "white"),
         ("/help var", g),
         (", ", _GREY),
         ("/help commands", g),
@@ -707,11 +707,11 @@ def display_help_topics_index(console: Console):
         ("/help config", g),
         (".\n\n", "white"),
         ("• ", _GREY),
-        ("All commands in one panel: ", "white"),
+        ("Все команды на одной панели: ", "white"),
         ("/help commands", g),
         ("\n", ""),
         ("• ", _GREY),
-        ("Quick start: ", "white"),
+        ("Быстрый старт: ", "white"),
         ("/quickstart", g),
         (" (", "white"),
         ("/qs", g),
@@ -719,16 +719,16 @@ def display_help_topics_index(console: Console):
         ("/quick", g),
         (")\n", "white"),
         ("• ", _GREY),
-        ("Bare ", "white"),
+        ("Просто ", "white"),
         ("/help", g),
-        (" or ", "white"),
+        (" или ", "white"),
         ("/h", g),
-        (": quick guide plus full environment-variable tables. ", "white"),
+        (": быстрое руководство и полные таблицы переменных окружения. ", "white"),
         ("/help topics", g),
-        (": this index only (no env tables).\n", "white"),
+        (": только этот индекс (без таблиц окружения).\n", "white"),
         ("• ", _GREY),
         ("/help var NAME", g),
-        (" — long-form help for one catalog variable.\n", "white"),
+        (" — подробная помощь по переменной каталога.\n", "white"),
     )
 
     def _topic_rows_table(rows: list[tuple[str, str]]) -> Table:
@@ -757,7 +757,7 @@ def display_help_topics_index(console: Console):
             r.append(
                 (
                     "/help var NAME",
-                    "Long-form help for one or more catalog variables",
+                    "Подробная помощь по одной или нескольким переменным каталога",
                 )
             )
         out_cat.append((title, r))
@@ -769,30 +769,30 @@ def display_help_topics_index(console: Console):
         section_blocks.append(Text(""))
 
     tips_body = Text.assemble(
-        ("  • Use ", _GREY),
+        ("  • Используйте ", _GREY),
         ("Tab", g),
-        (" for command completion\n", _GREY),
-        ("  • Use ", _GREY),
+        (" для автодополнения команд\n", _GREY),
+        ("  • Используйте ", _GREY),
         ("↑/↓", g),
-        (" to navigate command history\n", _GREY),
-        ("  • Use ", _GREY),
+        (" для навигации по истории команд\n", _GREY),
+        ("  • Используйте ", _GREY),
         ("Ctrl+C", g),
-        (" to interrupt running commands\n", _GREY),
-        ("  • Use ", _GREY),
+        (" для прерывания выполняемых команд\n", _GREY),
+        ("  • Используйте ", _GREY),
         ("Ctrl+L", g),
-        (" to clear the screen\n", _GREY),
-        ("  • Most commands have aliases (e.g., ", _GREY),
+        (" для очистки экрана\n", _GREY),
+        ("  • У большинства команд есть псевдонимы (например, ", _GREY),
         ("/h", g),
-        (" for ", _GREY),
+        (" для ", _GREY),
         ("/help", g),
         (")\n", _GREY),
-        ("  • Type ", _GREY),
-        ("/help <topic>", g),
-        (" for the full help panel (topic usually matches the command name).", _GREY),
+        ("  • Введите ", _GREY),
+        ("/help <тема>", g),
+        (" для полной панели помощи (тема обычно совпадает с именем команды).", _GREY),
     )
     tips_panel = Panel(
         tips_body,
-        title=_quick_guide_subpanel_title("Tips"),
+        title=_quick_guide_subpanel_title("Советы"),
         title_align="left",
         border_style=_CAI_GREEN,
         padding=(1, 1),
@@ -806,7 +806,7 @@ def display_help_topics_index(console: Console):
             title=help_topics_outer_title(),
             title_align="center",
             subtitle=(
-                f"[dim]Full command reference (all slash commands):[/dim] "
+                f"[dim]Полный справочник команд (все слеш-команды):[/dim] "
                 f"[link={doc_url}]{doc_url}[/link]"
             ),
             subtitle_align="center",
@@ -822,55 +822,55 @@ def display_quick_guide(console: Console):
     rule = f"{'━' * 55}\n"
 
     help_ref = Text.assemble(
-        ("CAI Command Reference", f"bold underline {_CAI_GREEN}"),
+        ("Справочник команд CAI", f"bold underline {_CAI_GREEN}"),
         "\n\n",
         (rule, _GREY_MID),
         "\n",
-        ("AGENT MANAGEMENT", g),
+        ("УПРАВЛЕНИЕ АГЕНТАМИ", g),
         " (/a)\n",
         ("    /agent list", g),
-        (" - List all available agents\n", _GREY),
-        ("    /agent [NAME/NUMBER]", g),
-        ("  # to select", _GREY),
+        (" — показать все доступные агенты\n", _GREY),
+        ("    /agent [ИМЯ/НОМЕР]", g),
+        ("  # для выбора", _GREY),
         "\n",
-        ("    /agent info [NAME]", g),
-        (" - Show agent details\n", _GREY),
-        ("    /parallel add [NAME]", g),
-        (" - Configure parallel agents\n", _GREY),
+        ("    /agent info [ИМЯ]", g),
+        (" — показать информацию об агенте\n", _GREY),
+        ("    /parallel add [ИМЯ]", g),
+        (" — настроить параллельных агентов\n", _GREY),
         ("    /queue", g),
-        (" - Prompt queue\n\n", _GREY),
-        ("MODEL", g),
+        (" — очередь запросов\n\n", _GREY),
+        ("МОДЕЛЬ", g),
         "\n",
-        ("    /model [NAME]", g),
-        (" - Change AI model\n", _GREY),
+        ("    /model [ИМЯ]", g),
+        (" — сменить модель ИИ\n", _GREY),
         ("    /model show", g),
-        (" - Browse full model list\n\n", _GREY),
-        ("MEMORY & HISTORY", g),
+        (" — просмотреть полный список моделей\n\n", _GREY),
+        ("ПАМЯТЬ И ИСТОРИЯ", g),
         "\n",
         ("    /memory list", g),
-        (" - List saved memories\n", _GREY),
+        (" — список сохранённых воспоминаний\n", _GREY),
         ("    /history", g),
-        (" - View conversation history\n", _GREY),
+        (" — просмотр истории разговоров\n", _GREY),
         ("    /compact", g),
-        (" - AI-powered conversation summary\n", _GREY),
+        (" — сводка разговора на основе ИИ\n", _GREY),
         ("    /flush", g),
-        (" - Clear conversation history\n\n", _GREY),
-        ("ENVIRONMENT", g),
+        (" — очистить историю разговоров\n\n", _GREY),
+        ("ОКРУЖЕНИЕ", g),
         "\n",
-        ("    /workspace set [NAME]", g),
-        (" - Set workspace directory\n", _GREY),
+        ("    /workspace set [ИМЯ]", g),
+        (" — установить рабочий каталог\n", _GREY),
         ("    /env", g),
-        (" - Manage environment variables\n", _GREY),
-        ("    /virt list | /virt set [ID] | /virt run [IMAGE]", g),
-        (" - Docker environments\n\n", _GREY),
-        ("TOOLS & INTEGRATION", g),
+        (" — управление переменными окружения\n", _GREY),
+        ("    /virt list | /virt set [ID] | /virt run [ОБРАЗ]", g),
+        (" — окружения Docker\n\n", _GREY),
+        ("ИНСТРУМЕНТЫ И ИНТЕГРАЦИЯ", g),
         "\n",
         ("    /mcp load <url> <name>", g),
         (" — SSE; ", _GREY),
         ("/mcp load stdio <name> <cmd>", g),
         (" [args…] — stdio\n", _GREY),
-        ("    /shell [COMMAND] or $", g),
-        (" - Execute shell commands\n\n", _GREY),
+        ("    /shell [КОМАНДА] или $", g),
+        (" — выполнить команду оболочки\n\n", _GREY),
         (rule, _GREY_MID),
     )
 
@@ -888,10 +888,10 @@ def display_quick_guide(console: Console):
 
     # No leading "\n": the table row already ends with a newline; an extra one doubled the gap.
     workflow_text = Text.assemble(
-        # No underline here: avoids a second “bar” right under the ━ rule above.
-        ("Quick Start Workflows", f"bold {_CAI_GREEN}"),
+        # No underline here: avoids a second "bar" right under the ━ rule above.
+        ("Быстрые рабочие процессы", f"bold {_CAI_GREEN}"),
         "\n\n",
-        ("CTF Challenge", g),
+        ("CTF-задача", g),
         "\n",
         ("  1. ", _GREY),
         ("/agent select redteam_agent", g),
@@ -900,8 +900,8 @@ def display_quick_guide(console: Console):
         ("/workspace set ctf_name", g),
         "\n",
         ("  - ", _GREY),
-        ("Describe the challenge...\n\n", _GREY),
-        ("Bug Bounty", g),
+        ("Опишите задачу...\n\n", _GREY),
+        ("Багбаунти", g),
         "\n",
         ("  1. ", _GREY),
         ("/agent select bug_bounter_agent", g),
@@ -910,8 +910,8 @@ def display_quick_guide(console: Console):
         ("/model claude-3-7-sonnet", g),
         "\n",
         ("  3. ", _GREY),
-        ("Test https://example.com\n\n", _GREY),
-        ("Parallel Recon", g),
+        ("Тест https://example.com\n\n", _GREY),
+        ("Параллельная разведка", g),
         "\n",
         ("  1. ", _GREY),
         ("/parallel add red_teamer", g),
@@ -920,20 +920,20 @@ def display_quick_guide(console: Console):
         ("/parallel add network_traffic_analyzer", g),
         "\n",
         ("  3. ", _GREY),
-        ("Scan 192.168.1.0/24", _GREY),
-        ("  # queue prompts, then:", _GREY),
+        ("Сканирование 192.168.1.0/24", _GREY),
+        ("  # очередь запросов, затем:", _GREY),
         "\n",
         ("  4. ", _GREY),
         ("/parallel run", g),
         "\n",
         ("  5. ", _GREY),
         ("/merge  ", g),
-        ("# merge contexts + auto-exit parallel", _GREY),
+        ("# объединить контексты + автовыход из параллельного режима", _GREY),
         "\n",
         ("  6. ", _GREY),
         ("/parallel clear  ", g),
-        ("# exit without merge\n\n", _GREY),
-        ("MCP Tools Integration", g),
+        ("# выход без объединения\n\n", _GREY),
+        ("Интеграция инструментов MCP", g),
         "\n",
         ("  1. ", _GREY),
         (
@@ -942,13 +942,13 @@ def display_quick_guide(console: Console):
         ),
         "\n",
         ("     ", _GREY),
-        ("# Burp MCP: PortSwigger stdio proxy (extract JAR from the MCP Server BApp)\n", _GREY),
+        ("# Burp MCP: прокси PortSwigger stdio (извлеките JAR из MCP Server BApp)\n", _GREY),
         ("  2. ", _GREY),
         ("/mcp add burp red_teamer", g),
         "\n",
         ("  3. ", _GREY),
-        ("Use the new tools...\n\n", _GREY),
-        ("Blue team review", g),
+        ("Используйте новые инструменты...\n\n", _GREY),
+        ("Обзор синей команды", g),
         "\n",
         ("  1. ", _GREY),
         ("/agent select blue_teamer", g),
@@ -956,36 +956,36 @@ def display_quick_guide(console: Console):
         ("  2. ", _GREY),
         ("/workspace set home_lab", g),
         ("  ", _GREY),
-        ("# scope the assets or folder you care about\n", _GREY),
+        ("# определите область или каталог, который вас интересует\n", _GREY),
         ("  3. ", _GREY),
         (
-            "Paste a config snippet, checklist, or describe what you monitor — "
-            "ask what to verify first\n",
+            "Вставьте фрагмент конфигурации, чек-лист или опишите, что вы мониторите — "
+            "спросите, что проверить в первую очередь\n",
             _GREY,
         ),
         "\n",
         ("  - ", _GREY),
         (
-            'Example: "Review this firewall rule draft" or '
-            '"What should I harden on a small Linux server?"\n\n',
+            'Пример: "Проверьте этот черновик правила межсетевого экрана" или '
+            '"Что нужно усилить на небольшом Linux-сервере?"\n\n',
             _GREY,
         ),
     )
 
     alias_url = "https://news.aliasrobotics.com/alias1-a-privacy-first-cybersecurity-ai/"
     context_body = Text.assemble(
-        ("Security-Focused AI Framework\n\n", "bold white"),
-        ("For optimal cybersecurity AI performance, use\n", _GREY),
+        ("Фреймворк ИИ для безопасности\n\n", "bold white"),
+        ("Для оптимальной производительности ИИ в кибербезопасности используйте\n", _GREY),
         ("alias1", g),
-        (" - specifically designed for cybersecurity\n", _GREY),
-        ("tasks with superior domain knowledge.\n\n", _GREY),
+        (" — специально разработан для задач кибербезопасности\n", _GREY),
+        ("с превосходными знаниями в предметной области.\n\n", _GREY),
         ("alias1", g),
-        (" outperforms general-purpose models in:\n", _GREY),
-        ("  • Vulnerability assessment\n", _GREY),
-        ("  • Penetration testing and bug bounty\n", _GREY),
-        ("  • Security analysis\n", _GREY),
-        ("  • Threat detection\n\n", _GREY),
-        ("Learn more about alias1 and its privacy-first approach:\n", _GREY),
+        (" превосходит универсальные модели в:\n", _GREY),
+        ("  • Оценка уязвимостей\n", _GREY),
+        ("  • Пентесты и багбаунти\n", _GREY),
+        ("  • Анализ безопасности\n", _GREY),
+        ("  • Обнаружение угроз\n\n", _GREY),
+        ("Узнайте больше об alias1 и его подходе к приватности:\n", _GREY),
         (alias_url, f"{_CAI_GREEN} underline"),
     )
     context_tip = Panel(
@@ -1012,10 +1012,10 @@ def display_quick_guide(console: Console):
         (f"{_stream} (LLM)\n", _quick_guide_env_value_style("CAI_STREAM", _stream)),
         ("  CAI_TOOL_STREAM ", _GREY),
         ("= ", _GREY),
-        (f"{_tool_stream} (Tools)\n", _quick_guide_env_value_style("CAI_TOOL_STREAM", _tool_stream)),
+        (f"{_tool_stream} (Инструменты)\n", _quick_guide_env_value_style("CAI_TOOL_STREAM", _tool_stream)),
         ("  CAI_WORKSPACE ", _GREY),
         ("= ", _GREY),
-        (f"{os.getenv('CAI_WORKSPACE', 'default')}\n", "white"),
+        (f"{os.getenv('CAI_WORKSPACE', 'по умолчанию')}\n", "white"),
         ("  CAI_TEMPERATURE ", _GREY),
         ("= ", _GREY),
         (f"{os.getenv('CAI_TEMPERATURE', '0.7')}\n", "white"),
@@ -1025,7 +1025,7 @@ def display_quick_guide(console: Console):
     )
     env_panel = Panel(
         env_body,
-        title=_quick_guide_subpanel_title("Environment Variables"),
+        title=_quick_guide_subpanel_title("Переменные окружения"),
         title_align="left",
         border_style=_CAI_GREEN,
         padding=(1, 1),
@@ -1034,7 +1034,7 @@ def display_quick_guide(console: Console):
     shortcuts_body = quick_shortcuts_text(g, _GREY)
     shortcuts_panel = Panel(
         shortcuts_body,
-        title=_quick_guide_subpanel_title("Quick shortcuts"),
+        title=_quick_guide_subpanel_title("Быстрые сочетания клавиш"),
         title_align="left",
         border_style=_CAI_GREEN,
         padding=(1, 1),
@@ -1043,41 +1043,41 @@ def display_quick_guide(console: Console):
     # Curated essentials (aligned with session banner command hints + common discovery).
     essential_body = Text.assemble(
         ("  /agent", g),
-        (" — agents · list, select, info\n", _GREY),
+        (" — агенты · список, выбор, инфо\n", _GREY),
         ("  /model", g),
-        (" — change AI model\n", _GREY),
+        (" — сменить модель ИИ\n", _GREY),
         ("  /sessions", g),
-        (" — last sessions list\n", _GREY),
+        (" — список прошлых сессий\n", _GREY),
         ("  /env", g),
-        (" — env / settings\n", _GREY),
+        (" — окружение / настройки\n", _GREY),
         ("  /help topics", g),
-        (" — commands by category + /help <topic> (no env tables)\n", _GREY),
+        (" — команды по категориям + /help <тема> (без таблиц окружения)\n", _GREY),
         ("  /exit", g),
-        (" — leave CAI\n", _GREY),
+        (" — выйти из CAI\n", _GREY),
     )
     essential_panel = Panel(
         essential_body,
-        title=_quick_guide_subpanel_title("Essential commands"),
+        title=_quick_guide_subpanel_title("Основные команды"),
         title_align="left",
         border_style=_CAI_GREEN,
         padding=(1, 1),
     )
 
     tips_body = Text.assemble(
-        ("  • Use /help <topic> for topic-specific help (e.g. /help agent)\n", _GREY),
+        ("  • Используйте /help <тема> для помощи по конкретной теме (например, /help agent)\n", _GREY),
         (
-            "  • Default entry agent is selection_agent; /help agent compares handoff routing vs orchestration_agent (BETA)\n",
+            "  • Агент по умолчанию — selection_agent; /help agent сравнивает маршрутизацию передач и orchestration_agent (BETA)\n",
             _GREY,
         ),
-        ("  • Use bare /help for this guide plus full environment variable tables below\n", _GREY),
-        ("  • Use /help commands for all commands\n", _GREY),
-        ("  • Press ? on an empty line for input shortcuts (no Enter); ? still works with Enter\n", _GREY),
-        ("  • Use /quickstart (aliases /qs, /quick) for the onboarding guide\n", _GREY),
-        ("  • Use $ prefix for quick shell: $ ls", _GREY),
+        ("  • Используйте просто /help для этого руководства и полных таблиц переменных окружения\n", _GREY),
+        ("  • Используйте /help commands для всех команд\n", _GREY),
+        ("  • Нажмите ? на пустой строке для ярлыков ввода (без Enter); ? работает и с Enter\n", _GREY),
+        ("  • Используйте /quickstart (псевдонимы /qs, /quick) для руководства по началу работы\n", _GREY),
+        ("  • Используйте префикс $ для быстрого запуска оболочки: $ ls", _GREY),
     )
     tips_panel = Panel(
         tips_body,
-        title=_quick_guide_subpanel_title("Pro Tips"),
+        title=_quick_guide_subpanel_title("Советы профессионала"),
         title_align="left",
         border_style=_CAI_GREEN,
         padding=(1, 1),
@@ -1118,7 +1118,7 @@ def display_quick_guide(console: Console):
     # Privacy notice spans full width below the two-column block, above the docs subtitle.
     _privacy_text = Text.assemble(
         (
-            "CAI collects pseudonymized data to improve our research.Your privacy is protected in compliance with GDPR.",
+            "CAI собирает псевдонимизированные данные для улучшения наших исследований. Ваша конфиденциальность защищена в соответствии с GDPR.",
             _GREY,
         ),
     )
@@ -1132,7 +1132,7 @@ def display_quick_guide(console: Console):
             title=_quick_guide_outer_title(),
             title_align="center",
             subtitle=(
-                f"[dim]Full command reference (all slash commands):[/dim] "
+                f"[dim]Полный справочник команд (все слеш-команды):[/dim] "
                 f"[link={doc_url}]{doc_url}[/link]"
             ),
             subtitle_align="center",

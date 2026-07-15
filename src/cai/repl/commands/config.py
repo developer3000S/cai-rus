@@ -1,4 +1,4 @@
-"""Deprecated REPL commands ``/config``, ``/cfg`` — deprecation notice only."""
+"""Устаревшие команды REPL ``/config``, ``/cfg`` — только уведомление об устаревании."""
 
 from __future__ import annotations
 
@@ -21,12 +21,12 @@ def print_config_deprecated_message(out: Optional[Console] = None) -> None:
     """
     target = out if out is not None else console
     body = (
-        "[bold]/config[/bold] is deprecated. Use [bold #00ff9d]/env[/bold #00ff9d] instead:\n\n"
-        "• [bold #00ff9d]/env[/bold #00ff9d] — [dim]CAI_[/dim] / [dim]CTF_[/dim] keys in this process\n"
-        "• [bold #00ff9d]/env list[/bold #00ff9d] — full catalog\n"
+        "[bold]/config[/bold] устарел. Используйте [bold #00ff9d]/env[/bold #00ff9d] вместо него:\n\n"
+        "• [bold #00ff9d]/env[/bold #00ff9d] — ключи [dim]CAI_[/dim] / [dim]CTF_[/dim] в текущем процессе\n"
+        "• [bold #00ff9d]/env list[/bold #00ff9d] — полный каталог\n"
         "• [bold #00ff9d]/env get <n|NAME>[/bold #00ff9d] / "
         "[bold #00ff9d]/env set <n|NAME> <value...>[/bold #00ff9d]\n"
-        "• [bold #00ff9d]/env default[/bold #00ff9d] — restore all catalog defaults"
+        "• [bold #00ff9d]/env default[/bold #00ff9d] — восстановить все значения по умолчанию"
     )
     target.print(
         Panel(
@@ -45,7 +45,7 @@ class ConfigCommand(Command):
     def __init__(self):
         super().__init__(
             name="/config",
-            description="Deprecated: use /env for environment variables",
+            description="Устарело: используйте /env для переменных окружения",
             aliases=["/cfg"],
         )
 

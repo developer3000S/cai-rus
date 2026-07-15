@@ -1,17 +1,17 @@
-# Reproducing field operator feedback scenarios
+# Воспроизведение сценариев обратной связи от операторов в поле
 
-This guide reproduces the PCAP / screenshot / inventory issues from May 2026 session logs shared by a partner certification body, and how to verify fixes in CAI **v1.1.0+** (artifact evidence changes on branch `cai-v1.1.0`).
+Это руководство воспроизводит проблемы с PCAP / скриншотами / инвентаризациями из журналов сессий май 2026 года, предоставленных партнёрским сертифицирующим органом, а также способы проверки исправлений в CAI **v1.1.0+** (изменения артефактов доказательств на ветке `cai-v1.1.0`).
 
-## Attached logs (reference)
+## Приложенные журналы (справочно)
 
-| Zip | Session | Main symptom |
+| Zip | Сессия | Основной симптом |
 |-----|---------|--------------|
-| `nopcap-onlytxt.zip` | Compliance / SCM-1 | `CAP_NET_RAW` failure → `.txt` in `packet_captures/` |
-| `txt-to-png.zip` | Network analyzer | `.txt` “screenshots” → ImageMagick PNGs |
+| `nopcap-onlytxt.zip` | Compliance / SCM-1 | Ошибка `CAP_NET_RAW` → `.txt` в `packet_captures/` |
+| `txt-to-png.zip` | Network analyzer | `.txt` «скриншоты» → ImageMagick PNG |
 
-## 1) PCAP permission failure notice
+## 1) Уведомление об ошибке прав перехвата PCAP
 
-**Simulate (no real capture needed):**
+**Воспроизведение (реальный перехват не требуется):**
 
 ```bash
 cd cai
@@ -24,42 +24,42 @@ print(apply_packet_capture_notice(cmd, out))
 "
 ```
 
-**Expected:** output starts with `[CAI PACKET-CAPTURE FAILURE]`.
+**Ожидаемый результат:** вывод начинается с `[CAI PACKET-CAPTURE FAILURE]`.
 
-**Live on WSL without setcap:**
+**На WSL без setcap:**
 
 ```bash
 tcpdump -i any -c 1 -w /tmp/test.pcap 2>&1 | head -5
 ```
 
-Run the same command via CAI `generic_linux_command`; the model should see the notice and must not write openssl/curl output into `packet_captures/`.
+Выполните ту же команду через CAI `generic_linux_command`; модель должна увидеть уведомление и не должна записывать вывод openssl/curl в `packet_captures/`.
 
-**Fix environment then retest:**
+**Исправьте окружение и повторите тест:**
 
 ```bash
 sudo setcap cap_net_raw+eip "$(command -v dumpcap)"
 ```
 
-## 2) False screenshots (txt → png)
+## 2) Ложные скриншоты (txt → png)
 
-**Reproduce user prompt (network or CTF agent):**
+**Воспроизведение подсказки пользователя (сетевой агент или агент CTF):**
 
-> Initiate communications on open ports on 192.0.2.104, create pcaps per port under assessments/, and take screenshots of notable parts in the pcaps.
+> Установите связь с открытыми портами на 192.0.2.104, создайте pcaps по портам в assessments/ и сделайте скриншоты заметных частей в pcaps.
 
-**Before fix:** agent writes `assessments/screenshots/*.txt` (tshark text).
+**До исправления:** агент записывает `assessments/screenshots/*.txt` (текст tshark).
 
-**After user correction:** agent should prefer `assessments/filtered-pcaps/*.pcap` and must not claim ImageMagick PNGs are Wireshark GUI captures.
+**После исправления пользователем:** агент должен предпочитать `assessments/filtered-pcaps/*.pcap` и не должен утверждать, что PNG из ImageMagick являются захватами GUI Wireshark.
 
-**Verify in workspace:**
+**Проверка в рабочем пространстве:**
 
 ```bash
 find assessments -name '*.txt' -path '*/screenshots/*'
 file assessments/real-screenshots/*.png 2>/dev/null | head -3
 ```
 
-PNG files that are "PNG image data" but only contain rendered text are **diagrams**, not GUI screenshots—expected limitation.
+PNG-файлы, которые являются «PNG image data», но содержат только отрисованный текст, — это **диаграммы**, а не скриншоты GUI — ожидаемое ограничение.
 
-## 3) CSV inventory completeness
+## 3) Полнота инвентаризации CSV
 
 ```bash
 cd cai
@@ -72,15 +72,15 @@ cd cai
   -q --timeout=60
 ```
 
-**Expected:** `8 passed` in under a few seconds. If pytest hangs after `....`, an old build was waiting for an interactive sudo password—upgrade to the branch that skips sudo retry when the packet-capture notice is already present, then Ctrl+C and re-run.
+**Ожидаемый результат:** `8 passed` за несколько секунд. Если pytest зависает после `....`, старая сборка ожидала интерактивный пароль sudo — обновитесь до ветки, которая пропускает повтор sudo, когда уведомление о перехвате пакетов уже присутствует, затем нажмите Ctrl+C и перезапустите.
 
-**Interactive test:**
+**Интерактивный тест:**
 
-1. Create `workspace/test_assets.csv` with `PAsset-01` … `PAsset-10`.
-2. Ask Compliance agent to assess all; paste partial reply into `verify_csv_inventory` via tool call.
-3. Confirm `MISSING` lists gaps.
+1. Создайте `workspace/test_assets.csv` с `PAsset-01` … `PAsset-10`.
+2. Попросите агента Compliance оценить все; вставьте частичный ответ в `verify_csv_inventory` через вызов инструмента.
+3. Убедитесь, что `MISSING` перечисляет пробелы.
 
-## 4) Replay JSONL logs (read-only)
+## 4) Воспроизведение журналов JSONL (только чтение)
 
 ```bash
 unzip -p ~/Downloads/nopcap-onlytxt.zip '*.jsonl' | \
@@ -92,8 +92,8 @@ for i, line in enumerate(sys.stdin, 1):
 " | head -20
 ```
 
-This confirms permission errors and txt substitutes in the original session.
+Это подтверждает ошибки прав и текстовые заменители в исходной сессии.
 
-## What remains impossible (tell the operator)
+## Что остаётся невозможным (сообщите оператору)
 
-See `docs/cai/troubleshooting/platform_limitations.md` for customer-facing explanations.
+См. `docs/cai/troubleshooting/platform_limitations.md` для пояснений для заказчика.

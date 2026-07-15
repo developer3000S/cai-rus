@@ -1,49 +1,49 @@
-# Installation
+# Установка
 
 ```bash
 pip install cai-framework
 ```
 
-## Using CAI with Claude Code, Codex, and OpenCode
+## Использование CAI с Claude Code, Codex и OpenCode
 
-You can use CAI with different coding assistants while keeping the same repository and environment.
+Вы можете использовать CAI с различными помощниками по кодированию, сохраняя один и тот же репозиторий и окружение.
 
-### Recommended setup
+### Рекомендуемая настройка
 
-1. Use one project-local virtual environment.
-2. Keep a single `.env` file for CAI configuration.
-3. Reuse the same branch/worktree across assistants.
-4. Validate CAI behavior from the terminal after assistant-driven edits.
+1. Используйте одну виртуальную среду на уровне проекта.
+2. Ведите один файл `.env` для конфигурации CAI.
+3. Переиспользуйте одну и ту же ветку/worktree для всех помощников.
+4. Проверяйте поведение CAI из терминала после правок, внесённых помощником.
 
-### Assistant-agnostic workflow
+### Независимый от помощника рабочий процесс
 
-- Edit and plan with your preferred assistant (Claude Code, Codex, or OpenCode).
-- Run CAI commands from the same project terminal/session.
-- For multi-agent execution, use:
+- Редактируйте и планируйте с помощью предпочитаемого помощника (Claude Code, Codex или OpenCode).
+- Запускайте команды CAI из того же терминала/сессии проекта.
+- Для многопроцессного выполнения используйте:
   - `/parallel add ...`
   - `/parallel run`
-  - `/merge` (or `/parallel clear` to exit without merge)
+  - `/merge` (или `/parallel clear` для выхода без слияния)
 
 ## OS X
 ```bash
-# Install homebrew
+# Установите homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Install dependencies
+# Установите зависимости
 brew update && \
     brew install git python@3.12
 
-# Create virtual environment
+# Создайте виртуальную среду
 python3.12 -m venv cai_env
 
-# Install the package from the local directory
+# Установите пакет из локальной директории
 source cai_env/bin/activate && pip install cai-framework
 
-# Generate a .env file and set up with defaults
+# Сгенерируйте файл .env и настройте по умолчанию
 echo -e 'OPENAI_API_KEY="sk-1234"\nANTHROPIC_API_KEY=""\nOLLAMA=""\nPROMPT_TOOLKIT_NO_CPR=1' > .env
 
-# Launch CAI
-cai  # first launch it can take up to 30 seconds
+# Запустите CAI
+cai  # при первом запуске может занять до 30 секунд
 ```
 
 ## Ubuntu 24.04
@@ -51,17 +51,17 @@ cai  # first launch it can take up to 30 seconds
 sudo apt-get update && \
     sudo apt-get install -y git python3-pip python3.12-venv
 
-# Create the virtual environment
+# Создайте виртуальную среду
 python3.12 -m venv cai_env
 
-# Install the package from the local directory
+# Установите пакет из локальной директории
 source cai_env/bin/activate && pip install cai-framework
 
-# Generate a .env file and set up with defaults
+# Сгенерируйте файл .env и настройте по умолчанию
 echo -e 'OPENAI_API_KEY="sk-1234"\nANTHROPIC_API_KEY=""\nOLLAMA=""\nPROMPT_TOOLKIT_NO_CPR=1' > .env
 
-# Launch CAI
-cai  # first launch it can take up to 30 seconds
+# Запустите CAI
+cai  # при первом запуске может занять до 30 секунд
 ```
 
 ## Ubuntu 20.04
@@ -69,101 +69,101 @@ cai  # first launch it can take up to 30 seconds
 sudo apt-get update && \
     sudo apt-get install -y software-properties-common
 
-# Fetch Python 3.12
+# Получите Python 3.12
 sudo add-apt-repository ppa:deadsnakes/ppa && sudo apt update
 sudo apt install python3.12 python3.12-venv python3.12-dev -y
 
-# Create the virtual environment
+# Создайте виртуальную среду
 python3.12 -m venv cai_env
 
-# Install the package from the local directory
+# Установите пакет из локальной директории
 source cai_env/bin/activate && pip install cai-framework
 
-# Generate a .env file and set up with defaults
+# Сгенерируйте файл .env и настройте по умолчанию
 echo -e 'OPENAI_API_KEY="sk-1234"\nANTHROPIC_API_KEY=""\nOLLAMA=""\nPROMPT_TOOLKIT_NO_CPR=1' > .env
 
-# Launch CAI
-cai  # first launch it can take up to 30 seconds
+# Запустите CAI
+cai  # при первом запуске может занять до 30 секунд
 ```
 
 ## Windows WSL
-Go to the Microsoft page: `https://learn.microsoft.com/en-us/windows/wsl/install`. 
-Here you will find all the instructions to install WSL
+Перейдите на страницу Microsoft: `https://learn.microsoft.com/en-us/windows/wsl/install`. 
+Здесь вы найдёте все инструкции по установке WSL
 
-From Powershell write: ` wsl --install`
+В Powershell напишите: ` wsl --install`
 
-For **packet capture** on WSL2 (`tcpdump` / `tshark`), see [Packet capture on WSL2](packet_capture_wsl.md) (`setcap`, Docker `NET_RAW`, valid PCAP vs text substitutes).
+Для **перехвата пакетов** на WSL2 (`tcpdump` / `tshark`), см. [Перехват пакетов на WSL2](packet_capture_wsl.md) (`setcap`, Docker `NET_RAW`, валидный PCAP вместо текстовых заменителей).
 
 ```bash
 sudo apt-get update && \
     sudo apt-get install -y git python3-pip python3-venv
 
-# Create the virtual environment
+# Создайте виртуальную среду
 python3 -m venv cai_env
 
-# Install the package from the local directory
+# Установите пакет из локальной директории
 source cai_env/bin/activate && pip install cai-framework
 
-# Generate a .env file and set up with defaults
+# Сгенерируйте файл .env и настройте по умолчанию
 echo -e 'OPENAI_API_KEY="sk-1234"\nANTHROPIC_API_KEY=""\nOLLAMA=""\nPROMPT_TOOLKIT_NO_CPR=1' > .env
 
-# Launch CAI
-cai  # first launch it can take up to 30 seconds
+# Запустите CAI
+cai  # при первом запуске может занять до 30 секунд
 ```
 
 ## Android
 
-We recommend having at least 8 GB of RAM:
+Рекомендуем иметь не менее 8 ГБ ОЗУ:
 
-1. First of all, install userland https://play.google.com/store/apps/details?id=tech.ula&hl=es
+1. Сначала установите userland https://play.google.com/store/apps/details?id=tech.ula&hl=es
 
-2. Install Kali minimal in basic options (for free). [Or any other kali option if preferred]
+2. Установите Kali minimal в базовых опциях (бесплатно). [Любой другой вариант Kali, если предпочтительно]
 
-3. Update apt keys like in this example: https://superuser.com/questions/1644520/apt-get-update-issue-in-kali, inside UserLand's Kali terminal execute
+3. Обновите ключи apt как в этом примере: https://superuser.com/questions/1644520/apt-get-update-issue-in-kali, в терминале Kali в UserLand выполните
 
 ```bash
-# Get new apt keys
+# Получите новые ключи apt
 wget http://http.kali.org/kali/pool/main/k/kali-archive-keyring/kali-archive-keyring_2024.1_all.deb
 
-# Install new apt keys
+# Установите новые ключи apt
 sudo dpkg -i kali-archive-keyring_2024.1_all.deb && rm kali-archive-keyring_2024.1_all.deb
 
-# Update APT repository
+# Обновите репозиторий APT
 sudo apt-get update
 
-# CAI requieres python 3.12, lets install it (CAI for kali in Android)
+# CAI требует python 3.12, установим его (CAI для kali на Android)
 sudo apt-get update && sudo apt-get install -y git python3-pip build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev pkg-config
 wget https://www.python.org/ftp/python/3.12.4/Python-3.12.4.tar.xz
 tar xf Python-3.12.4.tar.xz
 cd ./configure --enable-optimizations
-sudo make altinstall # This command takes long to execute
+sudo make altinstall # Эта команда выполняется долго
 
-# Clone CAI's source code
+# Клонируйте исходный код CAI
 git clone https://github.com/aliasrobotics/cai && cd cai
 
-# Create virtual environment
+# Создайте виртуальную среду
 python3.12 -m venv cai_env
 
-# Install the package from the local directory
+# Установите пакет из локальной директории
 source cai_env/bin/activate && pip3 install -e .
 
-# Generate a .env file and set up
-cp .env.example .env  # edit here your keys/models
+# Сгенерируйте файл .env и настройте
+cp .env.example .env  # отредактируйте здесь ваши ключи/модели
 
-# Launch CAI
+# Запустите CAI
 cai
 ``` 
 
-### Custom OpenAI Base URL Support
+### Поддержка пользовательского базового URL OpenAI
 
-CAI supports configuring a custom OpenAI API base URL via the `OPENAI_BASE_URL` environment variable. This allows users to redirect API calls to a custom endpoint, such as a proxy or self-hosted OpenAI-compatible service.
+CAI поддерживает настройку пользовательского базового URL API OpenAI через переменную окружения `OPENAI_BASE_URL`. Это позволяет пользователям перенаправлять вызовы API на пользовательский endpoint, такой как прокси или самостоятельно размещённый совместимый с OpenAI сервис.
 
-Example `.env` entry configuration:
+Пример конфигурации `.env`:
 ```
 OLLAMA_API_BASE="https://custom-openai-proxy.com/v1"
 ```
 
-Or directly from the command line:
+Или напрямую из командной строки:
 ```bash
 OLLAMA_API_BASE="https://custom-openai-proxy.com/v1" cai
 ```

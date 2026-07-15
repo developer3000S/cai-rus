@@ -1,9 +1,9 @@
 """
-Graph command for CAI cli.
+Команда graph для CAI CLI.
 
-This module provides commands for visualizing the agent interaction graph.
-It allows users to display a simple directed graph of the conversation history,
-showing the sequence of user and agent interactions, including tool calls.
+Этот модуль предоставляет команды для визуализации графа взаимодействия агентов.
+Позволяет пользователям отображать простой ориентированный граф истории диалогов,
+показывая последовательность взаимодействий пользователя и агента, включая вызовы инструментов.
 """
 
 import os
@@ -34,17 +34,17 @@ class GraphCommand(Command):
     def __init__(self):
         """Initialize the graph command."""
         super().__init__(
-            name="/graph", description="Visualize the agent interaction graph", aliases=["/g"]
+            name="/graph", description="Визуализация графа взаимодействия агентов", aliases=["/g"]
         )
 
         # Add subcommands
-        self.add_subcommand("show", "Show graph (same as bare /graph)", self.handle_graph_show)
-        self.add_subcommand("all", "Show graphs for all agents", self.handle_all)
+        self.add_subcommand("show", "Показать граф (аналог裸 /graph)", self.handle_graph_show)
+        self.add_subcommand("all", "Показать графы для всех агентов", self.handle_all)
         self.add_subcommand(
-            "timeline", "Table of messages per agent (ordered by message index)", self.handle_timeline
+            "timeline", "Таблица сообщений по агентам (упорядочено по индексу сообщения)", self.handle_timeline
         )
-        self.add_subcommand("stats", "Show detailed statistics", self.handle_stats)
-        self.add_subcommand("export", "Export graph data", self.handle_export)
+        self.add_subcommand("stats", "Показать подробную статистику", self.handle_stats)
+        self.add_subcommand("export", "Экспорт данных графа", self.handle_export)
 
     def handle(self, args: Optional[List[str]] = None) -> bool:
         """
@@ -172,7 +172,7 @@ class GraphCommand(Command):
                     # No current agent, try active agents
                     active_agents = AGENT_MANAGER.get_active_agents()
                     if not active_agents:
-                        console.print("[yellow]No active agent found.[/yellow]")
+                        console.print("[yellow]Активный агент не найден.[/yellow]")
                         return True
                     # Get the first active agent
                     agent_name = list(active_agents.keys())[0]
@@ -181,7 +181,7 @@ class GraphCommand(Command):
             history = AGENT_MANAGER.get_message_history(agent_name)
 
         if not history:
-            console.print(f"[yellow]No conversation history for agent '{agent_name}'.[/yellow]")
+            console.print(f"[yellow]История диалогов для агента '{agent_name}' не найдена.[/yellow]")
             return True
 
         try:
@@ -298,7 +298,7 @@ class GraphCommand(Command):
                         lines.append("[dim]   │\n   │\n   ▼[/dim]")
                 return lines
 
-            console.print(f"\n[bold]Conversation Graph for {agent_name}:[/bold]")
+            console.print(f"\n[bold]Граф диалога для {agent_name}:[/bold]")
             console.print("-" * (20 + len(agent_name)))
 
             if len(G.nodes) == 0:
@@ -349,7 +349,7 @@ class GraphCommand(Command):
                                 all_histories[display_name] = agent.model.message_history
                     
                     if all_histories:
-                        console.print(f"\n[bold {_Z}]Terminal Agents Conversation Graphs[/bold {_Z}]")
+                        console.print(f"\n[bold {_Z}]Графы диалогов агентов терминалов[/bold {_Z}]")
                         console.print(Rule(style=_CAI_GREEN))
                         
                         # Create graphs for each terminal
@@ -392,17 +392,17 @@ class GraphCommand(Command):
                         
                         # Summary
                         total_messages = sum(len(hist) for hist in all_histories.values())
-                        console.print(f"\n[bold {_Z}]Summary:[/bold {_Z}]")
+                        console.print(f"\n[bold {_Z}]Сводка:[/bold {_Z}]")
                         console.print(
-                            f"[white]• Total terminals:[/white] [bold {_Z}]{len(all_histories)}[/bold {_Z}]"
+                            f"[white]• Всего терминалов:[/white] [bold {_Z}]{len(all_histories)}[/bold {_Z}]"
                         )
                         console.print(
-                            f"[white]• Total messages:[/white] [bold {_Z}]{total_messages}[/bold {_Z}]"
+                            f"[white]• Всего сообщений:[/white] [bold {_Z}]{total_messages}[/bold {_Z}]"
                         )
                         n_t = len(all_histories) if all_histories else 0
                         avg_t = total_messages / n_t if n_t else 0.0
                         console.print(
-                            f"[white]• Average messages per terminal:[/white] [bold {_Z}]{avg_t:.1f}[/bold {_Z}]"
+                            f"[white]• Среднее сообщений на терминал:[/white] [bold {_Z}]{avg_t:.1f}[/bold {_Z}]"
                         )
                         
                         return True
@@ -457,11 +457,11 @@ class GraphCommand(Command):
 
         if not all_histories and not PARALLEL_CONFIGS:
             console.print(
-                "[yellow]No agents configured or no conversation history available.[/yellow]"
+                "[yellow]Агенты не настроены или история диалогов недоступна.[/yellow]"
             )
             return True
 
-        console.print(f"\n[bold {_Z}]Multi-Agent Conversation Graphs[/bold {_Z}]")
+        console.print(f"\n[bold {_Z}]Графы диалогов множества агентов[/bold {_Z}]")
         console.print(Rule(style=_CAI_GREEN))
 
         # Build list of agents to show
@@ -684,7 +684,7 @@ class GraphCommand(Command):
             console.print(graphs[0])
 
         # Summary statistics
-        console.print(f"\n[bold {_Z}]Summary:[/bold {_Z}]")
+        console.print(f"\n[bold {_Z}]Сводка:[/bold {_Z}]")
         # Count only actual messages (skip system messages)
         total_messages = 0
         for _, hist in agents_to_show:
@@ -695,13 +695,13 @@ class GraphCommand(Command):
         n_ag = len(agents_to_show)
         avg_a = total_messages / n_ag if n_ag else 0.0
         console.print(
-            f"[white]• Total agents:[/white] [bold {_Z}]{n_ag}[/bold {_Z}]"
+            f"[white]• Всего агентов:[/white] [bold {_Z}]{n_ag}[/bold {_Z}]"
         )
         console.print(
-            f"[white]• Total messages:[/white] [bold {_Z}]{total_messages}[/bold {_Z}]"
+            f"[white]• Всего сообщений:[/white] [bold {_Z}]{total_messages}[/bold {_Z}]"
         )
         console.print(
-            f"[white]• Average messages per agent:[/white] [bold {_Z}]{avg_a:.1f}[/bold {_Z}]"
+            f"[white]• Среднее сообщений на агента:[/white] [bold {_Z}]{avg_a:.1f}[/bold {_Z}]"
         )
 
         return True
@@ -913,7 +913,7 @@ class GraphCommand(Command):
                             console.print("-" * (20 + len(full_agent_name)))
 
                             if len(G.nodes) == 0:
-                                console.print("[yellow]No messages to display in graph.[/yellow]")
+                console.print("[yellow]Нет сообщений для отображения в графе.[/yellow]")
                             else:
                                 for item in render_graph(G):
                                     console.print(item)
@@ -921,19 +921,13 @@ class GraphCommand(Command):
                             return True
 
                         except Exception as e:
-                            console.print(f"[red]Error displaying graph: {e}[/red]")
+            console.print(f"[red]Ошибка отображения графа: {e}[/red]")
                             return False
                     else:
-                        console.print(
-                            f"[yellow]No history found for {full_agent_name} [{agent_id}][/yellow]"
-                        )
-                        return True
-
-        # Fall back to regular AGENT_MANAGER lookup
-        agent_name = AGENT_MANAGER.get_agent_by_id(agent_id)
-        if not agent_name:
-            console.print(f"[yellow]No agent found with ID '{agent_id}'[/yellow]")
-            console.print("[dim]Use '/history' to see available agents with IDs[/dim]")
+        console.print(
+            f"[yellow]Агент с ID '{agent_id}' не найден[/yellow]"
+        )
+        console.print("[dim]Используйте '/history' для просмотра доступных агентов с ID[/dim]")
             return True
 
         console.print(f"[bold {_Z}]Showing graph for {agent_name} [{agent_id}][/bold {_Z}]")
@@ -983,7 +977,7 @@ class GraphCommand(Command):
 
         # Create timeline table
         table = Table(
-            title=f"[bold {_Z}]Agent messages (by index)[/bold {_Z}]",
+            title=f"[bold {_Z}]Сообщения агентов (по индексу)[/bold {_Z}]",
             show_header=True,
             header_style="bold white",
             border_style=_CAI_GREEN,
@@ -991,10 +985,10 @@ class GraphCommand(Command):
             box=None,
             pad_edge=True,
         )
-        table.add_column("Time", style=_HINT, width=6)
-        table.add_column("Agent", style=f"bold {_Z}", width=25)
-        table.add_column("Role", style="white", width=10)
-        table.add_column("Action", style="white")
+        table.add_column("Время", style=_HINT, width=6)
+        table.add_column("Агент", style=f"bold {_Z}", width=25)
+        table.add_column("Роль", style="white", width=10)
+        table.add_column("Действие", style="white")
 
         for event in timeline_events:
             # Format time (using index as pseudo-time)
@@ -1053,7 +1047,7 @@ class GraphCommand(Command):
             table.add_row(time_str, agent_str, role_cell, action)
 
         console.print(table)
-        console.print(f"\n[bold {_Z}]Total events: {len(timeline_events)}[/bold {_Z}]")
+        console.print(f"\n[bold {_Z}]Всего событий: {len(timeline_events)}[/bold {_Z}]")
         return True
 
     def handle_stats(self, args: Optional[List[str]] = None) -> bool:
@@ -1070,7 +1064,7 @@ class GraphCommand(Command):
 
         # Create statistics table
         stats_table = Table(
-            title=f"[bold {_Z}]Agent Conversation Statistics[/bold {_Z}]",
+            title=f"[bold {_Z}]Статистика диалогов агентов[/bold {_Z}]",
             show_header=True,
             header_style="bold white",
             border_style=_CAI_GREEN,
@@ -1078,13 +1072,13 @@ class GraphCommand(Command):
             box=None,
             pad_edge=True,
         )
-        stats_table.add_column("Agent", style=f"bold {_Z}")
-        stats_table.add_column("Messages", style="white", justify="right")
-        stats_table.add_column("User", style="white", justify="right")
-        stats_table.add_column("Assistant", style=f"bold {_Z}", justify="right")
-        stats_table.add_column("Tools", style=_HINT, justify="right")
-        stats_table.add_column("Tool Calls", style=_HINT, justify="right")
-        stats_table.add_column("Avg Length", style="white", justify="right")
+        stats_table.add_column("Агент", style=f"bold {_Z}")
+        stats_table.add_column("Сообщения", style="white", justify="right")
+        stats_table.add_column("Пользователь", style="white", justify="right")
+        stats_table.add_column("Ассистент", style=f"bold {_Z}", justify="right")
+        stats_table.add_column("Инструменты", style=_HINT, justify="right")
+        stats_table.add_column("Вызовы инструментов", style=_HINT, justify="right")
+        stats_table.add_column("Ср. длина", style="white", justify="right")
 
         total_stats = Counter()
 

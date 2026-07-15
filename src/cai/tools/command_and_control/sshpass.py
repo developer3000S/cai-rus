@@ -1,15 +1,15 @@
 """
-SSH Pass tool for executing remote commands via SSH using password authentication.
+Инструмент SSH Pass для выполнения удаленных команд через SSH с аутентификацией по паролю.
 
-Example of generalization: to execute a local command we use a bash wrapper
-in `generic_linux_command` and in `execute_cli_command` -> `cai.tools.misc.cli_utils`
-Using these wrappers, commands like `ssh` or `netcat` usually get trapped
-by the LLM, so prompt engineering is used to execute the command locally
-and return the result. Another solution is to implement interactive CLIs, for now this command
-covers all SSH use cases. A much more logical and simpler implementation than
+Пример обобщения: для выполнения локальной команды мы используем обертку bash
+в `generic_linux_command` и в `execute_cli_command` -> `cai.tools.misc.cli_utils`
+Используя эти обертки, команды типа `ssh` или `netcat` обычно блокируются
+LLM, поэтому используется инженерия промптов для выполнения команды локально
+и возврата результата. Другое решение — реализовать интерактивные CLI, на данный момент эта команда
+покрывает все варианты использования SSH. Более логичная и простая реализация по сравнению с
 `hackingbuddyGPT` `https://github.com/ipa-lab/hackingBuddyGPT`
-It handles privilege escalation very well and is autonomous regarding SSH password input,
-something that hasn't been seen in other cybersecurity frameworks yet (Feb 2025)
+Отлично обрабатывает повышение привилегий и автономно вводит пароли SSH,
+что пока не встречалось в других фреймворках кибербезопасности (февраль 2025)
 """  # noqa: E501
 
 from cai.tools.common import run_command  # pylint: disable=E0401 # noqa: E501
@@ -22,17 +22,17 @@ def run_ssh_command_with_credentials(
     host: str, username: str, password: str, command: str, port: int = 22
 ) -> str:
     """
-    Execute a command on a remote host via SSH using password authentication.
+    Выполнение команды на удаленном хосте через SSH с аутентификацией по паролю.
 
     Args:
-        host: Remote host address
-        username: SSH username
-        password: SSH password
-        command: Command to execute on remote host
-        port: SSH port (default: 22)
+        host: Адрес удаленного хоста
+        username: Имя пользователя SSH
+        password: Пароль SSH
+        command: Команда для выполнения на удаленном хосте
+        port: Порт SSH (по умолчанию: 22)
 
     Returns:
-        str: Output from the remote command execution
+        str: Вывод выполнения удаленной команды
     """
 
     # # Escape special characters in password and command to prevent shell injection
@@ -44,9 +44,9 @@ def run_ssh_command_with_credentials(
     try:
         port = int(port)
         if port <= 0 or port > 65535:
-            return "port is not a valid integer"
+            return "Порт не является допустимым целым числом"
     except Exception:
-        return "port is not a valid integer"
+        return "Порт не является допустимым целым числом"
 
     # Escape special characters to prevent shell injection
     quoted_password = shlex.quote(password)

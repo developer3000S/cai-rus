@@ -1,22 +1,22 @@
-"""CLI entry-point for CAI (Cybersecurity AI Framework).
+"""CLI точка входа для CAI (Cybersecurity AI Framework).
 
-This module is a thin orchestrator:
-  1. Bootstraps the environment via ``cli_setup``
-  2. Parses CLI arguments (argparse)
-  3. Dispatches to TUI mode or headless REPL (``cli_headless.run_cai_cli``)
+Этот модуль — тонкий оркестратор:
+  1. Инициализирует окружение через ``cli_setup``
+  2. Разбирает CLI аргументы (argparse)
+  3. Переключает в режим TUI или headless REPL (``cli_headless.run_cai_cli``)
 
-Heavy logic lives in:
-  - ``cai.cli_setup``    -- .env loading, warning/logging config, CTF init
-  - ``cai.cli_headless`` -- interactive REPL loop, agent execution, parallel mode
+Тяжёлая логика находится в:
+  - ``cai.cli_setup``    -- загрузка .env, настройка предупреждений/логирования, инициализация CTF
+  - ``cai.cli_headless`` -- интерактивный цикл REPL, выполнение агентов, параллельный режим
 """
 
-# --- Bootstrap MUST happen before any other cai imports ---
+# --- Инициализация ДО любых других импортов cai ---
 from cai.cli_setup import bootstrap as _bootstrap
 _bootstrap()
 
-# --- Suppress "Event loop is closed" noise on exit (Python 3.12+) ----------
-# BaseSubprocessTransport.__del__ tries to close pipes via a closed loop.
-# This is harmless but prints ugly tracebacks. Patch it early.
+# --- Подавление шума "Event loop is closed" при выходе (Python 3.12+) ----------
+# BaseSubprocessTransport.__del__ пытается закрыть каналы через закрытый цикл.
+# Это безвредно, но выводит некрасивые трассировки. Патчим заранее.
 import asyncio.base_subprocess as _abs
 _original_bst_del = _abs.BaseSubprocessTransport.__del__
 
@@ -24,7 +24,7 @@ def _quiet_bst_del(self):
     try:
         _original_bst_del(self)
     except RuntimeError:
-        pass  # "Event loop is closed" during interpreter shutdown — ignore
+        pass  # "Event loop is closed" во время завершения интерпретатора — игнорируем
 
 _abs.BaseSubprocessTransport.__del__ = _quiet_bst_del
 # ---------------------------------------------------------------------------
@@ -42,7 +42,7 @@ from rich.panel import Panel
 
 from cai.config import get_config
 from cai.cli_setup import create_last_log_symlink
-import cai.cli_setup as _cli_setup  # for ctf_global backward compat
+import cai.cli_setup as _cli_setup  # для обратной совместимости ctf_global
 from cai.repl.commands.parallel import (
     PARALLEL_CONFIGS,
     load_parallel_config_from_yaml,
@@ -53,7 +53,7 @@ from cai.util import ensure_litellm_transcription_support
 from cai.repl.ui.banner import display_banner
 from cai.repl.ui.startup_hints import StartupHints, mask_key_for_hint
 
-# Re-export for backward compatibility (other modules import from cai.cli)
+# Повторный экспорт для обратной совместимости (другие модули импортируют из cai.cli)
 __all__ = [
     "main",
     "run_cai_cli",
@@ -65,7 +65,7 @@ __all__ = [
 
 
 def _resolve_alias_model_name(model_name: str | None) -> str:
-    """Return alias-family model, falling back to CAI_MODEL then alias1."""
+    """Вернуть модель семейства alias, с fallback на CAI_MODEL затем alias1."""
     env_model = (os.getenv("CAI_MODEL", "alias1") or "alias1").strip()
     candidate = (model_name or env_model).strip()
     if candidate.lower().startswith("alias"):
@@ -76,24 +76,24 @@ def _resolve_alias_model_name(model_name: str | None) -> str:
 
 
 def _print_deferred_update_notice(console: Console, update_info: dict) -> None:
-    """Show a non-blocking update notice after startup."""
+    """Показать отложенное уведомление об обновлении после запуска."""
     if not update_info or not update_info.get("update_available"):
         return
     current_version = update_info.get("current_version", "unknown")
     latest_version = update_info.get("latest_version", "unknown")
     console.print(
-        f"[#9aa0a6][CAI] Update available:[/] "
+        f"[#9aa0a6][CAI] Доступно обновление:[/] "
         f"[bold white]{current_version}[/bold white][#9aa0a6] -> [/]"
         f"[bold #00ff9d]{latest_version}[/bold #00ff9d]"
     )
     console.print(
-        "[#9aa0a6][CAI] Run [/][bold #00ff9d]cai --update[/bold #00ff9d]"
-        "[#9aa0a6] to review and apply.[/]"
+        "[#9aa0a6][CAI] Выполните [/][bold #00ff9d]cai --update[/bold #00ff9d]"
+        "[#9aa0a6] для просмотра и применения.[/]"
     )
 
 
 def __getattr__(name):
-    """Lazy re-export: headless CLI (heavy import) and cli_setup globals."""
+    """Ленивый реэкспорт: headless CLI (тяжёлый импорт) и глобальные переменные cli_setup."""
     if name in ("run_cai_cli", "update_agent_models_recursively", "START_TIME"):
         import cai.cli_headless as _headless
 
@@ -107,11 +107,11 @@ def __getattr__(name):
 
 
 def _ensure_headless_bound() -> None:
-    """Import cli_headless into this module's globals.
+    """Импортировать cli_headless в глобальные переменные этого модуля.
 
-    ``__getattr__`` only runs for ``import cai.cli; cai.cli.run_cai_cli`` style
-    access; ``LOAD_GLOBAL`` inside this file does not trigger it, so internal
-    callers need an explicit bind before using ``run_cai_cli`` /
+    ``__getattr__`` срабатывает только при доступе в стиле ``import cai.cli; cai.cli.run_cai_cli``;
+    ``LOAD_GLOBAL`` внутри этого файла не вызывает его, поэтому внутренние
+    вызывающие должны явно привязать перед использованием ``run_cai_cli`` /
     ``update_agent_models_recursively``.
     """
     g = globals()
@@ -125,17 +125,17 @@ def _ensure_headless_bound() -> None:
 
 
 def main():
-    """Parse CLI arguments and dispatch to the appropriate mode."""
+    """Разобрать CLI аргументы и переключить в соответствующий режим."""
     deferred_update_info: dict | None = None
     update_holder: dict = {}
     update_thread: threading.Thread | None = None
 
-    # First feedback ASAP (Rich only — avoids importing cli_headless until headless REPL).
+    # Первый обратный вызов как можно скорее (только Rich — чтобы не импортировать cli_headless до headless REPL).
     boot_console = Console()
     boot = StartupHints(boot_console)
-    boot.start("Starting CAI framework...")
+    boot.start("Запуск фреймворка CAI...")
 
-    # --- System dependency check ---
+    # --- Проверка системных зависимостей ---
     try:
         from cai.util_ext import check_system_dependencies, display_missing_dependencies_error
         all_ok, missing = check_system_dependencies()
@@ -146,9 +146,9 @@ def main():
     except Exception:
         pass
 
-    # --- License check + update prompt ---
-    # check_for_updates() can take up to ~10s (pip index). _chk() hits the API with curl (~3–5s).
-    # Run them in parallel so cold start is ~max(a,b) instead of a+b. Opt out: CAI_SKIP_UPDATE_CHECK=1
+    # --- Проверка лицензии + запрос обновления ---
+    # check_for_updates() может занять до ~10с (pip index). _chk() обращается к API через curl (~3–5с).
+    # Запускаем параллельно, чтобы холодный старт был ~max(a,b) вместо a+b. Отключение: CAI_SKIP_UPDATE_CHECK=1
     try:
         from cai.util_ext import (
             _chk,
@@ -158,7 +158,7 @@ def main():
             user_env_requests_auto_framework_update,
         )
         boot.update(
-            f"Verifying license and API key ({mask_key_for_hint(os.getenv('ALIAS_API_KEY', ''))})..."
+            f"Проверка лицензии и API-ключа ({mask_key_for_hint(os.getenv('ALIAS_API_KEY', ''))})..."
         )
         skip_updates = os.getenv("CAI_SKIP_UPDATE_CHECK", "").lower() in ("1", "true", "yes")
         def _run_check_for_updates() -> None:
@@ -173,21 +173,24 @@ def main():
 
         if not _chk():
             boot.stop()
+            # Вместо жесткого выхода, переключаемся в режим Community Edition
             Console(stderr=True).print(
                 Panel(
-                    "[bold red]ALIAS_API_KEY is invalid or not set[/bold red]\n\n"
-                    "Please set a valid ALIAS_API_KEY in your .env file or environment.",
-                    title="[red]Authentication Error[/red]",
-                    border_style="red",
+                    "[bold yellow]LICENSE_KEY недействителен или не установлен[/bold yellow]\n\n"
+                    "CAI запускается в режиме [bold]Community Edition (Research & Learning)[/bold].\n"
+                    "Некоторые профессиональные функции (например, модель alias1) будут ограничены.\n\n"
+                    "Для перехода на [bold]Professional Edition[/bold] установите действительный ALIAS_API_KEY.",
+                    title="[yellow]Режим Community Edition[/yellow]",
+                    border_style="yellow",
                 )
             )
-            sys.exit(1)
+            # Мы не вызываем sys.exit(1), позволяя приложению продолжить работу.
 
         update_info = None
         if not skip_updates and update_thread is not None:
-            # Keep startup non-blocking: don't wait for pip index in the critical path.
-            # If the background check finishes quickly, we can still surface the prompt.
-            boot.update("Checking for framework updates...")
+            # Сохраняем неблокирующий запуск: не ждём pip index на критическом пути.
+            # Если фоновая проверка завершится быстро, мы всё ещё можем показать запрос.
+            boot.update("Проверка обновлений фреймворка...")
             if not update_thread.is_alive():
                 update_info = update_holder.get("info")
 
@@ -197,16 +200,16 @@ def main():
             if user_env_requests_auto_framework_update() or prompt_for_update(update_info):
                 if perform_update(api_key):
                     sys.exit(0)
-            boot.start("Continuing startup...", leading_blank=False)
+            boot.start("Продолжение запуска...", leading_blank=False)
         elif update_info is not None and update_info.get("update_available") is False:
             from cai.repl.ui.banner import CAI_GREEN
             boot.stop()
             Console().print(
                 f"[bold {CAI_GREEN}]✓[/bold {CAI_GREEN}] "
                 f"[bold white]cai-framework {update_info.get('current_version', '')} "
-                f"is up to date.[/bold white]"
+                f"уже обновлён.[/bold white]"
             )
-            boot.start("Continuing startup...", leading_blank=False)
+            boot.start("Продолжение запуска...", leading_blank=False)
     except Exception:
         pass
 
@@ -217,20 +220,20 @@ def main():
         add_help=True,
         allow_abbrev=False,
     )
-    parser.add_argument("--tui", action="store_true", help="Launch CAI in Textual UI mode")
-    parser.add_argument("--yaml", dest="yaml_path", metavar="FILE", help="Load agent definitions from YAML")
-    parser.add_argument("--prompt", dest="prompt_override", metavar="TEXT", help="Initial prompt to execute immediately")
-    parser.add_argument("--version", action="store_true", help="Show CAI version and exit")
-    parser.add_argument("--update", action="store_true", help="Check for updates and install if available")
-    parser.add_argument("--continue", "-c", action="store_true", dest="continue_mode", help="Enable continuous mode")
+    parser.add_argument("--tui", action="store_true", help="Запустить CAI в режиме Textual UI")
+    parser.add_argument("--yaml", dest="yaml_path", metavar="FILE", help="Загрузить определения агентов из YAML")
+    parser.add_argument("--prompt", dest="prompt_override", metavar="TEXT", help="Начальная подсказка для немедленного выполнения")
+    parser.add_argument("--version", action="store_true", help="Показать версию CAI и выйти")
+    parser.add_argument("--update", action="store_true", help="Проверить обновления и установить если доступны")
+    parser.add_argument("--continue", "-c", action="store_true", dest="continue_mode", help="Включить непрерывный режим")
     parser.add_argument("--unrestricted", action="store_true",
-                        help="Enable abliteration steering (steering_enabled=true, thinking off)")
+                        help="Включить управление abliteration (steering_enabled=true, thinking отключён)")
     parser.add_argument(
         "--yolo",
         action="store_true",
-        help="YOLO mode: skip sensitive-command confirmation (auto-approve tool shell runs; unsafe)",
+        help="Режим YOLo: пропустить подтверждение чувствительных команд (авто-одобрение запусков инструментов; небезопасно)",
     )
-    parser.add_argument("--api", action="store_true", help="Launch as HTTP API backend")
+    parser.add_argument("--api", action="store_true", help="Запустить как HTTP API бэкенд")
     cfg = get_config()
     parser.add_argument("--api-host", default=cfg.api_host)
     parser.add_argument("--api-port", type=int, default=cfg.api_port)
@@ -244,19 +247,19 @@ def main():
 
     _exit_if_removed_resume_cli_flags(sys.argv[1:])
 
-    # --- --yolo (must run before agent/tools: disables sensitive-command prompts) ---
+    # --- --yolo (должен выполняться до агента/инструментов: отключает запросы чувствительных команд) ---
     if parsed_args.yolo:
         os.environ["CAI_YOLO"] = "true"
 
     # --- --unrestricted ---
     if parsed_args.unrestricted:
         os.environ["CAI_UNRESTRICTED"] = "true"
-        # Same OpenAI-compatible entry as default CAI; LiteLLM routes by API key + model name.
+        # Та же точка входа совместимая с OpenAI что и CAI по умолчанию; LiteLLM маршрутизует по API-ключу + имени модели.
         _UNRESTRICTED_API_BASE = "https://api.aliasrobotics.com:666/"
         _UNRESTRICTED_MODEL = _resolve_alias_model_name(None)
         os.environ.setdefault("OPENAI_API_BASE", _UNRESTRICTED_API_BASE)
         os.environ.setdefault("CAI_MODEL", _UNRESTRICTED_MODEL)
-        # Auth: use ALIAS_API_KEY from .env (httpx_client prefers it).
+        # Аутентификация: используйте ALIAS_API_KEY из .env (httpx_client предпочитает его).
 
     # --- --version ---
     if parsed_args.version:
@@ -265,7 +268,7 @@ def main():
             import importlib.metadata
             print(f"CAI Framework v{importlib.metadata.version('cai-framework')}")
         except Exception:
-            print("CAI Framework (development version)")
+            print("CAI Framework (версия разработки)")
         sys.exit(0)
 
     # --- --update ---
@@ -274,26 +277,26 @@ def main():
         _handle_update_command()
         return
 
-    # --- YAML loading ---
+    # --- Загрузка YAML ---
     resolved_yaml_path: Optional[Path] = None
     if parsed_args.yaml_path:
-        boot.update("Loading parallel agent configuration...")
+        boot.update("Загрузка конфигурации параллельных агентов...")
         candidate_path = Path(parsed_args.yaml_path).expanduser()
         quiet_load = parsed_args.tui
         if not load_parallel_config_from_yaml(candidate_path, quiet=quiet_load):
             boot.stop()
             if quiet_load:
-                print(f"Error: failed to load agents config '{parsed_args.yaml_path}'", file=sys.stderr)
+                print(f"Ошибка: не удалось загрузить конфигурацию агентов '{parsed_args.yaml_path}'", file=sys.stderr)
             sys.exit(2)
         resolved_yaml_path = candidate_path.resolve()
 
         if not parsed_args.tui:
             boot.stop()
-            print(f"Loaded {len(PARALLEL_CONFIGS)} parallel agents from {resolved_yaml_path}", file=sys.stderr)
+            print(f"Загружено {len(PARALLEL_CONFIGS)} параллельных агентов из {resolved_yaml_path}", file=sys.stderr)
             _maybe_enable_auto_run(resolved_yaml_path)
-            boot.start("Continuing startup...", leading_blank=False)
+            boot.start("Продолжение запуска...", leading_blank=False)
 
-    # --- API server mode ---
+    # --- Режим API-сервера ---
     if parsed_args.api:
         boot.stop()
         from cai.api.server import run_api_server
@@ -308,7 +311,7 @@ def main():
             sys.exit(0)
         return
 
-    # --- TUI mode ---
+    # --- Режим TUI ---
     if parsed_args.tui:
         boot.stop()
         if resolved_yaml_path:
@@ -326,19 +329,19 @@ def main():
         run_cai_tui()
         return
 
-    # --- Config validation at startup [B] ---
+    # --- Проверка конфигурации при запуске [B] ---
     config_warnings = cfg.validate()
     if config_warnings:
         boot.stop()
         console = Console(stderr=True)
         for w in config_warnings:
-            console.print(f"[yellow]⚠ Config warning: {w}[/yellow]")
+            console.print(f"[yellow]⚠ Предупреждение конфигурации: {w}[/yellow]")
 
-    # --- Headless CLI mode ---
-    boot.set_message("Initializing CLI output...")
-    # Wire OutputManager for CLI output events [P+T].
-    # Compact mode (q3=b) is the default; opting out via CAI_COMPACT_REPL=0
-    # falls back to the legacy verbose CLIOutputHandler.
+    # --- Режим Headless CLI ---
+    boot.set_message("Инициализация вывода CLI...")
+    # Подключить OutputManager для событий вывода CLI [P+T].
+    # Компактный режим (q3=b) по умолчанию; отключение через CAI_COMPACT_REPL=0
+    # возвращает устаревший CLIOutputHandler.
     from cai.repl.ui.compact_wiring import install_compact_ui, is_compact_enabled
     if is_compact_enabled():
         install_compact_ui()
@@ -351,8 +354,8 @@ def main():
     ensure_litellm_logging_worker_loop_safety()
     if not patch_applied:
         boot.stop()
-        print(color("LiteLLM transcription support could not be enabled", color="red"))
-        boot.start("Continuing startup...", leading_blank=False)
+        print(color("Не удалось включить поддержку транскрипции LiteLLM", color="red"))
+        boot.start("Продолжение запуска...", leading_blank=False)
 
     boot.stop()
     try:
@@ -363,10 +366,10 @@ def main():
         pass
     display_banner(boot_console, model=cfg.model, agent_type=cfg.agent_type)
     boot_console.print()
-    boot.start("Loading agent and session runtime...", leading_blank=False)
+    boot.start("Загрузка агента и среды выполнения сессии...", leading_blank=False)
 
     initial_prompt = _resolve_initial_prompt(parsed_args, remaining_args)
-    boot.update("Resolving agent from configuration...")
+    boot.update("Определение агента из конфигурации...")
     _ensure_headless_bound()
     agent = _resolve_agent()
     _agent_type_resolved = os.getenv("CAI_AGENT_TYPE", cfg.agent_type)
@@ -392,7 +395,7 @@ def main():
 
 
 # ---------------------------------------------------------------------------
-# Private helpers for main()
+# Приватные вспомогательные функции для main()
 # ---------------------------------------------------------------------------
 
 def _handle_update_command():
@@ -410,31 +413,31 @@ def _handle_update_command():
     api_key = os.getenv("ALIAS_API_KEY", "").strip()
     if not oss_mode and not api_key:
         console.print(Panel(
-            "[bold red]ALIAS_API_KEY is not set[/bold red]\n\n"
-            "Please set a valid ALIAS_API_KEY in your .env file or environment, "
-            "or set [bold]CAI_LICENSE_OFF=1[/bold] to update from public PyPI.",
-            title="[red]Authentication Error[/red]",
+            "[bold red]ALIAS_API_KEY не установлен[/bold red]\n\n"
+            "Пожалуйста, установите действительный ALIAS_API_KEY в файле .env или переменной окружения, "
+            "или установите [bold]CAI_LICENSE_OFF=1[/bold] для обновления из публичного PyPI.",
+            title="[red]Ошибка аутентификации[/red]",
             border_style="red",
         ))
         sys.exit(1)
 
-    console.print("[dim white]Checking for updates…[/dim white]")
+    console.print("[dim white]Проверка обновлений…[/dim white]")
     update_info = check_for_updates()
     if update_info and update_info.get("update_available"):
         if user_env_requests_auto_framework_update() or prompt_for_update(update_info):
             sys.exit(0 if perform_update(api_key) else 1)
         else:
-            console.print("[italic dim white]Update cancelled.[/italic dim white]")
+            console.print("[italic dim white]Обновление отменено.[/italic dim white]")
     elif update_info is not None:
         console.print(
             f"[bold {CAI_GREEN}]✓[/bold {CAI_GREEN}] "
             f"[bold white]cai-framework {update_info.get('current_version', '')} "
-            f"is up to date.[/bold white]"
+            f"уже обновлён.[/bold white]"
         )
     else:
         console.print(
-            "[yellow]Could not check for updates[/yellow] "
-            "[dim white](network error or index unreachable).[/dim white]"
+            "[yellow]Не удалось проверить обновления[/yellow] "
+            "[dim white](ошибка сети или индекс недоступен).[/dim white]"
         )
         sys.exit(1)
     sys.exit(0)
@@ -448,7 +451,7 @@ def _maybe_enable_auto_run(resolved_yaml_path):
         has_auto_run = any(a.get('auto_run', metadata.get('auto_run', False)) for a in agents)
         if has_auto_run and PARALLEL_CONFIGS:
             os.environ["CAI_AUTO_RUN_PARALLEL"] = "1"
-            print("Auto-run enabled for parallel agents. They will execute automatically.", file=sys.stderr)
+            print("Авто-запуск включён для параллельных агентов. Они будут выполняться автоматически.", file=sys.stderr)
     except Exception:
         pass
 
@@ -480,7 +483,7 @@ def _resolve_agent():
 
     if pattern and hasattr(pattern, "configs"):
         console = Console()
-        console.print(f"[cyan]Loading pattern from CAI_AGENT_TYPE: {agent_type}[/cyan]")
+        console.print(f"[cyan]Загрузка паттерна из CAI_AGENT_TYPE: {agent_type}[/cyan]")
         PARALLEL_CONFIGS.clear()
         for idx, config in enumerate(pattern.configs, 1):
             config.id = f"P{idx}"
@@ -488,7 +491,7 @@ def _resolve_agent():
         if len(PARALLEL_CONFIGS) >= 2:
             os.environ["CAI_PARALLEL"] = str(len(PARALLEL_CONFIGS))
             os.environ["CAI_PARALLEL_AGENTS"] = ",".join(c.agent_name for c in PARALLEL_CONFIGS)
-        console.print(f"[green]Loaded parallel pattern: {pattern.description}[/green]")
+        console.print(f"[green]Загружен параллельный паттерн: {pattern.description}[/green]")
         for idx, config in enumerate(PARALLEL_CONFIGS, 1):
             resolved_model = _resolve_alias_model_name(config.model)
             model_info = f" [{resolved_model}]"
@@ -515,7 +518,7 @@ def _resolve_agent():
 
 
 def _exit_if_removed_resume_cli_flags(argv: list[str]) -> None:
-    """Inform users that --resume / --logpath were removed (use REPL /resume)."""
+    """Уведомить пользователей что --resume / --logpath были удалены (используйте /resume в REPL)."""
     removed: set[str] = set()
     for arg in argv:
         if arg == "--resume" or arg.startswith("--resume="):
@@ -527,11 +530,11 @@ def _exit_if_removed_resume_cli_flags(argv: list[str]) -> None:
     console = Console(stderr=True)
     flags = ", ".join(sorted(removed))
     console.print(
-        f"[bold #00ff9d]Removed CLI flags:[/bold #00ff9d] {flags}.\n"
-        "[dim]Start CAI, then use [/dim][bold #00ff9d]/resume[/bold #00ff9d][dim] "
-        "(pick from the same recent list as [/dim][bold #00ff9d]/sessions[/bold #00ff9d][dim]), "
-        "[/dim][bold #00ff9d]/resume last[/bold #00ff9d][dim], a `.jsonl` path, a directory, "
-        "or [/dim][bold #00ff9d]/sessions <n>[/bold #00ff9d][dim] for a longer list.[/dim]"
+        f"[bold #00ff9d]Удалённые CLI флаги:[/bold #00ff9d] {flags}.\n"
+        "[dim]Запустите CAI, затем используйте [/dim][bold #00ff9d]/resume[/bold #00ff9d][dim] "
+        "(выберите из того же недавнего списка что и [/dim][bold #00ff9d]/sessions[/bold #00ff9d][dim]), "
+        "[/dim][bold #00ff9d]/resume last[/bold #00ff9d][dim], путь `.jsonl`, каталог, "
+        "или [/dim][bold #00ff9d]/sessions <n>[/bold #00ff9d][dim] для расширенного списка.[/dim]"
     )
     sys.exit(2)
 

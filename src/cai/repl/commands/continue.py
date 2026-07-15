@@ -1,5 +1,5 @@
 """
-Continue command implementation for enabling automatic continuation mode.
+Реализация команды continue для включения автоматического режима продолжения.
 """
 
 import os
@@ -32,14 +32,14 @@ class ContinueCommand(Command):
         """Initialize the continue command."""
         super().__init__(
             name="continue",
-            description="Enable continuation mode and continue current task",
+            description="Включить режим продолжения и продолжить текущую задачу",
             aliases=["/continue"]
         )
         
         # Add subcommands
-        self.add_subcommand("on", "Enable continuation mode and continue task", self.handle_on)
-        self.add_subcommand("off", "Disable automatic continuation mode", self.handle_off)
-        self.add_subcommand("status", "Check current continuation mode status", self.handle_status)
+        self.add_subcommand("on", "Включить режим продолжения и продолжить задачу", self.handle_on)
+        self.add_subcommand("off", "Отключить автоматический режим продолжения", self.handle_off)
+        self.add_subcommand("status", "Проверить текущий статус режима продолжения", self.handle_status)
     
     def handle_no_args(self):
         """
@@ -52,8 +52,8 @@ class ContinueCommand(Command):
         set_continue_mode(True)
         os.environ["CAI_CONTINUE_MODE"] = "true"
         
-        console.print("[green]✓ Automatic continuation mode ENABLED[/green]")
-        console.print("[dim]The agent will automatically continue when it stops.[/dim]")
+        console.print("[green]✓ Автоматический режим продолжения ВКЛЮЧЁН[/green]")
+        console.print("[dim]Агент будет автоматически продолжать при остановке.[/dim]")
         
         # Trigger immediate continuation
         self._trigger_immediate_continuation()
@@ -86,7 +86,7 @@ class ContinueCommand(Command):
             
             if message_history:
                 # Generate continuation advice
-                console.print("[cyan]🤖 Generating continuation prompt...[/cyan]")
+                console.print("[cyan]Генерация запроса на продолжение...[/cyan]")
                 continuation_prompt = asyncio.run(generate_continuation_advice(
                     agent_name=getattr(agent, "name", "Agent") if agent else "Agent",
                     message_history=message_history,
@@ -100,21 +100,21 @@ class ContinueCommand(Command):
                 # Set auto-run queue flag
                 os.environ["CAI_AUTO_RUN_QUEUE"] = "1"
                 
-                console.print("[cyan]✓ Continuation prompt queued. The agent will continue automatically.[/cyan]")
+                console.print("[cyan]✓ Запрос на продолжение добавлен в очередь. Агент продолжит автоматически.[/cyan]")
             else:
                 # If no active conversation, just inform the user
-                console.print("[yellow]No active conversation to continue. Continuation mode is now enabled for future tasks.[/yellow]")
+                console.print("[yellow]Нет активного диалога для продолжения. Режим продолжения включён для будущих задач.[/yellow]")
                 
         except Exception as e:
             # If anything goes wrong, just enable the mode without immediate continuation
-            console.print(f"[yellow]Could not generate immediate continuation prompt: {str(e)}[/yellow]")
-            console.print("[green]Continuation mode is enabled for future tasks.[/green]")
+            console.print(f"[yellow]Не удалось сгенерировать запрос на продолжение: {str(e)}[/yellow]")
+            console.print("[green]Режим продолжения включён для будущих задач.[/green]")
     
     def handle_on(self, args=None):
         """Enable automatic continuation mode and immediately continue."""
         set_continue_mode(True)
         os.environ["CAI_CONTINUE_MODE"] = "true"
-        console.print("[green]✓ Automatic continuation mode ENABLED[/green]")
+        console.print("[green]✓ Автоматический режим продолжения ВКЛЮЧЁН[/green]")
         
         # Also trigger immediate continuation
         self._trigger_immediate_continuation()
@@ -125,16 +125,16 @@ class ContinueCommand(Command):
         """Disable automatic continuation mode."""
         set_continue_mode(False)
         os.environ["CAI_CONTINUE_MODE"] = "false"
-        console.print("[yellow]✗ Automatic continuation mode DISABLED[/yellow]")
+        console.print("[yellow]✗ Автоматический режим продолжения ОТКЛЮЧЁН[/yellow]")
         return True
     
     def handle_status(self, args=None):
         """Check current continuation mode status."""
         current_state = get_continue_mode()
         if current_state:
-            console.print("[green]Automatic continuation mode is ENABLED[/green]")
+            console.print("[green]Автоматический режим продолжения ВКЛЮЧЁН[/green]")
         else:
-            console.print("[yellow]Automatic continuation mode is DISABLED[/yellow]")
+            console.print("[yellow]Автоматический режим продолжения ОТКЛЮЧЁН[/yellow]")
         return True
 
 

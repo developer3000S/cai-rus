@@ -1,470 +1,469 @@
-# CAI TUI User Interface
+# Пользовательский интерфейс CAI TUI
 
-> **⚡ CAI-Pro Exclusive Feature**  
-> The Terminal User Interface (TUI) is available exclusively in **CAI-Pro**. To access this feature and unlock advanced multi-agent workflows, visit [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) for more information.
-
----
-
-This guide provides a detailed overview of the CAI TUI interface components and their functions.
-
-## Interface Overview
-
-The CAI TUI interface is divided into several key areas:
-
+> **⚡ Эксклюзивная функция CAI-Pro**  
+> Терминальный пользовательский интерфейс (TUI) доступен исключительно в **CAI-Pro**. Для получения доступа к этой функции и расблокировки продвинутых рабочих процессов с несколькими агентами посетите [Alias Robotics](https://aliasrobotics.com/cybersecurityai.php) для получения дополнительной информации.
 
 ---
 
-## Top Bar
+Это руководство предоставляет подробный обзор компонентов интерфейса CAI TUI и их функций.
 
-The top bar provides global controls and information:
+## Обзор интерфейса
 
-- **[≡] Sidebar toggle**: Toggles the visibility of the sidebar containing Teams, Queue, Stats, and Keys tabs. Press `Ctrl+S` or click this icon to show/hide the sidebar and maximize terminal space.
+Интерфейс CAI TUI разделен на несколько ключевых областей:
 
-- **Terminal**: Main CAI interface label indicating the active application view.
-
-- **Add+ button**: Creates and adds a new terminal to the current session. 
-
-- **Graph**: Visual conversation flow representation.
-
-- **Help**: Launches the comprehensive user guide with detailed documentation, keyboard shortcuts reference, and pro tips.
-
-- **[×] Close**: Exits the TUI application.
 
 ---
 
-## Sidebar
+## Верхняя панель
 
-The sidebar contains four main tabs accessible via mouse click or keyboard shortcuts:
+Верхняя панель предоставляет глобальные элементы управления и информацию:
 
-### 1. Teams Tab 
+- **[≡] Переключатель боковой панели**: Переключает видимость боковой панели, содержащей вкладки Команды, Очередь, Статистика и Ключи. Нажмите `Ctrl+S` или щелкните этот значок, чтобы показать/скрыть боковую панель и максимизировать пространство терминала.
 
-The Teams tab displays preconfigured agent teams for parallel testing scenarios. CAI TUI includes **11 preconfigured teams** designed for different security testing workflows.
+- **Терминал**: Основная метка интерфейса CAI, указывающая на активное представление приложения.
 
-**Team Buttons**:
-- Compact labels show team composition (e.g., `#1: 2 red + 2 bug`)
-- Click to apply team configuration to all 4 terminals simultaneously
-- Hover to see detailed tooltip with full agent names and terminal-by-terminal assignments
+- **Кнопка Add+**: Создает и добавляет новый терминал в текущую сессию.
 
-**Tooltip Information**:
-Each team button displays a rich tooltip on hover showing:
-- Team number and full composition (e.g., "#1: 2 redteam_agent + 2 bug_bounter_agent")
-- Terminal-by-terminal breakdown:
-  - **T1**: Agent assigned to Terminal 1
-  - **T2**: Agent assigned to Terminal 2
-  - **T3**: Agent assigned to Terminal 3
-  - **T4**: Agent assigned to Terminal 4
+- **Граф**: Визуальное представление потока беседы.
 
-#### Available Preconfigured Teams
+- **Справка**: Запускает исчерпывающее руководство пользователя с подробной документацией, справочником горячих клавиш и советами профессионалов.
 
-**Team #1: 2 Red + 2 Bug Bounty**
+- **[×] Закрыть**: Закрывает приложение TUI.
+
+---
+
+## Боковая панель
+
+Боковая панель содержит четыре основные вкладки, доступные через щелчок мыши или горячие клавиши:
+
+### 1. Вкладка Команды 
+
+Вкладка Команды отображает предустановленные команды агентов для сценариев параллельного тестирования. CAI TUI включает **11 предустановленных команд**, предназначенных для различных рабочих процессов тестирования безопасности.
+
+**Кнопки команд**:
+- Компактные метки показывают состав команды (например, `#1: 2 red + 2 bug`)
+- Нажмите для применения конфигурации команды ко всем 4 терминалам одновременно
+- Наведите для просмотра подробной всплывающей подсказки с полными именами агентов и назначениями для каждого терминала
+
+**Информация во всплывающей подсказке**:
+Каждая кнопка команды отображает насыщенную всплывающую подсказку при наведении:
+- Номер команды и полный состав (например, "#1: 2 redteam_agent + 2 bug_bounter_agent")
+- Разбивка по терминалам:
+  - **T1**: Агент, назначенный на Терминал 1
+  - **T2**: Агент, назначенный на Терминал 2
+  - **T3**: Агент, назначенный на Терминал 3
+  - **T4**: Агент, назначенный на Терминал 4
+
+#### Доступные предустановленные команды
+
+**Команда #1: 2 Red + 2 Bug Bounty**
 - **T1**: redteam_agent
 - **T2**: redteam_agent
 - **T3**: bug_bounter_agent
 - **T4**: bug_bounter_agent
-- **Best for**: Comprehensive vulnerability discovery combining offensive testing with bug bounty methodology
+- **Лучше всего для**: Комплексного обнаружения уязвимостей, сочетающего наступательное тестирование с методологией bug bounty
 
-**Team #2: 1 Red + 3 Bug Bounty**
+**Команда #2: 1 Red + 3 Bug Bounty**
 - **T1**: redteam_agent
 - **T2**: bug_bounter_agent
 - **T3**: bug_bounter_agent
 - **T4**: bug_bounter_agent
-- **Best for**: Bug bounty programs with red team leadership and multiple hunters focusing on different attack surfaces
+- **Лучше всего для**: Программ bug bounty с руководством красной команды и несколькими охотниками, сосредоточенными на различных поверхностях атаки
 
-**Team #3: 2 Red + 2 Blue**
+**Команда #3: 2 Red + 2 Blue**
 - **T1**: redteam_agent
 - **T2**: redteam_agent
 - **T3**: blueteam_agent
 - **T4**: blueteam_agent
-- **Best for**: Adversarial testing with simultaneous offensive and defensive perspectives
+- **Лучше всего для**: Адверсионного тестирования с одновременными наступательной и защитной перспективами
 
-**Team #4: 2 Blue + 2 Bug Bounty**
+**Команда #4: 2 Blue + 2 Bug Bounty**
 - **T1**: blueteam_agent
 - **T2**: blueteam_agent
 - **T3**: bug_bounter_agent
 - **T4**: bug_bounter_agent
-- **Best for**: Defense-focused assessments with vulnerability validation from bug bounty perspective
+- **Лучше всего для**: Оценок, ориентированных на защиту, с валидацией уязвимостей с точки зрения bug bounty
 
-**Team #5: Red + Blue + Retester + Bug**
+**Команда #5: Red + Blue + Retester + Bug**
 - **T1**: redteam_agent
 - **T2**: blueteam_agent
 - **T3**: retester_agent
 - **T4**: bug_bounter_agent
-- **Best for**: Complete security lifecycle from discovery to validation with mixed specialties
+- **Лучше всего для**: Полного жизненного цикла безопасности от обнаружения до валидации со смешанными специальностями
 
-**Team #6: 2 Red + 2 Retester**
+**Команда #6: 2 Red + 2 Retester**
 - **T1**: redteam_agent
 - **T2**: redteam_agent
 - **T3**: retester_agent
 - **T4**: retester_agent
-- **Best for**: Aggressive offensive testing with immediate vulnerability retesting and validation
+- **Лучше всего для**: Агрессивного наступательного тестирования с немедленным повторным тестированием и валидацией уязвимостей
 
-**Team #7: 2 Blue + 2 Retester**
+**Команда #7: 2 Blue + 2 Retester**
 - **T1**: blueteam_agent
 - **T2**: blueteam_agent
 - **T3**: retester_agent
 - **T4**: retester_agent
-- **Best for**: Defensive security validation with continuous retesting of hardening measures
+- **Лучше всего для**: Защитной валидации безопасности с непрерывным повторным тестированием мер укрепления
 
-**Team #8: 4 Red Team**
+**Команда #8: 4 Red Team**
 - **T1**: redteam_agent
 - **T2**: redteam_agent
 - **T3**: redteam_agent
 - **T4**: redteam_agent
-- **Best for**: Maximum offensive power, CTF competitions, intensive penetration testing campaigns
+- **Лучше всего для**: Максимальной наступательной мощности, соревнований CTF, интенсивных кампаний пентестинга
 
-**Team #9: 4 Blue Team**
+**Команда #9: 4 Blue Team**
 - **T1**: blueteam_agent
 - **T2**: blueteam_agent
 - **T3**: blueteam_agent
 - **T4**: blueteam_agent
-- **Best for**: Comprehensive defensive analysis, security architecture review, hardening validation
+- **Лучше всего для**: Комплексного защитного анализа, обзора архитектуры безопасности, валидации укрепления
 
-**Team #10: 4 Bug Bounty**
+**Команда #10: 4 Bug Bounty**
 - **T1**: bug_bounter_agent
 - **T2**: bug_bounter_agent
 - **T3**: bug_bounter_agent
 - **T4**: bug_bounter_agent
-- **Best for**: Bug bounty hunts, vulnerability research, OWASP Top 10 testing across multiple surfaces
+- **Лучше всего для**: Охоты за наградами за ошибки, исследования уязвимостей, тестирования OWASP Top 10 на различных поверхностях
 
-**Team #11: 4 Retester**
+**Команда #11: 4 Retester**
 - **T1**: retester_agent
 - **T2**: retester_agent
 - **T3**: retester_agent
 - **T4**: retester_agent
-- **Best for**: Large-scale retesting campaigns, verification of fixes, regression testing
+- **Лучше всего для**: Масштабных кампаний повторного тестирования, верификации исправлений, регрессионного тестирования
 
-#### Using Teams
+#### Использование команд
 
-When you select a team:
-1. All 4 terminals are automatically reconfigured with the designated agents
-2. Agent dropdowns in each terminal header update to reflect new assignments
-3. Terminal output areas are preserved (previous conversations remain visible)
-4. Each terminal is ready to receive prompts immediately
-5. You can broadcast the same prompt to all terminals or send individual prompts
+При выборе команды:
+1. Все 4 терминала автоматически переконфигурируются с назначенными агентами
+2. Выпадающие списки агентов в заголовке каждого терминала обновляются для отражения новых назначений
+3. Области вывода терминалов сохраняются (предыдущие беседы остаются видимыми)
+4. Каждый терминал готов получать промпты немедленно
+5. Вы можете транслировать один и тот же промпт на все терминалы или отправлять отдельные промпты
 
-### 2. Queue Tab
+### 2. Вкладка Очередь
 
-The Queue tab manages prompt queuing and broadcast execution:
+Вкладка Очередь управляет постановкой промптов в очередь и трансляционным выполнением:
 
-**Queue Management**:
-- View all queued prompts
-- Delete individual prompts
-- Clear entire queue
-- Execute queue sequentially
+**Управление очередью**:
+- Просмотр всех промптов в очереди
+- Удаление отдельных промптов
+- Очистка всей очереди
+- Последовательное выполнение очереди
 
-**Broadcast Mode**:
-- Toggle broadcast mode on/off
-- Send prompts to all terminals simultaneously
-- Queue prompts for batch execution
-- Monitor execution progress
+**Режим трансляции**:
+- Включение/выключение режима трансляции
+- Отправка промптов на все терминалы одновременно
+- Постановка промптов в очередь для пакетного выполнения
+- Мониторинг прогресса выполнения
 
-**Queue Display**:
+**Отображение очереди**:
 ```
-[1] Scan target.com for XSS vulnerabilities
-[2] Check for SQL injection in login form
-[3] Test API endpoints for authorization bypass
+[1] Просканируй target.com на уязвимости XSS
+[2] Проверь SQL-инъекции в форме входа
+[3] Протестируй API эндпоинты на обход авторизации
 ```
 
 
-### 3. Stats Tab
+### 3. Вкладка Статистика
 
-The Stats tab provides real-time cost tracking and usage statistics:
+Вкладка Статистика предоставляет отслеживание затрат в реальном времени и статистику использования:
 
-**Cost Information**:
-- Total session cost (all terminals combined)
-- Per-terminal cost breakdown
-- Token usage (input/output)
-- Model pricing details
-- Cost per interaction
+**Информация о затратах**:
+- Общая стоимость сессии (все терминалы вместе)
+- Разбивка стоимости по терминалам
+- Использование токенов (вход/выход)
+- Подробности цен на модели
+- Стоимость за взаимодействие
 
-**Usage Metrics**:
-- Number of interactions
-- Total tokens consumed
-- Average cost per turn
-- Time elapsed
-- Active terminals
+**Метрики использования**:
+- Количество взаимодействий
+- Общее количество потребленных токенов
+- Средняя стоимость за ход
+- Прошедшее время
+- Активные терминалы
 
-**Example Display**:
+**Пример отображения**:
 
 ```
-Total Cost: $0.47
+Общая стоимость: $0.47
 ═══════════════════════
-Terminal 1: $0.15 
-Terminal 2: $0.12 
-Terminal 3: $0.10 
-Terminal 4: $0.10 
+Терминал 1: $0.15 
+Терминал 2: $0.12 
+Терминал 3: $0.10 
+Терминал 4: $0.10 
 
 ```
 
 
-**Cost Limits**:
-- Set via `CAI_PRICE_LIMIT` environment variable
-- Warning when approaching limit
-- Automatic pause when limit exceeded
+**Лимиты стоимости**:
+- Устанавливаются через переменную окружения `CAI_PRICE_LIMIT`
+- Предупреждение при приближении к лимиту
+- Автоматическая пауза при превышении лимита
 
-### 4. Keys Tab
+### 4. Вкладка Ключи
 
-The Keys tab displays and manages API keys:
+Вкладка Ключи отображает и управляет API ключами:
 
-**Key Information**:
-- API key provider (OpenAI, Anthropic, etc.)
-- Masked API keys
+**Информация о ключах**:
+- Провайдер API ключа (OpenAI, Anthropic и т.д.)
+- Маскированные API ключи
 
-**Key Management**:
-- Update keys without restarting
-- Environment variable status
+**Управление ключами**:
+- Обновление ключов без перезапуска
+- Статус переменных окружения
 
 
-## Terminal Components
+## Компоненты терминала
 
-Each terminal window consists of several components:
+Каждое окно терминала состоит из нескольких компонентов:
 
-### Terminal Header
+### Заголовок терминала
 
-The header bar above each terminal shows:
+Панель заголовка над каждым терминалом отображает:
 
-- **Terminal Number**: T1, T2, T3, or T4
-- **Agent Name**: Currently selected agent (e.g., `redteam_agent`)
-- **Model Selector**: Dropdown to change LLM model (e.g., `alias1`, `gpt-4o`)
-- **Container Icon**: Indicates if agent is running in container mode
+- **Номер терминала**: T1, T2, T3 или T4
+- **Имя агента**: Currently selected agent (e.g., `redteam_agent`)
+- **Селектор модели**: Выпадающий список для изменения модели LLM (например, `alias1`, `gpt-4o`)
+- **Значок контейнера**: Указывает, запущен ли агент в контейнерном режиме
 
-**Agent Dropdown**:
-- Click to open agent selection menu
-- Shows all available agents
-- Hover for agent description
-- Keyboard navigation supported
+**Выпадающий список агента**:
+- Нажмите для открытия меню выбора агента
+- Показывает всех доступных агентов
+- Наведите для просмотра описания агента
+- Поддерживается навигация клавиатурой
 
-**Model Dropdown**:
-- Click to open model selection menu
-- Shows configured models (alias1, gpt-5, gpt-4o, etc.)
-- Displays model aliases and actual names
-- Updates immediately upon selection
+**Выпадающий список модели**:
+- Нажмите для открытия меню выбора модели
+- Показывает настроенные модели (alias1, gpt-5, gpt-4o и т.д.)
+- Отображает псевдонимы моделей и реальные имена
+- Немедленно обновляется при выборе
 
-### Terminal Output Area
+### Область вывода терминала
 
-The main terminal display area shows:
+Основная область отображения терминала показывает:
 
-**Agent Responses**:
-- Formatted text with Rich markup support
-- Syntax-highlighted code blocks
-- Tables and structured data
-- Progress indicators for long operations
+**Ответы агента**:
+- Форматированный текст с поддержкой разметки Rich
+- Блоки кода с подсветкой синтаксиса
+- Таблицы и структурированные данные
+- Индикаторы прогресса для длительных операций
 
-**Tool Calls**:
-- Tool name and parameters
-- Execution status (running, success, error)
-- Tool output and results
-- Collapsed/expanded view for long outputs
+**Вызовы инструментов**:
+- Имя инструмента и параметры
+- Статус выполнения (выполняется, успешно, ошибка)
+- Вывод и результаты инструментов
+- Свернутый/развернутый вид для длинного вывода
 
-**System Messages**:
-- Agent initialization
-- Context resets
-- Error messages
-- Cost warnings
+**Системные сообщения**:
+- Инициализация агента
+- Сброс контекста
+- Сообщения об ошибках
+- Предупреждения о стоимости
 
-**Streaming Display**:
-- Real-time token streaming for LLM responses
-- Progressive rendering of tool outputs
-- Live progress indicators
-- Smooth scrolling
+**Стриминговое отображение**:
+- Стриминг токенов в реальном времени для ответов LLM
+- Прогрессивный рендеринг вывода инструментов
+- Индикаторы прогресса в реальном времени
+- Плавная прокрутка
 
-### Terminal States
+### Состояния терминалов
 
-Terminals can be in different visual states:
+Терминалы могут находиться в различных визуальных состояниях:
 
-**Active State**:
-- Highlighted border (accent color)
-- Ready to receive input
-- Cursor visible in input area
-- Responds to keyboard shortcuts
+**Активное состояние**:
+- Подсвеченная рамка (акцентный цвет)
+- Готовность к приему ввода
+- Курсор виден в области ввода
+- Реагирует на горячие клавиши
 
-**Inactive State**:
-- Dimmed border
-- Background operations continue
-- Click to activate
-- Scrollable content
+**Неактивное состояние**:
+- Приглушенная рамка
+- Фоновые операции продолжаются
+- Нажмите для активации
+- Прокручиваемое содержимое
 
-**Busy State**:
-- Spinner or progress indicator
-- "Working..." message
-- Cannot send new prompts
-- Cancel option available (`Ctrl+C`)
+**Занятое состояние**:
+- Индикатор загрузки или прогресса
+- Сообщение "Работает..."
+- Невозможно отправить новые промпты
+- Доступна опция отмены (`Ctrl+C`)
 
-**Error State**:
-- Red border or error indicator
-- Error message displayed
-- Retry option available
-- Can clear and continue
-
----
-
-## Terminal Layouts
-
-The TUI supports multiple layout configurations for parallel agent execution:
-
-### Single Terminal Layout
-
-Default view showing one terminal at full width:
-
-![Single Terminal Layout](../media/CAI-1terminal.png)
-
-**Use Cases**:
-- Single-agent workflows
-- Detailed analysis requiring full screen
-- Learning and experimentation
-
-**Activation**: Automatically displayed when only one terminal is needed
-
-### Split (Two Terminal) Layout
-
-Side-by-side view for two terminals:
-
-![Two Terminal Split Layout](../media/CAI-2terminals.png)
-
-**Use Cases**:
-- Comparing two agent approaches
-- Red team vs. Blue team parallel execution
-- Different model comparison
-
-**Activation**: Triggered when using 2 terminals or Team 3/4
-
-### Triple Terminal Layout
-
-Three terminals with one full-width top terminal:
-
-![Three Terminal Layout](../media/CAI-3terminals.png)
-
-**Use Cases**:
-- Full team operations (Teams 1-4)
-- Maximum parallel execution
-- Comprehensive testing scenarios
-- Multi-perspective analysis
-
-**Activation**: Default for preconfigured teams (Team 1, 2, 3, 4)
-
-### Scrollable Layout
-
-For more than 4 terminals (experimental):
-
-![Four Terminal Grid Layout](../media/cai-tui-main.png)
-
-**Use Cases**:
-- Large-scale testing
-- Custom configurations
-- Advanced workflows
+**Состояние ошибки**:
+- Красная рамка или индикатор ошибки
+- Отображается сообщение об ошибке
+- Доступна опция повтора
+- Можно очистить и продолжить
 
 ---
 
-## Status Bar
+## Компоновки терминалов
 
-The bottom status bar displays global information:
+TUI поддерживает несколько конфигураций макета для параллельного выполнения агентов:
 
-**Left Section**:
-- **Agent**: Currently active agent name
-- **Model**: Currently active model
-- **Cost**: Session total cost
+### Компоновка одного терминала
 
-**Center Section**:
-- **Tokens**: Total tokens used (input/output)
-- **Time**: Session duration
-- **Interactions**: Number of completed turns
+Вид по умолчанию, отображающий один терминал на всю ширину:
 
-**Right Section**:
-- **Status**: Connection status, errors, warnings
-- **Mode**: Current mode (broadcast, queue, normal)
-- **Shortcuts**: Context-sensitive keyboard hints
+![Компоновка одного терминала](../media/CAI-1terminal.png)
 
+**Случаи использования**:
+- Рабочие процессы с одним агентом
+- Детальный анализ, требующий полного экрана
+- Обучение и эксперименты
 
-## Input Area
+**Активация**: Автоматически отображается, когда требуется только один терминал
 
-The input area at the bottom provides prompt entry and management:
+### Раздельная комповка (два терминала)
 
-### Prompt Input
+Вид бок о бок для двух терминалов:
 
-**Features**:
-- Multi-line input support (grows with content)
-- Syntax highlighting for code snippets
-- Placeholder text with hints
-- Character counter for long prompts
-- Auto-scrolling for long text
+![Раздельная комповка двух терминалов](../media/CAI-2terminals.png)
 
-**Keyboard Shortcuts**:
-- `Enter`: Submit prompt
-- `Shift+Enter`: New line (terminals with extended keyboard protocols)
-- `Alt+Enter`: New line (universal fallback)
-- `Ctrl+U`: Clear input
-- `Up/Down`: Navigate command history
+**Случаи использования**:
+- Сравнение двух подходов агентов
+- Параллельное выполнение Красная команда vs. Синяя команда
+- Сравнение различных моделей
 
-### Autocompletion
+**Активация**: Автоматически запускается при использовании 2 терминалов или Команды 3/4
 
-The TUI provides intelligent autocompletion for:
+### Тройная комповка терминалов
 
-**Commands**:
-- `/clear` - Clear terminal
-- `/save` - Save as `.jsonl` (for `/load`) or `.md` (readable report)
-- `/load` - Load conversation JSONL (not Markdown exports)
-- `/help` - Show help
-- `/agent` - Switch agent
-- `/model` - Switch model
+Три терминала с одним полноширинным терминалом сверху:
 
+![Тройная комповка терминалов](../media/CAI-3terminals.png)
 
-## Responsive Design
+**Случаи использования**:
+- Полноценная работа команды (Команды 1-4)
+- Максимальное параллельное выполнение
+- Комплексные сценарии тестирования
+- Многопроспектный анализ
 
-The TUI adapts to different terminal sizes:
+**Активация**: По умолчанию для предустановленных команд (Команда 1, 2, 3, 4)
 
-### Minimum Requirements
-- **Width**: 80 columns minimum (120+ recommended)
-- **Height**: 24 rows minimum (40+ recommended)
+### Прокручиваемая комповка
 
-### Adaptive Behaviors
+Для более чем 4 терминалов (экспериментально):
 
-**Small Terminals (80×24)**:
-- Sidebar collapses to icons only
-- Single terminal view prioritized
-- Compact status bar
-- Abbreviated labels
+![Компоновка сетки четырех терминалов](../media/cai-tui-main.png)
 
-**Medium Terminals (120×40)**:
-- Full sidebar visible
-- Split/Triple layouts available
-- Standard spacing
-- Full labels
-
-**Large Terminals (160×50+)**:
-- Quad layout comfortable
-- Additional information displayed
-- More breathing room
-- Enhanced tooltips
-
-### Dynamic Adjustments
-
-The TUI automatically:
-- Wraps long lines in terminal output
-- Truncates button labels to fit width
-- Adjusts table column widths
-- Scales terminal grid based on available space
-- Hides non-essential UI elements when space is limited
+**Случаи использования**:
+- Масштабное тестирование
+- Пользовательские конфигурации
+- Продвинутые рабочие процессы
 
 ---
 
-## Command Palette
+## Строка состояния
 
-Press `Ctrl+P` or click the menu button to open the command palette, which provides:
+Нижняя строка состояния отображает глобальную информацию:
 
-- Quick command search and execution
-- Fuzzy matching for command names
-- Keyboard navigation (arrow keys, Enter)
-- Recent commands history
-- Command descriptions and shortcuts
+**Левая часть**:
+- **Агент**: Имя текущего активного агента
+- **Модель**: Текущая активная модель
+- **Стоимость**: Общая стоимость сессии
 
-Available commands include:
-- `clear` - Clear terminal output
-- `save` - Save as JSONL or Markdown (`/save file.jsonl` or `/save report.md`)
-- `load` - Load JSONL conversation (`/load`; use `.jsonl` from `/save`)
-- `reset` - Reset agent context
-- `help` - Show help information
+**Центральная часть**:
+- **Токены**: Общее количество использованных токенов (вход/выход)
+- **Время**: Длительность сессии
+- **Взаимодействия**: Количество завершенных ходов
+
+**Правая часть**:
+- **Статус**: Статус подключения, ошибки, предупреждения
+- **Режим**: Текущий режим (трансляция, очередь, обычный)
+- **Сочетания клавиш**: Контекстные подсказки клавиатуры
+
+
+## Область ввода
+
+Область ввода внизу обеспечивает ввод и управление промптами:
+
+### Ввод промпта
+
+**Функции**:
+- Поддержка многострочного ввода (расширяется с содержимым)
+- Подсветка синтаксиса для фрагментов кода
+- Текст-заполнитель с подсказками
+- Счетчик символов для длинных промптов
+- Автопрокрутка для длинного текста
+
+**Горячие клавиши**:
+- `Enter`: Отправить промпт
+- `Shift+Enter`: Новая строка (терминалы с расширенными протоколами клавиатуры)
+- `Alt+Enter`: Новая строка (универсальный запасной вариант)
+- `Ctrl+U`: Очистить ввод
+- `Стрелка вверх/вниз`: Навигация по истории команд
+
+### Автозавершение
+
+TUI предоставляет интеллектуальное автозавершение для:
+
+**Команд**:
+- `/clear` - Очистить терминал
+- `/save` - Сохранить как `.jsonl` (для `/load`) или `.md` (читаемый отчет)
+- `/load` - Загрузить JSONL беседы (не экспорт Markdown)
+- `/help` - Показать справку
+- `/agent` - Переключить агента
+- `/model` - Переключить модель
+
+
+## Адаптивный дизайн
+
+TUI адаптируется к различным размерам терминалов:
+
+### Минимальные требования
+- **Ширина**: Минимум 80 колонок (рекомендуется 120+)
+- **Высота**: Минимум 24 строки (рекомендуется 40+)
+
+### Адаптивное поведение
+
+**Маленькие терминалы (80×24)**:
+- Боковая панель сворачивается только в значки
+- Приоритет однотерминальному виду
+- Компактная строка состояния
+- Сокращенные метки
+
+**Средние терминалы (120×40)**:
+- Полная боковая панель видна
+- Доступны раздельная/тройная комповки
+- Стандартные интервалы
+- Полные метки
+
+**Большие терминалы (160×50+)**:
+- Четверная комповка комфортна
+- Отображается дополнительная информация
+- Больше пространства
+- Улучшенные всплывающие подсказки
+
+### Динамические настройки
+
+TUI автоматически:
+- Переносит длинные строки в выводе терминала
+- Обрезает метки кнопок для соответствия ширине
+- Настраивает ширину столбцов таблиц
+- Масштабирует сетку терминалов в зависимости от доступного пространства
+- Скрывает несущественные элементы UI при ограниченном пространстве
 
 ---
 
-*Last updated: October 2025 | CAI TUI v0.6+*
+## Палитра команд
 
+Нажмите `Ctrl+P` или щелкните кнопку меню для открытия палитры команд, которая предоставляет:
+
+- Быстрый поиск и выполнение команд
+- Нечеткий поиск для имен команд
+- Навигацию клавиатурой (стрелки, Enter)
+- Историю недавних команд
+- Описания команд и сочетания клавиш
+
+Доступные команды включают:
+- `clear` - Очистить вывод терминала
+- `save` - Сохранить как JSONL или Markdown (`/save file.jsonl` или `/save report.md`)
+- `load` - Загрузить JSONL беседы (`/load`; используйте `.jsonl` из `/save`)
+- `reset` - Сбросить контекст агента
+- `help` - Показать справочную информацию
+
+---
+
+*Последнее обновление: Октябрь 2025 | CAI TUI v0.6+*

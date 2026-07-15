@@ -91,7 +91,7 @@ def update_toolbar_in_background():
         if container_id:
             active_env_name, active_env_icon, active_env_color = get_container_info(container_id)
         else:
-            active_env_name, active_env_icon, active_env_color = "Host System", "💻", "ansiblue"
+            active_env_name, active_env_icon, active_env_color = "Хост-система", "💻", "ansiblue"
 
 
         # Get Ollama information
@@ -120,7 +120,7 @@ def update_toolbar_in_background():
                 else:
                     # Fallback for older Ollama versions
                     ollama_models = len(data.get('items', []))
-                ollama_status = f"{ollama_models} models"
+                ollama_status = f"{ollama_models} моделей"
         except Exception:  # pylint: disable=broad-except
             # Silently fail if Ollama is not available
             ollama_status = "unavailable"
@@ -249,7 +249,7 @@ def get_bottom_toolbar():
         current_time = datetime.datetime.now().strftime("%H:%M")
         timezone_name = datetime.datetime.now().astimezone().tzname()
         toolbar_cache['html'] = HTML(
-            f"<ansigray>Loading system information... {current_time} {timezone_name}</ansigray>"
+            f"<ansigray>Загрузка системной информации... {current_time} {timezone_name}</ansigray>"
         )
         # Start background update
         threading.Thread(
@@ -328,7 +328,7 @@ def get_container_info(container_id):
         ).stdout.strip()
 
         if not running:
-            image += " (stopped)"
+            image += " (остановлен)"
             color = "ansiyellow"
 
         return image, icon, color
