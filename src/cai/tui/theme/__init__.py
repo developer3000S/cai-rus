@@ -1,4 +1,4 @@
-"""CAI Terminal Theme System (embedded minimal theme)."""
+"""Система тем терминала CAI (встроенная минимальная тема)."""
 
 from dataclasses import dataclass
 from typing import Dict

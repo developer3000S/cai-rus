@@ -4,23 +4,23 @@ from cai.auth_types import Edition, Role
 
 def has_permission(user_role: Optional[str] = None, required_edition: Edition = Edition.COMMUNITY) -> bool:
     """
-    Check if the current context (user role + active edition) allows access to a feature.
+    Проверяет, разрешён ли доступ к функции в текущем контексте (роль пользователя + активный выпуск).
     
-    - ADMIN role always has full access.
-    - If required_edition is COMMUNITY, everyone has access.
-    - If required_edition is PROFESSIONAL, access is granted if:
-        a) User role is ADMIN
-        b) The global active edition is PROFESSIONAL
+    - Роль ADMIN всегда имеет полный доступ.
+    - Если required_edition равен COMMUNITY, доступ есть у всех.
+    - Если required_edition равен PROFESSIONAL, доступ предоставляется если:
+        a) Роль пользователя ADMIN
+        b) Глобально активный выпуск — PROFESSIONAL
     """
-    # Admin override
+    # Переопределение для администратора
     if user_role == Role.ADMIN.value:
         return True
     
-    # Community features are always available
+    # Функции Community всегда доступны
     if required_edition == Edition.COMMUNITY:
         return True
     
-    # Professional features require Professional Edition
+    # Функции Professional требуют Professional Edition
     if required_edition == Edition.PROFESSIONAL:
         return get_active_edition() == Edition.PROFESSIONAL
         
@@ -28,8 +28,8 @@ def has_permission(user_role: Optional[str] = None, required_edition: Edition = 
 
 def require_professional(user_role: Optional[str] = None):
     """
-    Helper to check if professional access is granted.
-    Raises PermissionError if not.
+    Вспомогательная функция для проверки профессионального доступа.
+    Вызывает PermissionError если доступ не предоставлен.
     """
     if not has_permission(user_role, Edition.PROFESSIONAL):
-        raise PermissionError("This feature requires CAI Professional Edition.")
+        raise PermissionError("Эта функция требует CAI Professional Edition.")

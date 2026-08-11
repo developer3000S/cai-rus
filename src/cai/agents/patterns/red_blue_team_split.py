@@ -1,19 +1,19 @@
 """
-Parallel security assessment pattern - red/blue team with split context.
+Паттерн параллельной оценки безопасности — red/blue team с разделённым контекстом.
 
-This pattern demonstrates the use of the unified Pattern class for
-parallel agent execution, where red and blue team agents operate
-with separate contexts for independent analysis.
+Этот паттерн демонстрирует использование унифицированного класса Pattern для
+параллельного выполнения агентов, при котором агенты red и blue team работают
+в отдельных контекстах для независимого анализа.
 """
 
 from cai.repl.commands.parallel import ParallelConfig
 
-# Pattern configuration
+# Конфигурация паттерна
 blue_team_red_team_split_context_pattern = {
     "name": "blue_team_red_team_split_context",
     "type": "parallel",
     "description": (
-        "Red and blue team agents with different contexts for " "comprehensive security assessment"
+        "Агенты red и blue team с различными контекстами для " "комплексной оценки безопасности"
     ),
     "configs": [ParallelConfig("redteam_agent"), ParallelConfig("blueteam_agent")],
     "unified_context": False,

@@ -1,4 +1,4 @@
-"""Continuous / 24-7 operations orchestration (CLI onboarding + loop helpers)."""
+"""Оркестровка непрерывных операций в режиме 24/7 (CLI онбординг + вспомогательные функции цикла)."""
 
 from cai.continuous_ops.rate_plan import (
     compute_base_tick_seconds,

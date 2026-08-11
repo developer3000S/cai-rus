@@ -1,4 +1,4 @@
-"""Use Case Agent"""
+"""Агент для создания сценариев использования (Use Case Agent)"""
 
 import os
 from dotenv import load_dotenv
@@ -10,10 +10,10 @@ from cai.util import load_prompt_template, create_system_prompt_renderer
 load_dotenv()
 model_name = os.getenv("CAI_MODEL", "alias1")
 
-# Load prompt
+# Загрузка промпта
 use_case_agent_system_prompt = load_prompt_template("prompts/system_use_cases.md")
 
-# # Define tools list
+# # Определение списка инструментов
 # tools = [
 #     generic_linux_command,
 #     list_dir,
@@ -28,7 +28,7 @@ use_case_agent_system_prompt = load_prompt_template("prompts/system_use_cases.md
 #     execute_code,
 # ]
 tools = [null_tool]
-# Create the agent
+# Создание агента
 use_case_agent = Agent(
     name="Use Case Agent",
     description="""Agent that creates high-quality cybersecurity case studies 
@@ -46,8 +46,8 @@ use_case_agent = Agent(
 )
 
 
-# Transfer function
+# Функция передачи управления
 def transfer_to_use_case_agent(**kwargs):  # pylint: disable=W0613
-    """Transfer to use case agent.
-    Accepts any keyword arguments but ignores them."""
+    """Передача управления агенту сценариев использования.
+    Принимает любые именованные аргументы, но игнорирует их."""
     return use_case_agent

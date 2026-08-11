@@ -1,7 +1,7 @@
-"""Red Team Base Agent
+"""Базовый агент Red Team
 
-Uses CAIConfig singleton for model/API-key configuration [S].
-Conditional tools loaded based on CAIConfig API-key fields.
+Использует синглтон CAIConfig для настройки модели и API-ключей [S].
+Инструменты загружаются условно на основе полей API-ключей CAIConfig.
 """
 
 from dotenv import load_dotenv
@@ -35,33 +35,33 @@ from cai.util import load_prompt_template, create_system_prompt_renderer
 from cai.agents.guardrails import get_security_guardrails
 
 load_dotenv()
-# Read config from CAIConfig singleton once [S]
+# Читаем конфиг из синглтона CAIConfig один раз [S]
 _cfg = get_config()
 model_name = _cfg.model
 
-# Prompts
+# Промпты
 redteam_agent_system_prompt = load_prompt_template("prompts/system_red_team_agent.md")
-# Define tools list based on available API keys (via CAIConfig) [S]
+# Формируем список инструментов на основе доступных API-ключей (через CAIConfig) [S]
 tools = [
     generic_linux_command,
     execute_code,
     *WEB_INTEL_TOOLS,
 ]
 
-# Only expose plan tool when CAI_PLAN is enabled [S]
+# Добавляем инструмент планирования только если включён CAI_PLAN [S]
 if _cfg.plan_enabled:
     tools.append(Todo_list)
 
-# Add search tool if Perplexity API key is available [S]
+# Добавляем инструмент поиска, если доступен API-ключ Perplexity [S]
 if _cfg.perplexity_api_key:
     tools.append(make_web_search_with_explanation)
 
-# Add C99 tools if C99 API key is available [S]
+# Добавляем инструменты C99, если доступен API-ключ C99 [S]
 if _cfg.c99_api_key:
     tools.append(c99)
     tools.append(c99_subdomain_enum)
 
-# Get security guardrails
+# Получаем защитные барьеры безопасности
 input_guardrails, output_guardrails = get_security_guardrails()
 
 redteam_agent = Agent(
@@ -82,8 +82,8 @@ redteam_agent = Agent(
 )
 
 
-# Transfer function
+# Функция передачи управления
 def transfer_to_redteam_agent(**kwargs):  # pylint: disable=W0613
-    """Transfer to red team agent.
-    Accepts any keyword arguments but ignores them."""
+    """Передача управления агенту red team.
+    Принимает любые именованные аргументы, но игнорирует их."""
     return redteam_agent

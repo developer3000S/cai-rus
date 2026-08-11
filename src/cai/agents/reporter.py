@@ -1,4 +1,4 @@
-"""Reporter Agent - Creates professional security assessment reports"""
+"""Агент-репортёр — создаёт профессиональные отчёты по результатам оценки безопасности"""
 
 import os
 from dotenv import load_dotenv
@@ -7,14 +7,15 @@ from openai import AsyncOpenAI
 from cai.util import create_system_prompt_renderer, load_prompt_template
 
 load_dotenv()
-# Prompts
+# Промпты
 reporting_agent_system_prompt = load_prompt_template("prompts/system_reporting_agent.md")
 
-# No execution tools: the reporter only synthesizes the conversation into HTML.
-# This avoids following pentest instructions still present in chat history.
+# Инструменты выполнения не используются: репортёр только синтезирует
+# разговор в HTML. Это предотвращает выполнение инструкций пентеста,
+# которые могут оставаться в истории чата.
 
 
-# Create an instance of the reporting agent
+# Создаём экземпляр агента-репортёра
 reporting_agent = Agent(
     name="reporting agent",
     instructions=create_system_prompt_renderer(

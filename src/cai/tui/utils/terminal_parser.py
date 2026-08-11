@@ -1,5 +1,5 @@
 """
-Simple terminal parser utility
+Утилита простого парсера терминала
 """
 
 import re
@@ -8,18 +8,18 @@ from typing import Tuple, List, Optional
 
 def parse_terminal_target(args: List[str]) -> Tuple[List[str], Optional[int]]:
     """
-    Parse terminal target from command arguments.
+    Разобрать целевой терминал из аргументов команды.
     
-    Looks for terminal specifiers like 't1', 'T2', etc. at the end of arguments.
-    Also preserves 'all' for broadcast to all terminals.
+    Ищет спецификаторы терминала вида 't1', 'T2' и т.д. в конце аргументов.
+    Также сохраняет 'all' для широковещательной рассылки на все терминалы.
     
     Args:
-        args: List of command arguments
+        args: Список аргументов команды
         
     Returns:
-        Tuple of (cleaned_args, terminal_number)
-        - cleaned_args: Arguments with terminal specifier removed (but 'all' preserved)
-        - terminal_number: Terminal number if found, None otherwise
+        Кортеж из (cleaned_args, terminal_number)
+        - cleaned_args: Аргументы с удалённым спецификатором терминала (но 'all' сохраняется)
+        - terminal_number: Номер терминала, если найден, иначе None
         
     Examples:
         ['gpt-4o', 't1'] -> (['gpt-4o'], 1)
@@ -32,11 +32,11 @@ def parse_terminal_target(args: List[str]) -> Tuple[List[str], Optional[int]]:
         
     last_arg = args[-1]
     
-    # Check if it's "all" - preserve it in the args
+    # Проверяем, является ли аргумент "all" — сохраняем его в аргументах
     if last_arg.lower() == 'all':
         return args, None
     
-    # Match terminal specifiers: t1, T1, t2, T2, etc.
+    # Сопоставляем спецификаторы терминала: t1, T1, t2, T2 и т.д.
     match = re.match(r'^[tT](\d+)$', last_arg)
     if match:
         terminal_number = int(match.group(1))

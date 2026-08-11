@@ -1,7 +1,7 @@
-"""External terminal worker for CLI parallel execution.
+"""Внешний терминальный воркер для параллельного выполнения CLI.
 
-Runs one agent+prompt pair and writes a JSON result payload for the
-main CLI process to aggregate.
+Запускает одну пару агент+промпт и записывает JSON-результат для
+агрегации основным процессом CLI.
 """
 
 from __future__ import annotations
@@ -49,7 +49,7 @@ def _parse_args() -> WorkerArgs:
 async def _run(args: WorkerArgs) -> dict:
     os.environ["CAI_STREAM"] = "true"
     os.environ["CAI_TOOL_STREAM"] = "true"
-    # Avoid non-fatal tracing noise in detached worker terminals (e.g. OPENAI_API_KEY placeholder).
+    # Избегаем нефатального шума трассировки в отдельных терминалах воркера (например, заглушка OPENAI_API_KEY).
     os.environ["CAI_TRACING"] = "false"
     set_tracing_disabled(True)
     boot = os.environ.get("CAI_PARALLEL_MCP_BOOTSTRAP", "").strip()
@@ -59,7 +59,7 @@ async def _run(args: WorkerArgs) -> dict:
 
             await apply_parallel_mcp_bootstrap_file(boot)
         except Exception as e:  # pylint: disable=broad-except
-            print(f"[CAI worker] MCP bootstrap skipped: {e}", file=sys.stderr)
+            print(f"[CAI worker] MCP bootstrap пропущен: {e}", file=sys.stderr)
     agent = get_agent_by_name(
         args.agent,
         custom_name=f"{args.agent} [{args.agent_id}]",
@@ -81,7 +81,7 @@ async def _run(args: WorkerArgs) -> dict:
     usage = getattr(result, "usage", None)
     in_tokens = int(getattr(usage, "input_tokens", 0) or 0)
     out_tokens = int(getattr(usage, "output_tokens", 0) or 0)
-    # Fallback for providers/paths that don't populate result.usage consistently.
+    # Запасной вариант для провайдеров/путей, которые непоследовательно заполняют result.usage.
     if in_tokens <= 0:
         in_tokens = int(getattr(COST_TRACKER, "interaction_input_tokens", 0) or 0)
     if out_tokens <= 0:
@@ -119,7 +119,7 @@ def main() -> int:
             "agent": args.agent,
             "agent_id": args.agent_id,
             "model": args.model,
-            "error": "Worker execution cancelled",
+            "error": "Выполнение воркера отменено",
         }
     except Exception as e:  # pylint: disable=broad-except
         payload = {
@@ -134,7 +134,7 @@ def main() -> int:
         with open(args.result_file, "w", encoding="utf-8") as f:
             json.dump(payload, f, ensure_ascii=False)
     except Exception as write_error:  # pylint: disable=broad-except
-        print(f"[CAI worker] failed to write result file: {write_error}", file=sys.stderr)
+        print(f"[CAI worker] не удалось записать файл результата: {write_error}", file=sys.stderr)
         return 2
 
     return 0
@@ -142,4 +142,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

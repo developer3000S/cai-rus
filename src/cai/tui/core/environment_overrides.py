@@ -1,4 +1,4 @@
-"""Context-aware environment overrides for parallel agent execution."""
+"""Контекстно-зависимые переопределения окружения для параллельного выполнения агентов."""
 from __future__ import annotations
 
 import asyncio
@@ -17,7 +17,7 @@ _PATCHED = False
 
 
 def _normalize_overrides(raw: Mapping[str, Any]) -> dict[str, str]:
-    """Return a normalized string dictionary."""
+    """Возвращает нормализованный строковый словарь."""
     normalized: dict[str, str] = {}
     for key, value in raw.items():
         if value is None:
@@ -27,7 +27,7 @@ def _normalize_overrides(raw: Mapping[str, Any]) -> dict[str, str]:
 
 
 def _get_overrides() -> dict[str, str] | None:
-    """Return overrides for the current context."""
+    """Возвращает переопределения для текущего контекста."""
     overrides = _ENV_OVERRIDES.get()
     if overrides:
         return overrides
@@ -35,7 +35,7 @@ def _get_overrides() -> dict[str, str] | None:
 
 
 def _merge_env(env: Mapping[str, str] | None, overrides: Mapping[str, str]) -> dict[str, str]:
-    """Merge overrides into an environment mapping."""
+    """Объединяет переопределения с маппингом переменных окружения."""
     if env is None:
         merged: dict[str, str] = dict(os.environ.copy())
     else:
@@ -45,7 +45,7 @@ def _merge_env(env: Mapping[str, str] | None, overrides: Mapping[str, str]) -> d
 
 
 def _ensure_patched() -> None:
-    """Patch stdlib helpers exactly once."""
+    """Патчит вспомогательные функции стандартной библиотеки ровно один раз."""
     global _PATCHED
     if _PATCHED:
         return
@@ -124,7 +124,7 @@ def _ensure_patched() -> None:
 
 @contextmanager
 def environment_override(overrides: Mapping[str, Any] | None):
-    """Synchronously apply environment overrides."""
+    """Синхронно применяет переопределения переменных окружения."""
     if not overrides:
         yield
         return
@@ -148,7 +148,7 @@ def environment_override(overrides: Mapping[str, Any] | None):
 
 @asynccontextmanager
 async def async_environment_override(overrides: Mapping[str, Any] | None):
-    """Async helper that delegates to environment_override."""
+    """Асинхронный помощник, делегирующий вызов в environment_override."""
     with environment_override(overrides):
         yield
 

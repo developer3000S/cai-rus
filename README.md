@@ -158,7 +158,7 @@ CAI_LICENSE_OFF=1 cai
 
 - [Кибербезопасностная ИИ-система (`CAI`)](#кибербезопасностная-ии-система-cai)
 
- - [:bookmark: Table of Contents](#bookmark-table-of-contents)
+ - [:bookmark: Содержание](#bookmark-table-of-contents)
  - [🎯 Влияние](#-impact)
  - [🏆 Соревнования и челленджи](#-competitions-and-challenges)
  - [📊 Исследовательское влияние](#-research-impact)
@@ -236,11 +236,11 @@ CAI_LICENSE_OFF=1 cai
 ### 📚 Исследовательские продукты: `Cybersecurity AI`
 
 
-| CAI, An Open, Bug Bounty-Ready Cybersecurity AI [![arXiv](https://img.shields.io/badge/arXiv-2504.06017-63bfab.svg)](https://arxiv.org/pdf/2504.06017) | The Dangerous Gap Between Automation and Autonomy [![arXiv](https://img.shields.io/badge/arXiv-2506.23592-7dd3c0.svg)](https://arxiv.org/abs/2506.23592) | CAI Fluency, A Framework for Cybersecurity AI Fluency [![arXiv](https://img.shields.io/badge/arXiv-2508.13588-52a896.svg)](https://arxiv.org/abs/2508.13588) | Hacking the AI Hackers via Prompt Injection [![arXiv](https://img.shields.io/badge/arXiv-2508.21669-85e0d1.svg)](https://arxiv.org/abs/2508.21669) |
+| CAI: Открытая ИИ-система кибербезопасности, готовая к Bug Bounty (CAI, An Open, Bug Bounty-Ready Cybersecurity AI) [![arXiv](https://img.shields.io/badge/arXiv-2504.06017-63bfab.svg)](https://arxiv.org/pdf/2504.06017) | Опасный разрыв между автоматизацией и автономностью (The Dangerous Gap Between Automation and Autonomy) [![arXiv](https://img.shields.io/badge/arXiv-2506.23592-7dd3c0.svg)](https://arxiv.org/abs/2506.23592) | CAI Fluency: Фреймворк для обеспечения грамотности в области ИИ-кибербезопасности (CAI Fluency, A Framework for Cybersecurity AI Fluency) [![arXiv](https://img.shields.io/badge/arXiv-2508.13588-52a896.svg)](https://arxiv.org/abs/2508.13588) | Взлом ИИ-хакеров через инъекцию промптов (Hacking the AI Hackers via Prompt Injection) [![arXiv](https://img.shields.io/badge/arXiv-2508.21669-85e0d1.svg)](https://arxiv.org/abs/2508.21669) |
 |---|---|---|---|
 | [](https://arxiv.org/pdf/2504.06017) | [](https://www.arxiv.org/pdf/2506.23592) | [](https://arxiv.org/pdf/2508.13588) | [](https://arxiv.org/pdf/2508.21669) |
 
- | Humanoid Robots as Attack Vectors [![arXiv](https://img.shields.io/badge/arXiv-2509.14139-6bc7b5.svg)](https://arxiv.org/abs/2509.14139) | The Cybersecurity of a Humanoid Robot [![arXiv](https://img.shields.io/badge/arXiv-2509.14096-3e8b7a.svg)](https://arxiv.org/abs/2509.14096) | Evaluating Agentic Cybersecurity in Attack/Defense CTFs [![arXiv](https://img.shields.io/badge/arXiv-2510.17521-b31b1b.svg)](https://arxiv.org/abs/2510.17521) | CAIBench: A Meta-Benchmark for Evaluating Cybersecurity AI Agents [![arXiv](https://img.shields.io/badge/arXiv-2510.24317-b31b1b.svg)](https://arxiv.org/abs/2510.24317) |
+ | Гуманоидные роботы как векторы атак (Humanoid Robots as Attack Vectors) [![arXiv](https://img.shields.io/badge/arXiv-2509.14139-6bc7b5.svg)](https://arxiv.org/abs/2509.14139) | Кибербезопасность гуманоидного робота (The Cybersecurity of a Humanoid Robot) [![arXiv](https://img.shields.io/badge/arXiv-2509.14096-3e8b7a.svg)](https://arxiv.org/abs/2509.14096) | Оценка агентской кибербезопасности в CTF формата «Атака/Защита» (Evaluating Agentic Cybersecurity in Attack/Defense CTFs) [![arXiv](https://img.shields.io/badge/arXiv-2510.17521-b31b1b.svg)](https://arxiv.org/abs/2510.17521) | CAIBench: Мета-бенчмарк для оценки ИИ-агентов кибербезопасности (CAIBench: A Meta-Benchmark for Evaluating Cybersecurity AI Agents) [![arXiv](https://img.shields.io/badge/arXiv-2510.24317-b31b1b.svg)](https://arxiv.org/abs/2510.24317) |
 |---|---|---|---|
 | [](https://arxiv.org/pdf/2509.14139) | [](https://arxiv.org/pdf/2509.14096) | [](https://arxiv.org/pdf/2510.17521) | [](https://arxiv.org/pdf/2510.24317) |
 
@@ -341,8 +341,8 @@ CAI построен на следующих основных принципах
 | **Приложение 1**: Релиз `CAI` 0.5.x | Представляем версию 0.5 `CAI`, включая новый мультиагентный функционал, новые команды, такие как `/history`, `/compact`, `/graph` или `/memory`, и кейс, показывающий, как `CAI` нашел критическую уязвимость в OT тепловых насосах по всему миру. | [![Watch the video](https://img.youtube.com/vi/OPFH0ANUMMw/0.jpg)](https://www.youtube.com/watch?v=OPFH0ANUMMw) | [![Watch the video](https://img.youtube.com/vi/Q8AI4E4gH8k/0.jpg)](https://www.youtube.com/watch?v=Q8AI4E4gH8k) |
 | **Приложение 2**: Релиз `CAI` 0.4.x и `alias0` | Представляем версию 0.4 `CAI` со *стримингом* и улучшенной поддержкой MCP. Мы также представляем `alias0`, Privacy-First Cybersecurity AI, интеллект «модель-над-моделями», который реализует архитектуру Privacy-by-Design и достигает передовых результатов в бенчмарках кибербезопасности. | [![Watch the video](https://img.youtube.com/vi/NZjzfnvAZcc/0.jpg)](https://www.youtube.com/watch?v=NZjzfnvAZcc) | |
 | **Приложение 3**: Первая встреча сообщества Cybersecurity AI | Первая встреча сообщества Cybersecurity AI (`CAI`), более 40 участников из академии, индустрии и обороны собрались, чтобы обсудить open-source каркас CAI — проект, предназначенный для создания агентных ИИ-систем для кибербезопасности, которые являются открытыми, модульными и готовыми к Bug Bounty. | [![Watch the video](https://img.youtube.com/vi/4JqaTiVlgsw/0.jpg)](https://www.youtube.com/watch?v=4JqaTiVlgsw) | |
-| **Приложение 4**: `CAI PRO` PoC | Короткая демонстрация возможностей [CAI PRO](https://aliasrobotics.com/cybersecurityai.php), показывающая Professional Edition с неограниченными токенами `alias1`, неограниченным ИИ и функциями тестирования безопасности корпоративного уровня. | ![CAI PRO Demo](media/caipro_poc.gif) | |
-| **Приложение 5**: `CAI` PoC | Короткая демонстрация Community Edition, показывающая основные возможности open-source фреймворка для тестирования безопасности и поиска уязвимостей на базе ИИ. | ![CAI Demo](media/cai_poc.gif) | |
+| **Приложение 4**: `CAI PRO` PoC | Короткая демонстрация возможностей [CAI PRO](https://aliasrobotics.com/cybersecurityai.php), показывающая Professional Edition с неограниченными токенами `alias1`, неограниченным ИИ и функциями тестирования безопасности корпоративного уровня. | ![Демо CAI PRO](media/caipro_poc.gif) | |
+| **Приложение 5**: `CAI` PoC | Короткая демонстрация Community Edition, показывающая основные возможности open-source фреймворка для тестирования безопасности и поиска уязвимостей на базе ИИ. | ![Демо CAI](media/cai_poc.gif) | |
 | **Приложение 6**: CAI в `Jaula del N00B` | CAI (CIBERSEGURIDAD CON IA) LUIJAIT EN LA JAULA DEL N00B - Демонстрация и обсуждение возможностей фреймворка CAI в популярном испанском подкасте/шоу по кибербезопасности. | | [![Watch the video](https://img.youtube.com/vi/KD2_xzIOkWg/0.jpg)](https://www.youtube.com/watch?v=KD2_xzIOkWg) |
 
 ## :nut_and_bolt: Установка
@@ -932,7 +932,7 @@ https://github.com/user-attachments/assets/386a1fd3-3469-4f84-9396-2a5236febe1f
 
 Разработка упрощена с помощью dev-окружений VS Code. Чтобы попробовать наше окружение разработки, клонируйте репозиторий, откройте VS Code и перейдите в режим dev-контейнера:
 
-![CAI Development Environment](media/cai_devenv.gif)
+![Среда разработки CAI](media/cai_devenv.gif)
 
 ### Вклад в проект
 
@@ -1060,7 +1060,7 @@ curl -v http://host.docker.internal:8000/api/version
  
  Запуск CAI против любой цели 
 
-![cai-004-first-message](imgs/readme_imgs/cai-004-first-message.png)
+![Первое сообщение CAI](imgs/readme_imgs/cai-004-first-message.png)
 
 Начальный пользовательский промпт в данном случае: `Target IP: 192.168.3.10, perform a full network scan`.
 
@@ -1070,7 +1070,7 @@ curl -v http://host.docker.internal:8000/api/version
  
  Как взаимодействовать с агентом? Нажмите дважды CTRL + C 
 
-![cai-005-ctrl-c](imgs/readme_imgs/cai-005-ctrl-c.png)
+![Взаимодействие через Ctrl+C](imgs/readme_imgs/cai-005-ctrl-c.png)
 
 Если вы хотите использовать режим HITL, вы можете сделать это, нажав дважды ```Ctrl + C```.
 Это позволит вам взаимодействовать (через промпт) с агентом в любой момент. Агент не потеряет предыдущий контекст, так как он хранится в переменной `history`, которая передается ему и любому вызываемому агенту. Это позволяет любому агенту использовать предыдущую информацию, быть более точным и эффективным.
@@ -1081,7 +1081,7 @@ curl -v http://host.docker.internal:8000/api/version
 
 Используйте ```/model``` для смены модели.
 
-![cai-007-model-change](imgs/readme_imgs/cai-007-model-change.png)
+![Смена модели в CAI](imgs/readme_imgs/cai-007-model-change.png)
 
  
 
@@ -1090,14 +1090,14 @@ curl -v http://host.docker.internal:8000/api/version
 
 Используйте ```/agent``` для вывода списка всех доступных агентов.
 
-![cai-010-agents-menu](imgs/readme_imgs/cai-010-agents-menu.png)
+![Меню агентов CAI](imgs/readme_imgs/cai-010-agents-menu.png)
 
  
 
  
  Где можно посмотреть все переменные окружения? /env 
 
-![cai-008-config](imgs/readme_imgs/cai-008-config.png)
+![Конфигурация CAI](imgs/readme_imgs/cai-008-config.png)
  
 
  
@@ -1115,7 +1115,7 @@ CAI> /cost
  
  Как узнать больше о CLI? /help 
 
-![cai-006-help](imgs/readme_imgs/cai-006-help.png)
+![Справка CAI](imgs/readme_imgs/cai-006-help.png)
  
 
  

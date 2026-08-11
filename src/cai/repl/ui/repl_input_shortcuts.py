@@ -23,15 +23,15 @@ _GREY = "dim white"
 def repl_input_shortcut_rows() -> List[Tuple[str, str]]:
     """Return (label, description) pairs for REPL key / prefix behaviour."""
     return [
-        ("/", "Slash commands — first token"),
-        ("$", "Shell — first character of line"),
-        ("Tab", "Completion / history fill"),
-        ("Enter", "Submit input"),
-        ("↑ / ↓", "Command history"),
-        ("Ctrl+L", "Clear screen"),
-        ("Ctrl+D", "Delete forward (non-empty buffer)"),
-        ("Ctrl+C", "Interrupt / exit"),
-        ("Alt+↵ / Shift+↵ / Ctrl+J", "Insert newline"),
+        ("/", "Слеш-команды — первый токен"),
+        ("$", "Shell — первый символ строки"),
+        ("Tab", "Автодополнение / история"),
+        ("Enter", "Отправить ввод"),
+        ("↑ / ↓", "История команд"),
+        ("Ctrl+L", "Очистить экран"),
+        ("Ctrl+D", "Удалить символ справа (непустой буфер)"),
+        ("Ctrl+C", "Прервать / выйти"),
+        ("Alt+↵ / Shift+↵ / Ctrl+J", "Вставить новую строку"),
     ]
 
 
@@ -76,7 +76,7 @@ def print_repl_input_shortcuts(console: Console) -> None:
     console.print(
         Panel(
             tbl,
-            title=_quick_guide_subpanel_title("Input shortcuts"),
+            title=_quick_guide_subpanel_title("Горячие клавиши"),
             title_align="left",
             border_style=_CAI_GREEN,
             padding=(1, 1),
@@ -84,7 +84,7 @@ def print_repl_input_shortcuts(console: Console) -> None:
     )
     console.print(
         Text.assemble(
-            ("Full guide: ", "dim"),
+            ("Полное руководство: ", "dim"),
             ("/help", f"bold {_CAI_GREEN}"),
             "\n",
         )

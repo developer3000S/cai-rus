@@ -1,4 +1,4 @@
-"""Extra turns + snapshot export at end of a continuous-ops tick (``cai`` subprocess)."""
+"""Дополнительные ходы + экспорт снимка состояния в конце тика continuous-ops (подпроцесс ``cai``)."""
 
 from __future__ import annotations
 
@@ -28,7 +28,7 @@ def _tick_complete_in_history(agent) -> bool:
 
 
 def run_continuous_ops_extra_turns(agent, console, force_until_flag, ctf_global) -> None:
-    """After the first model turn of this subprocess, optionally run follow-up turns."""
+    """После первого хода модели в данном подпроцессе опционально выполняет дополнительные ходы."""
     from cai.cli_headless import _run_single_agent
 
     max_n = _max_turns_per_tick()
@@ -63,7 +63,7 @@ def export_loop_child_snapshot(agent) -> None:
 
 
 def maybe_import_snapshot_before_cli_loop(agent, history_key: str) -> None:
-    """Load prior tick snapshot into the active agent (call after ``switch_to_single_agent``)."""
+    """Загружает снимок предыдущего тика в активного агента (вызывать после ``switch_to_single_agent``)."""
     inp = (os.getenv("CAI_COPS_SNAPSHOT_IN") or "").strip()
     if not inp or agent is None:
         return

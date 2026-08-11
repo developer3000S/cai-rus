@@ -1,1 +1,1 @@
-"""Modular per-role micro-prompts layered under the CAI cyber baseline."""
+"""Модульные микро-промпты для каждой роли, накладываемые поверх базового уровня CAI по кибербезопасности."""

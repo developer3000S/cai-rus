@@ -1,4 +1,4 @@
-"""Prompt input widget with permanent prompt prefix like Linux terminals"""
+"""Виджет ввода с постоянным префиксом приглашения, как в терминалах Linux"""
 
 from typing import Optional
 from textual.app import ComposeResult
@@ -12,7 +12,7 @@ from .autocomplete_input import AutocompleteInput, SuggestionsUpdated
 
 
 class PromptInput(Horizontal):
-    """Input widget with a permanent prompt prefix like Linux terminals"""
+    """Виджет ввода с постоянным префиксом приглашения, как в терминалах Linux"""
     
     DEFAULT_CSS = """
     PromptInput {
@@ -51,7 +51,7 @@ class PromptInput(Horizontal):
         color: $text !important;
     }
 
-    /* Suggest dropdown under the input */
+    /* Выпадающий список подсказок под полем ввода */
     #prompt-suggest-box {
         height: auto;
         max-height: 5;
@@ -79,52 +79,52 @@ class PromptInput(Horizontal):
         self._input_widget = None
         
     def compose(self) -> ComposeResult:
-        """Compose the prompt input"""
-        # Prefix + input stacked with suggestion panel under input
+        """Компоновка виджета ввода с приглашением"""
+        # Префикс + поле ввода с панелью подсказок под ним
         yield Static("[bold cyan]CAI>[/bold cyan] ", id="prompt-prefix")
         with Vertical(id="prompt-stack"):
             self._input_widget = AutocompleteInput(placeholder="", id="prompt-input-field")
             yield self._input_widget
-            # Suggestion list container
+            # Контейнер списка подсказок
             self._suggest_box = VerticalScroll(id="prompt-suggest-box")
             yield self._suggest_box
         
     def on_mount(self) -> None:
-        """Focus the input when mounted"""
+        """Установить фокус на поле ввода при монтировании"""
         if self._input_widget:
             self._input_widget.focus()
-        # Start hidden suggestions
+        # Скрыть подсказки при старте
         try:
             self._suggest_box.display = False
         except Exception:
             pass
             
     def focus_without_select(self) -> None:
-        """Focus the input without selecting all text"""
+        """Установить фокус на поле ввода без выделения всего текста"""
         if self._input_widget:
             self._input_widget.focus()
-            # Move cursor to end
+            # Переместить курсор в конец
             self._input_widget.cursor_position = len(self._input_widget.value)
             
     @property
     def value(self) -> str:
-        """Get the current input value"""
+        """Получить текущее значение поля ввода"""
         return self._input_widget.value if self._input_widget else ""
         
     @value.setter
     def value(self, text: str) -> None:
-        """Set the input value"""
+        """Установить значение поля ввода"""
         if self._input_widget:
             self._input_widget.value = text
             
     def focus(self) -> None:
-        """Focus the input field"""
+        """Установить фокус на поле ввода"""
         if self._input_widget:
             self._input_widget.focus()
 
     @on(SuggestionsUpdated)
     def _on_suggestions(self, evt: SuggestionsUpdated) -> None:
-        """Render suggestion dropdown below the input."""
+        """Отобразить выпадающий список подсказок под полем ввода."""
         try:
             self._suggest_box.clear()
             if not evt.suggestions:
@@ -138,17 +138,17 @@ class PromptInput(Horizontal):
             pass
             
     def clear(self) -> None:
-        """Clear the input field"""
+        """Очистить поле ввода"""
         if self._input_widget:
             self._input_widget.clear()
             
     def add_to_history(self, command: str) -> None:
-        """Add a command to history"""
+        """Добавить команду в историю"""
         if self._input_widget:
             self._input_widget.add_to_history(command)
             
     def update_prompt(self, new_prompt: str) -> None:
-        """Update the prompt text"""
+        """Обновить текст приглашения"""
         self.prompt_text = new_prompt
         prompt_widget = self.query_one("#prompt-prefix", Static)
         if prompt_widget:

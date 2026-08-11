@@ -1,11 +1,11 @@
 """
-Terminal ID tracking for TUI with async context support
+Отслеживание идентификатора терминала для TUI с поддержкой асинхронного контекста
 """
 
 import contextvars
 from typing import Optional
 
-# Context variable for terminal ID that propagates through async calls
+# Контекстная переменная для идентификатора терминала, распространяемая через асинхронные вызовы
 _terminal_id_context: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar(
     'terminal_id',
     default=None
@@ -13,20 +13,20 @@ _terminal_id_context: contextvars.ContextVar[Optional[str]] = contextvars.Contex
 
 
 def set_current_terminal_id_async(terminal_id: str) -> contextvars.Token:
-    """Set the current terminal ID for this async context"""
+    """Установить идентификатор текущего терминала для данного асинхронного контекста"""
     return _terminal_id_context.set(terminal_id)
 
 
 def get_current_terminal_id_async() -> Optional[str]:
-    """Get the current terminal ID for this async context"""
+    """Получить идентификатор текущего терминала для данного асинхронного контекста"""
     return _terminal_id_context.get()
 
 
 def reset_current_terminal_id_async(token: contextvars.Token) -> None:
-    """Reset the terminal ID context to previous value"""
+    """Сбросить контекст идентификатора терминала к предыдущему значению"""
     _terminal_id_context.reset(token)
 
 
 def clear_current_terminal_id_async() -> None:
-    """Clear the current terminal ID for this async context"""
+    """Очистить идентификатор текущего терминала для данного асинхронного контекста"""
     _terminal_id_context.set(None)

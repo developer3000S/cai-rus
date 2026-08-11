@@ -1,4 +1,4 @@
-"""Wi-Fi Security Testing Agent"""
+"""Агент тестирования безопасности Wi-Fi сетей"""
 
 import os
 from dotenv import load_dotenv
@@ -21,21 +21,21 @@ from cai.tools.reconnaissance.exec_code import (  # pylint: disable=import-error
 )
 
 load_dotenv()
-# Prompts
+# Промпты
 wifi_security_agent_system_prompt = load_prompt_template("prompts/wifi_security_agent.md")
 
-# Define functions list
+# Определение списка функций
 functions = [
     generic_linux_command,
     run_ssh_command_with_credentials,
     execute_code,
 ]
 
-# Add make_web_search_with_explanation function if PERPLEXITY_API_KEY environment variable is set
+# Добавление make_web_search_with_explanation, если задана переменная окружения PERPLEXITY_API_KEY
 if os.getenv("PERPLEXITY_API_KEY"):
     functions.append(make_web_search_with_explanation)
 
-# Create the agent
+# Создание агента
 wifi_security_agent = Agent(
     name="Wi-Fi Security Tester",
     instructions=create_system_prompt_renderer(

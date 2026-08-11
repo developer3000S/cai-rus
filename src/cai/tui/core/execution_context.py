@@ -1,8 +1,8 @@
 """
-Execution context management for TUI terminals
+Управление контекстом выполнения для TUI-терминалов
 
-Thin wrappers delegating to routing.output_router to ensure a single
-source of truth for terminal context.
+Тонкие обёртки, делегирующие вызовы в routing.output_router для обеспечения
+единственного источника истины о контексте терминала.
 """
 
 from typing import Optional
@@ -14,16 +14,16 @@ from cai.tui.routing.output_router import (
 
 
 def set_terminal_id_context(terminal_id: str):
-    """Set terminal id using routing's context. Returns None (compat)."""
+    """Устанавливает идентификатор терминала через контекст маршрутизации. Возвращает None (совместимость)."""
     _set_ctx(terminal_id)
     return None
 
 
 def get_terminal_id_context() -> Optional[str]:
-    """Get terminal id from routing context."""
+    """Получает идентификатор терминала из контекста маршрутизации."""
     return _get_tid()
 
 
 def reset_terminal_id_context(token) -> None:  # token ignored for compat
-    """Clear terminal context (compat signature)."""
+    """Сбрасывает контекст терминала (совместимая сигнатура)."""
     _clear_ctx()

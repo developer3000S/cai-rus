@@ -1,11 +1,11 @@
 """
-Implementation of a Cyclic Swarm Pattern for Red Team Operations
+Реализация паттерна циклического роя для операций Red Team
 
-This module establishes a coordinated multi-agent system where specialized agents
-collaborate on security assessment tasks. The pattern implements a directed graph
-of agent relationships, where each agent can transfer context (message history)
-to another agent through handoff functions, creating a complete communication network
-for comprehensive security analysis.
+Этот модуль создаёт скоординированную мультиагентную систему, в которой специализированные агенты
+совместно работают над задачами оценки безопасности. Паттерн реализует направленный граф
+связей агентов, где каждый агент может передавать контекст (историю сообщений)
+другому агенту через функции передачи управления, формируя полную коммуникационную сеть
+для всестороннего анализа безопасности.
 """
 
 from cai.agents.red_teamer import redteam_agent
@@ -14,17 +14,17 @@ from cai.agents.mail import dns_smtp_agent
 from cai.sdk.agents import handoff
 
 
-# Clone agents to avoid modifying the original instances
+# Клонируем агентов, чтобы не изменять исходные экземпляры
 _redteam_agent_copy = redteam_agent.clone()
 _thought_agent_copy = thought_agent.clone()
 _dns_smtp_agent_copy = dns_smtp_agent.clone()
 
-# Clear any existing handoffs to ensure independence
+# Очищаем существующие передачи управления для обеспечения независимости
 _redteam_agent_copy.handoffs = []
 _thought_agent_copy.handoffs = []
 _dns_smtp_agent_copy.handoffs = []
 
-# Create handoffs using the SDK handoff function
+# Создаём передачи управления с помощью функции handoff из SDK
 _dns_smtp_handoff = handoff(
     agent=_dns_smtp_agent_copy,
     tool_description_override="Use for DNS scans and domain reconnaissance about DMARC and DKIM records",
@@ -41,15 +41,15 @@ _thought_handoff = handoff(
 )
 
 _thought_agent_copy.name = "Red team manager"
-# Register handoff to enable inter-agent communication pathways
+# Регистрируем передачи управления для создания межагентных каналов связи
 _redteam_agent_copy.handoffs.append(_dns_smtp_handoff)
 _dns_smtp_agent_copy.handoffs.append(_redteam_handoff)
 _thought_agent_copy.handoffs.append(_redteam_handoff)
 
-# Initialize the swarm pattern with the thought agent as the entry point
+# Инициализируем роевой паттерн с агентом-мыслителем в качестве точки входа
 redteam_swarm_pattern = _thought_agent_copy
 redteam_swarm_pattern.pattern = "swarm"
 
-# Mark all agents in the swarm with the pattern attribute
+# Помечаем всех агентов в рое атрибутом паттерна
 _redteam_agent_copy.pattern = "swarm"
 _dns_smtp_agent_copy.pattern = "swarm"

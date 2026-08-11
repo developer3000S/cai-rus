@@ -1,4 +1,4 @@
-"""Risk & Compliance (GRC) agent — control mapping and regulatory guidance."""
+"""Агент управления рисками и соответствием требованиям (GRC) — сопоставление контролей и нормативное руководство."""
 
 from __future__ import annotations
 
@@ -33,9 +33,9 @@ if _cfg.perplexity_api_key:
 
 compliance_agent = Agent(
     name="Risk & Compliance Agent",
-    description="""Governance and compliance support: map controls to frameworks
-                   (NIS2, EU CRA, ISO/IEC 27001, IEC 62443, OWASP) with
-                   evidence-based gap analysis—not legal advice.""",
+    description="""Поддержка управления и соответствия требованиям: сопоставление контролей с фреймворками
+                   (NIS2, EU CRA, ISO/IEC 27001, IEC 62443, OWASP) с
+                   анализом пробелов на основе доказательств — не юридическая консультация.""",
     instructions=create_system_prompt_renderer(
         compliance_agent_system_prompt + WEB_INTEL_PROMPT_HARDENING,
         cyber_micro_profile_key="compliance",
@@ -49,5 +49,5 @@ compliance_agent = Agent(
 
 
 def transfer_to_compliance_agent(**kwargs):  # pylint: disable=W0613
-    """Hand off to the Risk & Compliance agent."""
+    """Передача управления агенту управления рисками и соответствием требованиям."""
     return compliance_agent

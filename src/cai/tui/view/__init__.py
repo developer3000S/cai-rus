@@ -1,7 +1,7 @@
 """
-TUI View layer -- layout composition and CSS extracted from cai_terminal.py.
+Слой представления TUI — компоновка макета и CSS, извлечённые из cai_terminal.py.
 
-Part of the MVC extraction from the original 4,500+ LOC monolith.
+Часть рефакторинга MVC из оригинального монолита на 4500+ строк кода.
 """
 
 from cai.tui.view.main_view import (

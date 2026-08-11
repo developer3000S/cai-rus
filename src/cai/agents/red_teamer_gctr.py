@@ -1,6 +1,6 @@
-"""Red Team Agent with Game-theoretic CTR (Cut The Rope) Integration.
+"""Агент Red Team с интеграцией игро-теоретического CTR (Cut The Rope).
 
-Thin wrapper: clones the base red_teamer agent and attaches CTRHooks.
+Тонкая обёртка: клонирует базовый агент red_teamer и подключает CTRHooks.
 """
 
 from typing import Optional
@@ -18,15 +18,15 @@ _GCTR_KWARGS = dict(
     team_label="Red Team",
 )
 
-# Default instance
+# Экземпляр по умолчанию
 redteam_gctr_agent = make_gctr_agent(_base_agent, **_GCTR_KWARGS)
 
 
 def create_redteam_gctr_agent(n_interactions: Optional[int] = None):
-    """Create a Red Team GCTR agent (backward-compatible factory)."""
+    """Создаёт агент Red Team GCTR (фабрика с обратной совместимостью)."""
     return make_gctr_agent(_base_agent, n_interactions=n_interactions, **_GCTR_KWARGS)
 
 
 def transfer_to_redteam_gctr_agent(**kwargs):
-    """Transfer to red team GCTR agent."""
+    """Передача управления агенту red team GCTR."""
     return redteam_gctr_agent

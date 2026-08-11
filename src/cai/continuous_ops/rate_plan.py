@@ -1,4 +1,4 @@
-"""Conservative tick intervals from Alias-style TPM/RPM tiers (no key fingerprinting)."""
+"""Консервативные интервалы тиков на основе уровней TPM/RPM в стиле Alias (без анализа ключей)."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import os
 
 
 def resolve_rate_tier() -> str:
-    """Return ``pro`` or ``edu`` from ``CAI_ALIAS_RATE_TIER`` (default: ``pro``)."""
+    """Возвращает ``pro`` или ``edu`` из ``CAI_ALIAS_RATE_TIER`` (по умолчанию: ``pro``)."""
     raw = (os.getenv("CAI_ALIAS_RATE_TIER") or "pro").strip().lower()
     if raw in ("edu", "education", "educational", "student"):
         return "edu"
@@ -14,7 +14,7 @@ def resolve_rate_tier() -> str:
 
 
 def get_rate_limits(tier: str | None = None) -> tuple[int, int]:
-    """Return ``(tokens_per_minute, requests_per_minute)`` for the tier."""
+    """Возвращает ``(tokens_per_minute, requests_per_minute)`` для данного уровня."""
     t = (tier or resolve_rate_tier()).lower()
     if t == "edu":
         return 150_000, 20
@@ -25,11 +25,11 @@ def compute_base_tick_seconds(
     estimated_tokens_per_iteration: int,
     tier: str | None = None,
 ) -> float:
-    """Lower bound on seconds between iterations to reduce 429 risk (heuristic).
+    """Нижняя граница секунд между итерациями для снижения риска ошибки 429 (эвристика).
 
-    Uses the stricter of:
-    - spacing implied by RPM (with headroom),
-    - spacing implied by TPM vs estimated tokens per iteration (with headroom).
+    Использует более строгое из двух значений:
+    - интервал, вычисленный из RPM (с запасом),
+    - интервал, вычисленный из TPM по отношению к оценочным токенам на итерацию (с запасом).
     """
     tpm, rpm = get_rate_limits(tier)
     est = max(int(estimated_tokens_per_iteration), 256)
@@ -42,5 +42,5 @@ def min_allowed_tick_seconds(
     estimated_tokens_per_iteration: int,
     tier: str | None = None,
 ) -> float:
-    """Minimum user-facing tick per product rule ``1.75 * base_time``."""
+    """Минимальный пользовательский тик согласно правилу продукта ``1.75 * base_time``."""
     return 1.75 * compute_base_tick_seconds(estimated_tokens_per_iteration, tier=tier)

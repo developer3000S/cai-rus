@@ -1,45 +1,45 @@
-"""Worker-display silencing context for sub-agent runs.
+"""Контекст подавления отображения воркера при запуске субагентов.
 
-Lives in :mod:`cai.util` (not :mod:`cai.sdk.agents`) so that user-facing display
-routines like :mod:`cai.util.streaming` can ``import`` it at module load time
-without triggering the heavy ``cai.sdk.agents`` package initialiser — that
-package itself eagerly pulls :mod:`cai.util` for the cost-tracker and Rich
-streaming helpers, so importing it from ``streaming`` would create a partially
-initialised-module circular import.
+Находится в :mod:`cai.util` (а не в :mod:`cai.sdk.agents`), чтобы пользовательские
+процедуры отображения, такие как :mod:`cai.util.streaming`, могли выполнять ``import``
+при загрузке модуля без запуска тяжёлого инициализатора пакета ``cai.sdk.agents`` —
+этот пакет сам активно подтягивает :mod:`cai.util` для трекера стоимости и
+потоковых хелперов Rich, поэтому импорт из ``streaming`` создал бы
+циклический импорт с частично инициализированным модулем.
 
-Background
-----------
-The orchestration agent (``cai.agents.orchestration_agent``) calls specialist
-agents as *tools* via :func:`cai.tools.misc.approach_contest.run_specialist`
-(and ``run_dual_approach_contest`` for parallel A/B contests). Each tool
-invocation spawns a fresh :class:`cai.sdk.agents.Runner.run` against a worker
-agent, whose lifecycle naturally produces:
+Контекст
+--------
+Агент оркестрации (``cai.agents.orchestration_agent``) вызывает специализированных
+агентов как *инструменты* через :func:`cai.tools.misc.approach_contest.run_specialist`
+(и ``run_dual_approach_contest`` для параллельных A/B соревнований). Каждый вызов
+инструмента порождает новый :class:`cai.sdk.agents.Runner.run` для воркер-агента,
+жизненный цикл которого естественным образом производит:
 
-* Final markdown panels rendered by :func:`cai.util.streaming.cli_print_agent_messages`
-  (the "● Red Team Agent (alias1) ── <conclusion>" boxes).
-* Streaming Rich panels created on the model side
+* Финальные markdown-панели, отрисованные :func:`cai.util.streaming.cli_print_agent_messages`
+  (боксы «● Red Team Agent (alias1) ── <conclusion>»).
+* Потоковые Rich-панели, создаваемые на стороне модели
   (:mod:`cai.sdk.agents.models.openai_chatcompletions`).
 
-These outputs are *internal scratch* for the orchestrator — the user is only
-ever supposed to see the orchestrator's final synthesis. Letting the worker
-panels leak through gives the impression that two agents are answering the
-same question, with the worker pre-empting the orchestrator's wording.
+Эти выводы являются *внутренними черновиками* оркестратора — пользователь должен
+видеть только финальный синтез оркестратора. Если панели воркера просачиваются,
+создаётся впечатление, что два агента отвечают на один вопрос, причём воркер
+опережает формулировку оркестратора.
 
-Mechanism
+Механизм
 ---------
-A single :class:`contextvars.ContextVar` plus a
-:func:`silence_worker_display` ``contextmanager``. Display routines that
-should be skipped while a worker is running consult
-:func:`worker_display_silenced` and bail out early. The flag is set by
-``_run_worker`` in :mod:`cai.tools.misc.approach_contest` and is automatically
-restored on exit (re-entrancy safe — nested workers stay silent).
+Одна :class:`contextvars.ContextVar` плюс ``contextmanager``
+:func:`silence_worker_display`. Процедуры отображения, которые должны
+пропускаться при работе воркера, обращаются к :func:`worker_display_silenced`
+и завершаются досрочно. Флаг устанавливается ``_run_worker`` в
+:mod:`cai.tools.misc.approach_contest` и автоматически восстанавливается при
+выходе (безопасно для реентрантности — вложенные воркеры остаются тихими).
 
-What is **not** silenced
-------------------------
-The compact REPL live block (:mod:`cai.repl.ui.compact_renderer`) keeps showing
-the worker's individual tool rows (``↳ ● Red Team Agent ─ nmap …``) because
-those are progress feedback the user wants to see. Only the final-panel /
-streaming-panel routes are gated on this flag.
+Что **не** подавляется
+-----------------------
+Компактный живой блок REPL (:mod:`cai.repl.ui.compact_renderer`) продолжает
+показывать строки инструментов воркера (``↳ ● Red Team Agent ─ nmap …``),
+потому что это прогресс-обратная связь, которую пользователь хочет видеть.
+Только маршруты финальных панелей / потоковых панелей управляются этим флагом.
 """
 
 from __future__ import annotations
@@ -56,14 +56,14 @@ _WORKER_DISPLAY_SILENT: contextvars.ContextVar[bool] = contextvars.ContextVar(
 
 @contextmanager
 def silence_worker_display() -> Iterator[None]:
-    """Silence per-message display while a sub-agent runs as a tool worker.
+    """Подавить отображение сообщений, пока субагент работает как инструмент-воркер.
 
-    The context is **inherited** by tasks spawned via :mod:`asyncio` because
-    ``ContextVar`` values are copied into each new task's context. Nested
-    contexts are safe: re-entering :func:`silence_worker_display` while the
-    flag is already on is a no-op for the consumer (still ``True``), and the
-    inner ``__exit__`` restores the prior ``True`` rather than dropping back
-    to ``False``.
+    Контекст **наследуется** задачами, порождёнными через :mod:`asyncio`, потому что
+    значения ``ContextVar`` копируются в контекст каждой новой задачи. Вложенные
+    контексты безопасны: повторный вход в :func:`silence_worker_display`, когда флаг
+    уже установлен, является холостой операцией для потребителя (остаётся ``True``),
+    а внутренний ``__exit__`` восстанавливает предыдущее ``True`` вместо сброса
+    в ``False``.
     """
     token = _WORKER_DISPLAY_SILENT.set(True)
     try:
@@ -73,7 +73,7 @@ def silence_worker_display() -> Iterator[None]:
 
 
 def worker_display_silenced() -> bool:
-    """Return ``True`` while a sub-agent run is suppressing user-facing display."""
+    """Вернуть ``True``, пока запуск субагента подавляет пользовательский вывод."""
     return _WORKER_DISPLAY_SILENT.get()
 
 

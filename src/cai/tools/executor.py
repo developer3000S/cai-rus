@@ -28,18 +28,18 @@ from cai.util import (
     stop_idle_timer,
     cli_print_tool_output,
 )
-# OutputManager integration [T] — emit events for tool lifecycle
+# Интеграция с OutputManager [T] — отправка событий жизненного цикла инструмента
 from cai.output import OUTPUT, ToolStartEvent, ToolCompleteEvent, ToolErrorEvent
-# CAIConfig integration [B] — centralized config replaces os.getenv
+# Интеграция с CAIConfig [B] — централизованная конфигурация заменяет os.getenv
 from cai.config import get_config as _get_config
 
-# Instead of direct import
+# Вместо прямого импорта
 try:
     from cai.cli import START_TIME
 except ImportError:
     START_TIME = None
 
-# --- Sibling module imports ---
+# --- Импорт соседних модулей ---
 from cai.tools.streaming import (
     _get_idle_timeout,
     is_tool_streaming_enabled,
@@ -53,7 +53,7 @@ from cai.tools.container import (
 
 
 # ---------------------------------------------------------------------------
-# Session management globals
+# Глобальные переменные управления сессиями
 # ---------------------------------------------------------------------------
 
 ACTIVE_SESSIONS = {}
@@ -95,7 +95,7 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
         """Запустить сессию оболочки в соответствующем окружении."""
         start_message_cmd = self.command
 
-        # --- Start in Container ---
+        # --- Запуск в контейнере ---
         if self.container_id:
             try:
                 self.master, self.slave = pty.openpty()
@@ -125,7 +125,7 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
                 self.is_running = False
                 return str(e)
 
-        # --- Start in CTF ---
+        # --- Запуск в CTF ---
         if self.ctf:
             try:
                 self.is_running = True
@@ -145,7 +145,7 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
                 self.is_running = False
                 return str(e)
 
-        # --- Start Locally (Host) ---
+        # --- Локальный запуск (хост) ---
         try:
             self.master, self.slave = pty.openpty()
             self.process = subprocess.Popen(  # pylint: disable=subprocess-popen-preexec-fn, consider-using-with # noqa: E501
@@ -166,7 +166,7 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
     def _read_output(self):
         """Чтение вывода с неблокирующим select"""
         start_time = time.time()
-        max_lifetime = 3600  # 1 hour max session lifetime
+        max_lifetime = 3600  # Максимальное время жизни сессии — 1 час
         try:
             while self.is_running and self.master is not None:
                 if time.time() - start_time > max_lifetime:
@@ -326,7 +326,7 @@ class ShellSession:  # pylint: disable=too-many-instance-attributes
 
 
 # ---------------------------------------------------------------------------
-# Session management helpers
+# Вспомогательные функции управления сессиями
 # ---------------------------------------------------------------------------
 
 def create_shell_session(command, ctf=None, container_id=None, workspace_dir=None, **kwargs):
@@ -431,7 +431,7 @@ def terminate_session(session_id):
 
 
 # ---------------------------------------------------------------------------
-# Unified async dispatcher
+# Единый асинхронный диспетчер
 # ---------------------------------------------------------------------------
 
 async def execute_generic_linux_command_async(
@@ -470,7 +470,7 @@ async def execute_generic_linux_command_async(
 
 
 # ---------------------------------------------------------------------------
-# Environment-specific runners
+# Запуск для конкретных окружений
 # ---------------------------------------------------------------------------
 
 def _run_ctf(ctf, command, stdout=False, timeout=100, workspace_dir=None, stream=False):
@@ -543,13 +543,13 @@ def _run_ssh(command, stdout=False, timeout=100, workspace_dir=None, stream=Fals
 
 
 # ---------------------------------------------------------------------------
-# _run_local_async and _run_local are large functions that remain faithful
-# to the original common.py implementation.  They are imported verbatim
-# rather than re-implemented to preserve exact behavior.
+# _run_local_async и _run_local — это объемные функции, которые в точности повторяют
+# реализацию из оригинального common.py. Они импортированы дословно,
+# чтобы сохранить точное поведение.
 # ---------------------------------------------------------------------------
-# NOTE: Due to their size (~600 LOC each) and tight coupling with TUI/
-# streaming subsystems, they are kept as-is from the original monolith.
-# Future refactoring should extract the TUI capture setup into its own helper.
+# ПРИМЕЧАНИЕ: Из-за их размера (~600 строк каждая) и тесной связи с TUI/
+# подсистемами потоковой передачи, они сохранены в исходном виде из оригинального монолита.
+# Будущий рефакторинг должен выделить настройку захвата TUI в отдельный помощник.
 # ---------------------------------------------------------------------------
 
 # We import the original implementations at the bottom of common.py's shim,
@@ -573,10 +573,10 @@ async def _run_local_async(
     try:
         target_dir = workspace_dir or _get_workspace_dir()
 
-        # Sudo interception — validate credentials before subprocess creation.
-        # If validation succeeds (returns None), OS caches the credentials
-        # and the normal streaming path executes the command with sudo.
-        # If validation fails, returns a fallback string to use instead.
+        # Перехват sudo — проверка учетных данных перед созданием подпроцесса.
+        # Если проверка проходит успешно (возвращает None), ОС кэширует учетные данные,
+        # и обычный путь потоковой передачи выполняет команду с sudo.
+        # Если проверка не удалась, возвращается строка-заглушка.
         from cai.util.user_prompts import is_sudo_command, ensure_sudo_credentials
         if is_sudo_command(command):
             token_info = _get_agent_token_info()
@@ -585,11 +585,11 @@ async def _run_local_async(
                 tool_name, token_info,
             )
             if result is not None:
-                # Auth failed — return fallback message, skip execution
+                # Аутентификация не удалась — вернуть сообщение об ошибке, пропустить выполнение
                 stop_active_timer()
                 start_idle_timer()
                 return result
-            # result is None → credentials validated, proceed normally
+            # result is None → учетные данные проверены, продолжить выполнение
 
         original_cmd_for_msg = command
         context_msg = f"(local:{target_dir})"
@@ -793,7 +793,7 @@ async def _run_local_async(
 
                 final_output = "".join(output_buffer)
                 if return_code != 0:
-                    final_output += f"\nCommand exited with code {return_code}"
+                    final_output += f"\nКоманда завершена с кодом {return_code}"
 
                 execution_info = {
                     "status": "completed" if return_code == 0 else "error",
@@ -892,9 +892,9 @@ async def _run_local_async(
                             stderr_chunks.append(f"\n[Завершено: простой {idle_timeout}с]".encode())
                             break
             except asyncio.CancelledError:
-                # Ctrl+C / cancellation: kill the spawned subprocess so it
-                # does not keep running in the background after the user
-                # interrupts the agent.
+                # Ctrl+C / отмена: убить созданный подпроцесс, чтобы он
+                # не продолжал работать в фоне после того, как пользователь
+                # прервал работу агента.
                 if process.returncode is None:
                     try:
                         process.kill()
@@ -1063,7 +1063,7 @@ def _run_local(
     try:
         target_dir = workspace_dir or _get_workspace_dir()
 
-        # Sudo interception — validate credentials before subprocess creation.
+        # Перехват sudo — проверка учетных данных перед созданием подпроцесса.
         from cai.util.user_prompts import is_sudo_command, ensure_sudo_credentials
         if is_sudo_command(command):
             token_info = _get_agent_token_info()
@@ -1074,7 +1074,7 @@ def _run_local(
                 stop_active_timer()
                 start_idle_timer()
                 return result
-            # result is None → credentials validated, proceed normally
+            # result is None → учетные данные проверены, продолжить выполнение
 
         original_cmd_for_msg = command
         context_msg = f"(local:{target_dir})"
@@ -1278,13 +1278,13 @@ def _run_local(
 
 
 # ---------------------------------------------------------------------------
-# Top-level dispatchers: run_command_async and run_command
-# These are imported from common.py -- keeping the original implementation.
+# Верхнеуровневые диспетчеры: run_command_async и run_command
+# Эти функции импортированы из common.py — сохраняем оригинальную реализацию.
 # ---------------------------------------------------------------------------
 
-# To avoid duplicating the massive run_command/run_command_async bodies here
-# AND in common.py, these functions are defined once in this module and
-# common.py re-exports them.  See common.py for the backward-compat shim.
+# Чтобы избежать дублирования массивных тел run_command/run_command_async здесь
+# И в common.py, эти функции определяются один раз в этом модуле, а
+# common.py их повторно экспортирует. См. common.py для получения информации о прослойке обратной совместимости.
 
 async def run_command_async(
     command, ctf=None, stdout=False, async_mode=False, session_id=None,
@@ -1404,13 +1404,13 @@ async def run_command_async(
             workspace_dir=local_cwd, custom_args=args,
         )
 
-        # Post-execution sudo elevation: if the command failed because it
-        # needed root privileges, OPTIONALLY offer the user to authenticate
-        # and re-run. Disabled by default (opt-in) because the interactive
-        # getpass prompt silently hijacks user keystrokes typed for the next
-        # CAI prompt, manifesting as "Enter doesn't work" after long agent
-        # turns. The agent still sees the permission-denied error and can
-        # re-issue the command with an explicit ``sudo`` prefix.
+        # Пост-выполнение повышения прав sudo: если команда завершилась с ошибкой, потому что ей
+        # потребовались права root, ОПЦИОНАЛЬНО предложить пользователю аутентифицироваться
+        # и запустить команду повторно. Отключено по умолчанию (опционально), так как интерактивный
+        # запрос getpass незаметно перехватывает нажатия клавиш пользователя, предназначенные
+        # для следующего приглашения CAI, что проявляется как «Enter не работает» после длинных
+        # ходов агента. Агент все еще видит ошибку доступа (permission-denied) и может
+        # повторно отправить команду с явным префиксом ``sudo``.
         import asyncio as _aio
         from cai.util.user_prompts import is_sudo_command as _is_sudo, output_needs_sudo, prompt_sudo_elevation
         _cops_no_sudo = os.getenv("CAI_CONTINUOUS_OPS_NO_SUDO", "").strip().lower() in ("1", "true", "yes")
@@ -1858,9 +1858,9 @@ def run_command(
             tool_name=tool_name, workspace_dir=local_cwd, custom_args=args,
         )
 
-        # Post-execution sudo elevation (sync path). Opt-in via
-        # ``CAI_AUTO_SUDO_ELEVATION`` for the same reason as the async path:
-        # the interactive getpass silently hijacks the user's next keystrokes.
+        # Пост-выполнение повышения прав sudo (синхронный путь). Опционально через
+        # ``CAI_AUTO_SUDO_ELEVATION`` по той же причине, что и для асинхронного пути:
+        # интерактивный getpass незаметно перехватывает следующие нажатия клавиш пользователя.
         from cai.util.user_prompts import is_sudo_command, output_needs_sudo, prompt_sudo_elevation
         _cops_no_sudo = os.getenv("CAI_CONTINUOUS_OPS_NO_SUDO", "").strip().lower() in ("1", "true", "yes")
         _auto_sudo = os.getenv("CAI_AUTO_SUDO_ELEVATION", "").strip().lower() in ("1", "true", "yes", "on")

@@ -750,9 +750,9 @@ def run_cai_cli(
             session_hints.stop()
             Console(stderr=True).print(
                 Panel(
-                    "[bold red]ALIAS_API_KEY is invalid or not set[/bold red]\n\n"
-                    "Please set a valid ALIAS_API_KEY in your .env file or environment.",
-                    title="[red]Authentication Error[/red]",
+                    "[bold red]ALIAS_API_KEY недействителен или не установлен[/bold red]\n\n"
+                    "Пожалуйста, установите действительный ALIAS_API_KEY в файле .env или через переменную окружения.",
+                    title="[red]Ошибка аутентификации[/red]",
                     border_style="red",
                 )
             )
@@ -812,7 +812,7 @@ def run_cai_cli(
                     "CAIBench; если ошибка сети или учётных данных, исправьте её и повторите "
                     "[bold]/env set CTF_NAME …[/bold].[/yellow]"
                             f"{_ctf_hotswap_failure_extra_hints(err)}",
-                            title="[red]CTF error[/red]",
+                            title="[red]Ошибка CTF[/red]",
                             border_style="red",
                         )
                     )
@@ -1962,7 +1962,7 @@ def _detect_external_terminal_backend() -> tuple[str | None, str]:
 
     if system == "darwin":
         if shutil.which("osascript"):
-            return "osascript", "macOS Terminal (via osascript)"
+            return "osascript", "Терминал macOS (через osascript)"
         return None, "Установите/включите AppleScript CLI (osascript)"
 
     # Linux / WSL
@@ -2788,7 +2788,7 @@ def _handle_loop_exception(e, agent, console, force_until_flag):
 
     if isinstance(e, PriceLimitExceeded):
         logging.getLogger(__name__).error("Price limit: %s", e, exc_info=True)
-        console.print(f"[bold red]Error: {str(e)}[/bold red]")
+        console.print(f"[bold red]Ошибка: {str(e)}[/bold red]")
         if force_until_flag:
             console.print("[yellow]Лимит цен достигнут. Выход из-за force_until_flag=True.[/yellow]")
             raise SystemExit(0)
@@ -2835,7 +2835,7 @@ def _handle_loop_exception(e, agent, console, force_until_flag):
         ):
             logging.getLogger(__name__).error("Error in main loop: %s", e, exc_info=True)
             if cfg.debug == 2:
-                console.print(f"[bold red]Error: {str(e)}[/bold red]")
+                console.print(f"[bold red]Ошибка: {str(e)}[/bold red]")
                 traceback.print_exc()
 
             def _recovery_agent_run(hint: str, brief: str) -> None:
@@ -2872,7 +2872,7 @@ def _handle_loop_exception(e, agent, console, force_until_flag):
     if cfg.debug == 2:
         exc_type, exc_value, exc_traceback = sys.exc_info()
         tb_info = traceback.extract_tb(exc_traceback)
-        console.print(f"[bold red]Error: {str(e)}[/bold red]")
+        console.print(f"[bold red]Ошибка: {str(e)}[/bold red]")
         console.print(f"[bold red]Traceback: {tb_info}[/bold red]")
     else:
         logger = logging.getLogger(__name__)

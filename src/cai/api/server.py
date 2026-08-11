@@ -1,4 +1,4 @@
-"""Convenience launcher for the CAI API server."""
+"""Удобный запускатор сервера CAI API."""
 
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ def _is_port_free(host: str, port: int) -> bool:
 
 def _pick_available_port(host: str, preferred: int, attempts: int = 25) -> int:
     if preferred == 0:
-        # Let the OS pick an ephemeral port
+        # Позволяем ОС выбрать эфемерный порт
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((host, 0))
             return s.getsockname()[1]
@@ -31,7 +31,7 @@ def _pick_available_port(host: str, preferred: int, attempts: int = 25) -> int:
     for p in range(start, end + 1):
         if _is_port_free(host, p):
             return p
-    return preferred  # Fallback to preferred even if busy; uvicorn will raise
+    return preferred  # Возвращаемся к предпочтительному порту даже если занят; uvicorn сам выдаст ошибку
 
 
 def run_api_server(
@@ -41,19 +41,19 @@ def run_api_server(
     reload: bool = False,
     workers: int = 1,
 ) -> None:
-    """Start the CAI API backend using uvicorn."""
+    """Запускает бэкенд CAI API с использованием uvicorn."""
     host = host or os.getenv("CAI_API_HOST", "127.0.0.1")
     port = port or int(os.getenv("CAI_API_PORT", "8000"))
     reload = reload or os.getenv("CAI_API_RELOAD", "false").lower() == "true"
     workers = workers or int(os.getenv("CAI_API_WORKERS", "1"))
 
     if reload and workers != 1:
-        workers = 1  # uvicorn does not allow reload with multiple workers
+        workers = 1  # uvicorn не поддерживает перезагрузку с несколькими воркерами
 
-    # Choose a free port if the preferred one is busy
+    # Выбираем свободный порт, если предпочтительный занят
     chosen_port = _pick_available_port(host, port)
     if chosen_port != port:
-        print(f"[CAI API] Port {port} busy. Using {chosen_port} instead.")
+        print(f"[CAI API] Порт {port} занят. Используется {chosen_port}.")
     app = create_cai_api_app()
     log_level = os.getenv("CAI_API_LOG_LEVEL", "info")
 

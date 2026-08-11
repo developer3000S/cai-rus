@@ -1,12 +1,12 @@
-"""chatcompletions package -- refactored from openai_chatcompletions.py.
+"""Пакет chatcompletions — рефакторинг из openai_chatcompletions.py.
 
-Re-exports all public names so that existing imports like
+Реэкспортирует все публичные имена, чтобы существующие импорты вида
 ``from cai.sdk.agents.models.openai_chatcompletions import OpenAIChatCompletionsModel``
-continue to work via the compatibility shim at the old path.
+продолжали работать через шим совместимости по старому пути.
 """
 
-# Core model class (still lives in the original file during this phase)
-# We re-export the submodule utilities for direct consumption.
+# Основной класс модели (пока остаётся в исходном файле на этом этапе)
+# Реэкспортируем утилиты подмодулей для прямого использования.
 from .token_counter import count_tokens_with_tiktoken, _check_reasoning_compatibility
 from .usage_tracker import InputTokensDetails, CustomResponseUsage
 from .cache_manager import (
@@ -22,8 +22,8 @@ from .auto_compactor import auto_compact_if_needed, get_model_max_tokens
 from .httpx_client import direct_httpx_completion
 from .litellm_adapter import fetch_response_litellm_openai, fetch_response_litellm_ollama
 
-# model.py re-exports module-level helpers and the main class will
-# be imported from the original file until full migration completes.
+# model.py реэкспортирует вспомогательные функции модульного уровня; основной класс
+# будет импортироваться из исходного файла до завершения полной миграции.
 from .model import (
     ACTIVE_MODEL_INSTANCES,
     PERSISTENT_MESSAGE_HISTORIES,
@@ -37,25 +37,25 @@ from .model import (
 )
 
 __all__ = [
-    # Token counting
+    # Подсчёт токенов
     "count_tokens_with_tiktoken",
     "_check_reasoning_compatibility",
-    # Usage tracking
+    # Отслеживание использования
     "InputTokensDetails",
     "CustomResponseUsage",
-    # Cache management
+    # Управление кэшем
     "normalize_and_apply_cache",
     "normalize_messages_for_cache",
     "apply_cache_control",
     "has_cache_control",
     "debug_cache_messages",
-    # Streaming
+    # Потоковая передача
     "StreamingState",
     "_StreamingState",
-    # Message building
+    # Построение сообщений
     "Converter",
     "ToolConverter",
-    # Module-level helpers
+    # Вспомогательные функции модульного уровня
     "ACTIVE_MODEL_INSTANCES",
     "PERSISTENT_MESSAGE_HISTORIES",
     "set_current_active_model",
@@ -64,12 +64,12 @@ __all__ = [
     "get_all_agent_histories",
     "clear_agent_history",
     "clear_all_histories",
-    # Auto-compaction
+    # Авто-компактификация
     "auto_compact_if_needed",
     "get_model_max_tokens",
-    # Direct httpx client (LiteLLM bypass)
+    # Прямой httpx-клиент (обход LiteLLM)
     "direct_httpx_completion",
-    # LiteLLM adapters
+    # Адаптеры LiteLLM
     "fetch_response_litellm_openai",
     "fetch_response_litellm_ollama",
 ]

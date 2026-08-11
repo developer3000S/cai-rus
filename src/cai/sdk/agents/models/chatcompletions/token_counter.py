@@ -1,7 +1,7 @@
-"""Token counting utilities using tiktoken.
+"""Утилиты подсчёта токенов с использованием tiktoken.
 
-Provides consistent token counting for messages and text,
-plus reasoning compatibility checks for Claude models.
+Обеспечивает согласованный подсчёт токенов для сообщений и текста,
+а также проверку совместимости с режимом рассуждений для моделей Claude.
 """
 
 from __future__ import annotations
@@ -11,22 +11,22 @@ import tiktoken
 
 def _check_reasoning_compatibility(messages):
     """
-    Check if message history is compatible with Claude reasoning/thinking.
+    Проверить совместимость истории сообщений с режимом рассуждений Claude.
 
-    According to Claude 4 docs, when reasoning is enabled, the final assistant
-    message must start with a thinking block. If there are assistant messages
-    with regular text content, reasoning should be disabled.
+    Согласно документации Claude 4, при включённом режиме рассуждений последнее
+    сообщение ассистента должно начинаться с блока «thinking». Если в истории
+    есть сообщения ассистента с обычным текстом, режим рассуждений следует отключить.
 
     Args:
-        messages: List of message dictionaries
+        messages: Список словарей-сообщений
 
     Returns:
-        bool: True if compatible with reasoning, False otherwise
+        bool: True, если совместимо с режимом рассуждений, иначе False
     """
     if not messages:
-        return True  # Empty messages are compatible
+        return True  # Пустой список сообщений совместим
 
-    # Find the last assistant message
+    # Найти последнее сообщение ассистента
     last_assistant_msg = None
     for msg in reversed(messages):
         if msg.get("role") == "assistant":
@@ -34,47 +34,47 @@ def _check_reasoning_compatibility(messages):
             break
 
     if not last_assistant_msg:
-        return True  # No assistant messages, compatible
+        return True  # Нет сообщений ассистента — совместимо
 
-    # Check if the last assistant message has regular text content
+    # Проверить, содержит ли последнее сообщение ассистента обычный текст
     content = last_assistant_msg.get("content")
     if content:
-        # If it's a string with text content, not compatible
+        # Строка с текстом — не совместимо
         if isinstance(content, str) and content.strip():
             return False
-        # If it's a list, check for text content blocks
+        # Список блоков — проверить наличие текстовых блоков
         elif isinstance(content, list):
             for block in content:
                 if isinstance(block, dict):
                     if block.get("type") == "text" and block.get("text", "").strip():
                         return False
 
-    # Check if message has tool_calls (these are compatible)
+    # Проверить наличие tool_calls (они совместимы с режимом рассуждений)
     if last_assistant_msg.get("tool_calls"):
         return True
 
-    # If no content or only thinking blocks, it's compatible
+    # Нет контента или только блоки «thinking» — совместимо
     return True
 
 
 def count_tokens_with_tiktoken(text_or_messages):
     """
-    Count tokens consistently using tiktoken library.
-    Works with both strings and message lists.
-    Returns a tuple of (input_tokens, reasoning_tokens).
+    Подсчитать токены с помощью библиотеки tiktoken.
+    Работает как со строками, так и со списками сообщений.
+    Возвращает кортеж (input_tokens, reasoning_tokens).
     """
     if not text_or_messages:
         return 0, 0
 
     try:
-        # Try to use cl100k_base encoding (used by GPT-4 and GPT-3.5-turbo)
+        # Попытка использовать кодировку cl100k_base (используется GPT-4 и GPT-3.5-turbo)
         encoding = tiktoken.get_encoding("cl100k_base")
     except Exception:
-        # Fall back to GPT-2 encoding if cl100k is not available
+        # Резервный вариант — кодировка GPT-2, если cl100k недоступна
         try:
             encoding = tiktoken.get_encoding("gpt2")
         except Exception:
-            # If tiktoken fails, fall back to character estimate
+            # Если tiktoken недоступен — оценка по числу символов
             if isinstance(text_or_messages, str):
                 return len(text_or_messages) // 4, 0
             elif isinstance(text_or_messages, list):
@@ -87,7 +87,7 @@ def count_tokens_with_tiktoken(text_or_messages):
             else:
                 return 0, 0
 
-    # Process different input types
+    # Обработка различных типов входных данных
     if isinstance(text_or_messages, str):
         token_count = len(encoding.encode(text_or_messages))
         return token_count, 0
@@ -95,23 +95,23 @@ def count_tokens_with_tiktoken(text_or_messages):
         total_tokens = 0
         reasoning_tokens = 0
 
-        # Add tokens for the messages format (ChatML format overhead)
-        # Each message has a base overhead (usually ~4 tokens)
+        # Добавить токены на накладные расходы формата сообщений (ChatML)
+        # Каждое сообщение имеет базовые накладные расходы (~4 токена)
         total_tokens += len(text_or_messages) * 4
 
         for msg in text_or_messages:
             if isinstance(msg, dict):
-                # Add tokens for role
+                # Добавить токены для поля role
                 if "role" in msg:
                     total_tokens += len(encoding.encode(msg["role"]))
 
-                # Count content tokens
+                # Подсчитать токены контента
                 if "content" in msg and msg["content"]:
                     if isinstance(msg["content"], str):
                         content_tokens = len(encoding.encode(msg["content"]))
                         total_tokens += content_tokens
 
-                        # Count tokens in assistant messages as reasoning tokens
+                        # Токены сообщений ассистента учитываются как токены рассуждений
                         if msg.get("role") == "assistant":
                             reasoning_tokens += content_tokens
                     elif isinstance(msg["content"], list):

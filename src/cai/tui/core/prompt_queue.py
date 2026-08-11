@@ -1,5 +1,5 @@
 """
-Prompt Queue - Manages queued prompts for sequential execution
+Очередь запросов — управляет запросами в очереди для последовательного выполнения
 """
 
 import asyncio
@@ -11,11 +11,11 @@ import logging
 
 @dataclass
 class QueuedPrompt:
-    """A prompt waiting to be executed"""
+    """Запрос, ожидающий выполнения"""
     prompt: str
-    terminal_number: Optional[int] = None  # None means all terminals
+    terminal_number: Optional[int] = None  # None означает все терминалы
     timestamp: datetime = None
-    priority: int = 0  # Higher priority executed first
+    priority: int = 0  # Более высокий приоритет выполняется первым
     
     def __post_init__(self):
         if self.timestamp is None:
@@ -23,7 +23,7 @@ class QueuedPrompt:
 
 
 class PromptQueue:
-    """Manages a queue of prompts for execution"""
+    """Управляет очередью запросов для выполнения"""
     
     def __init__(self):
         self._queue: List[QueuedPrompt] = []
@@ -35,11 +35,11 @@ class PromptQueue:
         self.logger = logging.getLogger("PromptQueue")
         
     def set_process_callback(self, callback: Callable) -> None:
-        """Set the callback function to process prompts"""
+        """Устанавливает функцию обратного вызова для обработки запросов"""
         self._process_callback = callback
         
     async def add_prompt(self, prompt: str, terminal_number: Optional[int] = None, priority: int = 0) -> None:
-        """Add a prompt to the queue"""
+        """Добавляет запрос в очередь"""
         async with self._lock:
             queued_prompt = QueuedPrompt(
                 prompt=prompt,
@@ -47,7 +47,7 @@ class PromptQueue:
                 priority=priority
             )
             
-            # Insert based on priority (higher priority first)
+            # Вставка по приоритету (более высокий приоритет — первый)
             insert_pos = 0
             for i, existing in enumerate(self._queue):
                 if existing.priority < priority:
@@ -58,13 +58,13 @@ class PromptQueue:
             self._queue.insert(insert_pos, queued_prompt)
             self.logger.info(f"Added prompt to queue: '{prompt[:50]}...' (priority: {priority})")
             
-        # Start processing if not already running
+        # Запускаем обработку, если ещё не выполняется
         if not self._processing:
-            # single runner task
+            # единственная задача-обработчик
             self._process_task = asyncio.create_task(self._process_queue(), name="tui-prompt-queue")
             
     async def _process_queue(self) -> None:
-        """Process prompts from the queue"""
+        """Обрабатывает запросы из очереди"""
         async with self._lock:
             if self._processing:
                 return
@@ -72,13 +72,13 @@ class PromptQueue:
             
         try:
             while True:
-                # Get next prompt
+                # Получаем следующий запрос
                 async with self._lock:
                     if not self._queue:
                         break
                     self._current_prompt = self._queue.pop(0)
                     
-                # Process the prompt
+                # Обрабатываем запрос
                 if self._process_callback:
                     try:
                         await self._process_callback(
@@ -88,7 +88,7 @@ class PromptQueue:
                     except Exception as e:
                         self.logger.error(f"Error processing prompt: {e}")
                         
-                # Small delay between prompts (default unchanged)
+                # Небольшая задержка между запросами (по умолчанию без изменений)
                 await asyncio.sleep(0.5)
                 
         finally:
@@ -98,7 +98,7 @@ class PromptQueue:
                 self._process_task = None
                 
     def get_queue_status(self) -> Dict[str, Any]:
-        """Get current queue status"""
+        """Возвращает текущий статус очереди"""
         return {
             "queue_length": len(self._queue),
             "processing": self._processing,
@@ -110,19 +110,19 @@ class PromptQueue:
                     "priority": p.priority,
                     "timestamp": p.timestamp.isoformat()
                 }
-                for p in self._queue[:5]  # Show first 5 prompts
+                for p in self._queue[:5]  # Показываем первые 5 запросов
             ]
         }
         
     def clear_queue(self) -> int:
-        """Clear all queued prompts and return count cleared"""
+        """Очищает все запросы в очереди и возвращает количество удалённых"""
         count = len(self._queue)
         self._queue.clear()
         self.logger.info(f"Cleared {count} prompts from queue")
         return count
         
     def remove_prompt(self, index: int) -> bool:
-        """Remove a specific prompt by index"""
+        """Удаляет конкретный запрос по индексу"""
         if 0 <= index < len(self._queue):
             removed = self._queue.pop(index)
             self.logger.info(f"Removed prompt: '{removed.prompt[:50]}...'")
@@ -130,13 +130,13 @@ class PromptQueue:
         return False
         
     def get_queue_size(self) -> int:
-        """Get current queue size"""
+        """Возвращает текущий размер очереди"""
         return len(self._queue)
         
     def is_processing(self) -> bool:
-        """Check if queue is currently processing"""
+        """Проверяет, обрабатывается ли очередь в данный момент"""
         return self._processing
 
 
-# Global prompt queue instance
+# Глобальный экземпляр очереди запросов
 PROMPT_QUEUE = PromptQueue()

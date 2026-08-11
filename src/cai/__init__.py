@@ -1,11 +1,11 @@
 """
-A library to build Bug Bounty-level grade Cybersecurity AIs (CAIs).
+Библиотека для создания ИИ-систем уровня Bug Bounty в области кибербезопасности (CAI).
 """
 
 
 def is_pentestperf_available():
     """
-    Check if caibench (formerly pentestperf) is available
+    Проверяет, доступен ли caibench (ранее pentestperf)
     """
     try:
         from cai.caibench.ctf import CTF  # pylint: disable=import-error,import-outside-toplevel,unused-import  # noqa: E501,F401
@@ -16,7 +16,7 @@ def is_pentestperf_available():
 
 def is_caiextensions_report_available():
     """
-    Check if caiextensions report is available
+    Проверяет, доступно ли расширение caiextensions report
     """
     try:
         from caiextensions.report.common import get_base_instructions  # pylint: disable=import-error,import-outside-toplevel,unused-import  # noqa: E501,F401
@@ -27,7 +27,7 @@ def is_caiextensions_report_available():
 
 def is_caiextensions_memory_available():
     """
-    Check if caiextensions memory is available
+    Проверяет, доступно ли расширение caiextensions memory
     """
     try:
         from caiextensions.memory import is_memory_installed  # pylint: disable=import-error,import-outside-toplevel,unused-import  # noqa: E501,F401

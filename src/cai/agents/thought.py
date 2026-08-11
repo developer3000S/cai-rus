@@ -1,9 +1,9 @@
 """
-First prototype of a reasoner agent
+Первый прототип агента-рассуждателя
 
-using reasoner as a tool call
+использует рассуждатель в качестве вызова инструмента
 
-support meta agent may better @cai.sdk.agents.meta.reasoner_support
+поддержка мета-агента может быть лучше реализована через @cai.sdk.agents.meta.reasoner_support
 """
 
 from cai.tools.misc.reasoning import think
@@ -15,7 +15,7 @@ from cai.config import get_config
 _cfg = get_config()
 thought_agent_system_prompt = load_prompt_template("prompts/system_thought_router.md")
 
-# Thought Process Agent for analysis and planning
+# Агент мыслительного процесса для анализа и планирования
 thought_agent = Agent(
     name="ThoughtAgent",
     model=OpenAIChatCompletionsModel(

@@ -1,9 +1,9 @@
 """
-CTR path utilities.
+Утилиты путей CTR.
 
-Provides a single source of truth for where CTR run artifacts are written and read
-from. Uses an environment override when provided and falls back to the system temp
-directory for portability across platforms.
+Предоставляет единый источник истины для того, куда записываются и откуда читаются
+артефакты запусков CTR. Использует переопределение через переменную окружения,
+если она задана, или системную временную директорию для переносимости между платформами.
 """
 
 from __future__ import annotations
@@ -14,12 +14,12 @@ from typing import Optional
 
 
 def get_ctr_output_base_dir(override: Optional[str] = None) -> str:
-    """Resolve the base directory for CTR outputs.
+    """Определить базовую директорию для выходных данных CTR.
 
-    Order of precedence:
-    - Explicit override provided to the function
-    - Environment variable `CAI_CTR_OUTPUT_DIR`
-    - System temporary directory at `<tempdir>/cai/ctr`
+    Порядок приоритета:
+    - Явное переопределение, переданное в функцию
+    - Переменная окружения `CAI_CTR_OUTPUT_DIR`
+    - Системная временная директория по пути `<tempdir>/cai/ctr`
     """
     base = (
         override
@@ -29,8 +29,7 @@ def get_ctr_output_base_dir(override: Optional[str] = None) -> str:
     try:
         os.makedirs(base, exist_ok=True)
     except Exception:
-        # As a last resort, fall back to tempdir without nested folders
+        # В крайнем случае возвращаемся к tempdir без вложенных папок
         base = os.path.join(tempfile.gettempdir(), "ctr")
         os.makedirs(base, exist_ok=True)
     return base
-

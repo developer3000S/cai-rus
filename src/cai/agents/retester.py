@@ -1,4 +1,4 @@
-"""Retester Agent for vulnerability verification and triage"""
+"""Агент повторного тестирования для верификации уязвимостей и триажа"""
 
 from dotenv import load_dotenv
 from cai.sdk.agents import Agent, OpenAIChatCompletionsModel
@@ -19,7 +19,7 @@ from cai.tools.web.search_web import (  # pylint: disable=import-error # noqa: E
 load_dotenv()
 _cfg = get_config()
 
-# Load the triage agent system prompt
+# Загружаем системный промпт агента триажа
 retester_system_prompt = load_prompt_template("prompts/system_triage_agent.md")
 
 tools = [generic_linux_command, execute_code]

@@ -28,7 +28,7 @@ from cai.tools.streaming import (
 
 
 # ---------------------------------------------------------------------------
-# Workspace path helpers (used by both container and executor modules)
+# Вспомогательные функции путей рабочих пространств (используются модулями container и executor)
 # ---------------------------------------------------------------------------
 
 def _default_workspace_base() -> str:
@@ -108,14 +108,14 @@ async def _run_docker_async(
     """Асинхронная версия выполнения Docker-команд через asyncio subprocess."""
     import asyncio
 
-    # Make sure we're in active time mode for tool execution
+    # Убедиться, что мы в режиме активного времени для выполнения инструмента
     stop_idle_timer()
     start_active_timer()
 
     try:
         container_workspace = _get_container_workspace_path()
 
-        # Parse command for display
+        # Разбор команды для отображения
         parts = command.strip().split(" ", 1)
         cmd_name = parts[0] if parts else ""
         cmd_args = parts[1] if len(parts) > 1 else ""
@@ -123,7 +123,7 @@ async def _run_docker_async(
         if not tool_name:
             tool_name = f"{cmd_name}_command" if cmd_name else "command"
 
-        # Build docker exec command
+        # Формирование команды docker exec
         docker_cmd_list = [
             "docker",
             "exec",
@@ -138,11 +138,11 @@ async def _run_docker_async(
         if stream:
             from cai.util import start_tool_streaming, update_tool_streaming, finish_tool_streaming
 
-            # If args were provided (e.g., from execute_code), use them as base
-            # Otherwise create tool args for display
+            # Если были предоставлены аргументы (например, из execute_code), использовать их как основу
+            # В противном случае создать аргументы инструмента для отображения
             if args and isinstance(args, dict):
                 tool_args = args.copy()
-                # Add container-specific info
+                # Добавление информации о контейнере
                 tool_args["container"] = container_id[:12]
                 tool_args["environment"] = "Container"
                 tool_args["workspace"] = container_workspace
@@ -165,29 +165,29 @@ async def _run_docker_async(
 
             process = None
             try:
-                # Create async subprocess
+                # Создание асинхронного подпроцесса
                 process = await asyncio.create_subprocess_exec(
                     *docker_cmd_list, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
                 )
 
-                # Stream output
+                # Потоковая передача вывода
                 output_buffer = []
                 start_time = time.time()
 
-                # Helper to format time for display
+                # Помощник для форматирования времени для отображения
                 def _format_countdown(elapsed, total_timeout):
                     remaining = max(0, total_timeout - elapsed)
                     return f"{total_timeout}s|{remaining:.1f}s"
 
                 try:
-                    # Apply timeout to the entire streaming and execution process
+                    # Применить таймаут ко всему процессу потоковой передачи и выполнения
                     async def read_and_stream():
                         nonlocal output_buffer
                         buffer_size = 0
                         # Lower-latency streaming for docker
                         update_interval = 1 if tool_name == "generic_linux_command" else 1
 
-                        # Read stdout with idle detection
+                        # Чтение stdout с определением простоя
                         last_output = time.time()
                         while True:
                             if process.returncode is not None:
@@ -218,7 +218,7 @@ async def _run_docker_async(
                                     output_buffer.append(f"\n[Остановлено: простоя {idle_timeout}с]")
                                     break
 
-                        # Wait for process to complete
+                        # Ожидание завершения процесса
                         if process.returncode is None:
                             return_code = await process.wait()
                         else:
@@ -255,7 +255,7 @@ async def _run_docker_async(
 
                 execution_time = time.time() - start_time
 
-                # Get stderr if any
+                # Получение stderr, если есть
                 stderr_data = await process.stderr.read()
                 if stderr_data:
                     stderr_str = stderr_data.decode("utf-8", errors="replace")
@@ -304,7 +304,7 @@ async def _run_docker_async(
                 raise
 
         else:
-            # Non-streaming async execution
+            # Асинхронное выполнение без потоковой передачи
             start_time = time.time()
             process = await asyncio.create_subprocess_exec(
                 *docker_cmd_list, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE

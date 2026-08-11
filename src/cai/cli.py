@@ -216,7 +216,7 @@ def main():
     # --- Argparse ---
     parser = argparse.ArgumentParser(
         prog="cai",
-        description="Cybersecurity AI Framework",
+        description="Фреймворк искусственного интеллекта для кибербезопасности CAI",
         add_help=True,
         allow_abbrev=False,
     )
@@ -266,9 +266,9 @@ def main():
         boot.stop()
         try:
             import importlib.metadata
-            print(f"CAI Framework v{importlib.metadata.version('cai-framework')}")
+            print(f"Фреймворк CAI v{importlib.metadata.version('cai-framework')}")
         except Exception:
-            print("CAI Framework (версия разработки)")
+            print("Фреймворк CAI (версия разработки)")
         sys.exit(0)
 
     # --- --update ---

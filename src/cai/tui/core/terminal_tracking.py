@@ -1,12 +1,12 @@
 """
-Terminal ID tracking for TUI (compat wrappers).
+Отслеживание идентификатора терминала для TUI (обёртки совместимости).
 
-This module provides a stable interface for getting/setting the current
-terminal routing context. Historically, some call sites accessed a
-module-level ``_thread_local`` object directly. The routing layer has
-since moved to ContextVars with a hybrid strategy, so we expose a
-backwards-compatible proxy that mirrors the old attributes while
-delegating to the single source of truth in ``routing.output_router``.
+Этот модуль предоставляет стабильный интерфейс для получения/установки текущего
+контекста маршрутизации терминала. Исторически некоторые точки вызова обращались
+напрямую к объекту ``_thread_local`` уровня модуля. Слой маршрутизации с тех пор
+перешёл на ContextVars с гибридной стратегией, поэтому здесь предоставляется
+обратно-совместимый прокси, зеркалирующий старые атрибуты и делегирующий к
+единственному источнику истины в ``routing.output_router``.
 """
 
 from typing import Optional
@@ -21,17 +21,17 @@ from cai.tui.routing.output_router import (
 
 
 def set_current_terminal_id(terminal_id: str) -> None:
-    """Set the current terminal id, leaving number unchanged if present."""
+    """Установить идентификатор текущего терминала, оставив номер без изменений при его наличии."""
     _set_ctx(terminal_id)
 
 
 def get_current_terminal_id() -> Optional[str]:
-    """Return the current terminal id if set, else None."""
+    """Вернуть идентификатор текущего терминала, если установлен, иначе None."""
     return _get_tid()
 
 
 def get_current_terminal_number() -> Optional[int]:
-    """Return the current terminal number if set, else None."""
+    """Вернуть номер текущего терминала, если установлен, иначе None."""
     try:
         return _ctx_tnum.get()
     except Exception:
@@ -39,17 +39,17 @@ def get_current_terminal_number() -> Optional[int]:
 
 
 def clear_current_terminal_id() -> None:
-    """Clear the current terminal context from context variables."""
+    """Очистить текущий контекст терминала из контекстных переменных."""
     _clear_ctx()
 
 
 class _CompatThreadLocalProxy:
-    """Compatibility proxy exposing ``terminal_id`` and ``terminal_number``.
+    """Прокси совместимости, предоставляющий ``terminal_id`` и ``terminal_number``.
 
-    Old code accessed ``terminal_tracking._thread_local.terminal_number`` to
-    discover the active terminal. We now store this in ContextVars; this
-    proxy forwards attribute reads to those ContextVars so legacy code
-    continues to work without modification.
+    Старый код обращался к ``terminal_tracking._thread_local.terminal_number`` для
+    определения активного терминала. Теперь это хранится в ContextVars; данный
+    прокси перенаправляет чтение атрибутов к этим ContextVars, чтобы устаревший
+    код продолжал работать без изменений.
     """
 
     def __getattr__(self, name):
@@ -66,6 +66,6 @@ class _CompatThreadLocalProxy:
         raise AttributeError(f"Unknown attribute '{name}' on _CompatThreadLocalProxy")
 
 
-# Backwards-compat attributes: both with and without underscore
+# Атрибуты обратной совместимости: со знаком подчёркивания и без
 _thread_local = _CompatThreadLocalProxy()
 thread_local = _thread_local

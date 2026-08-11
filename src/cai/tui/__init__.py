@@ -1,4 +1,4 @@
-"""CAI Terminal User Interface module."""
+"""Модуль терминального пользовательского интерфейса CAI."""
 
 from .cai_terminal import CAITerminal, run_cai_tui
 

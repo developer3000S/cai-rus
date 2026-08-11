@@ -1,13 +1,13 @@
 """
-Categorized slash-command index for REPL help (aligned with public Commands Reference).
+Категоризированный индекс slash-команд для справки REPL (соответствует публичному справочнику команд).
 
-Rows are resolved against ``COMMANDS`` after lazy-load so the UI stays in sync with
-``register_command`` without hand-maintaining every command in multiple files.
+Строки разрешаются относительно ``COMMANDS`` после ленивой загрузки, чтобы UI оставался
+синхронизированным с ``register_command`` без ручного поддержания каждой команды в нескольких файлах.
 """
 
 from __future__ import annotations
 
-# (section title, primary keys as stored in ``COMMANDS``)
+# (заголовок раздела, первичные ключи, хранящиеся в ``COMMANDS``)
 CLI_COMMAND_CATEGORIES: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("Agent Management", ("/agent", "/queue")),
     ("Model Management", ("/model", "/temperature", "/topp")),
@@ -42,7 +42,7 @@ CLI_COMMAND_CATEGORIES: tuple[tuple[str, tuple[str, ...]], ...] = (
 
 
 def _display_cmd_name(primary: str) -> str:
-    # Bare ``?`` is the shortcuts command; ``/?`` is an alias of ``/help``, not the same token.
+    # Голый ``?`` — это команда быстрых подсказок; ``/?`` является псевдонимом ``/help``, а не тем же токеном.
     if primary == "?":
         return "?"
     return primary if primary.startswith("/") else f"/{primary}"
@@ -110,12 +110,12 @@ def _collect_rows() -> tuple[
 
 
 def categorized_command_tables() -> list[tuple[str, list[tuple[str, str, str]]]]:
-    """For ``/help commands`` — (category, [(command, aliases, description), ...])."""
+    """Для ``/help commands`` — (категория, [(команда, псевдонимы, описание), ...])."""
     blocks, _ = _collect_rows()
     return blocks
 
 
 def help_topic_rows_by_category() -> list[tuple[str, list[tuple[str, str]]]]:
-    """For ``/help topics`` — slash commands by category ``[(category, [(cmd, desc), ...]), ...]``."""
+    """Для ``/help topics`` — slash-команды по категориям ``[(категория, [(команда, описание), ...]), ...]``."""
     blocks, _ = _collect_rows()
     return [(title, [(a, c) for a, _, c in rows]) for title, rows in blocks]

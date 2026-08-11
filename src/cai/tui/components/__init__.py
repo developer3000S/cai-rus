@@ -1,1 +1,1 @@
-"""TUI Components module for CAI"""
+"""Модуль компонентов TUI для CAI"""

@@ -1,8 +1,8 @@
-"""Mechanical tick log summary (A2) for continuous-ops.
+"""Механическая сводка лога тиков (A2) для continuous-ops.
 
-Writes ``state/mechanical_summary.txt``: tail of the log plus lines matching
-high-signal patterns (status tags, numbered steps). Redacts obvious API key
-fragments. Capped by bytes.
+Записывает ``state/mechanical_summary.txt``: хвост лога плюс строки, соответствующие
+паттернам высокой значимости (теги статуса, нумерованные шаги). Редактирует очевидные
+фрагменты API-ключей. Ограничен по объёму в байтах.
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ from pathlib import Path
 
 SUMMARY_REL = Path("state") / "mechanical_summary.txt"
 
-# Lines matching any of these (substring) are kept in addition to the tail window.
+# Строки, содержащие любую из этих подстрок, сохраняются дополнительно к хвостовому окну.
 _KEEP_SUBSTR = (
     "[STATUS:",
     "[status:",
@@ -64,7 +64,7 @@ def build_mechanical_summary(log_text: str) -> str:
     if len(body.encode("utf-8")) > max_bytes:
         enc = body.encode("utf-8")
         body = enc[-max_bytes:].decode("utf-8", errors="replace")
-        body = "[… truncated mechanical summary …]\n" + body
+        body = "[… механическая сводка усечена …]\n" + body
     return body
 
 

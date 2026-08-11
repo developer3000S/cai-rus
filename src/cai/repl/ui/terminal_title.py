@@ -16,7 +16,7 @@ import sys
 
 # Branding in tab/window title (not cwd). « » and ® are Unicode; avoid OSC control chars.
 CAI_DEFAULT_TERMINAL_WINDOW_TITLE = (
-    "\u00abCAI\u00bb CyberSecurity AI framework supported by Alias Robotics S.L. \u00ae"
+    "\u00abCAI\u00bb Фреймворк ИИ для кибербезопасности, поддерживаемый Alias Robotics S.L. \u00ae"
 )
 
 _snapshot_before_brand: str | None = None

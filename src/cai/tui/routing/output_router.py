@@ -1,6 +1,6 @@
 """
-Output router for ensuring content goes to the correct terminal
-Following Strategy pattern for different routing strategies
+Маршрутизатор вывода для направления контента в правильный терминал.
+Следует паттерну Strategy для различных стратегий маршрутизации.
 """
 
 import threading
@@ -9,40 +9,40 @@ from abc import ABC, abstractmethod
 from contextvars import ContextVar
 from typing import Any, Dict, Optional, Tuple
 
-# Context variables for terminal routing
+# Контекстные переменные для маршрутизации терминала
 current_terminal_id: ContextVar[Optional[str]] = ContextVar('current_terminal_id', default=None)
 current_terminal_number: ContextVar[Optional[int]] = ContextVar('current_terminal_number', default=None)
 
 
 class IRoutingStrategy(ABC):
-    """Interface for routing strategies"""
+    """Интерфейс для стратегий маршрутизации"""
 
     @abstractmethod
     def get_terminal_id(self, context: Dict[str, Any]) -> Optional[str]:
-        """Get terminal ID based on context"""
+        """Получить ID терминала на основе контекста"""
         pass
 
     @abstractmethod
     def set_terminal_context(self, terminal_id: str, terminal_number: int) -> Any:
-        """Set terminal context and return token for cleanup"""
+        """Установить контекст терминала и вернуть токен для очистки"""
         pass
 
 
 class ContextVarRoutingStrategy(IRoutingStrategy):
-    """Routing based on context variables (best for async)"""
+    """Маршрутизация на основе контекстных переменных (лучший вариант для async)"""
 
     def get_terminal_id(self, context: Dict[str, Any]) -> Optional[str]:
-        """Get terminal ID from context variables"""
-        # First check context variables
+        """Получить ID терминала из контекстных переменных"""
+        # Сначала проверяем контекстные переменные
         terminal_id = current_terminal_id.get()
         if terminal_id:
             return terminal_id
 
-        # Fallback to context dict
+        # Резервный вариант — словарь контекста
         return context.get('terminal_id')
 
     def set_terminal_context(self, terminal_id: str, terminal_number: int) -> Any:
-        """Set context variables"""
+        """Установить контекстные переменные"""
         tokens = []
         tokens.append(current_terminal_id.set(terminal_id))
         tokens.append(current_terminal_number.set(terminal_number))
@@ -50,66 +50,66 @@ class ContextVarRoutingStrategy(IRoutingStrategy):
 
 
 class ThreadLocalRoutingStrategy(IRoutingStrategy):
-    """Routing based on thread locals (for sync code)"""
+    """Маршрутизация на основе локальных данных потока (для синхронного кода)"""
 
     def __init__(self):
         self._thread_local = threading.local()
 
     def get_terminal_id(self, context: Dict[str, Any]) -> Optional[str]:
-        """Get terminal ID from thread local"""
-        # Check thread local
+        """Получить ID терминала из локальных данных потока"""
+        # Проверяем локальные данные потока
         if hasattr(self._thread_local, 'terminal_id'):
             return self._thread_local.terminal_id
 
-        # Fallback to context
+        # Резервный вариант — контекст
         return context.get('terminal_id')
 
     def set_terminal_context(self, terminal_id: str, terminal_number: int) -> Any:
-        """Set thread local context"""
+        """Установить контекст в локальных данных потока"""
         self._thread_local.terminal_id = terminal_id
         self._thread_local.terminal_number = terminal_number
-        return None  # No cleanup needed for thread locals
+        return None  # Очистка для локальных данных потока не нужна
 
 
 class HybridRoutingStrategy(IRoutingStrategy):
-    """Hybrid strategy that works with both async and sync code"""
+    """Гибридная стратегия, работающая как с async, так и с sync кодом"""
 
     def __init__(self):
         self._context_strategy = ContextVarRoutingStrategy()
         self._thread_strategy = ThreadLocalRoutingStrategy()
 
     def get_terminal_id(self, context: Dict[str, Any]) -> Optional[str]:
-        """Try both strategies"""
-        # Try context vars first (async)
+        """Попробовать обе стратегии"""
+        # Сначала пробуем контекстные переменные (async)
         terminal_id = self._context_strategy.get_terminal_id(context)
         if terminal_id:
             return terminal_id
 
-        # Try thread local (sync)
+        # Пробуем локальные данные потока (sync)
         terminal_id = self._thread_strategy.get_terminal_id(context)
         if terminal_id:
             return terminal_id
 
-        # Final fallback
+        # Финальный резервный вариант
         return context.get('terminal_id')
 
     def set_terminal_context(self, terminal_id: str, terminal_number: int) -> Any:
-        """Set both contexts"""
+        """Установить оба контекста"""
         tokens = []
 
-        # Set context vars
+        # Устанавливаем контекстные переменные
         ctx_tokens = self._context_strategy.set_terminal_context(terminal_id, terminal_number)
         if ctx_tokens:
             tokens.extend(ctx_tokens)
 
-        # Set thread local
+        # Устанавливаем локальные данные потока
         self._thread_strategy.set_terminal_context(terminal_id, terminal_number)
 
         return tokens
 
 
 class OutputRouter:
-    """Central router for terminal output"""
+    """Центральный маршрутизатор вывода терминала"""
 
     _instance = None
     _strategy: IRoutingStrategy = None
@@ -121,29 +121,29 @@ class OutputRouter:
         return cls._instance
 
     def set_strategy(self, strategy: IRoutingStrategy) -> None:
-        """Set routing strategy"""
+        """Установить стратегию маршрутизации"""
         self._strategy = strategy
 
     def get_terminal_id(self, context: Optional[Dict[str, Any]] = None) -> Optional[str]:
-        """Get current terminal ID"""
+        """Получить текущий ID терминала"""
         context = context or {}
         return self._strategy.get_terminal_id(context)
 
     def set_terminal_context(self, terminal_id: str, terminal_number: int = 1) -> Any:
-        """Set terminal context for current execution"""
+        """Установить контекст терминала для текущего выполнения"""
         return self._strategy.set_terminal_context(terminal_id, terminal_number)
 
     def route_to_terminal(self, terminal_id: str, terminal_number: int = 1):
-        """Context manager for routing to specific terminal"""
+        """Контекстный менеджер для маршрутизации в конкретный терминал"""
         return TerminalRoutingContext(terminal_id, terminal_number, self._strategy)
 
-    # Convenience helpers
+    # Вспомогательные методы
     def get_current_context(self) -> Tuple[Optional[str], Optional[int]]:
-        """Return the current (terminal_id, terminal_number) from context vars."""
+        """Вернуть текущие (terminal_id, terminal_number) из контекстных переменных."""
         return current_terminal_id.get(), current_terminal_number.get()
 
     def clear_current_context(self) -> None:
-        """Clear context vars for terminal id/number."""
+        """Очистить контекстные переменные для id/номера терминала."""
         try:
             current_terminal_id.set(None)
             current_terminal_number.set(None)
@@ -151,12 +151,12 @@ class OutputRouter:
             pass
 
     def set_terminal_id_only(self, terminal_id: str) -> Any:
-        """Set only terminal id in context vars (keeps number unchanged)."""
+        """Установить только id терминала в контекстных переменных (номер не меняется)."""
         return current_terminal_id.set(terminal_id)
 
 
 class TerminalRoutingContext:
-    """Context manager for terminal routing"""
+    """Контекстный менеджер для маршрутизации терминала"""
 
     def __init__(self, terminal_id: str, terminal_number: int, strategy: IRoutingStrategy):
         self.terminal_id = terminal_id
@@ -165,38 +165,38 @@ class TerminalRoutingContext:
         self.tokens = None
 
     def __enter__(self):
-        """Set terminal context"""
+        """Установить контекст терминала"""
         self.tokens = self.strategy.set_terminal_context(self.terminal_id, self.terminal_number)
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        """Clean up context"""
-        # Context vars clean up automatically when tokens go out of scope
+        """Очистить контекст"""
+        # Контекстные переменные очищаются автоматически при выходе токенов из области видимости
         pass
 
 
-# Global router instance
+# Глобальный экземпляр маршрутизатора
 output_router = OutputRouter()
 
-# Global terminal outputs registry
+# Глобальный реестр выводов терминалов
 _terminal_outputs = {}
 _registry_lock = threading.RLock()
 
 
 def register_terminal_output(terminal_id: str, output_widget: Any) -> None:
-    """Register a terminal's output widget"""
+    """Зарегистрировать виджет вывода терминала"""
     with _registry_lock:
         _terminal_outputs[terminal_id] = output_widget
 
 
 def get_terminal_output(terminal_id: str) -> Any:
-    """Get a terminal's output widget"""
+    """Получить виджет вывода терминала"""
     with _registry_lock:
         return _terminal_outputs.get(terminal_id)
 
 
 class EnhancedTerminalRoutingContext:
-    """Enhanced routing context that redirects stdout/stderr"""
+    """Расширенный контекст маршрутизации с перенаправлением stdout/stderr"""
     
     def __init__(self, terminal_id: str, output_widget: Any, terminal_number: int = 1):
         self.terminal_id = terminal_id
@@ -207,15 +207,15 @@ class EnhancedTerminalRoutingContext:
         self.old_print = None
         
     def __enter__(self):
-        """Set up routing"""
+        """Настроить маршрутизацию"""
         import sys
         
-        # Save originals
+        # Сохраняем оригиналы
         self.old_stdout = sys.stdout
         self.old_stderr = sys.stderr
         self.old_print = __builtins__.get('print', print)
         
-        # Create wrapper for stdout/stderr
+        # Создаём обёртку для stdout/stderr
         class TerminalWriter:
             def __init__(self, widget, is_stderr=False):
                 self.widget = widget
@@ -229,7 +229,7 @@ class EnhancedTerminalRoutingContext:
                         else:
                             self.widget.write(text)
                     except Exception:
-                        # Fallback
+                        # Резервный вариант
                         pass
                 return len(text) if text else 0
                 
@@ -239,11 +239,11 @@ class EnhancedTerminalRoutingContext:
             def isatty(self):
                 return False
                 
-        # Replace stdout/stderr
+        # Заменяем stdout/stderr
         sys.stdout = TerminalWriter(self.output_widget)
         sys.stderr = TerminalWriter(self.output_widget, is_stderr=True)
         
-        # Replace print
+        # Заменяем print
         def terminal_print(*args, **kwargs):
             text = ' '.join(str(arg) for arg in args)
             if text and self.output_widget:
@@ -251,16 +251,16 @@ class EnhancedTerminalRoutingContext:
                 
         __builtins__['print'] = terminal_print
         
-        # Also set context for other routing
+        # Также устанавливаем контекст для другой маршрутизации
         output_router.set_terminal_context(self.terminal_id, self.terminal_number)
         
         return self
         
     def __exit__(self, exc_type, exc_val, exc_tb):
-        """Restore routing"""
+        """Восстановить маршрутизацию"""
         import sys
         
-        # Restore originals
+        # Восстанавливаем оригиналы
         if self.old_stdout:
             sys.stdout = self.old_stdout
         if self.old_stderr:
@@ -269,40 +269,40 @@ class EnhancedTerminalRoutingContext:
             __builtins__['print'] = self.old_print
 
 
-# Helper functions
+# Вспомогательные функции
 def get_current_terminal_id() -> Optional[str]:
-    """Get current terminal ID"""
+    """Получить текущий ID терминала"""
     return output_router.get_terminal_id()
 
 def get_current_terminal_context() -> Tuple[Optional[str], Optional[int]]:
-    """Get current (terminal_id, terminal_number) from context."""
+    """Получить текущие (terminal_id, terminal_number) из контекста."""
     return output_router.get_current_context()
 
 
 def set_terminal_context(terminal_id: str, terminal_number: int = 1) -> Any:
-    """Set terminal context"""
+    """Установить контекст терминала"""
     return output_router.set_terminal_context(terminal_id, terminal_number)
 
 def clear_current_terminal_context() -> None:
-    """Clear terminal context from context vars."""
+    """Очистить контекст терминала из контекстных переменных."""
     output_router.clear_current_context()
 
 def set_terminal_id_only(terminal_id: str) -> Any:
-    """Set only terminal id in context vars (keeps number)."""
+    """Установить только id терминала в контекстных переменных (номер сохраняется)."""
     return output_router.set_terminal_id_only(terminal_id)
 
 
 def route_to_terminal(terminal_id: str, terminal_output=None, terminal_number: int = 1):
-    """Context manager for routing output to specific terminal
+    """Контекстный менеджер для маршрутизации вывода в конкретный терминал
     
     Args:
-        terminal_id: Terminal ID to route to
-        terminal_output: Optional output widget (for direct routing)
-        terminal_number: Terminal number (default 1)
+        terminal_id: ID терминала для маршрутизации
+        terminal_output: Необязательный виджет вывода (для прямой маршрутизации)
+        terminal_number: Номер терминала (по умолчанию 1)
     """
     if terminal_output:
-        # Use enhanced routing with output widget
+        # Используем расширенную маршрутизацию с виджетом вывода
         return EnhancedTerminalRoutingContext(terminal_id, terminal_output, terminal_number)
     else:
-        # Use standard routing
+        # Используем стандартную маршрутизацию
         return output_router.route_to_terminal(terminal_id, terminal_number)

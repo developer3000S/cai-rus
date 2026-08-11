@@ -1,9 +1,10 @@
-"""LiteLLM adapter for OpenAI and Ollama/Qwen model calls.
+"""Адаптер LiteLLM для вызовов моделей OpenAI и Ollama/Qwen.
 
-Wraps ``litellm.acompletion`` with provider-specific parameter filtering,
-tool_call_id truncation retry, and Response object construction for streaming.
+Оборачивает ``litellm.acompletion`` с фильтрацией параметров для конкретных
+провайдеров, повторной попыткой при слишком длинном tool_call_id и построением
+объекта Response для потоковой передачи.
 
-Extracted from openai_chatcompletions.py [F] to reduce monolith size.
+Извлечено из openai_chatcompletions.py [F] для уменьшения размера монолита.
 """
 
 from __future__ import annotations
@@ -34,7 +35,7 @@ def _build_response_obj(
     tool_choice: "ChatCompletionToolChoiceOptionParam | NotGiven",
     parallel_tool_calls: bool,
 ) -> Response:
-    """Create a stub Response object used for streaming wrappers."""
+    """Создать заглушку объекта Response для обёрток потоковой передачи."""
     return Response(
         id=FAKE_RESPONSES_ID,
         created_at=time.time(),
@@ -60,11 +61,11 @@ async def fetch_response_litellm_openai(
     stream: bool,
     parallel_tool_calls: bool,
 ) -> "ChatCompletion | tuple[Response, AsyncStream[ChatCompletionChunk]]":
-    """Handle standard LiteLLM API calls for OpenAI and compatible models.
+    """Обработать стандартные вызовы LiteLLM API для OpenAI и совместимых моделей.
 
-    If a ContextWindowExceededError occurs due to a tool_call id being
-    too long, truncate all tool_call ids in the messages to 40 characters
-    and retry once silently.
+    Если возникает ContextWindowExceededError из-за слишком длинного tool_call_id,
+    усекает все tool_call_id в сообщениях до 40 символов и повторяет запрос
+    один раз без уведомления.
     """
     try:
         if stream:
@@ -81,7 +82,7 @@ async def fetch_response_litellm_openai(
             and "tool_call_id" in error_msg
             and "maximum length" in error_msg
         ):
-            # Truncate all tool_call ids to 40 characters and retry once
+            # Усечь все tool_call_id до 40 символов и повторить попытку один раз
             messages = kwargs.get("messages", [])
             for msg in messages:
                 if (
@@ -120,12 +121,12 @@ async def fetch_response_litellm_ollama(
     stream: bool,
     parallel_tool_calls: bool,
 ) -> "ChatCompletion | tuple[Response, AsyncStream[ChatCompletionChunk]]":
-    """Fetch a response from an Ollama or Qwen model using LiteLLM.
+    """Получить ответ от модели Ollama или Qwen через LiteLLM.
 
-    Ensures that the 'format' parameter is not set to a JSON string, which
-    can cause issues with the Ollama API, and filters to only supported params.
+    Гарантирует, что параметр 'format' не установлен как JSON-строка (это может
+    вызвать проблемы с Ollama API), и фильтрует только поддерживаемые параметры.
     """
-    # Extract only supported parameters for Ollama
+    # Извлечь только поддерживаемые параметры для Ollama
     ollama_supported_params = {
         "model": kwargs.get("model", ""),
         "messages": kwargs.get("messages", []),

@@ -1,4 +1,4 @@
-"""Command execution helpers for the CAI API backend."""
+"""Вспомогательные утилиты выполнения команд для бэкенда CAI API."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ from cai.repl.commands import (
 
 @dataclass
 class CommandMetadata:
-    """Describe a CAI command along with its subcommands and aliases."""
+    """Описывает команду CAI вместе с её подкомандами и псевдонимами."""
 
     name: str
     description: str
@@ -27,7 +27,7 @@ class CommandMetadata:
 
 @dataclass
 class CommandExecutionResult:
-    """Result payload returned after executing a command."""
+    """Полезная нагрузка результата, возвращаемая после выполнения команды."""
 
     handled: bool
     suggested_command: str | None
@@ -37,10 +37,10 @@ class CommandExecutionResult:
 
 
 class CommandExecutor:
-    """Utility responsible for running REPL commands in a safe, capture-friendly way."""
+    """Утилита, отвечающая за запуск REPL-команд безопасным, удобным для захвата вывода способом."""
 
     def __init__(self) -> None:
-        # Warm up the registry so metadata is available on demand.
+        # Прогреваем реестр, чтобы метаданные были доступны по требованию.
         get_all_commands()
 
     def describe_commands(self) -> List[CommandMetadata]:
@@ -61,7 +61,7 @@ class CommandExecutor:
         return response
 
     def run(self, command_name: str, args: List[str] | None = None, auto_correct: bool = True) -> CommandExecutionResult:
-        """Execute a slash command and capture its textual output."""
+        """Выполняет slash-команду и захватывает её текстовый вывод."""
         if command_name == "?":
             normalized = "?"
         else:
@@ -77,11 +77,11 @@ class CommandExecutor:
                     args,
                     auto_correct=auto_correct,
                 )
-            except SystemExit as exc:  # pragma: no cover - defensive
+            except SystemExit as exc:  # pragma: no cover - защитный блок
                 handled = True
                 suggestion = None
                 exit_code = int(exc.code) if exc.code is not None else 0
-            except Exception:  # pragma: no cover - defensive
+            except Exception:  # pragma: no cover - защитный блок
                 handled = False
                 suggestion = None
         return CommandExecutionResult(

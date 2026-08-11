@@ -1,4 +1,4 @@
-"""Sub-GHz Radio Frequency Analysis Agent using HackRF One"""
+"""Агент анализа радиочастот в диапазоне Sub-GHz с использованием HackRF One"""
 
 import os
 from dotenv import load_dotenv
@@ -21,21 +21,21 @@ from cai.tools.reconnaissance.exec_code import (  # pylint: disable=import-error
 )
 
 load_dotenv()
-# Prompts
+# Промпты
 subghz_agent_system_prompt = load_prompt_template("prompts/subghz_agent.md")
 
-# Define functions list
+# Формируем список функций
 functions = [
     generic_linux_command,
     run_ssh_command_with_credentials,
     execute_code,
 ]
 
-# Add make_web_search_with_explanation function if PERPLEXITY_API_KEY environment variable is set
+# Добавляем функцию make_web_search_with_explanation, если установлена переменная окружения PERPLEXITY_API_KEY
 if os.getenv("PERPLEXITY_API_KEY"):
     functions.append(make_web_search_with_explanation)
 
-# Create the agent
+# Создаём агента
 subghz_sdr_agent = Agent(
     name="Sub-GHz SDR Specialist",
     instructions=create_system_prompt_renderer(

@@ -1,11 +1,11 @@
 """
-CAI Cut The Rope (CTR) Module
+CAI Cut The Rope (CTR) — модуль
 
-This package provides the Cut The Rope security game solver for strategic analysis.
+Этот пакет предоставляет решатель игры безопасности Cut The Rope для стратегического анализа.
 
-Heavy dependencies (numpy, scipy, networkx, …) are loaded only when you access the
-corresponding attributes or submodules. This allows ``from cai.ctr.paths import …``
-and the TUI to start without installing the optional ``[data]`` / ``[viz]`` extras.
+Тяжёлые зависимости (numpy, scipy, networkx, …) загружаются только при обращении к
+соответствующим атрибутам или подмодулям. Это позволяет использовать ``from cai.ctr.paths import …``
+и запускать TUI без установки дополнительных экстра-зависимостей ``[data]`` / ``[viz]``.
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ from __future__ import annotations
 import importlib
 from typing import Any, Dict, Tuple
 
-# (module_path, attribute_name)
+# (путь к модулю, имя атрибута)
 _LAZY_ATTRS: Dict[str, Tuple[str, str]] = {
     "find_and_add_entry_node": ("cai.ctr.core", "find_and_add_entry_node"),
     "generate_game_elements": ("cai.ctr.core", "generate_game_elements"),

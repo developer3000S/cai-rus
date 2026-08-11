@@ -1,4 +1,4 @@
-"""Reverse Engineering and Binary Analysis Agent"""
+"""Агент обратной разработки и бинарного анализа"""
 
 import os
 from dotenv import load_dotenv
@@ -25,12 +25,12 @@ from cai.tools.reconnaissance.exec_code import (  # pylint: disable=import-error
 )
 
 load_dotenv()
-# Prompts
+# Промпты
 reverse_engineering_agent_system_prompt = load_prompt_template(
     "prompts/reverse_engineering_agent.md"
 )
 
-# Define functions list
+# Формируем список функций
 functions = [
     generic_linux_command,
     run_ssh_command_with_credentials,
@@ -38,11 +38,11 @@ functions = [
     *WEB_INTEL_TOOLS,
 ]
 
-# Add make_web_search_with_explanation function if PERPLEXITY_API_KEY environment variable is set
+# Добавляем функцию make_web_search_with_explanation, если установлена переменная окружения PERPLEXITY_API_KEY
 if os.getenv("PERPLEXITY_API_KEY"):
     functions.append(make_web_search_with_explanation)
 
-# Create the agent
+# Создаём агента
 reverse_engineering_agent = Agent(
     name="Reverse Engineering Specialist",
     instructions=create_system_prompt_renderer(

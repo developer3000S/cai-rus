@@ -1,4 +1,4 @@
-"""Continuous Ops agent — CLI wizard for 24/7-style periodic cybersecurity workloads."""
+"""Агент непрерывных операций — CLI-мастер для периодических задач кибербезопасности в режиме 24/7."""
 
 from __future__ import annotations
 
@@ -31,8 +31,8 @@ input_guardrails, output_guardrails = get_security_guardrails()
 
 continuous_ops_agent = Agent(
     name="Continuous Ops Agent",
-    description="""Plan and launch periodic (24/7-style) cybersecurity monitoring tasks: CLI wizard
-validates API-safe tick intervals, tmux detach, privilege policy, then runs a Selection-Agent worker loop.""",
+    description="""Планирование и запуск периодических (24/7) задач мониторинга кибербезопасности: CLI-мастер
+проверяет безопасные для API интервалы опроса, отсоединение tmux, политику привилегий, затем запускает цикл агента-выборщика.""",
     instructions=create_system_prompt_renderer(
         continuous_ops_agent_system_prompt,
         cyber_micro_profile_key="continuous_ops",
@@ -50,5 +50,5 @@ validates API-safe tick intervals, tmux detach, privilege policy, then runs a Se
 
 
 def transfer_to_continuous_ops_agent(**kwargs):  # pylint: disable=W0613
-    """Hand off to the Continuous Ops agent."""
+    """Передача управления агенту непрерывных операций."""
     return continuous_ops_agent
